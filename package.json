@@ -1,0 +1,15 @@
+{
+  "name": "twistrug",
+  "version": "0.0.0",
+  "description": "Jus' a lil Twilight Struggle helper guy",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jason Trill (jjt)",
+  "license": "ISC",
+  "devDependencies": {
+    "tsv": "^0.2.0",
+    "lodash": "^2.4.1"
+  }
+}
