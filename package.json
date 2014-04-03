@@ -1,16 +1,31 @@
 {
-  "name": "twistrug",
+  "name": "yo-gen",
   "version": "0.0.0",
-  "description": "Jus' a lil Twilight Struggle helper guy",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Jason Trill (jjt)",
-  "license": "ISC",
+  "dependencies": {},
   "devDependencies": {
+    "gulp": "~3.5.0",
+    "gulp-load-plugins": "~0.3.0",
+    "gulp-util": "~2.2.9",
+    "gulp-autoprefixer": "~0.0.6",
+    "gulp-csso": "~0.2.6",
+    "gulp-jshint": "~1.4.0",
+    "gulp-imagemin": "~0.1.4",
+    "gulp-clean": "~0.2.4",
+    "gulp-uglify": "~0.2.1",
+    "gulp-cache": "~0.1.1",
+    "gulp-size": "~0.1.2",
+    "gulp-connect": "~1.0.0",
+    "gulp-useref": "~0.2.1",
+    "wiredep": "~1.3.0",
+    "gulp-filter": "~0.3.1",
+    "open": "~0.0.4",
+    "gulp-sass": "^0.7.1",
     "tsv": "^0.2.0",
+    "bluebird": "^1.2.1",
     "lodash": "^2.4.1",
-    "bluebird": "^1.2.1"
+    "gulp-coffee": "^1.4.1"
+  },
+  "engines": {
+    "node": ">=0.10.0"
   }
 }

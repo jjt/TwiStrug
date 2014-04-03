@@ -1,0 +1,40 @@
+/* encapsulate the various syntax in helper clases */
+/* inspired by http://infrequently.org/2009/08/css-3-progress/ */
+
+/* items flex/expand vertically */
+.flexboxV {
+  /* current syntax */
+  display: -webkit-flex;
+  display:    -moz-flex;
+  display:     -ms-flex;
+  display:         flex;
+
+  -webkit-flex-direction: column;
+      -moz-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+/* items flex/expand horizontally */
+.flexboxH {
+  /* current syntax */
+  display: -webkit-flex;
+  display:    -moz-flex;
+  display:     -ms-flex;
+  display:         flex;
+
+  -webkit-flex-direction: row;
+      -moz-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.flex1 {
+
+  /* current syntax */
+  -webkit-flex: 1;
+      -moz-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+

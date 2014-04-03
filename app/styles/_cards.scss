@@ -1,0 +1,52 @@
+@import 'solarized/scss/solarized';
+
+.cardList {
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  min-height:100%;
+
+}
+
+.card {
+
+  flex-basis:calc(100%/9);
+   
+  box-sizing: border-box;
+  color:white;
+  
+  position:relative;
+  height:12rem;
+  background:#555;
+
+  border:solid 0.6rem white;
+
+  h5 {
+    width:100%;
+    font-weight: normal;
+    text-align:center;
+    color:rgba(#fff, 0.9);
+    padding:0 0.5em;
+  }
+
+  &.owner-us {
+    background:$solarized-blue;
+  }
+
+  &.owner-ussr {
+    background:$solarized-red;
+  }
+
+}
+
+.card-ops {
+  position:absolute;
+  bottom:1rem;
+  margin:0;
+  width:100%;
+  text-align:center;
+  color:rgba(#fff, 0.6);
+}
+
+
+

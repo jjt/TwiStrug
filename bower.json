@@ -1,0 +1,13 @@
+{
+  "name": "yo-gen",
+  "private": true,
+  "dependencies": {
+    "bootstrap-sass": "twbs/bootstrap-sass#~3.1.0",
+    "modernizr": "~2.6.2",
+    "jquery": "~1.11.0",
+    "react": "~0.10.0",
+    "director": "~1.2.2",
+    "solarized": "~0.1.2"
+  },
+  "devDependencies": {}
+}
