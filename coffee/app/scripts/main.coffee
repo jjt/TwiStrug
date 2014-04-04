@@ -3,58 +3,88 @@ cx = React.addons.classSet
 
 $app = document.getElementById 'app'
 
+
+cardClassName = (props) ->
+  ownerClass = "owner-#{props.owner}"
+  classes = cx
+    'card': true
+    'asiaScoring': props.title == 'Asia Scoring'
+    'europeScoring': props.title == 'Europe Scoring'
+    'middleEastScoring': props.title == 'Middle East Scoring'
+    'centralAmericaScoring': props.title == 'Central America Scoring'
+    'southeastAsiaScoring': props.title == 'Southeast Asia Scoring*'
+    'africaScoring': props.title == 'Africa Scoring'
+    'southAmericaScoring': props.title == 'South America Scoring'
+    'ongoing': props.ongoing
+
+  ownerClass + ' ' + classes
+
 Card = React.createClass
   render: ->
-    console.log @props
-    classes = cx
-      'card': true
-      'owner-us': @props.owner == 'us'
-      'owner-ussr': @props.owner == 'ussr'
-
-    R.div className: classes, [
-      R.h5 {}, @props.title
-      R.h1 className: 'card-ops', @props.ops
+    R.a href: "#/card/#{@props.id}", className: cardClassName(@props), [
+      R.h3 className: 'card-ops', if @props.ops > 0 then @props.ops
+      R.div className: 'card-title-holder', [
+        R.h4 className: 'card-title', @props.title
+      ]
     ]
 
 CardList = React.createClass
   render: ->
-    console.log @props
     R.div className:'cardList', @props.cards.map (el)->
       Card el
-    
+
 
 CardsView = React.createClass
   render: ->
-    console.log @props.cards
-
     R.div {}, [
       R.h2 {}, 'Cards'
       CardList {cards: @props.cards}
     ]
 
-TwiStrug = React.createClass
+CardView = React.createClass
   render: ->
-    R.div {}, [
-      R.h2 {}, 'TWISTRUG'
+    imageUrl = "/images/cards/#{('000' + @props.id).substr(-3,3)}.jpg"
+    R.div className: 'cardView ' + cardClassName(@props), [
+      R.h2 {}, [
+        R.span className:'card-ops', @props.ops
+        @props.title
+      ]
+      R.img className: 'pull-right', src: imageUrl
+      R.p {}, @props.text
     ]
 
+MapView = React.createClass
+  render: ->
+    R.img className: 'fluid', src:'/images/tsmap.jpg'
 
-showCards = (filter = 'none') ->
-  console.log 'showCards'
-  $.getJSON('/data/cards.json').done (cards)->
-    React.renderComponent CardsView({cards}), $app
+TwiStrug = React.createClass
+  getInitialState: ->
+    view: 'cards'
 
-showCard = (id) ->
+  handleRoute: ->
+    console.log arguments
 
-showMap = () ->
-  console.log 'showMap'
+  componentDidMount: ->
+    router = Router
+      '/cards': @setState.bind this, view: 'cards'
+      '/map': @setState.bind this, view: 'map'
+      '/card/:id': ()=>
+        id = +arguments[0]
+        console.log id
+        @setState
+          view: 'card'
+          card: _.find @props.cards, 'id': id
+    router.init()
+    return
 
-routes =
-  '/': showCards
-  '/cards': showCards
-  '/cards/:filter': showCards
-  '/card/:id': showCard
-  '/map': showMap
+  render: ->
+    switch @state.view
+      when 'card' then CardView @state.card
+      when 'cards' then CardsView cards: @props.cards
+      when 'map' then MapView()
 
-router = Router routes
-router.init()
+
+
+$.getJSON('/data/cards.json').done (cards)->
+  React.renderComponent TwiStrug({cards}), $app
+

@@ -1,5 +1,5 @@
 (function() {
-  var $app, Card, CardList, CardsView, R, TwiStrug, cx, router, routes, showCard, showCards, showMap;
+  var $app, Card, CardList, CardView, CardsView, MapView, R, TwiStrug, cardClassName, cx;
 
   R = React.DOM;
 
@@ -7,28 +7,44 @@
 
   $app = document.getElementById('app');
 
+  cardClassName = function(props) {
+    var classes, ownerClass;
+    ownerClass = "owner-" + props.owner;
+    classes = cx({
+      'card': true,
+      'asiaScoring': props.title === 'Asia Scoring',
+      'europeScoring': props.title === 'Europe Scoring',
+      'middleEastScoring': props.title === 'Middle East Scoring',
+      'centralAmericaScoring': props.title === 'Central America Scoring',
+      'southeastAsiaScoring': props.title === 'Southeast Asia Scoring*',
+      'africaScoring': props.title === 'Africa Scoring',
+      'southAmericaScoring': props.title === 'South America Scoring',
+      'ongoing': props.ongoing
+    });
+    return ownerClass + ' ' + classes;
+  };
+
   Card = React.createClass({
     render: function() {
-      var classes;
-      console.log(this.props);
-      classes = cx({
-        'card': true,
-        'owner-us': this.props.owner === 'us',
-        'owner-ussr': this.props.owner === 'ussr'
-      });
-      return R.div({
-        className: classes
+      return R.a({
+        href: "#/card/" + this.props.id,
+        className: cardClassName(this.props)
       }, [
-        R.h5({}, this.props.title), R.h1({
+        R.h3({
           className: 'card-ops'
-        }, this.props.ops)
+        }, this.props.ops > 0 ? this.props.ops : void 0), R.div({
+          className: 'card-title-holder'
+        }, [
+          R.h4({
+            className: 'card-title'
+          }, this.props.title)
+        ])
       ]);
     }
   });
 
   CardList = React.createClass({
     render: function() {
-      console.log(this.props);
       return R.div({
         className: 'cardList'
       }, this.props.cards.map(function(el) {
@@ -39,7 +55,6 @@
 
   CardsView = React.createClass({
     render: function() {
-      console.log(this.props.cards);
       return R.div({}, [
         R.h2({}, 'Cards'), CardList({
           cards: this.props.cards
@@ -48,40 +63,86 @@
     }
   });
 
-  TwiStrug = React.createClass({
+  CardView = React.createClass({
     render: function() {
-      return R.div({}, [R.h2({}, 'TWISTRUG')]);
+      var imageUrl;
+      imageUrl = "/images/cards/" + (('000' + this.props.id).substr(-3, 3)) + ".jpg";
+      return R.div({
+        className: 'cardView ' + cardClassName(this.props)
+      }, [
+        R.h2({}, [
+          R.span({
+            className: 'card-ops'
+          }, this.props.ops), this.props.title
+        ]), R.img({
+          className: 'pull-right',
+          src: imageUrl
+        }), R.p({}, this.props.text)
+      ]);
     }
   });
 
-  showCards = function(filter) {
-    if (filter == null) {
-      filter = 'none';
+  MapView = React.createClass({
+    render: function() {
+      return R.img({
+        className: 'fluid',
+        src: '/images/tsmap.jpg'
+      });
     }
-    console.log('showCards');
-    return $.getJSON('/data/cards.json').done(function(cards) {
-      return React.renderComponent(CardsView({
-        cards: cards
-      }), $app);
-    });
-  };
+  });
 
-  showCard = function(id) {};
+  TwiStrug = React.createClass({
+    getInitialState: function() {
+      return {
+        view: 'cards'
+      };
+    },
+    handleRoute: function() {
+      return console.log(arguments);
+    },
+    componentDidMount: function() {
+      var router;
+      router = Router({
+        '/cards': this.setState.bind(this, {
+          view: 'cards'
+        }),
+        '/map': this.setState.bind(this, {
+          view: 'map'
+        }),
+        '/card/:id': (function(_this) {
+          return function() {
+            var id;
+            id = +arguments[0];
+            console.log(id);
+            return _this.setState({
+              view: 'card',
+              card: _.find(_this.props.cards, {
+                'id': id
+              })
+            });
+          };
+        })(this)
+      });
+      router.init();
+    },
+    render: function() {
+      switch (this.state.view) {
+        case 'card':
+          return CardView(this.state.card);
+        case 'cards':
+          return CardsView({
+            cards: this.props.cards
+          });
+        case 'map':
+          return MapView();
+      }
+    }
+  });
 
-  showMap = function() {
-    return console.log('showMap');
-  };
-
-  routes = {
-    '/': showCards,
-    '/cards': showCards,
-    '/cards/:filter': showCards,
-    '/card/:id': showCard,
-    '/map': showMap
-  };
-
-  router = Router(routes);
-
-  router.init();
+  $.getJSON('/data/cards.json').done(function(cards) {
+    return React.renderComponent(TwiStrug({
+      cards: cards
+    }), $app);
+  });
 
 }).call(this);

@@ -4347,43 +4347,119 @@ button.close {
 
 
 
-.cardList {
-  display: -webkit-flex;
-  display: flex;
-  -webkit-flex-direction: row;
-  flex-direction: row;
-  -webkit-flex-wrap: wrap;
-  flex-wrap: wrap;
-  min-height: 100%; }
-
 .card {
-  -webkit-flex-basis: calc(100%/9);
-  flex-basis: calc(100%/9);
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  color: white;
-  position: relative;
-  height: 12rem;
-  background: #555;
-  border: solid 0.6rem white; }
-  .card h5 {
-    width: 100%;
-    font-weight: normal;
-    text-align: center;
-    color: rgba(255, 255, 255, 0.9);
-    padding: 0 0.5em; }
+  color: #666; }
   .card.owner-us {
-    background: #268BD2; }
+    color: #268BD2; }
   .card.owner-ussr {
-    background: #DC322F; }
+    color: #DC322F; }
+  .card.asiaScoring {
+    color: #d17607; }
+  .card.europeScoring {
+    color: #8242cb; }
+  .card.middleEastScoring {
+    color: #63bfe7; }
+  .card.centralAmericaScoring {
+    color: #6e9d4f; }
+  .card.southAmericaScoring {
+    color: #69904d; }
+  .card.africaScoring {
+    color: #a89632; }
+  .card.southeastAsiaScoring {
+    color: #d17607; }
+
+.card-title-holder {
+  height: 3.6rem;
+  display: table;
+  margin-left: 4.4rem; }
+
+.cardList .card-title {
+  font-weight: normal;
+  display: table-cell;
+  line-height: 1em;
+  margin: 0;
+  vertical-align: middle; }
 
 .card-ops {
-  position: absolute;
-  bottom: 1rem;
-  margin: 0;
-  width: 100%;
+  display: inline-block;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   text-align: center;
-  color: rgba(255, 255, 255, 0.6); }
+  width: 3.6rem;
+  height: 3.6rem;
+  line-height: 3.4rem;
+  margin: 0 0.6rem 0 0;
+  color: rgba(255, 255, 255, 0.9); }
+  .owner-neutral .card-ops {
+    background: #777; }
+  .owner-us .card-ops {
+    background: #268BD2; }
+  .owner-ussr .card-ops {
+    background: #DC322F; }
+  .asiaScoring .card-ops {
+    background: #F89E2C; }
+  .europeScoring .card-ops {
+    background: #9E6AD6; }
+  .middleEastScoring .card-ops {
+    background: #A5D9F1; }
+  .centralAmericaScoring .card-ops {
+    background: #B1CE9E; }
+  .southAmericaScoring .card-ops {
+    background: #81AC64; }
+  .africaScoring .card-ops {
+    background: #E5DCA7; }
+  .southeastAsiaScoring .card-ops {
+    background: #F89E2C; }
+
+.cardList .card {
+  padding-right: 2rem;
+  position: relative;
+  height: 3.6rem;
+  cursor: pointer;
+  margin-bottom: 1.4rem; }
+
+.cardList .card-ops {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.7; }
+
+.cardList .card:hover .card-ops {
+  opacity: 1; }
+
+.cardView p {
+  max-width: 50rem;
+  color: #666; }
+
+@media screen and (min-width: 488px) {
+  .cardList {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    min-height: 100%; }
+  .cardList .card {
+    -webkit-flex-basis: calc(100%/2);
+    flex-basis: calc(100%/2); } }
+
+@media screen and (min-width: 768px) {
+  .cardList .card {
+    -webkit-flex-basis: calc(100%/3);
+    flex-basis: calc(100%/3); } }
+
+@media screen and (min-width: 992px) {
+  .cardList .card {
+    -webkit-flex-basis: calc(100%/4);
+    flex-basis: calc(100%/4); } }
+
+@media screen and (min-width: 1200px) {
+  .cardList .card {
+    -webkit-flex-basis: calc(100%/5);
+    flex-basis: calc(100%/5); } }
 
 /* encapsulate the various syntax in helper clases */
 /* inspired by http://infrequently.org/2009/08/css-3-progress/ */
@@ -4414,6 +4490,9 @@ button.close {
   -webkit-flex: 1;
   -moz-flex: 1;
   flex: 1; }
+
+img.fluid {
+  width: 100%; }
 
 .browsehappy {
   margin: 0.2em 0;

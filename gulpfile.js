@@ -16,7 +16,8 @@ var $ = require('gulp-load-plugins')();
 gulp.task('styles', function () {
     return gulp.src('app/styles/main.scss')
         .pipe($.sass({
-          includePaths: ['app/bower_components']
+          includePaths: ['app/bower_components'],
+          errLogToConsole: true
         }))
         .pipe($.autoprefixer('last 1 version'))
         .pipe(gulp.dest('app/styles'))
@@ -80,8 +81,7 @@ gulp.task('clean', function () {
 gulp.task('build', ['html', 'images']);
 
 // Default task
-gulp.task('default', ['clean'], function () {
-    gulp.start('build');
+gulp.task('default', ['watch'], function () {
 });
 
 // Connect
@@ -93,7 +93,6 @@ gulp.task('connect', $.connect.server({
 
 // Open
 gulp.task('serve', ['connect', 'styles'], function() {
-  open(domain);
 });
 
 // Inject Bower components
@@ -114,11 +113,11 @@ gulp.task('wiredep', function () {
 });
 
 // Watch
-gulp.task('watch', ['connect', 'serve'], function () {
+gulp.task('watch', ['serve'], function () {
     // Watch for changes in `app` folder
     gulp.watch([
         'app/*.html',
-        'app/styles/**/*.scss',
+        'app/styles/**/*.css',
         'app/scripts/**/*.js',
         'app/images/**/*'
     ], function (event) {

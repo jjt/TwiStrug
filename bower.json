@@ -7,7 +7,9 @@
     "jquery": "~1.11.0",
     "react": "~0.10.0",
     "director": "~1.2.2",
-    "solarized": "~0.1.2"
+    "solarized": "~0.1.2",
+    "react-router-component": "~0.18.0",
+    "lodash": "~2.4.1"
   },
   "devDependencies": {}
 }
