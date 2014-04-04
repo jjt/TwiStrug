@@ -22,7 +22,7 @@ cardClassName = (props) ->
 Card = React.createClass
   render: ->
     R.a href: "#/card/#{@props.id}", className: cardClassName(@props), [
-      R.h3 className: 'card-ops', @props.ops 
+      R.h3 className: 'card-ops', if @props.ops < 1 then "S" else @props.ops
       R.div className: 'card-title-holder', [
         R.h4 className: 'card-title', @props.title
       ]
@@ -46,7 +46,7 @@ CardView = React.createClass
     imageUrl = "/images/cards/#{('000' + @props.id).substr(-3,3)}.jpg"
     R.div className: 'cardView ' + cardClassName(@props), [
       R.h2 {}, [
-        R.span className:'card-ops', @props.ops
+        R.span className:'card-ops', if @props.ops < 1 then "S" else @props.ops
         @props.title
       ]
       R.img className: 'pull-right', src: imageUrl
@@ -84,10 +84,6 @@ TwiStrug = React.createClass
       when 'map' then MapView()
 
 
-
 $.getJSON('/data/cards.json').done (cards)->
-  cards = cards.map (el)->
-    el.ops = 'S' if el.title.indexOf('Scoring') != -1
-    el
   React.renderComponent TwiStrug({cards}), $app
 

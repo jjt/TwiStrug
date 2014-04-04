@@ -32,7 +32,7 @@
       }, [
         R.h3({
           className: 'card-ops'
-        }, this.props.ops), R.div({
+        }, this.props.ops < 1 ? "S" : this.props.ops), R.div({
           className: 'card-title-holder'
         }, [
           R.h4({
@@ -73,7 +73,7 @@
         R.h2({}, [
           R.span({
             className: 'card-ops'
-          }, this.props.ops), this.props.title
+          }, this.props.ops < 1 ? "S" : this.props.ops), this.props.title
         ]), R.img({
           className: 'pull-right',
           src: imageUrl
@@ -140,12 +140,6 @@
   });
 
   $.getJSON('/data/cards.json').done(function(cards) {
-    cards = cards.map(function(el) {
-      if (el.title.indexOf('Scoring') !== -1) {
-        el.ops = 'S';
-      }
-      return el;
-    });
     return React.renderComponent(TwiStrug({
       cards: cards
     }), $app);

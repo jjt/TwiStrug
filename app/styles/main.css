@@ -4425,7 +4425,8 @@ button.close {
 .cardList .card-ops {
   position: absolute;
   top: 0;
-  left: 0; }
+  left: 0;
+  opacity: 0.9; }
 
 
 .cardView p {
