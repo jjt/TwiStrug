@@ -79,25 +79,30 @@ $southeastAsia: #F89E2C;
   height:3.6rem;
   cursor:pointer;
   margin-bottom:1.4rem;
+
+  &:hover {
+    .card-title {
+      text-decoration: underline;
+    }
+  }
 }
 
 .cardList .card-ops {
   position: absolute;
   top:0;
   left:0;
-  opacity:0.7;
 }
 
 .cardList .card:hover .card-ops {
-  opacity: 1;
 }
 
 
 
 .cardView {
   p {
-    max-width:50rem;
+    max-width:30em;
     color:#666;
+    font-size:18px; 
   }
 }
 

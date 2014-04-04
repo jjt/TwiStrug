@@ -22,7 +22,7 @@ cardClassName = (props) ->
 Card = React.createClass
   render: ->
     R.a href: "#/card/#{@props.id}", className: cardClassName(@props), [
-      R.h3 className: 'card-ops', if @props.ops > 0 then @props.ops
+      R.h3 className: 'card-ops', @props.ops 
       R.div className: 'card-title-holder', [
         R.h4 className: 'card-title', @props.title
       ]
@@ -86,5 +86,8 @@ TwiStrug = React.createClass
 
 
 $.getJSON('/data/cards.json').done (cards)->
+  cards = cards.map (el)->
+    el.ops = 'S' if el.title.indexOf('Scoring') != -1
+    el
   React.renderComponent TwiStrug({cards}), $app
 
