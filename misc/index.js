@@ -14,6 +14,7 @@ function notNull(el) {
   return el != null;
 }
 
+// TODO: add stage of war to JSON file
 function makeCardsJSONFromTSV() {
   Promise.all([readFile('cards.tsv', 'utf8'), readFile('cardUrls.txt', 'utf8'),
     readFile('cardTable.html', 'utf8')])
@@ -63,4 +64,41 @@ function parseHTML(markup) {
   return cards;
 }
 
-makeCardsJSONFromTSV();
+//makeCardsJSONFromTSV();
+
+function makeStrategyInfoFiles() {
+  for(var i=1; i<111; i++) {
+    (function(index) {
+      var fileIndex = ("000" + index).substr(-3,3);
+      readFile('cardPages/' + fileIndex + '.html', 'utf8')
+        .then(function(markup){
+          var content = markup.split('</blockquote>')[1].split('<div class="wpa')[0];
+          var dest = '../app/data/cardStrategy/' + fileIndex + '.html';
+          writeFile(dest, content);
+        });
+    })(i)
+  }
+}
+
+//makeStrategyInfoFiles();
+
+function addStageToCardsJSON() {
+  var file = '../app/data/cards.json';
+  readFile(file, 'utf8')
+    .then(function(cards){
+      cards = JSON.parse(cards);
+      cards = cards.map(function(el) {
+        var stage = 1;
+        if((el.id >= 37 && el.id <=81) || el.id == 107 || el.id == 108)
+          stage = 2;
+        if((el.id >=82 && el.id <=103) || el.id >= 109)
+          stage = 3;
+        el.stage = stage;
+        return el;
+      });
+      writeFile(file, JSON.stringify(cards));
+    });
+}
+addStageToCardsJSON();
+
+

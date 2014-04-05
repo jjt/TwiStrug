@@ -4347,33 +4347,37 @@ button.close {
 
 
 
-.card {
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+.card, .card a {
   color: #666; }
-  .card.owner-us {
-    color: #268BD2; }
-  .card.owner-ussr {
-    color: #DC322F; }
-  .card.asiaScoring {
-    color: #d17607; }
-  .card.europeScoring {
-    color: #8242cb; }
-  .card.middleEastScoring {
-    color: #63bfe7; }
-  .card.centralAmericaScoring {
-    color: #6e9d4f; }
-  .card.southAmericaScoring {
-    color: #69904d; }
-  .card.africaScoring {
-    color: #a89632; }
-  .card.southeastAsiaScoring {
-    color: #d17607; }
+.card.owner-us, .card.owner-us a {
+  color: #268BD2; }
+.card.owner-ussr, .card.owner-ussr a {
+  color: #DC322F; }
+.card.asiaScoring, .card.asiaScoring a {
+  color: #d17607; }
+.card.europeScoring, .card.europeScoring a {
+  color: #8242cb; }
+.card.middleEastScoring, .card.middleEastScoring a {
+  color: #5ca5c6; }
+.card.centralAmericaScoring, .card.centralAmericaScoring a {
+  color: #72925d; }
+.card.southAmericaScoring, .card.southAmericaScoring a {
+  color: #587543; }
+.card.africaScoring, .card.africaScoring a {
+  color: #827b3e; }
+.card.southeastAsiaScoring, .card.southeastAsiaScoring a {
+  color: #d17607; }
+
+.card {
+  display: block;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
 
 .card-title-holder {
   height: 3.6rem;
   display: table;
-  margin-left: 4.4rem; }
+  margin-left: 4.4rem;
+  margin-bottom: 0.4rem; }
 
 .cardList .card-title {
   font-weight: normal;
@@ -4389,7 +4393,6 @@ button.close {
   text-align: center;
   width: 3.6rem;
   height: 3.6rem;
-  line-height: 3.4rem;
   margin: 0 0.6rem 0 0;
   color: rgba(255, 255, 255, 0.9); }
   .owner-neutral .card-ops {
@@ -4403,36 +4406,62 @@ button.close {
   .europeScoring .card-ops {
     background: #9E6AD6; }
   .middleEastScoring .card-ops {
-    background: #A5D9F1; }
+    background: #95C4DA; }
   .centralAmericaScoring .card-ops {
-    background: #B1CE9E; }
+    background: #99B388; }
   .southAmericaScoring .card-ops {
-    background: #81AC64; }
+    background: #6F9655; }
   .africaScoring .card-ops {
-    background: #E5DCA7; }
+    background: #B9B26D; }
   .southeastAsiaScoring .card-ops {
     background: #F89E2C; }
+
+.card-stage {
+  position: absolute;
+  display: block;
+  text-align: center;
+  line-height: 0.8em;
+  left: 0;
+  top: 2.3rem;
+  margin: 0;
+  width: 3.6rem;
+  padding: 0;
+  color: rgba(255, 255, 255, 0.9);
+  z-index: 100;
+  font-size: 10px;
+  font-weight: 300; }
 
 .cardList .card {
   padding-right: 2rem;
   position: relative;
-  height: 3.6rem;
-  cursor: pointer;
-  margin-bottom: 1.4rem; }
-  .cardList .card:hover .card-title {
-    text-decoration: underline; }
+  margin-bottom: 1.4rem;
+  overflow: hidden; }
+
+.cardList .card-text {
+  max-height: 0; }
+
+.cardList.cardListFull .card {
+  height: auto; }
+.cardList.cardListFull .card-text {
+  padding-top: 1rem;
+  max-height: 200rem; }
 
 .cardList .card-ops {
   position: absolute;
   top: 0;
   left: 0;
-  opacity: 0.9; }
+  opacity: 0.9;
+  line-height: 2.5rem; }
 
 
-.cardView p {
-  max-width: 30em;
+.cardView p, .cardView ul {
+  max-width: 40em;
   color: #666;
   font-size: 18px; }
+.cardView p a {
+  color: #428bca; }
+  .cardView p a:hover, .cardView p a:focus {
+    color: #2a6596; }
 
 @media screen and (min-width: 488px) {
   .cardList {
@@ -4495,54 +4524,29 @@ button.close {
 img.fluid {
   width: 100%; }
 
+.navbar {
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid #ddd; }
+
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
   color: #000;
   padding: 0.2em 0; }
 
-/* Space out content a bit */
-body {
-  padding-top: 20px;
-  padding-bottom: 20px; }
-
-/* Everything but the jumbotron gets side spacing for mobile first views */
-.header, .marketing, .footer {
-  padding-left: 15px;
-  padding-right: 15px; }
-
-/* Custom page header */
-.header {
-  border-bottom: 1px solid #e5e5e5;
-  /* Make the masthead heading the same height as the navigation */ }
-  .header h3 {
-    margin-top: 0;
-    margin-bottom: 0;
-    line-height: 40px;
-    padding-bottom: 19px; }
-
-/* Custom page footer */
-.footer {
-  padding-top: 19px;
-  color: #777;
-  border-top: 1px solid #e5e5e5; }
-
-.container-narrow > hr {
-  margin: 30px 0; }
-
-/* Main marketing message and sign up button */
-.jumbotron {
-  text-align: center;
-  border-bottom: 1px solid #e5e5e5; }
-  .jumbotron .btn {
-    font-size: 21px;
-    padding: 14px 24px; }
-
-/* Supporting marketing content */
-.marketing {
-  margin: 40px 0; }
-  .marketing p + h4 {
-    margin-top: 28px; }
+a[href^="http://"], a[href^="https://"] {
+  display: inline-block; }
+  a[href^="http://"]:after, a[href^="https://"]:after {
+    content: "\e164";
+    font-family: 'Glyphicons Halflings';
+    font-size: 0.6em;
+    display: inline-block;
+    position: relative;
+    margin: 0 0.2em;
+    padding-bottom: 0.2em;
+    line-height: 0.5em;
+    opacity: 0.6; }
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {

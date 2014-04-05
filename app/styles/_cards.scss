@@ -2,28 +2,39 @@
 
 $asia: #F89E2C;
 $europe: #9E6AD6;
-$middleEast: #A5D9F1;
-$centralAmerica: #B1CE9E;
-$southAmerica: #81AC64 ;
-$africa: #E5DCA7;
+$middleEast: #95C4DA;
+$centralAmerica: #99B388;
+$southAmerica: #6F9655;
+$africa: #B9B26D;
 $southeastAsia: #F89E2C;
 
 
 .card {
-   
-  box-sizing: border-box;
-  color:#666;
+  &, & a { color:#666; }
 
-  &.owner-us { color:$solarized-blue; }
-  &.owner-ussr { color:$solarized-red; }
-  &.asiaScoring { color: darken($asia,15%); }
-  &.europeScoring { color: darken($europe,10%); }
-  &.middleEastScoring { color: darken($middleEast,15%); }
-  &.centralAmericaScoring { color: darken($centralAmerica,25%); }
-  &.southAmericaScoring { color: darken($southAmerica,10%); }
-  &.africaScoring { color: darken($africa,35%); }
-  &.southeastAsiaScoring { color: darken($southeastAsia,15%); }
+  &.owner-us, &.owner-us a { color:$solarized-blue; }
+  &.owner-ussr, &.owner-ussr a { color:$solarized-red; }
+  &.asiaScoring, &.asiaScoring a { color: darken($asia,15%); }
+  &.europeScoring, &.europeScoring a { color: darken($europe,10%); }
+  &.middleEastScoring, &.middleEastScoring a { color: darken($middleEast,15%); }
+  &.centralAmericaScoring, &.centralAmericaScoring a { color: darken($centralAmerica,15%); }
+  &.southAmericaScoring, &.southAmericaScoring a { color: darken($southAmerica,10%); }
+  &.africaScoring, &.africaScoring a { color: darken($africa,20%); }
+  &.southeastAsiaScoring, &.southeastAsiaScoring a { color: darken($southeastAsia,15%); }
 }
+
+
+
+
+
+
+
+
+.card {
+  display:block;
+  box-sizing: border-box;
+}
+
 
 
 
@@ -31,6 +42,7 @@ $southeastAsia: #F89E2C;
   height:3.6rem;
   display:table;
   margin-left:4.4rem;
+  margin-bottom:0.4rem;
 }
 
 .cardList .card-title {
@@ -47,7 +59,6 @@ $southeastAsia: #F89E2C;
   text-align:center;
   width:3.6rem;
   height:3.6rem;
-  line-height:3.4rem;
   margin:0 0.6rem 0 0;
   color: rgba(#fff,0.9);
 
@@ -73,18 +84,42 @@ $southeastAsia: #F89E2C;
 
 }
 
+.card-stage {
+  position: absolute;
+  display:block;
+  text-align:center;
+  line-height:0.8em;
+  left:0;
+  top:2.3rem;
+  margin:0;
+  width:3.6rem;
+  padding:0;
+  color:rgba(#fff, 0.9);
+  z-index:100;
+  font-size:10px;
+  font-weight:300;
+}
+
 .cardList .card {
   padding-right:2rem; 
   position:relative;
-  height:3.6rem;
-  cursor:pointer;
   margin-bottom:1.4rem;
+  overflow:hidden;
+}
 
-  &:hover {
-    .card-title {
-      text-decoration: underline;
-    }
+.cardList .card-text {
+  max-height:0;
+}
+
+.cardList.cardListFull {
+  .card {
+    height:auto; 
   }
+  .card-text {
+    padding-top:1rem;
+    max-height:200rem;
+  }
+
 }
 
 .cardList .card-ops {
@@ -92,6 +127,7 @@ $southeastAsia: #F89E2C;
   top:0;
   left:0;
   opacity:0.9;
+  line-height:2.5rem;
 }
 
 .cardList .card:hover .card-ops {
@@ -100,10 +136,16 @@ $southeastAsia: #F89E2C;
 
 
 .cardView {
-  p {
-    max-width:30em;
+  p, ul {
+    max-width:40em;
     color:#666;
     font-size:18px; 
+  }
+  p a {
+    color:#428bca;
+    &:hover, &:focus {
+      color:#2a6596;
+    }
   }
 }
 

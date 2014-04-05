@@ -24,39 +24,31 @@
         <!--[if lt IE 10]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-
-        <div class="container">
-            <div class="header">
-                <ul class="nav nav-pills pull-right">
-                    <li class="active"><a href="#/cards">Cards</a></li>
-                    <li><a href="#/map">Map</a></li>
-                </ul>
-                <h3 class="text-muted">TwiStrug</h3>
+        <nav class="navbar navbar-default" role="navigation">
+          <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">TwiStrug</a>
             </div>
 
-            <div id="app">
-              <div class="jumbotron">
-                  <h1>'Allo, 'Allo!</h1>
-                  <p class="lead">Always a pleasure scaffolding your apps.</p>
-                  <p><a class="btn btn-lg btn-success" href="#">Splendid!</a></p>
-              </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav">
+                <li><a href="#/cards">Cards</a></li>
+                <li><a href="#/map">Map</a></li>
+                <li><a href="#/countries">Countries</a></li>
+              </ul>
+            </div><!-- /.navbar-collapse -->
+          </div><!-- /.container-fluid -->
+        </nav>
 
-              <div class="row marketing">
-                  <div class="col-lg-6">
-                      <h4>HTML5 Boilerplate</h4>
-                      <p>HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.</p>
-
-                      <h4>Sass with Compass</h4>
-                      <p>Compass is an open-source CSS Authoring Framework that uses Sass.</p>
-
-                      <h4>Bootstrap</h4>
-                      <p>Sleek, intuitive, and powerful mobile first front-end framework for faster and easier web development.</p>
-                      <h4>Modernizr</h4>
-                      <p>Modernizr is an open-source JavaScript library that helps you build the next generation of HTML5 and CSS3-powered websites.</p>
-
-                  </div>
-              </div>
-            </div>
+        <div class="container" id="app"></div>
 
         </div>
 
