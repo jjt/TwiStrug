@@ -1,6 +1,7 @@
 var fs = require('fs');
 var _ = require('lodash');
 var Promise = require('bluebird');
+var cheerio = require('cheerio');
 
 var readFile = Promise.promisify(fs.readFile);
 var writeFile = Promise.promisify(fs.writeFile);
@@ -99,6 +100,21 @@ function addStageToCardsJSON() {
       writeFile(file, JSON.stringify(cards));
     });
 }
-addStageToCardsJSON();
+//addStageToCardsJSON();
 
+function stripLinksFromStratPages() {
+  for(var i=1; i<111; i++) {
+    (function(index) {
+      var fileIndex = ("000" + index).substr(-3,3);
+      readFile('../app/data/cardStrategy/' + fileIndex + '.html', 'utf8')
+        .then(function(markup){
+          content = markup.replace(/<a\b[^>]*>(.*?)<\/a>/ig,"$1")
+          var dest = '../app/data/cardStrategy/' + fileIndex + '.html';
+          writeFile(dest, content);
+        });
+    })(i)
+  }
+  
+}
 
+stripLinksFromStratPages()

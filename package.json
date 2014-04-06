@@ -31,7 +31,9 @@
     "tsv": "^0.2.0",
     "bluebird": "^1.2.1",
     "lodash": "^2.4.1",
-    "gulp-coffee": "^1.4.1"
+    "gulp-coffee": "^1.4.1",
+    "cheerio": "^0.14.0",
+    "run-sequence": "^0.3.6"
   },
   "engines": {
     "node": ">=0.10.0"

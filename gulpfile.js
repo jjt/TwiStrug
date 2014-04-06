@@ -7,6 +7,7 @@ var domain = 'http://twistrug.loc';
 var gulp = require('gulp');
 var open = require('open');
 var wiredep = require('wiredep').stream;
+var runSequence = require('run-sequence');
 
 // Load plugins
 var $ = require('gulp-load-plugins')();
@@ -16,7 +17,10 @@ var $ = require('gulp-load-plugins')();
 gulp.task('styles', function () {
     return gulp.src('app/styles/main.scss')
         .pipe($.sass({
-          includePaths: ['app/bower_components'],
+          includePaths: [
+            'app/bower_components',
+            'app/bower_components/bootstrap-sass/vendor/assets/stylesheets'
+          ],
           errLogToConsole: true
         }))
         .pipe($.autoprefixer('last 1 version'))
@@ -74,11 +78,34 @@ gulp.task('images', function () {
 
 // Clean
 gulp.task('clean', function () {
-    return gulp.src(['dist/styles', 'dist/scripts', 'dist/images'], { read: false }).pipe($.clean());
+    return gulp.src(['dist/data',
+      'dist/styles',
+      'dist/scripts',
+      'dist/images',
+      'dist/fontello'
+      ],
+      { read: false }
+    ).pipe($.clean());
+});
+
+
+
+
+
+gulp.task('data', function() {
+  return gulp.src('app/data/**/*').pipe(gulp.dest('dist/data'));
+});
+
+gulp.task('fontello', function(){
+  return gulp.src('app/fontello/**/*').pipe(gulp.dest('dist/fontello'));
 });
 
 // Build
-gulp.task('build', ['html', 'images']);
+gulp.task('build', function() {
+  return runSequence('clean',
+    ['styles', 'coffee', 'html', 'images', 'data', 'fontello']);
+
+});
 
 // Default task
 gulp.task('default', ['watch'], function () {

@@ -12,18 +12,18 @@ $southeastAsia: #F89E2C;
 .card {
   &, & a { color:#666; }
 
-  &.owner-us, &.owner-us a { color:$solarized-blue; }
-  &.owner-ussr, &.owner-ussr a { color:$solarized-red; }
-  &.asiaScoring, &.asiaScoring a { color: darken($asia,15%); }
-  &.europeScoring, &.europeScoring a { color: darken($europe,10%); }
-  &.middleEastScoring, &.middleEastScoring a { color: darken($middleEast,15%); }
-  &.centralAmericaScoring, &.centralAmericaScoring a { color: darken($centralAmerica,15%); }
-  &.southAmericaScoring, &.southAmericaScoring a { color: darken($southAmerica,10%); }
-  &.africaScoring, &.africaScoring a { color: darken($africa,20%); }
-  &.southeastAsiaScoring, &.southeastAsiaScoring a { color: darken($southeastAsia,15%); }
 }
 
 
+.owner-us, .owner-us a { color:$solarized-blue; }
+.owner-ussr, .owner-ussr a { color:$solarized-red; }
+.asiaScoring, .asiaScoring a { color: darken($asia,15%); }
+.europeScoring, .europeScoring a { color: darken($europe,10%); }
+.middleEastScoring, .middleEastScoring a { color: darken($middleEast,15%); }
+.centralAmericaScoring, .centralAmericaScoring a { color: darken($centralAmerica,15%); }
+.southAmericaScoring, .southAmericaScoring a { color: darken($southAmerica,10%); }
+.africaScoring, .africaScoring a { color: darken($africa,20%); }
+.southeastAsiaScoring, .southeastAsiaScoring a { color: darken($southeastAsia,15%); }
 
 
 
@@ -41,8 +41,11 @@ $southeastAsia: #F89E2C;
 .card-title-holder {
   height:3.6rem;
   display:table;
-  margin-left:4.4rem;
+  padding-left:4.4rem;
   margin-bottom:0.4rem;
+  &:hover {
+    text-decoration:underline;
+  }
 }
 
 .cardList .card-title {
@@ -108,7 +111,8 @@ $southeastAsia: #F89E2C;
 }
 
 .cardList .card-text {
-  max-height:0;
+  display:none;
+  font-size:14px;
 }
 
 .cardList.cardListFull {
@@ -116,8 +120,8 @@ $southeastAsia: #F89E2C;
     height:auto; 
   }
   .card-text {
-    padding-top:1rem;
-    max-height:200rem;
+    display:block;
+    margin-top:1rem;
   }
 
 }
@@ -134,12 +138,21 @@ $southeastAsia: #F89E2C;
 }
 
 
+.cardControls {
+  a {
+    display:inline-block;
+    margin:0 0.4em;
+    padding:0 0.5em;
+  }
+  .active {
+    text-decoration: underline;
+  }
+  margin-right:2rem;
+}
 
 .cardView {
   p, ul {
-    max-width:40em;
     color:#666;
-    font-size:18px; 
   }
   p a {
     color:#428bca;
@@ -149,8 +162,16 @@ $southeastAsia: #F89E2C;
   }
 }
 
+@media screen and (min-width:$screen-sm-min) {
+  .cardView {
+  }
+  p, ul {
+    max-width:30em;
+  }
+}
 
-@media screen and (min-width:488px) {
+
+@media screen and (min-width:480px) {
   .cardList {
     display:flex;
     flex-direction: row;

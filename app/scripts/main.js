@@ -1,9 +1,11 @@
 (function() {
-  var $app, Card, CardList, CardView, CardsView, CountriesView, MapView, R, TwiStrug, WhoopsView, cardClassName, cardStage, cx, zeroPad;
+  var $, $app, AboutView, Card, CardList, CardView, CardsView, CountriesView, MapView, R, TwiStrug, WhoopsView, cardClassName, cardStage, cx, zeroPad;
 
   R = React.DOM;
 
   cx = React.addons.classSet;
+
+  $ = Zepto;
 
   $app = document.getElementById('app');
 
@@ -11,7 +13,6 @@
     var classes, ownerClass;
     ownerClass = "owner-" + props.owner;
     classes = cx({
-      'card': true,
       'asiaScoring': props.title === 'Asia Scoring',
       'europeScoring': props.title === 'Europe Scoring',
       'middleEastScoring': props.title === 'Middle East Scoring',
@@ -44,20 +45,20 @@
   Card = React.createClass({
     render: function() {
       return R.div({
-        className: cardClassName(this.props)
+        className: cardClassName(this.props) + ' card'
       }, [
-        R.span({
-          className: 'card-stage'
-        }, cardStage(this.props.stage)), R.a({
+        R.a({
           className: 'card-title-holder',
           href: "#/card/" + this.props.id
         }, [
-          R.h4({
+          R.span({
+            className: 'card-stage'
+          }, cardStage(this.props.stage)), R.h4({
             className: 'card-ops'
           }, this.props.ops < 1 ? "S" : this.props.ops), R.h4({
             className: 'card-title'
           }, this.props.title)
-        ]), R.div({
+        ]), R.p({
           className: 'card-text'
         }, this.props.text)
       ]);
@@ -65,50 +66,15 @@
   });
 
   CardList = React.createClass({
-    getInitialState: function(props) {
-      return _.merge({
-        fullText: false
-      }, this.propsToState(this.props));
-    },
-    propsToState: function(props) {
-      if (props == null) {
-        props = this.props;
-      }
-      return {
-        filter: props.filter != null ? props.filter : false,
-        sort: props.sort != null ? props.sort : 'default'
-      };
-    },
-    componentWillReceiveProps: function(nextProps) {
-      return this.setState(this.propsToState(nextProps));
-    },
-    sortAndFilterCards: function() {
-      var cards, order, sort, _ref;
-      _ref = this.state.sort.split('-'), sort = _ref[0], order = _ref[1];
-      if (sort === 'default') {
-        sort = ['stage', 'id'];
-      }
-      if (sort === 'textlen') {
-        sort = function(el) {
-          return el.text.length;
-        };
-      }
-      cards = _.sortBy(this.props.cards, sort);
-      if (order === 'rev') {
-        cards.reverse();
-      }
-      return cards;
-    },
     render: function() {
       var className;
-      console.log(this.props.fullText);
       className = cx({
         'cardList': true,
         'cardListFull': this.props.fullText
       });
       return R.div({
         className: className
-      }, this.sortAndFilterCards().map((function(_this) {
+      }, this.props.cards.map((function(_this) {
         return function(el) {
           return Card(_.merge(el, {
             showFullText: _this.props.fullText
@@ -119,50 +85,119 @@
   });
 
   CardsView = React.createClass({
-    getInitialState: function() {
+    componentWillReceiveProps: function(nextProps) {
+      return this.setState(this.propsToState(nextProps));
+    },
+    propsToState: function(props) {
+      if (props == null) {
+        props = this.props;
+      }
       return {
-        fullText: false
+        filter: props.filter != null ? props.filter : false,
+        sort: props.sort != null ? props.sort : 'stage'
       };
+    },
+    getInitialState: function() {
+      return _.merge(this.propsToState(this.props), {
+        fullText: false
+      });
     },
     handleFullText: function() {
       return this.setState({
         fullText: this.refs.fullText.getDOMNode().checked
       });
     },
+    sortAndFilterCards: function() {
+      var cards, order, sort, sortParam, _ref;
+      _ref = this.state.sort.split('-'), sort = _ref[0], order = _ref[1];
+      sortParam = (function() {
+        switch (sort) {
+          case 'textlen':
+            return function(el) {
+              return el.text.length;
+            };
+          case 'side':
+            return ['owner', 'stage', 'id'];
+          case 'ops':
+            return 'ops';
+          default:
+            return ['stage', 'id'];
+        }
+      })();
+      if (sort === 'ops') {
+        order = order === 'rev' ? false : 'rev';
+      }
+      cards = _.sortBy(this.props.cards, sortParam);
+      if (order === 'rev') {
+        cards.reverse();
+      }
+      return cards;
+    },
     render: function() {
-      console.log('CardsView', this.state);
+      var sortLink;
+      sortLink = (function(_this) {
+        return function(sort, display) {
+          var className, href, ref;
+          className = cx({
+            active: _this.state.sort === sort
+          });
+          href = "#/cards/sort/" + sort;
+          ref = "" + sort + "Sort";
+          return R.a({
+            href: href,
+            ref: ref,
+            className: className
+          }, display);
+        };
+      })(this);
       return R.div({
         className: 'cardsView'
       }, [
         R.div({
-          className: 'header'
+          className: 'page-header'
         }, [
-          R.div({
-            className: 'pull-right'
-          }, [
-            R.input({
-              name: 'fullText',
-              id: 'fullText',
-              type: 'checkbox',
-              ref: 'fullText',
-              onChange: this.handleFullText,
-              checked: this.state.fullText
-            }), " ", R.label({
-              htmlFor: 'fullText'
-            }, 'Show card descriptions')
-          ]), R.h2({}, 'Cards')
+          R.h2({}, 'Cards'), " ", R.div({
+            className: 'cardControls sortBy pull-left'
+          }, [R.strong({}, 'Sort by:'), sortLink('stage', 'Stage'), sortLink('ops', 'Ops'), sortLink('side', 'Side')]), R.input({
+            name: 'fullText',
+            id: 'fullText',
+            type: 'checkbox',
+            ref: 'fullText',
+            onChange: this.handleFullText,
+            checked: this.state.fullText
+          }), " ", R.label({
+            htmlFor: 'fullText'
+          }, 'Show card text')
         ]), CardList({
-          cards: this.props.cards,
-          sort: this.props.sort,
+          cards: this.sortAndFilterCards(),
           fullText: this.state.fullText
         })
       ]);
     }
   });
 
+  AboutView = React.createClass({
+    render: function() {
+      return R.div({
+        className: 'aboutView'
+      }, [
+        R.div({
+          className: 'page-header'
+        }, R.h2({}, "About TwiStrug")), R.img({
+          className: 'imgRight',
+          src: "/images/tsbox.jpg"
+        }), R.p({}, [
+          "TwiStrug is for people who want to learn more about the cards of Twilight Struggle in a zippy web application. For more in-depth strategy, go to the excellent", " ", R.a({
+            href: "http://twilightstrategy.com"
+          }, "Twilight Strategy"), " ", "site. It has tons of great content and analysis available, including discussions about nearly every card. Please support Twilight Strategy and its author,", " ", R.em({}, "theory"), ", ", "by purchasing Twilight Strugle from Amazon on the sidebar of the site."
+        ])
+      ]);
+    }
+  });
+
   CardView = React.createClass({
     componentDidMount: function() {
-      return $.get("/data/cardStrategy/" + (zeroPad(this.props.id)) + ".html").done((function(_this) {
+      return $.get("/data/cardStrategy/" + (zeroPad(this.props.id)) + ".html", (function(_this) {
         return function(data) {
           return _this.refs.cardStrategy.getDOMNode().innerHTML = data;
         };
@@ -172,15 +207,19 @@
       var imageUrl;
       imageUrl = "/images/cards/" + (zeroPad(this.props.id)) + ".jpg";
       return R.div({
-        className: 'cardView ' + cardClassName(this.props)
+        className: 'cardView'
       }, [
-        R.h2({}, [
+        R.div({
+          className: 'page-header'
+        }, R.h2({
+          className: cardClassName(this.props)
+        }, [
           R.span({
             className: 'card-ops'
           }, this.props.ops < 1 ? "S" : this.props.ops), this.props.title
-        ]), R.img({
-          className: 'pull-right',
-          src: imageUrl
+        ])), R.img({
+          src: imageUrl,
+          className: 'imgRight'
         }), R.p({}, this.props.text), R.div({
           className: 'card-strategy',
           id: 'card-strategy'
@@ -210,10 +249,14 @@
       return R.div({
         className: 'mapView'
       }, [
-        R.h2({}, 'Map'), R.img({
+        R.div({
+          className: 'page-header'
+        }, R.h2({}, 'Map')), R.a({
+          href: '/images/tsmap.jpg'
+        }, R.img({
           className: 'fluid',
           src: '/images/tsmap.jpg'
-        })
+        }))
       ]);
     }
   });
@@ -267,12 +310,13 @@
             });
           };
         })(this),
-        '/countries': this.setView.bind(this, 'countries')
+        '/countries': this.setView.bind(this, 'countries'),
+        '/about': this.setView.bind(this, 'about')
       });
       router.configure({
         notfound: this.setView.bind(this, 'whoops')
       });
-      router.init();
+      router.init('/cards');
     },
     render: function() {
       var _ref;
@@ -287,13 +331,14 @@
         case 'cards':
           return CardsView({
             cards: this.props.cards,
-            sort: this.state.view.data.sort,
-            sortReverse: this.state.view.data.sortReverse
+            sort: this.state.view.data.sort
           });
         case 'countries':
           return CountriesView();
         case 'map':
           return MapView();
+        case 'about':
+          return AboutView();
         case 'whoops':
           return WhoopsView();
       }
@@ -301,7 +346,7 @@
     }
   });
 
-  $.getJSON('/data/cards.json').done(function(cards) {
+  $.getJSON('/data/cards.json', function(cards) {
     cards = _.sortBy(cards, ['stage', 'id']);
     return React.renderComponent(TwiStrug({
       cards: cards
