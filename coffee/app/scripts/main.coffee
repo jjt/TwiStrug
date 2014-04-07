@@ -53,7 +53,6 @@ CardsView = React.createClass
     @setState @propsToState nextProps
 
   propsToState: (props = @props) ->
-    filter: if props.filter? then props.filter else false
     sort: if props.sort? then props.sort else 'stage'
 
   getInitialState: ->
@@ -61,11 +60,36 @@ CardsView = React.createClass
 
   handleFullText: ->
     @setState
-      fullText: this.refs.fullText.getDOMNode().checked
+      fullText: @refs.fullText.getDOMNode().checked
 
-  sortAndFilterCards: ->
+  handleCardIdFilterInput: ->
+    value = @refs.cardIds.getDOMNode().value
+    # WGR adds "Ops 3: ...", so don't pick those up
+    ids = value.match(/\d+[^:]|\d+$/g)?.map (el)-> parseInt el, 10
+    console.log ids
+    if value == '' or not ids?
+      @setState filter: null
+      return
+
+    @setState
+      fullText: true
+      filter:
+        field: 'id'
+        pattern: ids.sort()
+
+  getFilteredCards: ->
+    console.log @state.filter
+    if @state.filter?.field == 'id'
+      return @props.cards.filter (el) =>
+        if el.id in @state.filter.pattern
+          return el
+    @props.cards
+        
+
+  filterAndSortCards: ->
+
+    cards = @getFilteredCards()
     [sort, order] = @state.sort.split '-'
-
 
     sortParam = switch sort
       when 'textlen' then (el) -> el.text.length
@@ -73,14 +97,17 @@ CardsView = React.createClass
       when 'ops' then 'ops'
       when 'titlelen' then (el) -> el.title.length
       else ['stage', 'id']
-
-
-    cards = _.sortBy @props.cards, sortParam
+    cards = _.sortBy cards, sortParam
 
     if order == 'rev'
       cards.reverse()
 
     cards
+
+  clearCardsById: ()->
+    @refs.cardIds.getDOMNode().value = ''
+    @setState filter:null
+    console.log 'clearCardsById'
 
   render: ->
     sortLink = (sort, display) =>
@@ -88,6 +115,13 @@ CardsView = React.createClass
       href = "#/cards/sort/#{sort}"
       ref = "#{sort}Sort"
       R.a {href, ref, className}, display
+
+    console.log 'state', @state
+    getFilterIds = () =>
+      if @state?.filter?.field == 'id'
+        newVal = @state.filter.pattern.join ', '
+      console.log newVal
+      newVal
 
     R.div className: 'cardsView' , [
       R.div className: 'page-header', [
@@ -108,10 +142,21 @@ CardsView = React.createClass
           checked: @state.fullText
         " "
         R.label {htmlFor:'fullText'}, 'Show card text'
-        
+        R.div className: 'cards-filter-by-id', [
+          R.label {htmlFor:'cardIds'}, [
+            "Cards by id "
+            R.a {className:'cards-filter-by-id-clear', onClick:@clearCardsById}, 'clear'
+          ]
+          R.input
+            name: 'cardIds'
+            type: 'text'
+            ref: 'cardIds'
+            onChange: @handleCardIdFilterInput
+            placeholder: 'Paste from WarGameRoom or enter ids'
+        ]
       ]
       CardList
-        cards: @sortAndFilterCards()
+        cards: @filterAndSortCards()
         fullText: @state.fullText
     ]
 
@@ -180,13 +225,13 @@ CardView = React.createClass
             "#{@props.prevCard.title}"
             R.span className: 'card-nav-label', [
               R.small {}, '◀'
-              ' prev (h)'
+              ' prev (H)'
             ]
           ]
           R.a {href:"#/card/#{@props.nextCard.id}", className:'card-nav-next'}, [
             "#{@props.nextCard.title}"
             R.span className: 'card-nav-label', [
-              'next (l) '
+              'next (L) '
               R.small {}, '▶'
             ]
           ]

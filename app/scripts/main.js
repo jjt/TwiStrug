@@ -1,5 +1,6 @@
 (function() {
-  var $, $app, AboutView, BoardView, Card, CardList, CardView, CardsView, CountriesView, HomeView, R, TwiStrug, WhoopsView, cardClassName, cardStage, cx, zeroPad;
+  var $, $app, AboutView, BoardView, Card, CardList, CardView, CardsView, CountriesView, HomeView, R, TwiStrug, WhoopsView, cardClassName, cardStage, cx, zeroPad,
+    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   R = React.DOM;
 
@@ -93,7 +94,6 @@
         props = this.props;
       }
       return {
-        filter: props.filter != null ? props.filter : false,
         sort: props.sort != null ? props.sort : 'stage'
       };
     },
@@ -107,8 +107,45 @@
         fullText: this.refs.fullText.getDOMNode().checked
       });
     },
-    sortAndFilterCards: function() {
+    handleCardIdFilterInput: function() {
+      var ids, value, _ref;
+      value = this.refs.cardIds.getDOMNode().value;
+      ids = (_ref = value.match(/\d+[^:]|\d+$/g)) != null ? _ref.map(function(el) {
+        return parseInt(el, 10);
+      }) : void 0;
+      console.log(ids);
+      if (value === '' || (ids == null)) {
+        this.setState({
+          filter: null
+        });
+        return;
+      }
+      return this.setState({
+        fullText: true,
+        filter: {
+          field: 'id',
+          pattern: ids.sort()
+        }
+      });
+    },
+    getFilteredCards: function() {
+      var _ref;
+      console.log(this.state.filter);
+      if (((_ref = this.state.filter) != null ? _ref.field : void 0) === 'id') {
+        return this.props.cards.filter((function(_this) {
+          return function(el) {
+            var _ref1;
+            if (_ref1 = el.id, __indexOf.call(_this.state.filter.pattern, _ref1) >= 0) {
+              return el;
+            }
+          };
+        })(this));
+      }
+      return this.props.cards;
+    },
+    filterAndSortCards: function() {
       var cards, order, sort, sortParam, _ref;
+      cards = this.getFilteredCards();
       _ref = this.state.sort.split('-'), sort = _ref[0], order = _ref[1];
       sortParam = (function() {
         switch (sort) {
@@ -128,14 +165,21 @@
             return ['stage', 'id'];
         }
       })();
-      cards = _.sortBy(this.props.cards, sortParam);
+      cards = _.sortBy(cards, sortParam);
       if (order === 'rev') {
         cards.reverse();
       }
       return cards;
     },
+    clearCardsById: function() {
+      this.refs.cardIds.getDOMNode().value = '';
+      this.setState({
+        filter: null
+      });
+      return console.log('clearCardsById');
+    },
     render: function() {
-      var sortLink;
+      var getFilterIds, sortLink;
       sortLink = (function(_this) {
         return function(sort, display) {
           var className, href, ref;
@@ -149,6 +193,17 @@
             ref: ref,
             className: className
           }, display);
+        };
+      })(this);
+      console.log('state', this.state);
+      getFilterIds = (function(_this) {
+        return function() {
+          var newVal, _ref, _ref1;
+          if (((_ref = _this.state) != null ? (_ref1 = _ref.filter) != null ? _ref1.field : void 0 : void 0) === 'id') {
+            newVal = _this.state.filter.pattern.join(', ');
+          }
+          console.log(newVal);
+          return newVal;
         };
       })(this);
       return R.div({
@@ -168,9 +223,26 @@
             checked: this.state.fullText
           }), " ", R.label({
             htmlFor: 'fullText'
-          }, 'Show card text')
+          }, 'Show card text'), R.div({
+            className: 'cards-filter-by-id'
+          }, [
+            R.label({
+              htmlFor: 'cardIds'
+            }, [
+              "Cards by id ", R.a({
+                className: 'cards-filter-by-id-clear',
+                onClick: this.clearCardsById
+              }, 'clear')
+            ]), R.input({
+              name: 'cardIds',
+              type: 'text',
+              ref: 'cardIds',
+              onChange: this.handleCardIdFilterInput,
+              placeholder: 'Paste from WarGameRoom or enter ids'
+            })
+          ])
         ]), CardList({
-          cards: this.sortAndFilterCards(),
+          cards: this.filterAndSortCards(),
           fullText: this.state.fullText
         })
       ]);
@@ -258,14 +330,14 @@
           }, [
             "" + this.props.prevCard.title, R.span({
               className: 'card-nav-label'
-            }, [R.small({}, '◀'), ' prev (h)'])
+            }, [R.small({}, '◀'), ' prev (H)'])
           ]), R.a({
             href: "#/card/" + this.props.nextCard.id,
             className: 'card-nav-next'
           }, [
             "" + this.props.nextCard.title, R.span({
               className: 'card-nav-label'
-            }, ['next (l) ', R.small({}, '▶')])
+            }, ['next (L) ', R.small({}, '▶')])
           ])
         ])), R.img({
           src: imageUrl,

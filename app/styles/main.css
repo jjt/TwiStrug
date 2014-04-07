@@ -1672,6 +1672,9 @@ address {
   .card-title-holder:hover {
     text-decoration: underline; }
 
+.cardList {
+  clear: both; }
+
 .cardList .card-title {
   font-weight: normal;
   display: table-cell;
@@ -1764,6 +1767,20 @@ address {
   .cardView p a:hover, .cardView p a:focus {
     color: #2a6596; }
 
+.cards-filter-by-id {
+  clear: both;
+  width: 100%;
+  margin-top: 1rem; }
+  .cards-filter-by-id label {
+    font-weight: bold; }
+  .cards-filter-by-id input {
+    width: 100%; }
+
+.cards-filter-by-id-clear {
+  cursor: pointer;
+  float: right;
+  margin-right: 0.2em; }
+
 .card-nav {
   color: #aaa;
   width: 100%;
@@ -1793,8 +1810,9 @@ address {
   margin-top: 0.2em; }
 
 @media screen and (min-width: 768px) {
-  .cardView p, .cardView ul {
-    max-width: 30em; } }
+  .cardView p, .cardView ul, .cardView ol {
+    max-width: 30em;
+    font-size: 18px; } }
 
 @media screen and (min-width: 480px) {
   .cardList {
@@ -1812,7 +1830,18 @@ address {
 @media screen and (min-width: 768px) {
   .cardList .card {
     -webkit-flex-basis: calc(100%/3);
-    flex-basis: calc(100%/3); } }
+    flex-basis: calc(100%/3); }
+  .cards-filter-by-id {
+    position: absolute;
+    width: auto;
+    bottom: 1rem;
+    right: 0; }
+    .cards-filter-by-id label {
+      font-weight: bold; }
+      .cards-filter-by-id label a {
+        cursor: pointer; }
+    .cards-filter-by-id input {
+      min-width: 20rem; } }
 
 @media screen and (min-width: 992px) {
   .card-nav {

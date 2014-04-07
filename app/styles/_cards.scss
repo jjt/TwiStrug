@@ -48,6 +48,10 @@ $southeastAsia: #F89E2C;
   }
 }
 
+.cardList {
+  clear:both;
+}
+
 .cardList .card-title {
   font-weight: normal;
   display: table-cell;
@@ -162,6 +166,26 @@ $southeastAsia: #F89E2C;
   }
 }
 
+.cards-filter-by-id {
+  clear:both;
+  width:100%;
+  margin-top:1rem;
+  label {
+    font-weight:bold;
+  }
+  input {
+    width:100%;
+  }
+}
+
+.cards-filter-by-id-clear {
+  cursor:pointer;
+  float:right;
+  margin-right:0.2em;
+}
+
+
+
 .card-nav {
   color: #aaa;
   width:100%;
@@ -198,8 +222,9 @@ $southeastAsia: #F89E2C;
 
 @media screen and (min-width:$screen-sm-min) {
   .cardView {
-    p, ul {
+    p, ul, ol {
       max-width:30em;
+      font-size:18px;
     }
   }
 }
@@ -221,7 +246,23 @@ $southeastAsia: #F89E2C;
   .cardList .card {
     flex-basis:calc(100%/3);
   }
+  .cards-filter-by-id {
+    position:absolute;
+    width:auto;
+    bottom:1rem;
+    right:0;
+    label {
+      font-weight:bold;
+      a {
+        cursor:pointer;
+      }
+    }
+    input {
+      min-width:20rem;
+    }
+  }
 }
+
 @media screen and (min-width:992px) {
   .card-nav {
     position:absolute;
@@ -242,6 +283,7 @@ $southeastAsia: #F89E2C;
   .cardList .card {
     flex-basis: calc(100%/4);
   }
+
 }
 
 @media screen and (min-width:1200px) {
