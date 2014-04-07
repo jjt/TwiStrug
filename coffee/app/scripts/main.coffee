@@ -71,10 +71,9 @@ CardsView = React.createClass
       when 'textlen' then (el) -> el.text.length
       when 'side' then ['owner','stage','id']
       when 'ops' then 'ops'
+      when 'titlelen' then (el) -> el.title.length
       else ['stage', 'id']
 
-    if sort == 'ops'
-      order = if order == 'rev' then false else 'rev'
 
     cards = _.sortBy @props.cards, sortParam
 
@@ -125,43 +124,83 @@ AboutView = React.createClass
       R.img className: 'imgRight', src: "/images/tsbox.jpg"
       R.p {}, [
         "TwiStrug is for people who want to learn more about the
-        cards of Twilight Struggle in a zippy web application. For more
-        in-depth strategy, go to the excellent"
-        " "
+        cards of "
+        R.a href:"http://en.wikipedia.org/wiki/Twilight_Struggle",
+          "Twilight Struggle"
+        " in a zippy web app."
+      ]
+      R.p {}, [
+        "For more in-depth strategy, go to the excellent "
         R.a href: "http://twilightstrategy.com", "Twilight Strategy"
-        " "
-        "site. It has tons of great content and
-        analysis available, including discussions about nearly every card. Please
-        support Twilight Strategy and its author,"
-        " "
+        " site. It has tons of great content and
+        analysis available, including discussions about nearly every card.
+        Please support Twilight Strategy and its author, "
         R.em {}, "theory"
-        ", "
-        "by purchasing Twilight Strugle from Amazon on the sidebar of the site."
+        ", by purchasing Twilight Strugle from Amazon on the sidebar of the
+        site."
       ]
     ]
     
 
 CardView = React.createClass
   componentDidMount: ->
-    $.get "/data/cardStrategy/#{zeroPad(@props.id)}.html", (data)=>
+    @getStrategy()
+    @setWindowKeypressHandler()
+
+  componentDidUpdate: ->
+    @getStrategy()
+    @setWindowKeypressHandler()
+
+  setWindowKeypressHandler: ->
+    window.onkeypress = (ev) =>
+      kC = ev.keyCode
+      if kC == 104 or kC == 72
+        id = @props.prevCard.id
+      if kC == 108 or kC == 76
+        id = @props.nextCard.id
+      if id?
+        window.location = "#/card/#{id}"
+
+  getStrategy: ->
+    @refs.cardStrategy.getDOMNode().innerHTML = '<p>Loading data...</p>'
+    $.get "/data/cardStrategyLinked/#{zeroPad(@props.card.id)}.html", (data)=>
       @refs.cardStrategy.getDOMNode().innerHTML = data
+
   render: ->
-    imageUrl = "/images/cards/#{zeroPad(@props.id)}.jpg"
+    card = @props.card
+    imageUrl = "/images/cards/#{zeroPad(card.id)}.jpg"
     R.div className: 'cardView', [
-      R.div className: 'page-header',
-        R.h2 className: cardClassName(@props), [
-          R.span className:'card-ops', if @props.ops < 1 then "S" else @props.ops
-          @props.title
+      R.div className: 'page-header clearfix',
+        R.h2 className: cardClassName(card), [
+          R.span className:'card-ops', if card.ops < 1 then "S" else card.ops
+          card.title
+        ]
+        R.div className: 'card-nav', [
+          R.a {href:"#/card/#{@props.prevCard.id}", className:'card-nav-prev'}, [
+            "#{@props.prevCard.title}"
+            R.span className: 'card-nav-label', [
+              R.small {}, '◀'
+              ' prev (h)'
+            ]
+          ]
+          R.a {href:"#/card/#{@props.nextCard.id}", className:'card-nav-next'}, [
+            "#{@props.nextCard.title}"
+            R.span className: 'card-nav-label', [
+              'next (l) '
+              R.small {}, '▶'
+            ]
+          ]
         ]
       R.img src: imageUrl, className: 'imgRight'
-      R.p {}, @props.text
+      R.p {}, card.text
       R.div {className: 'card-strategy', id: 'card-strategy'}, [
         R.h3 {}, [
           'Strategic Notes from'
           ' '
-          R.a href:@props.url, 'TwilightStrategy.com'
+          R.a href:card.url, 'TwilightStrategy.com'
         ]
-        R.div ref:'cardStrategy'
+        R.div ref:'cardStrategy',
+          R.p {}, 'Loading data'
       ]
     ]
 
@@ -172,13 +211,13 @@ CountriesView = React.createClass
       R.h2 {}, 'Countries'
     ]
 
-MapView = React.createClass
+BoardView = React.createClass
   render: ->
-    R.div className: 'mapView', [
+    R.div className: 'boardView', [
       R.div className: 'page-header',
-        R.h2 {}, 'Map'
-      R.a href:'/images/tsmap.jpg',
-        R.img className: 'fluid', src:'/images/tsmap.jpg'
+        R.h2 {}, 'Board'
+      R.a href:'/images/tsboard.jpg',
+        R.img className: 'fluid', src:'/images/tsboard.jpg'
     ]
 
 
@@ -194,6 +233,19 @@ WhoopsView = React.createClass
       ]
     ]
 
+HomeView = React.createClass
+  render: ->
+    R.div {}, [
+      R.p className:'lead', [
+        "TwiStrug is a companion application for "
+        R.a href:"http://en.wikipedia.org/wiki/Twilight_Struggle", "Twilight Struggle"
+        ". It would not exist without "
+        R.a href: "http://twilightstrategy.com", "Twilight Strategy"
+        "."
+      ]
+      CardsView cards: @props.cards
+    ]
+
 # Main application component
 # Responsible for routing and view management
 TwiStrug = React.createClass
@@ -203,20 +255,27 @@ TwiStrug = React.createClass
 
   componentDidMount: ->
     router = Router
+      '':
+        @setView.bind this, 'home'
       '/cards':
         '': @setView.bind this, 'cards'
         '/sort/:sort': (sort) =>
           @setView 'cards',
             sort: sort
-      '/map': @setView.bind this, 'map'
+      '/board': @setView.bind this, 'board'
       '/card/:id': (id) =>
+        id = +id
+        nextId = if id == 110 then 1 else id + 1
+        prevId = if id == 1 then 110 else id - 1
         @setView 'card',
-          card: _.find @props.cards, id: +id
+          card: _.find @props.cards, id: id
+          nextCard: _.find @props.cards, id: nextId
+          prevCard: _.find @props.cards, id: prevId
       '/countries': @setView.bind this, 'countries'
       '/about': @setView.bind this, 'about'
     router.configure
       notfound: @setView.bind this, 'whoops'
-    router.init('/cards')
+    router.init('/')
     return
 
   render: ->
@@ -225,12 +284,14 @@ TwiStrug = React.createClass
       return R.p className: 'lead', 'TwiStrug is loading'
 
     switch @state.view.name
-      when 'card' then return CardView @state.view.data.card
+      when 'home' then return HomeView
+        cards: @props.cards
+      when 'card' then return CardView @state.view.data
       when 'cards' then return CardsView
         cards: @props.cards
         sort: @state.view.data.sort
       when 'countries' then return CountriesView()
-      when 'map' then return MapView()
+      when 'board' then return BoardView()
       when 'about' then return AboutView()
       when 'whoops' then return WhoopsView()
     

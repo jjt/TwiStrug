@@ -33,7 +33,8 @@
     "lodash": "^2.4.1",
     "gulp-coffee": "^1.4.1",
     "cheerio": "^0.14.0",
-    "run-sequence": "^0.3.6"
+    "run-sequence": "^0.3.6",
+    "rimraf": "^2.2.6"
   },
   "engines": {
     "node": ">=0.10.0"

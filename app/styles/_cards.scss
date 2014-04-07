@@ -162,11 +162,45 @@ $southeastAsia: #F89E2C;
   }
 }
 
+.card-nav {
+  color: #aaa;
+  width:100%;
+  display:table;
+}
+
+.card-nav-prev, .card-nav-next {
+  padding: 0 0.6em;
+  line-height:1em;
+  text-align: left;
+  font-size:14px;
+  box-sizing:border-box;
+  display:table-cell;
+  vertical-align:middle;
+}
+
+.card-nav-arrow {
+  font-size:12px;
+}
+
+.card-nav-next {
+  text-align:right;
+}
+
+.card-nav-prev {
+
+}
+.card-nav-label {
+  color:#999;
+  font-size:14px;
+  display:block;
+  margin-top:0.2em;
+}
+
 @media screen and (min-width:$screen-sm-min) {
   .cardView {
-  }
-  p, ul {
-    max-width:30em;
+    p, ul {
+      max-width:30em;
+    }
   }
 }
 
@@ -189,6 +223,22 @@ $southeastAsia: #F89E2C;
   }
 }
 @media screen and (min-width:992px) {
+  .card-nav {
+    position:absolute;
+    bottom:1.4rem;
+    right:0;
+    width:auto;
+  }
+
+  .card-nav-prev, .card-nav-next {
+    font-size:18px;
+    width:auto;
+    display:inline-block;
+  }
+  .card-nav-prev {
+    border-right:1px solid #ddd;
+  }
+
   .cardList .card {
     flex-basis: calc(100%/4);
   }

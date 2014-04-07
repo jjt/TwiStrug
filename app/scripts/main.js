@@ -1,5 +1,5 @@
 (function() {
-  var $, $app, AboutView, Card, CardList, CardView, CardsView, CountriesView, MapView, R, TwiStrug, WhoopsView, cardClassName, cardStage, cx, zeroPad;
+  var $, $app, AboutView, BoardView, Card, CardList, CardView, CardsView, CountriesView, HomeView, R, TwiStrug, WhoopsView, cardClassName, cardStage, cx, zeroPad;
 
   R = React.DOM;
 
@@ -120,13 +120,14 @@
             return ['owner', 'stage', 'id'];
           case 'ops':
             return 'ops';
+          case 'titlelen':
+            return function(el) {
+              return el.title.length;
+            };
           default:
             return ['stage', 'id'];
         }
       })();
-      if (sort === 'ops') {
-        order = order === 'rev' ? false : 'rev';
-      }
       cards = _.sortBy(this.props.cards, sortParam);
       if (order === 'rev') {
         cards.reverse();
@@ -187,9 +188,13 @@
           className: 'imgRight',
           src: "/images/tsbox.jpg"
         }), R.p({}, [
-          "TwiStrug is for people who want to learn more about the cards of Twilight Struggle in a zippy web application. For more in-depth strategy, go to the excellent", " ", R.a({
+          "TwiStrug is for people who want to learn more about the cards of ", R.a({
+            href: "http://en.wikipedia.org/wiki/Twilight_Struggle"
+          }, "Twilight Struggle"), " in a zippy web app."
+        ]), R.p({}, [
+          "For more in-depth strategy, go to the excellent ", R.a({
             href: "http://twilightstrategy.com"
-          }, "Twilight Strategy"), " ", "site. It has tons of great content and analysis available, including discussions about nearly every card. Please support Twilight Strategy and its author,", " ", R.em({}, "theory"), ", ", "by purchasing Twilight Strugle from Amazon on the sidebar of the site."
+          }, "Twilight Strategy"), " site. It has tons of great content and analysis available, including discussions about nearly every card. Please support Twilight Strategy and its author, ", R.em({}, "theory"), ", by purchasing Twilight Strugle from Amazon on the sidebar of the site."
         ])
       ]);
     }
@@ -197,40 +202,85 @@
 
   CardView = React.createClass({
     componentDidMount: function() {
-      return $.get("/data/cardStrategy/" + (zeroPad(this.props.id)) + ".html", (function(_this) {
+      this.getStrategy();
+      return this.setWindowKeypressHandler();
+    },
+    componentDidUpdate: function() {
+      this.getStrategy();
+      return this.setWindowKeypressHandler();
+    },
+    setWindowKeypressHandler: function() {
+      return window.onkeypress = (function(_this) {
+        return function(ev) {
+          var id, kC;
+          kC = ev.keyCode;
+          if (kC === 104 || kC === 72) {
+            id = _this.props.prevCard.id;
+          }
+          if (kC === 108 || kC === 76) {
+            id = _this.props.nextCard.id;
+          }
+          if (id != null) {
+            return window.location = "#/card/" + id;
+          }
+        };
+      })(this);
+    },
+    getStrategy: function() {
+      this.refs.cardStrategy.getDOMNode().innerHTML = '<p>Loading data...</p>';
+      return $.get("/data/cardStrategyLinked/" + (zeroPad(this.props.card.id)) + ".html", (function(_this) {
         return function(data) {
           return _this.refs.cardStrategy.getDOMNode().innerHTML = data;
         };
       })(this));
     },
     render: function() {
-      var imageUrl;
-      imageUrl = "/images/cards/" + (zeroPad(this.props.id)) + ".jpg";
+      var card, imageUrl;
+      card = this.props.card;
+      imageUrl = "/images/cards/" + (zeroPad(card.id)) + ".jpg";
       return R.div({
         className: 'cardView'
       }, [
         R.div({
-          className: 'page-header'
+          className: 'page-header clearfix'
         }, R.h2({
-          className: cardClassName(this.props)
+          className: cardClassName(card)
         }, [
           R.span({
             className: 'card-ops'
-          }, this.props.ops < 1 ? "S" : this.props.ops), this.props.title
+          }, card.ops < 1 ? "S" : card.ops), card.title
+        ]), R.div({
+          className: 'card-nav'
+        }, [
+          R.a({
+            href: "#/card/" + this.props.prevCard.id,
+            className: 'card-nav-prev'
+          }, [
+            "" + this.props.prevCard.title, R.span({
+              className: 'card-nav-label'
+            }, [R.small({}, '◀'), ' prev (h)'])
+          ]), R.a({
+            href: "#/card/" + this.props.nextCard.id,
+            className: 'card-nav-next'
+          }, [
+            "" + this.props.nextCard.title, R.span({
+              className: 'card-nav-label'
+            }, ['next (l) ', R.small({}, '▶')])
+          ])
         ])), R.img({
           src: imageUrl,
           className: 'imgRight'
-        }), R.p({}, this.props.text), R.div({
+        }), R.p({}, card.text), R.div({
           className: 'card-strategy',
           id: 'card-strategy'
         }, [
           R.h3({}, [
             'Strategic Notes from', ' ', R.a({
-              href: this.props.url
+              href: card.url
             }, 'TwilightStrategy.com')
           ]), R.div({
             ref: 'cardStrategy'
-          })
+          }, R.p({}, 'Loading data'))
         ])
       ]);
     }
@@ -244,18 +294,18 @@
     }
   });
 
-  MapView = React.createClass({
+  BoardView = React.createClass({
     render: function() {
       return R.div({
-        className: 'mapView'
+        className: 'boardView'
       }, [
         R.div({
           className: 'page-header'
-        }, R.h2({}, 'Map')), R.a({
-          href: '/images/tsmap.jpg'
+        }, R.h2({}, 'Board')), R.a({
+          href: '/images/tsboard.jpg'
         }, R.img({
           className: 'fluid',
-          src: '/images/tsmap.jpg'
+          src: '/images/tsboard.jpg'
         }))
       ]);
     }
@@ -275,6 +325,24 @@
     }
   });
 
+  HomeView = React.createClass({
+    render: function() {
+      return R.div({}, [
+        R.p({
+          className: 'lead'
+        }, [
+          "TwiStrug is a companion application for ", R.a({
+            href: "http://en.wikipedia.org/wiki/Twilight_Struggle"
+          }, "Twilight Struggle"), ". It would not exist without ", R.a({
+            href: "http://twilightstrategy.com"
+          }, "Twilight Strategy"), "."
+        ]), CardsView({
+          cards: this.props.cards
+        })
+      ]);
+    }
+  });
+
   TwiStrug = React.createClass({
     setView: function(name, data) {
       if (data == null) {
@@ -290,6 +358,7 @@
     componentDidMount: function() {
       var router;
       router = Router({
+        '': this.setView.bind(this, 'home'),
         '/cards': {
           '': this.setView.bind(this, 'cards'),
           '/sort/:sort': (function(_this) {
@@ -300,12 +369,22 @@
             };
           })(this)
         },
-        '/map': this.setView.bind(this, 'map'),
+        '/board': this.setView.bind(this, 'board'),
         '/card/:id': (function(_this) {
           return function(id) {
+            var nextId, prevId;
+            id = +id;
+            nextId = id === 110 ? 1 : id + 1;
+            prevId = id === 1 ? 110 : id - 1;
             return _this.setView('card', {
               card: _.find(_this.props.cards, {
-                id: +id
+                id: id
+              }),
+              nextCard: _.find(_this.props.cards, {
+                id: nextId
+              }),
+              prevCard: _.find(_this.props.cards, {
+                id: prevId
               })
             });
           };
@@ -316,7 +395,7 @@
       router.configure({
         notfound: this.setView.bind(this, 'whoops')
       });
-      router.init('/cards');
+      router.init('/');
     },
     render: function() {
       var _ref;
@@ -326,8 +405,12 @@
         }, 'TwiStrug is loading');
       }
       switch (this.state.view.name) {
+        case 'home':
+          return HomeView({
+            cards: this.props.cards
+          });
         case 'card':
-          return CardView(this.state.view.data.card);
+          return CardView(this.state.view.data);
         case 'cards':
           return CardsView({
             cards: this.props.cards,
@@ -335,8 +418,8 @@
           });
         case 'countries':
           return CountriesView();
-        case 'map':
-          return MapView();
+        case 'board':
+          return BoardView();
         case 'about':
           return AboutView();
         case 'whoops':
