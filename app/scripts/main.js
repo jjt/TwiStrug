@@ -1,5 +1,6 @@
 (function() {
-  var $, $app, AboutView, BoardView, Card, CardList, CardView, CardsView, CountriesView, HomeView, R, TwiStrug, WhoopsView, cardClassName, cardStage, cx, zeroPad,
+  var $, $app, AboutView, BoardView, Card, CardList, CardView, CardsView, CountriesView, HomeView, R, TwiStrug, WhoopsView, cardClassName, cardStage, cx, qs, sortNumerical, zeroPad,
+    __hasProp = {}.hasOwnProperty,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   R = React.DOM;
@@ -7,6 +8,75 @@
   cx = React.addons.classSet;
 
   $ = Zepto;
+
+  qs = {
+    merge: function(obj) {},
+    get: function(field) {},
+    set: function(field, val) {
+      var qsObj;
+      qsObj = this.toObj() || {};
+      qsObj[field] = val;
+      return this.setQS(this.toQS(qsObj));
+    },
+    "delete": function(field) {
+      var qsObj;
+      qsObj = this.toObj() || {};
+      if (qsObj == null) {
+        return;
+      }
+      delete qsObj[field];
+      return this.setQS(this.toQS(qsObj));
+    },
+    encodeCharsIn: ['=', '&'],
+    encodeCharsOut: ['%3D', '%26'],
+    encode: function(obj) {
+      if (_.isArray(obj)) {
+        obj = obj.join(',');
+      }
+      return obj.replace(this.encodeCharsIn, this.encodeCharsOut);
+    },
+    decode: function(str) {
+      str = str.replace(this.encodeCharsOut, this.encodeCharsIn);
+      if (str.indexOf(',') !== -1) {
+        str = str.split(',');
+      }
+      return str;
+    },
+    toObj: function(qs) {
+      var out, pairs, _ref;
+      if (qs == null) {
+        qs = (_ref = window.location.hash.split('?')) != null ? _ref[1] : void 0;
+      }
+      if (!qs) {
+        return;
+      }
+      out = {};
+      pairs = qs.split('&');
+      if (pairs != null) {
+        pairs.forEach((function(_this) {
+          return function(pair) {
+            var kvArr;
+            kvArr = pair.split('=');
+            return out[_this.decode(kvArr[0])] = _this.decode(kvArr[1]);
+          };
+        })(this));
+      }
+      return out;
+    },
+    toQS: function(obj) {
+      var k, pairs, v;
+      pairs = [];
+      for (k in obj) {
+        if (!__hasProp.call(obj, k)) continue;
+        v = obj[k];
+        pairs.push("" + (this.encode(k)) + "=" + (this.encode(v)));
+      }
+      return pairs.join('&');
+    },
+    setQS: function(qs) {
+      return window.location.hash = window.location.hash.split('?')[0] + '?' + qs;
+    }
+  };
 
   $app = document.getElementById('app');
 
@@ -41,6 +111,10 @@
       len = 3;
     }
     return ('000' + str).substr(-len, len);
+  };
+
+  sortNumerical = function(a, b) {
+    return a - b;
   };
 
   Card = React.createClass({
@@ -86,56 +160,36 @@
   });
 
   CardsView = React.createClass({
-    componentWillReceiveProps: function(nextProps) {
-      return this.setState(this.propsToState(nextProps));
-    },
-    propsToState: function(props) {
-      if (props == null) {
-        props = this.props;
-      }
+    defaultState: function(props) {
+      var _ref;
       return {
-        sort: props.sort != null ? props.sort : 'stage'
+        fullText: (props != null ? (_ref = props.state) != null ? _ref.filter : void 0 : void 0) ? true : false,
+        sort: 'stage',
+        filter: null
       };
     },
-    getInitialState: function() {
-      return _.merge(this.propsToState(this.props), {
-        fullText: false
-      });
-    },
-    handleFullText: function() {
-      return this.setState({
-        fullText: this.refs.fullText.getDOMNode().checked
-      });
-    },
-    handleCardIdFilterInput: function() {
-      var ids, value, _ref;
-      value = this.refs.cardIds.getDOMNode().value;
-      ids = (_ref = value.match(/\d+[^:]|\d+$/g)) != null ? _ref.map(function(el) {
-        return parseInt(el, 10);
-      }) : void 0;
-      console.log(ids);
-      if (value === '' || (ids == null)) {
-        this.setState({
-          filter: null
-        });
-        return;
+    componentWillReceiveProps: function(nextProps) {
+      if (nextProps.state != null) {
+        return this.setState(nextProps.state);
+      } else {
+        return this.setState(this.defaultState());
       }
-      return this.setState({
-        fullText: true,
-        filter: {
-          field: 'id',
-          pattern: ids.sort()
-        }
-      });
+    },
+    getInitialState: function() {
+      return _.merge(this.defaultState(this.props), this.props.state);
+    },
+    getFilterIds: function() {
+      var _ref;
+      if (((_ref = this.state) != null ? _ref.filter : void 0) != null) {
+        return this.state.filter.sort(sortNumerical);
+      }
     },
     getFilteredCards: function() {
-      var _ref;
-      console.log(this.state.filter);
-      if (((_ref = this.state.filter) != null ? _ref.field : void 0) === 'id') {
+      if (this.state.filter != null) {
         return this.props.cards.filter((function(_this) {
           return function(el) {
-            var _ref1;
-            if (_ref1 = el.id, __indexOf.call(_this.state.filter.pattern, _ref1) >= 0) {
+            var _ref;
+            if (_ref = el.id, __indexOf.call(_this.state.filter, _ref) >= 0) {
               return el;
             }
           };
@@ -171,39 +225,67 @@
       }
       return cards;
     },
-    clearCardsById: function() {
-      this.refs.cardIds.getDOMNode().value = '';
-      this.setState({
-        filter: null
+    handleFullText: function() {
+      return this.setState({
+        fullText: this.refs.fullText.getDOMNode().checked
       });
-      return console.log('clearCardsById');
+    },
+    handleCardFilterChange: function() {
+      var ids, value, _ref;
+      value = this.refs.cardFilter.getDOMNode().value;
+      ids = (_ref = value.match(/\d+[^:]|\d+$/g)) != null ? _ref.map(function(el) {
+        return parseInt(el, 10);
+      }) : void 0;
+      if (value === '' || (ids == null)) {
+        this.setState({
+          filter: null,
+          cardFilterInput: ''
+        });
+        return;
+      }
+      return this.setState({
+        cardFilterInput: value,
+        fullText: true,
+        filter: ids.sort(sortNumerical)
+      });
+    },
+    handleCardFilterBlur: function() {
+      var filterIds;
+      filterIds = this.getFilterIds();
+      this.setState({
+        cardFilterInput: filterIds
+      });
+      if (filterIds != null) {
+        return qs.set('filter', filterIds);
+      } else {
+        return qs["delete"]('filter');
+      }
+    },
+    handleCardFilterClear: function() {
+      this.refs.cardFilter.getDOMNode().value = '';
+      this.setState({
+        filter: null,
+        cardFilterInput: ''
+      });
+      return qs["delete"]('filter');
     },
     render: function() {
-      var getFilterIds, sortLink;
+      var sortLink;
       sortLink = (function(_this) {
         return function(sort, display) {
-          var className, href, ref;
+          var className, onClick, ref;
           className = cx({
             active: _this.state.sort === sort
           });
-          href = "#/cards/sort/" + sort;
           ref = "" + sort + "Sort";
+          onClick = function() {
+            return qs.set('sort', sort);
+          };
           return R.a({
-            href: href,
+            onClick: onClick,
             ref: ref,
             className: className
           }, display);
-        };
-      })(this);
-      console.log('state', this.state);
-      getFilterIds = (function(_this) {
-        return function() {
-          var newVal, _ref, _ref1;
-          if (((_ref = _this.state) != null ? (_ref1 = _ref.filter) != null ? _ref1.field : void 0 : void 0) === 'id') {
-            newVal = _this.state.filter.pattern.join(', ');
-          }
-          console.log(newVal);
-          return newVal;
         };
       })(this);
       return R.div({
@@ -227,17 +309,19 @@
             className: 'cards-filter-by-id'
           }, [
             R.label({
-              htmlFor: 'cardIds'
+              htmlFor: 'cardFilter'
             }, [
-              "Cards by id ", R.a({
+              "Filter cards by ids ", R.a({
                 className: 'cards-filter-by-id-clear',
-                onClick: this.clearCardsById
+                onClick: this.handleCardFilterClear
               }, 'clear')
             ]), R.input({
-              name: 'cardIds',
+              name: 'cardFilter',
               type: 'text',
-              ref: 'cardIds',
-              onChange: this.handleCardIdFilterInput,
+              ref: 'cardFilter',
+              onChange: this.handleCardFilterChange,
+              onBlur: this.handleCardFilterBlur,
+              value: this.state.cardFilterInput,
               placeholder: 'Paste from WarGameRoom or enter ids'
             })
           ])
@@ -429,18 +513,7 @@
     },
     componentDidMount: function() {
       var router;
-      router = Router({
-        '': this.setView.bind(this, 'home'),
-        '/cards': {
-          '': this.setView.bind(this, 'cards'),
-          '/sort/:sort': (function(_this) {
-            return function(sort) {
-              return _this.setView('cards', {
-                sort: sort
-              });
-            };
-          })(this)
-        },
+      router = new Router({
         '/board': this.setView.bind(this, 'board'),
         '/card/:id': (function(_this) {
           return function(id) {
@@ -467,7 +540,21 @@
       router.configure({
         notfound: this.setView.bind(this, 'whoops')
       });
-      router.init('/');
+      router.on(/cards\??(.*)/, (function(_this) {
+        return function(args) {
+          var state;
+          state = qs.toObj(args);
+          if ((state != null ? state.filter : void 0) != null) {
+            state.filter = state.filter.map(function(el) {
+              return parseInt(el, 10);
+            });
+          }
+          return _this.setView('cards', {
+            state: state
+          });
+        };
+      })(this));
+      router.init('/cards');
     },
     render: function() {
       var _ref;
@@ -486,7 +573,7 @@
         case 'cards':
           return CardsView({
             cards: this.props.cards,
-            sort: this.state.view.data.sort
+            state: this.state.view.data.state
           });
         case 'countries':
           return CountriesView();
@@ -502,7 +589,10 @@
   });
 
   $.getJSON('/data/cards.json', function(cards) {
-    cards = _.sortBy(cards, ['stage', 'id']);
+    cards = _.sortBy(cards, ['stage', 'id']).map(function(el) {
+      el.key = el.id;
+      return el;
+    });
     return React.renderComponent(TwiStrug({
       cards: cards
     }), $app);

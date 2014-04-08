@@ -2,7 +2,65 @@ R = React.DOM
 cx = React.addons.classSet
 $ = Zepto
 
+
+# Hashed qs
+# Handles strings and arrays
+# Anything with a comma will be parsed as an array
+qs =
+  merge: (obj)->
+
+  get: (field)->
+  
+  set: (field, val)->
+    qsObj = @toObj() || {}
+    qsObj[field] = val
+    @setQS @toQS(qsObj)
+
+  delete: (field)->
+    qsObj = @toObj() || {}
+    return if not qsObj?
+    delete qsObj[field]
+    @setQS @toQS qsObj
+
+  encodeCharsIn: ['=','&']
+
+  encodeCharsOut:['%3D','%26']
+
+  encode: (obj)->
+    if _.isArray obj
+      obj = obj.join(',')
+    obj.replace(@encodeCharsIn, @encodeCharsOut)
+
+  decode: (str)->
+    str = str.replace(@encodeCharsOut, @encodeCharsIn)
+    if str.indexOf(',') != -1
+      str = str.split(',')
+    str
+
+
+  toObj: (qs = window.location.hash.split('?')?[1])->
+    if not qs
+      return
+    out = {}
+    pairs = qs.split('&')
+    pairs?.forEach (pair)=>
+      kvArr = pair.split('=')
+      out[@decode(kvArr[0])] = @decode(kvArr[1])
+    out
+
+  toQS: (obj)->
+    pairs = []
+    for own k,v of obj
+      pairs.push "#{@encode(k)}=#{@encode(v)}"
+    pairs.join('&')
+       
+  setQS: (qs)->
+    window.location.hash = window.location.hash.split('?')[0] + '?' + qs
+ 
+
 $app = document.getElementById 'app'
+
+
 
 
 cardClassName = (props) ->
@@ -27,6 +85,8 @@ cardStage = (stage) ->
 zeroPad = (str, len=3) ->
  ('000' + str).substr(-len,len)
 
+sortNumerical = (a,b)-> a-b
+
 Card = React.createClass
   render: ->
     R.div className: cardClassName(@props) + ' card', [
@@ -45,49 +105,38 @@ CardList = React.createClass
       'cardList': true
       'cardListFull': @props.fullText
     R.div {className}, @props.cards.map (el) =>
-      Card _.merge el, {showFullText: @props.fullText}
+      Card _.merge el, showFullText: @props.fullText
 
 
 CardsView = React.createClass
-  componentWillReceiveProps: (nextProps) ->
-    @setState @propsToState nextProps
+  defaultState: (props)->
+    fullText: if props?.state?.filter then true else false
+    sort: 'stage'
+    filter: null
 
-  propsToState: (props = @props) ->
-    sort: if props.sort? then props.sort else 'stage'
+  componentWillReceiveProps: (nextProps) ->
+    if nextProps.state?
+      @setState nextProps.state
+    else
+      @setState @defaultState()
 
   getInitialState: ->
-    _.merge @propsToState(@props), fullText: false
+    _.merge @defaultState(@props), @props.state
 
-  handleFullText: ->
-    @setState
-      fullText: @refs.fullText.getDOMNode().checked
+  getFilterIds: () ->
+    if @state?.filter?
+      return @state.filter.sort sortNumerical
 
-  handleCardIdFilterInput: ->
-    value = @refs.cardIds.getDOMNode().value
-    # WGR adds "Ops 3: ...", so don't pick those up
-    ids = value.match(/\d+[^:]|\d+$/g)?.map (el)-> parseInt el, 10
-    console.log ids
-    if value == '' or not ids?
-      @setState filter: null
-      return
-
-    @setState
-      fullText: true
-      filter:
-        field: 'id'
-        pattern: ids.sort()
-
+  # Just filtering by id right now
   getFilteredCards: ->
-    console.log @state.filter
-    if @state.filter?.field == 'id'
+    if @state.filter?
       return @props.cards.filter (el) =>
-        if el.id in @state.filter.pattern
+        if el.id in @state.filter
           return el
     @props.cards
         
 
   filterAndSortCards: ->
-
     cards = @getFilteredCards()
     [sort, order] = @state.sort.split '-'
 
@@ -104,24 +153,54 @@ CardsView = React.createClass
 
     cards
 
-  clearCardsById: ()->
-    @refs.cardIds.getDOMNode().value = ''
-    @setState filter:null
-    console.log 'clearCardsById'
+
+  handleFullText: ->
+    @setState
+      fullText: @refs.fullText.getDOMNode().checked
+
+  handleCardFilterChange: ->
+    value = @refs.cardFilter.getDOMNode().value
+    # WGR adds "Ops 3: ...", so don't pick those up
+    ids = value.match(/\d+[^:]|\d+$/g)?.map (el)-> parseInt el, 10
+    if value == '' or not ids?
+      @setState
+        filter: null
+        cardFilterInput: ''
+      return
+
+    @setState
+      cardFilterInput: value
+      fullText: true
+      filter: ids.sort sortNumerical
+
+  handleCardFilterBlur: ->
+    filterIds = @getFilterIds()
+    
+    @setState
+      cardFilterInput: filterIds
+    if filterIds?
+      qs.set 'filter', filterIds
+    else
+      qs.delete 'filter'
+
+  handleCardFilterClear: ()->
+    @refs.cardFilter.getDOMNode().value = ''
+    @setState
+      filter:null
+      cardFilterInput: ''
+
+    qs.delete 'filter'
+
+
 
   render: ->
     sortLink = (sort, display) =>
       className = cx active: @state.sort == sort
-      href = "#/cards/sort/#{sort}"
       ref = "#{sort}Sort"
-      R.a {href, ref, className}, display
+      onClick = ()->
+        qs.set 'sort', sort
+      R.a {onClick, ref, className}, display
 
-    console.log 'state', @state
-    getFilterIds = () =>
-      if @state?.filter?.field == 'id'
-        newVal = @state.filter.pattern.join ', '
-      console.log newVal
-      newVal
 
     R.div className: 'cardsView' , [
       R.div className: 'page-header', [
@@ -143,15 +222,17 @@ CardsView = React.createClass
         " "
         R.label {htmlFor:'fullText'}, 'Show card text'
         R.div className: 'cards-filter-by-id', [
-          R.label {htmlFor:'cardIds'}, [
-            "Cards by id "
-            R.a {className:'cards-filter-by-id-clear', onClick:@clearCardsById}, 'clear'
+          R.label {htmlFor:'cardFilter'}, [
+            "Filter cards by ids "
+            R.a {className:'cards-filter-by-id-clear', onClick:@handleCardFilterClear}, 'clear'
           ]
           R.input
-            name: 'cardIds'
+            name: 'cardFilter'
             type: 'text'
-            ref: 'cardIds'
-            onChange: @handleCardIdFilterInput
+            ref: 'cardFilter'
+            onChange: @handleCardFilterChange
+            onBlur: @handleCardFilterBlur
+            value: @state.cardFilterInput
             placeholder: 'Paste from WarGameRoom or enter ids'
         ]
       ]
@@ -299,14 +380,14 @@ TwiStrug = React.createClass
     @setState view: {name, data}
 
   componentDidMount: ->
-    router = Router
-      '':
-        @setView.bind this, 'home'
-      '/cards':
-        '': @setView.bind this, 'cards'
-        '/sort/:sort': (sort) =>
-          @setView 'cards',
-            sort: sort
+    router = new Router
+      #'':
+        #@setView.bind this, 'home'
+      #'/cards':
+        #'': @setView.bind this, 'cards'
+        #'/sort/:sort': (sort) =>
+          #@setView 'cards',
+            #sort: sort
       '/board': @setView.bind this, 'board'
       '/card/:id': (id) =>
         id = +id
@@ -320,21 +401,29 @@ TwiStrug = React.createClass
       '/about': @setView.bind this, 'about'
     router.configure
       notfound: @setView.bind this, 'whoops'
-    router.init('/')
+    router.on /cards\??(.*)/, (args) =>
+      state = qs.toObj args
+      # Convert filter ids from str -> number
+      if state?.filter?
+        state.filter = state.filter.map (el)->
+          parseInt el, 10
+      @setView 'cards',
+        state: state
+    router.init('/cards')
     return
 
   render: ->
     # If the router hasn't kicked in, do nothing
     if not @state?.view
       return R.p className: 'lead', 'TwiStrug is loading'
-
+  
     switch @state.view.name
       when 'home' then return HomeView
         cards: @props.cards
       when 'card' then return CardView @state.view.data
       when 'cards' then return CardsView
         cards: @props.cards
-        sort: @state.view.data.sort
+        state: @state.view.data.state
       when 'countries' then return CountriesView()
       when 'board' then return BoardView()
       when 'about' then return AboutView()
@@ -345,6 +434,8 @@ TwiStrug = React.createClass
 # Should move this initialisation to all card(s) routes
 $.getJSON '/data/cards.json', (cards)->
   # Default ordering should be by stage, then id
-  cards = _.sortBy cards, ['stage', 'id']
+  cards = _.sortBy(cards, ['stage', 'id']).map (el)->
+    el.key = el.id
+    el
   React.renderComponent TwiStrug({cards}), $app
 
