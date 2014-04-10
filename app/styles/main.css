@@ -1727,8 +1727,12 @@ address {
   font-size: 10px;
   font-weight: 300; }
 
+.card-id {
+  opacity: 0.7;
+  font-size: 0.7em; }
+
 .cardList .card {
-  padding-right: 2rem;
+  padding-right: 1.6rem;
   position: relative;
   margin-bottom: 1.4rem;
   overflow: hidden; }
@@ -1752,13 +1756,18 @@ address {
 
 
 .cardControls {
-  margin-right: 2rem; }
+  display: inline-block;
+  margin-right: 2rem;
+  margin-bottom: 2rem; }
   .cardControls a {
     display: inline-block;
     margin: 0 0.4em;
-    padding: 0 0.5em; }
+    padding: 0 0.5em;
+    cursor: pointer; }
   .cardControls .active {
     text-decoration: underline; }
+  .cardControls label {
+    font-weight: bold; }
 
 .cardView p, .cardView ul {
   color: #666; }
@@ -1769,8 +1778,7 @@ address {
 
 .cards-filter-by-id {
   clear: both;
-  width: 100%;
-  margin-top: 1rem; }
+  width: 100%; }
   .cards-filter-by-id label {
     font-weight: bold; }
   .cards-filter-by-id input {
@@ -1809,6 +1817,9 @@ address {
   display: block;
   margin-top: 0.2em; }
 
+.card-strategy {
+  clear: left; }
+
 @media screen and (min-width: 768px) {
   .cardView p, .cardView ul, .cardView ol {
     max-width: 30em;
@@ -1841,7 +1852,9 @@ address {
       .cards-filter-by-id label a {
         cursor: pointer; }
     .cards-filter-by-id input {
-      min-width: 20rem; } }
+      min-width: 16rem; }
+  .cardControls {
+    margin-bottom: 0; } }
 
 @media screen and (min-width: 992px) {
   .card-nav {
@@ -1963,7 +1976,16 @@ p {
 .navbar {
   border: none;
   border-radius: 0;
-  border-bottom: 1px solid #ddd; }
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  margin-bottom: 0;
+  background-color: #333;
+  background: linear-gradient(to right, #258ace, #db2e2b); }
+
+.navbar-nav > li > a, .navbar-brand {
+  color: rgba(255, 255, 255, 0.8); }
+  .navbar-nav > li > a:hover, .navbar-brand:hover {
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(0, 0, 0, 0.1); }
 
 .page-header {
   margin-top: 1rem;
@@ -1974,6 +1996,23 @@ p {
   border: 1px solid #ddd;
   margin: 2rem auto;
   max-width: 100%; }
+
+#placeholder {
+  display: table;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  background: rgba(0, 0, 0, 0.2); }
+  #placeholder p {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 6rem;
+    text-align: center;
+    font-weight: bold;
+    line-height: 1;
+    color: #aaa;
+    text-shadow: 0px 1px 1px #fff, 0px -1px 1px #666; }
 
 @media screen and (min-width: 768px) {
   .imgRight {
@@ -1997,6 +2036,20 @@ a[href^="http://"], a[href^="https://"] {
     margin: 0 0.2em 0 0.4em;
     line-height: 0.5em; }
 
+#blurb {
+  color: rgba(255, 255, 255, 0.8);
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2); }
+  #blurb a {
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500; }
+    #blurb a:hover {
+      text-decoration: underline; }
+
+.blurb {
+  text-align: center;
+  margin: 3rem 1rem; }
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   /* Remove the padding we set earlier */
@@ -2010,4 +2063,6 @@ a[href^="http://"], a[href^="https://"] {
   .header {
     margin-bottom: 30px; }
   .jumbotron {
-    border-bottom: 0; } }
+    border-bottom: 0; }
+  #placeholder p {
+    font-size: 10rem; } }

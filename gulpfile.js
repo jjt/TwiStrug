@@ -19,6 +19,7 @@ gulp.task('styles', function () {
         .pipe($.sass({
           includePaths: [
             'app/bower_components',
+            'app/bower_components/bourbon/app/assets/stylesheets',
             'app/bower_components/bootstrap-sass/vendor/assets/stylesheets'
           ],
           errLogToConsole: true
@@ -54,12 +55,15 @@ gulp.task('html', ['styles', 'scripts'], function () {
         .pipe($.useref.assets())
         .pipe(jsFilter)
         .pipe($.uglify())
+        .pipe($.rev())
         .pipe(jsFilter.restore())
         .pipe(cssFilter)
         .pipe($.csso())
+        .pipe($.rev())
         .pipe(cssFilter.restore())
         .pipe($.useref.restore())
         .pipe($.useref())
+        .pipe($.revReplace())
         .pipe(gulp.dest('dist'))
         .pipe($.size());
 });

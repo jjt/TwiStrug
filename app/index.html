@@ -5,7 +5,6 @@
         <title>TwiStrug</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
         <!-- build:css styles/main.css -->
         <link rel="stylesheet" href="styles/main.css">
@@ -13,79 +12,48 @@
 
     </head>
     <body>
-        <!--[if lt IE 10]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-        <!--
-        <nav class="navbar navbar-default" role="navigation">
+        <nav class="navbar " role="navigation">
           <div class="container">
             <div class="navbar-header">
-              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="#">TwiStrug</a>
+              <a class="navbar-brand" href="#/">TwiStrug</a>
             </div>
 
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-              <ul class="nav navbar-nav">
-                <li><a href="#/cards">Cards</a></li>
-                <li><a href="#/map">Map</a></li>
-                <li><a href="#/countries">Countries</a></li>
-                <li><a href="#/about">About</a></li>
-              </ul>
-            </div>
-          </div>
-        </nav>
-        -->
-        <nav class="navbar navbar-default" role="navigation">
-          <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-              <a class="navbar-brand" href="#/cards">TwiStrug</a>
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
             <ul class="nav navbar-nav">
               <li><a href="#/cards">Cards</a></li>
               <li><a href="#/board">Board</a></li>
               <li><a href="#/about">About</a></li>
             </ul>
-          </div><!-- /.container-fluid -->
+          </div>
         </nav>
 
+        <div id="placeholder">
+          <p>Loading<br>TwiStrug</p>
+        </div>
         <div class="container" id="app"></div>
 
 
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
             (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
             function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
             e=o.createElement(i);r=o.getElementsByTagName(i)[0];
             e.src='//www.google-analytics.com/analytics.js';
             r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-            ga('create','UA-XXXXX-X');ga('send','pageview');
+            ga('create','UA-11820998-2');ga('send','pageview');
         </script>
 
         <!-- build:js scripts/vendor.js -->
         <!-- bower:js -->
         <script src="/bower_components/director/build/director.js"></script>
-        <script src="/bower_components/zepto/zepto.js"></script>
-        <script src="/bower_components/react/react-with-addons.js"></script>
-        <script src="/bower_components/lodash/dist/lodash.js"></script>
-        
-
-         
+        <script src="/scripts/zepto/zepto.js"></script>
+        <script src="/bower_components/react/react-with-addons.min.js"></script>
+        <script src="/scripts/lodash/lodash.custom.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
 
-        <!-- build:js scripts/plugins.js -->
-        <!-- endbuild -->
 
         <!-- build:js scripts/main.js -->
-        <script src="scripts/main.js"></script>
+        <script src="/data/cards.js"></script>
+        <script src="/scripts/main.js"></script>
         <!-- endbuild -->
 </body>
 </html>

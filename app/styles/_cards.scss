@@ -107,8 +107,13 @@ $southeastAsia: #F89E2C;
   font-weight:300;
 }
 
+.card-id {
+  opacity:0.7;
+  font-size:0.7em;
+}
+
 .cardList .card {
-  padding-right:2rem; 
+  padding-right:1.6rem; 
   position:relative;
   margin-bottom:1.4rem;
   overflow:hidden;
@@ -143,15 +148,21 @@ $southeastAsia: #F89E2C;
 
 
 .cardControls {
+  display: inline-block;
+  margin-right:2rem;
+  margin-bottom:2rem;
   a {
     display:inline-block;
     margin:0 0.4em;
     padding:0 0.5em;
+    cursor:pointer
   }
   .active {
     text-decoration: underline;
   }
-  margin-right:2rem;
+  label {
+    font-weight:bold;
+  }
 }
 
 .cardView {
@@ -169,7 +180,6 @@ $southeastAsia: #F89E2C;
 .cards-filter-by-id {
   clear:both;
   width:100%;
-  margin-top:1rem;
   label {
     font-weight:bold;
   }
@@ -183,6 +193,7 @@ $southeastAsia: #F89E2C;
   float:right;
   margin-right:0.2em;
 }
+
 
 
 
@@ -219,6 +230,11 @@ $southeastAsia: #F89E2C;
   display:block;
   margin-top:0.2em;
 }
+
+.card-strategy {
+  clear:left;
+}
+
 
 @media screen and (min-width:$screen-sm-min) {
   .cardView {
@@ -258,8 +274,12 @@ $southeastAsia: #F89E2C;
       }
     }
     input {
-      min-width:20rem;
+      min-width:16rem;
     }
+  }
+
+  .cardControls {
+    margin-bottom:0;
   }
 }
 

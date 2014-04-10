@@ -2,7 +2,6 @@ R = React.DOM
 cx = React.addons.classSet
 $ = Zepto
 
-
 # Hashed qs
 # Handles strings and arrays
 # Anything with a comma will be parsed as an array
@@ -58,7 +57,16 @@ qs =
     window.location.hash = window.location.hash.split('?')[0] + '?' + qs
  
 
-$app = document.getElementById 'app'
+
+setPageTitle = (args...)-> document.title = args.join(' | ') + ' - TwiStrug'
+
+zeroPad = (str, len=3)-> ('000' + str).substr(-len,len)
+
+sortNumerical = (a,b)-> a-b
+
+filterTruthy = (el)-> el if el
+
+filterUnique = (el,i,arr)-> arr.indexOf(el) == i
 
 
 
@@ -77,23 +85,20 @@ cardClassName = (props) ->
 
   ownerClass + ' ' + classes
 
-cardStage = (stage) ->
-  return 'EARLY' if stage == 1
-  return 'MID' if stage == 2
-  return 'LATE'
+cardStages = 1:'EARLY', 2:'MID', 3:'LATE'
 
-zeroPad = (str, len=3) ->
- ('000' + str).substr(-len,len)
-
-sortNumerical = (a,b)-> a-b
+filterValidCardIds = (el)-> 1 <= el <= 110
 
 Card = React.createClass
   render: ->
     R.div className: cardClassName(@props) + ' card', [
       R.a {className: 'card-title-holder', href: "#/card/#{@props.id}"}, [
-        R.span className: 'card-stage', cardStage @props.stage
+        R.span className: 'card-stage', cardStages[@props.stage]
         R.h4 className: 'card-ops', if @props.ops < 1 then "S" else @props.ops
-        R.h4 className: 'card-title', @props.title
+        R.h4 className: 'card-title', [
+          "#{@props.title} "
+          R.span className: 'card-id', "##{@props.id}"
+        ]
       ]
       R.p className: 'card-text', @props.text
     ]
@@ -110,7 +115,9 @@ CardList = React.createClass
 
 CardsView = React.createClass
   defaultState: (props)->
-    fullText: if props?.state?.filter then true else false
+    filter = props?.state?.filter
+    fullText: if filter then true else false
+    cardFilterInput: if filter then filter.join(' ') else ''
     sort: 'stage'
     filter: null
 
@@ -125,7 +132,9 @@ CardsView = React.createClass
 
   getFilterIds: () ->
     if @state?.filter?
-      return @state.filter.sort sortNumerical
+      return @state.filter.sort(sortNumerical)
+        .filter(filterTruthy)
+        .filter(filterUnique)
 
   # Just filtering by id right now
   getFilteredCards: ->
@@ -163,21 +172,23 @@ CardsView = React.createClass
     # WGR adds "Ops 3: ...", so don't pick those up
     ids = value.match(/\d+[^:]|\d+$/g)?.map (el)-> parseInt el, 10
     if value == '' or not ids?
-      @setState
+      state =
+        cardFilterInput: value
         filter: null
-        cardFilterInput: ''
-      return
+    else
+      state =
+        cardFilterInput: value
+        fullText: true
+        filter: ids.sort(sortNumerical).filter(filterValidCardIds)
 
-    @setState
-      cardFilterInput: value
-      fullText: true
-      filter: ids.sort sortNumerical
+    @setState state
 
   handleCardFilterBlur: ->
     filterIds = @getFilterIds()
     
     @setState
-      cardFilterInput: filterIds
+      cardFilterInput: filterIds.join ' '
+
     if filterIds?
       qs.set 'filter', filterIds
     else
@@ -206,21 +217,23 @@ CardsView = React.createClass
       R.div className: 'page-header', [
         R.h2 {}, 'Cards'
         " "
-        R.div className: 'cardControls sortBy pull-left', [
+        R.div className: 'cardControls', [
           R.strong {}, 'Sort by:'
           sortLink 'stage', 'Stage'
           sortLink 'ops', 'Ops'
           sortLink 'side', 'Side'
         ]
-        R.input
-          name: 'fullText'
-          id: 'fullText'
-          type:'checkbox'
-          ref:'fullText'
-          onChange: @handleFullText
-          checked: @state.fullText
-        " "
-        R.label {htmlFor:'fullText'}, 'Show card text'
+        R.div className: 'cardControls', [
+          R.input
+            name: 'fullText'
+            id: 'fullText'
+            type:'checkbox'
+            ref:'fullText'
+            onChange: @handleFullText
+            checked: @state.fullText
+          " "
+          R.label {htmlFor:'fullText', className:'card-show-text-label'}, 'Show card text'
+        ]
         R.div className: 'cards-filter-by-id', [
           R.label {htmlFor:'cardFilter'}, [
             "Filter cards by ids "
@@ -233,7 +246,7 @@ CardsView = React.createClass
             onChange: @handleCardFilterChange
             onBlur: @handleCardFilterBlur
             value: @state.cardFilterInput
-            placeholder: 'Paste from WarGameRoom or enter ids'
+            placeholder: 'Paste from Wargameroom or enter ids'
         ]
       ]
       CardList
@@ -249,11 +262,11 @@ AboutView = React.createClass
         R.h2 {}, "About TwiStrug"
       R.img className: 'imgRight', src: "/images/tsbox.jpg"
       R.p {}, [
-        "TwiStrug is for people who want to learn more about the
+        "TwiStrug is for people who want to reference or learn about the
         cards of "
         R.a href:"http://en.wikipedia.org/wiki/Twilight_Struggle",
           "Twilight Struggle"
-        " in a zippy web app."
+        " in a zippy web app. "
       ]
       R.p {}, [
         "For more in-depth strategy, go to the excellent "
@@ -262,8 +275,17 @@ AboutView = React.createClass
         analysis available, including discussions about nearly every card.
         Please support Twilight Strategy and its author, "
         R.em {}, "theory"
-        ", by purchasing Twilight Strugle from Amazon on the sidebar of the
-        site."
+        ", by purchasing Twilight Struggle from Amazon on the sidebar of the
+        site, or by paying some money for the associated"
+        R.a href: "https://leanpub.com/twilightstrategy", "e-book"
+        ". It's Twilight Strategy in book form and deserves your money."
+      ]
+      R.p {}, [
+        "TwiStrug was made by "
+        R.a href: "http://jjt.io/", "Jason Trill"
+        ". Source available on "
+        R.a href: "https://github.com/jjt/twistrug", "Github"
+        "."
       ]
     ]
     
@@ -299,7 +321,8 @@ CardView = React.createClass
       R.div className: 'page-header clearfix',
         R.h2 className: cardClassName(card), [
           R.span className:'card-ops', if card.ops < 1 then "S" else card.ops
-          card.title
+          "#{card.title} "
+          R.span className:'card-id', "##{card.id}"
         ]
         R.div className: 'card-nav', [
           R.a {href:"#/card/#{@props.prevCard.id}", className:'card-nav-prev'}, [
@@ -317,8 +340,8 @@ CardView = React.createClass
             ]
           ]
         ]
+      R.p {className: 'pull-left'}, card.text
       R.img src: imageUrl, className: 'imgRight'
-      R.p {}, card.text
       R.div {className: 'card-strategy', id: 'card-strategy'}, [
         R.h3 {}, [
           'Strategic Notes from'
@@ -362,64 +385,71 @@ WhoopsView = React.createClass
 HomeView = React.createClass
   render: ->
     R.div {}, [
-      R.p className:'lead', [
+      R.p className:'lead blurb', [
         "TwiStrug is a companion application for "
         R.a href:"http://en.wikipedia.org/wiki/Twilight_Struggle", "Twilight Struggle"
         ". It would not exist without "
         R.a href: "http://twilightstrategy.com", "Twilight Strategy"
         "."
       ]
-      CardsView cards: @props.cards
+      CardsView cards: @props.cards, state: @props.state
     ]
 
 # Main application component
 # Responsible for routing and view management
 TwiStrug = React.createClass
+  componentWillMount: ()->
+    $('#placeholder').hide();
   # Takes a view name and associated data
-  setView: (name, data={}) ->
+  setView: (name, pageTitle, data={}) ->
+    if pageTitle? then setPageTitle pageTitle
     @setState view: {name, data}
 
   componentDidMount: ->
-    router = new Router
-      #'':
-        #@setView.bind this, 'home'
-      #'/cards':
-        #'': @setView.bind this, 'cards'
-        #'/sort/:sort': (sort) =>
-          #@setView 'cards',
-            #sort: sort
-      '/board': @setView.bind this, 'board'
-      '/card/:id': (id) =>
-        id = +id
-        nextId = if id == 110 then 1 else id + 1
-        prevId = if id == 1 then 110 else id - 1
-        @setView 'card',
-          card: _.find @props.cards, id: id
-          nextCard: _.find @props.cards, id: nextId
-          prevCard: _.find @props.cards, id: prevId
-      '/countries': @setView.bind this, 'countries'
-      '/about': @setView.bind this, 'about'
-    router.configure
-      notfound: @setView.bind this, 'whoops'
-    router.on /cards\??(.*)/, (args) =>
+    stateRoute = (name, pageTitle, args)->
       state = qs.toObj args
       # Convert filter ids from str -> number
       if state?.filter?
         state.filter = state.filter.map (el)->
           parseInt el, 10
-      @setView 'cards',
+      @setView name, pageTitle,
         state: state
-    router.init('/cards')
+
+    router = new Router
+      '/board': @setView.bind this, 'board', 'Board'
+
+      '/card/:id': (id)=>
+        id = parseInt id, 10
+        nextId = if id == 110 then 1 else id + 1
+        prevId = if id == 1 then 110 else id - 1
+        card = _.find @props.cards, id: id
+        nextCard = _.find @props.cards, id: nextId
+        prevCard =  _.find @props.cards, id: prevId
+        pageTitle = "#{card.title} (##{card.id})"
+        @setView 'card', pageTitle, {card, nextCard, prevCard}
+      
+      '/countries': @setView.bind this, 'countries', 'Countries'
+      
+      '/about': @setView.bind this, 'about', 'About'
+
+    router.configure
+      notfound: @setView.bind this, 'whoops', 'Whoops'
+
+    router.on /cards\??(.*)/, stateRoute.bind this, 'cards', 'Cards'
+    router.on /\??(.*)/, stateRoute.bind this, 'cards', 'Cards'
+
+    router.init('/')
     return
 
   render: ->
     # If the router hasn't kicked in, do nothing
     if not @state?.view
-      return R.p className: 'lead', 'TwiStrug is loading'
+      return R.p className: 'lead', 'TwiStrug is loading...'
   
     switch @state.view.name
       when 'home' then return HomeView
         cards: @props.cards
+        state: @state.view.data.state
       when 'card' then return CardView @state.view.data
       when 'cards' then return CardsView
         cards: @props.cards
@@ -431,11 +461,11 @@ TwiStrug = React.createClass
     
     WhoopsView()
 
-# Should move this initialisation to all card(s) routes
-$.getJSON '/data/cards.json', (cards)->
-  # Default ordering should be by stage, then id
-  cards = _.sortBy(cards, ['stage', 'id']).map (el)->
-    el.key = el.id
-    el
-  React.renderComponent TwiStrug({cards}), $app
+# Add keys to cards
+addReactKey = (el)->
+  el.key = "rk-#{el.id}"
+  el
+
+React.renderComponent TwiStrug({cards: cardsData.map(addReactKey)}),
+  document.getElementById 'app'
 

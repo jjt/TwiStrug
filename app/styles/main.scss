@@ -57,6 +57,7 @@ $grid-float-breakpoint: 300px;
 
 
 
+@import 'bourbon';
 @import 'solarized/scss/solarized';
 @import 'cards';
 @import 'flex';
@@ -91,7 +92,20 @@ p {
 .navbar {
   border:none;
   border-radius:0;
-  border-bottom:1px solid #ddd;
+  border-bottom:1px solid rgba(#000,0.3);
+  margin-bottom:0;
+  background-color:#333;
+  @include background(
+    linear-gradient(to right, darken($solarized-blue,1%), darken($solarized-red,1%))
+  );
+}
+
+.navbar-nav > li > a, .navbar-brand {
+  color:rgba(#fff,0.8);
+  &:hover {
+    color:rgba(#fff,0.9);
+    background:rgba(#000,0.1);
+  }
 }
 
 .page-header {
@@ -104,6 +118,25 @@ p {
   border:1px solid #ddd;
   margin:2rem auto;
   max-width:100%;
+}
+
+#placeholder {
+  display:table;
+  height:100%;
+  width:100%;
+  position:absolute;
+  top:0;
+  background:rgba(#000,0.2);
+  p {
+    display:table-cell;
+    vertical-align:middle;
+    font-size:6rem;
+    text-align:center;
+    font-weight:bold;
+    line-height:1;
+    color:#aaa;
+    text-shadow: 0px 1px 1px #fff, 0px -1px 1px #666;
+  }
 }
 
 @media screen and (min-width:$screen-sm-min) {
@@ -120,6 +153,7 @@ p {
     padding: 0.2em 0;
 }
 
+
 a[href^="http://"],
 a[href^="https://"] {
   display:inline-block;
@@ -133,6 +167,26 @@ a[href^="https://"] {
     line-height:0.5em;
   }
 }
+
+
+#blurb {
+  color:rgba(#fff,0.8);
+  border-top:1px solid rgba(#000,0.2);
+  border-bottom:1px solid rgba(#000,0.2);
+  a {
+    color:rgba(#fff,0.8);
+    font-weight:500;
+    &:hover {
+      text-decoration:underline;
+    }
+  }
+}
+
+.blurb {
+  text-align:center;
+  margin:3rem 1rem;
+}
+
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
@@ -156,5 +210,9 @@ a[href^="https://"] {
     /* Remove the bottom border on the jumbotron for visual effect */
     .jumbotron {
         border-bottom: 0;
+    }
+
+    #placeholder p {
+      font-size:10rem;
     }
 }

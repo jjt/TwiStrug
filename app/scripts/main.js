@@ -1,6 +1,7 @@
 (function() {
-  var $, $app, AboutView, BoardView, Card, CardList, CardView, CardsView, CountriesView, HomeView, R, TwiStrug, WhoopsView, cardClassName, cardStage, cx, qs, sortNumerical, zeroPad,
+  var $, AboutView, BoardView, Card, CardList, CardView, CardsView, CountriesView, HomeView, R, TwiStrug, WhoopsView, addReactKey, cardClassName, cardStages, cx, filterTruthy, filterUnique, filterValidCardIds, qs, setPageTitle, sortNumerical, zeroPad,
     __hasProp = {}.hasOwnProperty,
+    __slice = [].slice,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   R = React.DOM;
@@ -78,7 +79,32 @@
     }
   };
 
-  $app = document.getElementById('app');
+  setPageTitle = function() {
+    var args;
+    args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+    return document.title = args.join(' | ') + ' - TwiStrug';
+  };
+
+  zeroPad = function(str, len) {
+    if (len == null) {
+      len = 3;
+    }
+    return ('000' + str).substr(-len, len);
+  };
+
+  sortNumerical = function(a, b) {
+    return a - b;
+  };
+
+  filterTruthy = function(el) {
+    if (el) {
+      return el;
+    }
+  };
+
+  filterUnique = function(el, i, arr) {
+    return arr.indexOf(el) === i;
+  };
 
   cardClassName = function(props) {
     var classes, ownerClass;
@@ -96,25 +122,14 @@
     return ownerClass + ' ' + classes;
   };
 
-  cardStage = function(stage) {
-    if (stage === 1) {
-      return 'EARLY';
-    }
-    if (stage === 2) {
-      return 'MID';
-    }
-    return 'LATE';
+  cardStages = {
+    1: 'EARLY',
+    2: 'MID',
+    3: 'LATE'
   };
 
-  zeroPad = function(str, len) {
-    if (len == null) {
-      len = 3;
-    }
-    return ('000' + str).substr(-len, len);
-  };
-
-  sortNumerical = function(a, b) {
-    return a - b;
+  filterValidCardIds = function(el) {
+    return (1 <= el && el <= 110);
   };
 
   Card = React.createClass({
@@ -128,11 +143,15 @@
         }, [
           R.span({
             className: 'card-stage'
-          }, cardStage(this.props.stage)), R.h4({
+          }, cardStages[this.props.stage]), R.h4({
             className: 'card-ops'
           }, this.props.ops < 1 ? "S" : this.props.ops), R.h4({
             className: 'card-title'
-          }, this.props.title)
+          }, [
+            "" + this.props.title + " ", R.span({
+              className: 'card-id'
+            }, "#" + this.props.id)
+          ])
         ]), R.p({
           className: 'card-text'
         }, this.props.text)
@@ -161,9 +180,11 @@
 
   CardsView = React.createClass({
     defaultState: function(props) {
-      var _ref;
+      var filter, _ref;
+      filter = props != null ? (_ref = props.state) != null ? _ref.filter : void 0 : void 0;
       return {
-        fullText: (props != null ? (_ref = props.state) != null ? _ref.filter : void 0 : void 0) ? true : false,
+        fullText: filter ? true : false,
+        cardFilterInput: filter ? filter.join(' ') : '',
         sort: 'stage',
         filter: null
       };
@@ -181,7 +202,7 @@
     getFilterIds: function() {
       var _ref;
       if (((_ref = this.state) != null ? _ref.filter : void 0) != null) {
-        return this.state.filter.sort(sortNumerical);
+        return this.state.filter.sort(sortNumerical).filter(filterTruthy).filter(filterUnique);
       }
     },
     getFilteredCards: function() {
@@ -231,29 +252,30 @@
       });
     },
     handleCardFilterChange: function() {
-      var ids, value, _ref;
+      var ids, state, value, _ref;
       value = this.refs.cardFilter.getDOMNode().value;
       ids = (_ref = value.match(/\d+[^:]|\d+$/g)) != null ? _ref.map(function(el) {
         return parseInt(el, 10);
       }) : void 0;
       if (value === '' || (ids == null)) {
-        this.setState({
-          filter: null,
-          cardFilterInput: ''
-        });
-        return;
+        state = {
+          cardFilterInput: value,
+          filter: null
+        };
+      } else {
+        state = {
+          cardFilterInput: value,
+          fullText: true,
+          filter: ids.sort(sortNumerical).filter(filterValidCardIds)
+        };
       }
-      return this.setState({
-        cardFilterInput: value,
-        fullText: true,
-        filter: ids.sort(sortNumerical)
-      });
+      return this.setState(state);
     },
     handleCardFilterBlur: function() {
       var filterIds;
       filterIds = this.getFilterIds();
       this.setState({
-        cardFilterInput: filterIds
+        cardFilterInput: filterIds.join(' ')
       });
       if (filterIds != null) {
         return qs.set('filter', filterIds);
@@ -295,17 +317,22 @@
           className: 'page-header'
         }, [
           R.h2({}, 'Cards'), " ", R.div({
-            className: 'cardControls sortBy pull-left'
-          }, [R.strong({}, 'Sort by:'), sortLink('stage', 'Stage'), sortLink('ops', 'Ops'), sortLink('side', 'Side')]), R.input({
-            name: 'fullText',
-            id: 'fullText',
-            type: 'checkbox',
-            ref: 'fullText',
-            onChange: this.handleFullText,
-            checked: this.state.fullText
-          }), " ", R.label({
-            htmlFor: 'fullText'
-          }, 'Show card text'), R.div({
+            className: 'cardControls'
+          }, [R.strong({}, 'Sort by:'), sortLink('stage', 'Stage'), sortLink('ops', 'Ops'), sortLink('side', 'Side')]), R.div({
+            className: 'cardControls'
+          }, [
+            R.input({
+              name: 'fullText',
+              id: 'fullText',
+              type: 'checkbox',
+              ref: 'fullText',
+              onChange: this.handleFullText,
+              checked: this.state.fullText
+            }), " ", R.label({
+              htmlFor: 'fullText',
+              className: 'card-show-text-label'
+            }, 'Show card text')
+          ]), R.div({
             className: 'cards-filter-by-id'
           }, [
             R.label({
@@ -322,7 +349,7 @@
               onChange: this.handleCardFilterChange,
               onBlur: this.handleCardFilterBlur,
               value: this.state.cardFilterInput,
-              placeholder: 'Paste from WarGameRoom or enter ids'
+              placeholder: 'Paste from Wargameroom or enter ids'
             })
           ])
         ]), CardList({
@@ -344,13 +371,21 @@
           className: 'imgRight',
           src: "/images/tsbox.jpg"
         }), R.p({}, [
-          "TwiStrug is for people who want to learn more about the cards of ", R.a({
+          "TwiStrug is for people who want to reference or learn about the cards of ", R.a({
             href: "http://en.wikipedia.org/wiki/Twilight_Struggle"
-          }, "Twilight Struggle"), " in a zippy web app."
+          }, "Twilight Struggle"), " in a zippy web app. "
         ]), R.p({}, [
           "For more in-depth strategy, go to the excellent ", R.a({
             href: "http://twilightstrategy.com"
-          }, "Twilight Strategy"), " site. It has tons of great content and analysis available, including discussions about nearly every card. Please support Twilight Strategy and its author, ", R.em({}, "theory"), ", by purchasing Twilight Strugle from Amazon on the sidebar of the site."
+          }, "Twilight Strategy"), " site. It has tons of great content and analysis available, including discussions about nearly every card. Please support Twilight Strategy and its author, ", R.em({}, "theory"), ", by purchasing Twilight Struggle from Amazon on the sidebar of the site, or by paying some money for the associated", R.a({
+            href: "https://leanpub.com/twilightstrategy"
+          }, "e-book"), ". It's Twilight Strategy in book form and deserves your money."
+        ]), R.p({}, [
+          "TwiStrug was made by ", R.a({
+            href: "http://jjt.io/"
+          }, "Jason Trill"), ". Source available on ", R.a({
+            href: "https://github.com/jjt/twistrug"
+          }, "Github"), "."
         ])
       ]);
     }
@@ -404,7 +439,9 @@
         }, [
           R.span({
             className: 'card-ops'
-          }, card.ops < 1 ? "S" : card.ops), card.title
+          }, card.ops < 1 ? "S" : card.ops), "" + card.title + " ", R.span({
+            className: 'card-id'
+          }, "#" + card.id)
         ]), R.div({
           className: 'card-nav'
         }, [
@@ -423,10 +460,12 @@
               className: 'card-nav-label'
             }, ['next (L) ', R.small({}, '▶')])
           ])
-        ])), R.img({
+        ])), R.p({
+          className: 'pull-left'
+        }, card.text), R.img({
           src: imageUrl,
           className: 'imgRight'
-        }), R.p({}, card.text), R.div({
+        }), R.div({
           className: 'card-strategy',
           id: 'card-strategy'
         }, [
@@ -485,7 +524,7 @@
     render: function() {
       return R.div({}, [
         R.p({
-          className: 'lead'
+          className: 'lead blurb'
         }, [
           "TwiStrug is a companion application for ", R.a({
             href: "http://en.wikipedia.org/wiki/Twilight_Struggle"
@@ -493,16 +532,23 @@
             href: "http://twilightstrategy.com"
           }, "Twilight Strategy"), "."
         ]), CardsView({
-          cards: this.props.cards
+          cards: this.props.cards,
+          state: this.props.state
         })
       ]);
     }
   });
 
   TwiStrug = React.createClass({
-    setView: function(name, data) {
+    componentWillMount: function() {
+      return $('#placeholder').hide();
+    },
+    setView: function(name, pageTitle, data) {
       if (data == null) {
         data = {};
+      }
+      if (pageTitle != null) {
+        setPageTitle(pageTitle);
       }
       return this.setState({
         view: {
@@ -512,61 +558,66 @@
       });
     },
     componentDidMount: function() {
-      var router;
+      var router, stateRoute;
+      stateRoute = function(name, pageTitle, args) {
+        var state;
+        state = qs.toObj(args);
+        if ((state != null ? state.filter : void 0) != null) {
+          state.filter = state.filter.map(function(el) {
+            return parseInt(el, 10);
+          });
+        }
+        return this.setView(name, pageTitle, {
+          state: state
+        });
+      };
       router = new Router({
-        '/board': this.setView.bind(this, 'board'),
+        '/board': this.setView.bind(this, 'board', 'Board'),
         '/card/:id': (function(_this) {
           return function(id) {
-            var nextId, prevId;
-            id = +id;
+            var card, nextCard, nextId, pageTitle, prevCard, prevId;
+            id = parseInt(id, 10);
             nextId = id === 110 ? 1 : id + 1;
             prevId = id === 1 ? 110 : id - 1;
-            return _this.setView('card', {
-              card: _.find(_this.props.cards, {
-                id: id
-              }),
-              nextCard: _.find(_this.props.cards, {
-                id: nextId
-              }),
-              prevCard: _.find(_this.props.cards, {
-                id: prevId
-              })
+            card = _.find(_this.props.cards, {
+              id: id
+            });
+            nextCard = _.find(_this.props.cards, {
+              id: nextId
+            });
+            prevCard = _.find(_this.props.cards, {
+              id: prevId
+            });
+            pageTitle = "" + card.title + " (#" + card.id + ")";
+            return _this.setView('card', pageTitle, {
+              card: card,
+              nextCard: nextCard,
+              prevCard: prevCard
             });
           };
         })(this),
-        '/countries': this.setView.bind(this, 'countries'),
-        '/about': this.setView.bind(this, 'about')
+        '/countries': this.setView.bind(this, 'countries', 'Countries'),
+        '/about': this.setView.bind(this, 'about', 'About')
       });
       router.configure({
-        notfound: this.setView.bind(this, 'whoops')
+        notfound: this.setView.bind(this, 'whoops', 'Whoops')
       });
-      router.on(/cards\??(.*)/, (function(_this) {
-        return function(args) {
-          var state;
-          state = qs.toObj(args);
-          if ((state != null ? state.filter : void 0) != null) {
-            state.filter = state.filter.map(function(el) {
-              return parseInt(el, 10);
-            });
-          }
-          return _this.setView('cards', {
-            state: state
-          });
-        };
-      })(this));
-      router.init('/cards');
+      router.on(/cards\??(.*)/, stateRoute.bind(this, 'cards', 'Cards'));
+      router.on(/\??(.*)/, stateRoute.bind(this, 'cards', 'Cards'));
+      router.init('/');
     },
     render: function() {
       var _ref;
       if (!((_ref = this.state) != null ? _ref.view : void 0)) {
         return R.p({
           className: 'lead'
-        }, 'TwiStrug is loading');
+        }, 'TwiStrug is loading...');
       }
       switch (this.state.view.name) {
         case 'home':
           return HomeView({
-            cards: this.props.cards
+            cards: this.props.cards,
+            state: this.state.view.data.state
           });
         case 'card':
           return CardView(this.state.view.data);
@@ -588,14 +639,13 @@
     }
   });
 
-  $.getJSON('/data/cards.json', function(cards) {
-    cards = _.sortBy(cards, ['stage', 'id']).map(function(el) {
-      el.key = el.id;
-      return el;
-    });
-    return React.renderComponent(TwiStrug({
-      cards: cards
-    }), $app);
-  });
+  addReactKey = function(el) {
+    el.key = "rk-" + el.id;
+    return el;
+  };
+
+  React.renderComponent(TwiStrug({
+    cards: cardsData.map(addReactKey)
+  }), document.getElementById('app'));
 
 }).call(this);

@@ -11,7 +11,8 @@
     "lodash": "~2.4.1",
     "zepto": "~1.1.3",
     "query-string": "~0.3.0",
-    "Grapnel.js": "https://github.com/EngineeringMode/Grapnel.js.git"
+    "Grapnel.js": "https://github.com/EngineeringMode/Grapnel.js.git",
+    "bourbon": "~3.1.8"
   },
   "devDependencies": {}
 }
