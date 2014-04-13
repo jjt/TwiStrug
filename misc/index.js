@@ -42,6 +42,53 @@ function makeCardsJSONFromTSV() {
     });
 }
 
+
+function makeCountriesAndLinks() {
+  readFile('countries-fixed.tsv', 'utf8').then(function(data){
+    var tsv = require('tsv')
+    var dataCleaned = data.replace(/\t+/g,'\t');
+    var countries = tsv.parse(dataCleaned);
+
+    countries = _.filter(countries,function(el){
+      if(el.group)
+        return true; 
+    });
+    countries = countries.map(function(el,index){
+      el.id = index;
+      if(el.position) {
+        var coords = el.position.split(',')
+        el.x = coords[0];
+        el.y = coords[1];
+        el.fixed = true;
+      }
+        
+      return el;
+    });
+    writeFile('../app/data/countries.json', JSON.stringify(countries, null, '  '));
+    
+    links = countries.reduce(function(out,country){
+      if(country.links) {
+        out.push.apply(out, country.links.split(',').map(function(target) {
+          targetCountry = _.find(countries,{name:target});
+          return {
+            source:country.id,
+            target:targetCountry.id
+          }
+        }));
+      }
+      return out;
+    },[]);
+
+    writeFile('../app/data/countries-links.json', JSON.stringify(links, null, ' '));
+    writeFile('../app/data/countries-for-graph.json', JSON.stringify({
+      nodes: countries,
+      links: links
+    }, null, ''));
+  });
+}
+
+makeCountriesAndLinks();
+
 function parseHTML(markup) {
   var trs = markup.split('<tr');
   var cards = trs
@@ -117,4 +164,4 @@ function stripLinksFromStratPages() {
   
 }
 
-stripLinksFromStratPages()
+//stripLinksFromStratPages(

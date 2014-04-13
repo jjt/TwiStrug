@@ -2,6 +2,15 @@ R = React.DOM
 cx = React.addons.classSet
 $ = Zepto
 
+$.getScript = (src, func) ->
+  script = document.createElement('script')
+  script.async = "async"
+  script.src = src
+  if func
+    script.onload = func
+
+  document.getElementsByTagName("head")[0].appendChild script
+
 # Hashed qs
 # Handles strings and arrays
 # Anything with a comma will be parsed as an array
@@ -369,6 +378,97 @@ BoardView = React.createClass
         R.img className: 'fluid', src:'/images/tsboard.jpg'
     ]
 
+MapView = React.createClass
+  
+  getInitialState: ->
+    debugObj: {}
+
+  getDefaultProps: ->
+    width: 1100
+    height: 500
+
+  dragend: (el)->
+    coords = @state.coords
+    coords[el.name] = [Math.round(el.x), Math.round(el.y)]
+    console.log el.name, coords[el.name]
+    @setState {coords}
+
+  componentDidMount: ->
+    $.getScript '/bower_components/d3/d3.js', ()=>
+      color = d3.scale.category20()
+      force = d3.layout.force()
+        .charge -320
+        .linkDistance 10
+        .size [@props.width, @props.height]
+        .gravity 0.4
+      
+      drag = force.drag()
+      drag.on 'dragend', (el)=>
+        @dragend el
+
+      svg = d3.select @refs.svg.getDOMNode()
+      
+      foci =
+        ca: [118,242]
+        sa: [122,372]
+        weu: [426,100]
+        eeu: [522,126]
+        af: [482,366]
+        me: [649,225]
+        as: [787,290]
+        sea: [784,308]
+
+      d3.json '/data/countries-for-graph.json', (err,graph)=>
+        console.log graph
+        coordsReduce = (obj={}, el)=>
+          obj[el.name] = []
+          obj
+
+        @setState
+          coords: graph.nodes.reduce coordsReduce, {}
+
+        force.nodes graph.nodes
+          .links graph.links
+          .start()
+
+        link = svg.selectAll '.link'
+          .data(graph.links).enter()
+          .append 'line'
+          .attr 'class', 'link'
+
+        node = svg.selectAll '.node'
+          .data(graph.nodes).enter()
+          .append 'g'
+          .call drag
+
+        node.append 'rect'
+          .attr 'class', 'node'
+          .attr 'width', 60
+          .attr 'height', 30
+          .attr 'x', -30
+          .attr 'y', -15
+          .attr 'class', (d)->
+            "node-#{d.group}"
+
+        node.append 'text'
+          .attr 'class', 'node-label'
+          .attr 'dy', "0.5em"
+          .text (d)-> d.name
+
+        force.on 'tick', (e)->
+          link.attr 'x1', (d)-> d.source.x
+            .attr 'y1', (d)-> d.source.y
+            .attr 'x2', (d)-> d.target.x
+            .attr 'y2', (d)-> d.target.y
+
+          node.attr 'transform', (d)-> "translate (#{d.x},#{d.y})"
+
+  render: ->
+    R.div className: 'mapView', [
+      R.h2 {}, "Map"
+      R.svg className:'map', width:@props.width, height:@props.height, ref:'svg'
+      R.textarea ref:'debug', style:{width:'100%', height:'60rem'}, value: JSON.stringify(@state.coords, null, ' ')
+    ]
 
 
 WhoopsView = React.createClass
@@ -399,7 +499,8 @@ HomeView = React.createClass
 # Responsible for routing and view management
 TwiStrug = React.createClass
   componentWillMount: ()->
-    $('#placeholder').hide();
+    $('#placeholder').hide()
+
   # Takes a view name and associated data
   setView: (name, pageTitle, data={}) ->
     if pageTitle? then setPageTitle pageTitle
@@ -417,6 +518,8 @@ TwiStrug = React.createClass
 
     router = new Router
       '/board': @setView.bind this, 'board', 'Board'
+
+      '/map': @setView.bind this, 'map', 'Map'
 
       '/card/:id': (id)=>
         id = parseInt id, 10
@@ -456,6 +559,7 @@ TwiStrug = React.createClass
         state: @state.view.data.state
       when 'countries' then return CountriesView()
       when 'board' then return BoardView()
+      when 'map' then return MapView()
       when 'about' then return AboutView()
       when 'whoops' then return WhoopsView()
     

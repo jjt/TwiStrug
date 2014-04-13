@@ -1,5 +1,5 @@
 (function() {
-  var $, AboutView, BoardView, Card, CardList, CardView, CardsView, CountriesView, HomeView, R, TwiStrug, WhoopsView, addReactKey, cardClassName, cardStages, cx, filterTruthy, filterUnique, filterValidCardIds, qs, setPageTitle, sortNumerical, zeroPad,
+  var $, AboutView, BoardView, Card, CardList, CardView, CardsView, CountriesView, HomeView, MapView, R, TwiStrug, WhoopsView, addReactKey, cardClassName, cardStages, cx, filterTruthy, filterUnique, filterValidCardIds, qs, setPageTitle, sortNumerical, zeroPad,
     __hasProp = {}.hasOwnProperty,
     __slice = [].slice,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
@@ -9,6 +9,17 @@
   cx = React.addons.classSet;
 
   $ = Zepto;
+
+  $.getScript = function(src, func) {
+    var script;
+    script = document.createElement('script');
+    script.async = "async";
+    script.src = src;
+    if (func) {
+      script.onload = func;
+    }
+    return document.getElementsByTagName("head")[0].appendChild(script);
+  };
 
   qs = {
     merge: function(obj) {},
@@ -506,6 +517,109 @@
     }
   });
 
+  MapView = React.createClass({
+    getInitialState: function() {
+      return {
+        debugObj: {}
+      };
+    },
+    getDefaultProps: function() {
+      return {
+        width: 1100,
+        height: 500
+      };
+    },
+    dragend: function(el) {
+      var coords;
+      coords = this.state.coords;
+      coords[el.name] = [Math.round(el.x), Math.round(el.y)];
+      console.log(el.name, coords[el.name]);
+      return this.setState({
+        coords: coords
+      });
+    },
+    componentDidMount: function() {
+      return $.getScript('/bower_components/d3/d3.js', (function(_this) {
+        return function() {
+          var color, drag, foci, force, svg;
+          color = d3.scale.category20();
+          force = d3.layout.force().charge(-320).linkDistance(10).size([_this.props.width, _this.props.height]).gravity(0.4);
+          drag = force.drag();
+          drag.on('dragend', function(el) {
+            return _this.dragend(el);
+          });
+          svg = d3.select(_this.refs.svg.getDOMNode());
+          foci = {
+            ca: [118, 242],
+            sa: [122, 372],
+            weu: [426, 100],
+            eeu: [522, 126],
+            af: [482, 366],
+            me: [649, 225],
+            as: [787, 290],
+            sea: [784, 308]
+          };
+          return d3.json('/data/countries-for-graph.json', function(err, graph) {
+            var coordsReduce, link, node;
+            console.log(graph);
+            coordsReduce = function(obj, el) {
+              if (obj == null) {
+                obj = {};
+              }
+              obj[el.name] = [];
+              return obj;
+            };
+            _this.setState({
+              coords: graph.nodes.reduce(coordsReduce, {})
+            });
+            force.nodes(graph.nodes).links(graph.links).start();
+            link = svg.selectAll('.link').data(graph.links).enter().append('line').attr('class', 'link');
+            node = svg.selectAll('.node').data(graph.nodes).enter().append('g').call(drag);
+            node.append('rect').attr('class', 'node').attr('width', 60).attr('height', 30).attr('x', -30).attr('y', -15).attr('class', function(d) {
+              return "node-" + d.group;
+            });
+            node.append('text').attr('class', 'node-label').attr('dy', "0.5em").text(function(d) {
+              return d.name;
+            });
+            return force.on('tick', function(e) {
+              link.attr('x1', function(d) {
+                return d.source.x;
+              }).attr('y1', function(d) {
+                return d.source.y;
+              }).attr('x2', function(d) {
+                return d.target.x;
+              }).attr('y2', function(d) {
+                return d.target.y;
+              });
+              return node.attr('transform', function(d) {
+                return "translate (" + d.x + "," + d.y + ")";
+              });
+            });
+          });
+        };
+      })(this));
+    },
+    render: function() {
+      return R.div({
+        className: 'mapView'
+      }, [
+        R.h2({}, "Map"), R.svg({
+          className: 'map',
+          width: this.props.width,
+          height: this.props.height,
+          ref: 'svg'
+        }), R.textarea({
+          ref: 'debug',
+          style: {
+            width: '100%',
+            height: '60rem'
+          },
+          value: JSON.stringify(this.state.coords, null, ' ')
+        })
+      ]);
+    }
+  });
+
   WhoopsView = React.createClass({
     render: function() {
       return R.div({}, [
@@ -573,6 +687,7 @@
       };
       router = new Router({
         '/board': this.setView.bind(this, 'board', 'Board'),
+        '/map': this.setView.bind(this, 'map', 'Map'),
         '/card/:id': (function(_this) {
           return function(id) {
             var card, nextCard, nextId, pageTitle, prevCard, prevId;
@@ -630,6 +745,8 @@
           return CountriesView();
         case 'board':
           return BoardView();
+        case 'map':
+          return MapView();
         case 'about':
           return AboutView();
         case 'whoops':

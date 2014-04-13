@@ -1,0 +1,858 @@
+[
+  {
+    "name": "USA",
+    "group": "usa",
+    "stab": 0,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Canada,Cuba,Mexico",
+    "position": "40,150",
+    "id": 0,
+    "x": "40",
+    "y": "150",
+    "fixed": true
+  },
+  {
+    "name": "USSR",
+    "group": "ussr",
+    "stab": 0,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Afghanistan,Finland,N Korea,Poland,Romania",
+    "position": "665,80",
+    "id": 1,
+    "x": "665",
+    "y": "80",
+    "fixed": true
+  },
+  {
+    "name": "Austria",
+    "group": "eu",
+    "stab": 4,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "E Germany,Hungary,Italy,W Germany",
+    "id": 2
+  },
+  {
+    "name": "Benelux",
+    "group": "weu",
+    "stab": 3,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "W Germany,UK",
+    "id": 3
+  },
+  {
+    "name": "Bulgaria",
+    "group": "eeu",
+    "stab": 3,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Turkey,Greece",
+    "id": 4
+  },
+  {
+    "name": "Canada",
+    "group": "weu",
+    "stab": 4,
+    "btl": 0,
+    "usa": 2,
+    "ussr": 0,
+    "links": "UK",
+    "id": 5
+  },
+  {
+    "name": "Czechoslovakia",
+    "group": "eeu",
+    "stab": 3,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Poland,E Germany,Hungary",
+    "id": 6
+  },
+  {
+    "name": "Denmark",
+    "group": "weu",
+    "stab": 3,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "W Germany,Sweden",
+    "id": 7
+  },
+  {
+    "name": "E Germany",
+    "group": "eeu",
+    "stab": 3,
+    "btl": 1,
+    "usa": 0,
+    "ussr": 3,
+    "links": "Poland,W Germany",
+    "id": 8
+  },
+  {
+    "name": "Finland",
+    "group": "eu",
+    "stab": 4,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 1,
+    "links": "Sweden",
+    "id": 9
+  },
+  {
+    "name": "France",
+    "group": "weu",
+    "stab": 3,
+    "btl": 1,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Algeria,UK,W Germany,Italy,Spain/Portugal",
+    "id": 10
+  },
+  {
+    "name": "Greece",
+    "group": "weu",
+    "stab": 2,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Italy,Yugoslavia,Turkey",
+    "id": 11
+  },
+  {
+    "name": "Hungary",
+    "group": "eu",
+    "stab": 3,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Romania,Yugoslavia",
+    "id": 12
+  },
+  {
+    "name": "Italy",
+    "group": "weu",
+    "stab": 2,
+    "btl": 1,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Yugoslavia,Spain/Portugal",
+    "id": 13
+  },
+  {
+    "name": "Norway",
+    "group": "weu",
+    "stab": 4,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "UK,Sweden",
+    "id": 14
+  },
+  {
+    "name": "Poland",
+    "group": "eeu",
+    "stab": 3,
+    "btl": 1,
+    "usa": 0,
+    "ussr": 0,
+    "links": "",
+    "id": 15
+  },
+  {
+    "name": "Romania",
+    "group": "eeu",
+    "stab": 3,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Turkey,Yugoslavia",
+    "id": 16
+  },
+  {
+    "name": "Spain/Portugal",
+    "group": "weu",
+    "stab": 2,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Morocco",
+    "id": 17
+  },
+  {
+    "name": "Sweden",
+    "group": "weu",
+    "stab": 4,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "",
+    "id": 18
+  },
+  {
+    "name": "Turkey",
+    "group": "weu",
+    "stab": 2,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "id": 19
+  },
+  {
+    "name": "UK",
+    "group": "weu",
+    "stab": 5,
+    "btl": 0,
+    "usa": 5,
+    "ussr": 0,
+    "id": 20
+  },
+  {
+    "name": "W Germany",
+    "group": "weu",
+    "stab": 4,
+    "btl": 1,
+    "usa": 0,
+    "ussr": 0,
+    "links": 0,
+    "position": "",
+    "id": 21
+  },
+  {
+    "name": "Yugoslavia",
+    "group": "eeu",
+    "stab": 3,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "id": 22
+  },
+  {
+    "name": "Egypt",
+    "group": "me",
+    "stab": 2,
+    "btl": 1,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Israel,Libya,Sudan",
+    "id": 23
+  },
+  {
+    "name": "Gulf States",
+    "group": "me",
+    "stab": 3,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Iraq,Saudi Arabia",
+    "id": 24
+  },
+  {
+    "name": "Iran",
+    "group": "me",
+    "stab": 2,
+    "btl": 1,
+    "usa": 1,
+    "ussr": 0,
+    "links": "Iraq,Afghanistan,Pakistan",
+    "id": 25
+  },
+  {
+    "name": "Iraq",
+    "group": "me",
+    "stab": 3,
+    "btl": 1,
+    "usa": 0,
+    "ussr": 1,
+    "links": "Saudi Arabia,Jordan",
+    "position": "",
+    "id": 26
+  },
+  {
+    "name": "Israel",
+    "group": "me",
+    "stab": 4,
+    "btl": 1,
+    "usa": 1,
+    "ussr": 0,
+    "links": "Jordan,Lebanon,Syria",
+    "id": 27
+  },
+  {
+    "name": "Jordan",
+    "group": "me",
+    "stab": 2,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Saudi Arabia,Lebanon",
+    "id": 28
+  },
+  {
+    "name": "Lebanon",
+    "group": "me",
+    "stab": 1,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Syria",
+    "id": 29
+  },
+  {
+    "name": "Libya",
+    "group": "me",
+    "stab": 2,
+    "btl": 1,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Tunisia",
+    "id": 30
+  },
+  {
+    "name": "Saudi Arabia",
+    "group": "me",
+    "stab": 3,
+    "btl": 1,
+    "usa": 0,
+    "ussr": 0,
+    "links": "",
+    "id": 31
+  },
+  {
+    "name": "Syria",
+    "group": "me",
+    "stab": 2,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 1,
+    "id": 32
+  },
+  {
+    "name": "Afghanistan",
+    "group": "as",
+    "stab": 2,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Pakistan",
+    "id": 33
+  },
+  {
+    "name": "Australia",
+    "group": "as",
+    "stab": 4,
+    "btl": 0,
+    "usa": 4,
+    "ussr": 0,
+    "links": "Malaysia",
+    "id": 34
+  },
+  {
+    "name": "Burma",
+    "group": "sea",
+    "stab": 2,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "India,Laos/Cambodia",
+    "id": 35
+  },
+  {
+    "name": "India",
+    "group": "as",
+    "stab": 3,
+    "btl": 1,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Pakistan",
+    "id": 36
+  },
+  {
+    "name": "Indonesia",
+    "group": "sea",
+    "stab": 1,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Malaysia,Phillippines",
+    "id": 37
+  },
+  {
+    "name": "Japan",
+    "group": "as",
+    "stab": 4,
+    "btl": 1,
+    "usa": 1,
+    "ussr": 0,
+    "links": "Phillippines,S Korea,Taiwan",
+    "id": 38
+  },
+  {
+    "name": "Laos/Cambodia",
+    "group": "sea",
+    "stab": 1,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Thailand,Vietnam",
+    "id": 39
+  },
+  {
+    "name": "Malaysia",
+    "group": "sea",
+    "stab": 2,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Thailand",
+    "id": 40
+  },
+  {
+    "name": "N Korea",
+    "group": "as",
+    "stab": 3,
+    "btl": 1,
+    "usa": 0,
+    "ussr": 3,
+    "links": "S Korea",
+    "id": 41
+  },
+  {
+    "name": "Pakistan",
+    "group": "as",
+    "stab": 2,
+    "btl": 1,
+    "usa": 0,
+    "ussr": 0,
+    "id": 42
+  },
+  {
+    "name": "Phillippines",
+    "group": "sea",
+    "stab": 2,
+    "btl": 0,
+    "usa": 1,
+    "ussr": 0,
+    "id": 43
+  },
+  {
+    "name": "S Korea",
+    "group": "as",
+    "stab": 3,
+    "btl": 1,
+    "usa": 1,
+    "ussr": 0,
+    "links": "Taiwan",
+    "id": 44
+  },
+  {
+    "name": "Taiwan",
+    "group": "as",
+    "stab": 3,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "id": 45
+  },
+  {
+    "name": "Thailand",
+    "group": "sea",
+    "stab": 2,
+    "btl": 1,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Vietnam",
+    "id": 46
+  },
+  {
+    "name": "Vietnam",
+    "group": "sea",
+    "stab": 1,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": 0,
+    "position": "",
+    "id": 47
+  },
+  {
+    "name": "Algeria",
+    "group": "af",
+    "stab": 2,
+    "btl": 1,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Morocco,Tunisia,Saharan States",
+    "id": 48
+  },
+  {
+    "name": "Angola",
+    "group": "af",
+    "stab": 1,
+    "btl": 1,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Botswana,South Africa,Zaire",
+    "id": 49
+  },
+  {
+    "name": "Botswana",
+    "group": "af",
+    "stab": 2,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "South Africa,Zimbabwe",
+    "id": 50
+  },
+  {
+    "name": "Cameroon",
+    "group": "af",
+    "stab": 1,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Nigeria,Zaire",
+    "position": "",
+    "id": 51
+  },
+  {
+    "name": "Ethiopia",
+    "group": "af",
+    "stab": 1,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Sudan,Somalia",
+    "id": 52
+  },
+  {
+    "name": "Ivory Coast",
+    "group": "af",
+    "stab": 2,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "West Africa,Nigeria",
+    "id": 53
+  },
+  {
+    "name": "Kenya",
+    "group": "af",
+    "stab": 1,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Somalia,SE Africa",
+    "id": 54
+  },
+  {
+    "name": "Morocco",
+    "group": "af",
+    "stab": 3,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "West Africa",
+    "id": 55
+  },
+  {
+    "name": "Nigeria",
+    "group": "af",
+    "stab": 1,
+    "btl": 1,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Saharan States",
+    "id": 56
+  },
+  {
+    "name": "SE Africa",
+    "group": "af",
+    "stab": 1,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Zimbabwe",
+    "id": 57
+  },
+  {
+    "name": "Saharan States",
+    "group": "af",
+    "stab": 1,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "id": 58
+  },
+  {
+    "name": "Somalia",
+    "group": "af",
+    "stab": 1,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "id": 59
+  },
+  {
+    "name": "South Africa",
+    "group": "af",
+    "stab": 3,
+    "btl": 1,
+    "usa": 1,
+    "ussr": 0,
+    "id": 60
+  },
+  {
+    "name": "Sudan",
+    "group": "af",
+    "stab": 1,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "id": 61
+  },
+  {
+    "name": "Tunisia",
+    "group": "af",
+    "stab": 2,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "id": 62
+  },
+  {
+    "name": "West Africa",
+    "group": "af",
+    "stab": 2,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "id": 63
+  },
+  {
+    "name": "Zaire",
+    "group": "af",
+    "stab": 1,
+    "btl": 1,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Zimbabwe",
+    "id": 64
+  },
+  {
+    "name": "Zimbabwe",
+    "group": "af",
+    "stab": 1,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "id": 65
+  },
+  {
+    "name": "Costa Rica",
+    "group": "ca",
+    "stab": 3,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Honduras,Nicaragua,Panama",
+    "id": 66
+  },
+  {
+    "name": "Cuba",
+    "group": "ca",
+    "stab": 3,
+    "btl": 1,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Haiti,Nicaragua",
+    "position": "",
+    "id": 67
+  },
+  {
+    "name": "Dominican Rep",
+    "group": "ca",
+    "stab": 1,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Haiti",
+    "id": 68
+  },
+  {
+    "name": "El Salvador",
+    "group": "ca",
+    "stab": 1,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Honduras,Guatemala",
+    "id": 69
+  },
+  {
+    "name": "Guatemala",
+    "group": "ca",
+    "stab": 1,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Honduras,Mexico",
+    "id": 70
+  },
+  {
+    "name": "Haiti",
+    "group": "ca",
+    "stab": 1,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "",
+    "id": 71
+  },
+  {
+    "name": "Honduras",
+    "group": "ca",
+    "stab": 2,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Nicaragua",
+    "position": "",
+    "id": 72
+  },
+  {
+    "name": "Mexico",
+    "group": "ca",
+    "stab": 2,
+    "btl": 1,
+    "usa": 0,
+    "ussr": 0,
+    "links": "",
+    "id": 73
+  },
+  {
+    "name": "Nicaragua",
+    "group": "ca",
+    "stab": 1,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "id": 74
+  },
+  {
+    "name": "Panama",
+    "group": "ca",
+    "stab": 2,
+    "btl": 1,
+    "usa": 1,
+    "ussr": 0,
+    "links": "Columbia",
+    "id": 75
+  },
+  {
+    "name": "Argentina",
+    "group": "sa",
+    "stab": 2,
+    "btl": 1,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Chile,Paraguay,Uruguay",
+    "id": 76
+  },
+  {
+    "name": "Bolivia",
+    "group": "sa",
+    "stab": 2,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Paraguay,Peru",
+    "id": 77
+  },
+  {
+    "name": "Brazil",
+    "group": "sa",
+    "stab": 2,
+    "btl": 1,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Uruguay,Venezuela",
+    "id": 78
+  },
+  {
+    "name": "Chile",
+    "group": "sa",
+    "stab": 3,
+    "btl": 1,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Peru",
+    "id": 79
+  },
+  {
+    "name": "Columbia",
+    "group": "sa",
+    "stab": 1,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Ecuador,Venezuela",
+    "id": 80
+  },
+  {
+    "name": "Ecuador",
+    "group": "sa",
+    "stab": 2,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Peru",
+    "id": 81
+  },
+  {
+    "name": "Paraguay",
+    "group": "sa",
+    "stab": 2,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "links": "Uruguay",
+    "id": 82
+  },
+  {
+    "name": "Peru",
+    "group": "sa",
+    "stab": 2,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "id": 83
+  },
+  {
+    "name": "Uruguay",
+    "group": "sa",
+    "stab": 2,
+    "btl": 0,
+    "usa": 0,
+    "ussr": 0,
+    "id": 84
+  },
+  {
+    "name": "Venezuela",
+    "group": "sa",
+    "stab": 2,
+    "btl": 1,
+    "usa": 0,
+    "ussr": 0,
+    "id": 85
+  }
+]

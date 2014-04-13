@@ -1,0 +1,94 @@
+name            group stab  btl usaip ussrip
+
+USA             super 0     0   0     0
+USSR            super 0     0   0     0
+
+W Germany       weu	  4     1   0     0
+France          weu	  3     1   0     0
+Italy           weu	  2     1   0     0
+Poland          eeu	  3     1   0     0
+E Germany       eeu	  3     1   0     3
+Canada          weu   4     0   2     0
+Austria         eu	  4     0   0     0
+Hungary         eu	  3     0   0     0
+Benelux         weu	  3     0   0     0
+Bulgaria        eeu	  3     0   0     0
+Denmark         weu	  3     0   0     0
+Norway          weu	  4     0   0     0
+Sweden          weu	  4     0   0     0
+Turkey          weu	  2     0   0     0
+UK              weu	  5     0   5     0
+Spain/Portugal  weu	  2     0   0     0
+Yugoslavia      eeu	  3     0   0     0
+Greece          weu	  2     0   0     0
+Romania         eeu	  3     0   0     0
+Finland         eu	  4     0   0     1
+Czechoslovakia  eeu	  3     0   0     0
+
+Israel          me	  4     1   1     0
+Libya           me	  2     1   0     0
+Egypt           me	  2     1   0     0
+Iraq            me	  3     1   0     1
+Iran            me	  2     1   1     0
+Saudi Arabia    me	  3     1   0     0
+Gulf States     me	  3     0   0     0
+Syria           me	  2     0   0     1
+Lebanon         me	  1     0   0     0
+Jordan          me	  2     0   0     0
+
+Pakistan        as	  2     1   0     0
+India           as	  3     1   0     0
+N Korea         as	  3     1   0     3
+S Korea         as	  3     1   1     0
+Japan           as	  4     1   1     0
+Thailand        sea	  2     1   0     0
+Afghanistan     as	  2     0   0     0
+Burma           sea	  2     0   0     0
+Laos/Cambodia   sea	  1     0   0     0
+Vietnam         sea	  1     0   0     0
+Malaysia        sea	  2     0   0     0
+Indonesia       sea	  1     0   0     0
+Australia       as	  4     0   4     0
+Phillippines    sea	  2     0   1     0
+Taiwan          as	  3     0   0     0
+
+Algeria         af	  2     1   0     0
+Nigeria         af	  1     1   0     0
+Zaire           af	  1     1   0     0
+Angola          af	  1     1   0     0
+South Africa    af	  3     1   1     0
+Tunisia         af	  2     0   0     0
+Morocco         af	  3     0   0     0
+West Africa     af	  2     0   0     0 
+Ivory Coast     af	  2     0   0     0
+Saharan States  af	  1     0   0     0
+Cameroon        af	  1     0   0     0
+Sudan           af	  1     0   0     0
+Ethiopia        af	  1     0   0     0
+Somalia         af	  1     0   0     0
+Kenya           af	  1     0   0     0
+SE Africa       af	  1     0   0     0
+Zimbabwe        af	  1     0   0     0
+Botswana        af	  2     0   0     0
+
+Mexico          ca	  2     1   0     0
+Cuba            ca	  3     1   0     0
+Panama          ca	  2     1   1     0
+Guatemala       ca	  1     0   0     0
+El Salvador     ca	  1     0   0     0
+Honduras        ca	  2     0   0     0
+Costa Rica      ca	  3     0   0     0
+Nicaragua       ca	  1     0   0     0
+Haiti           ca	  1     0   0     0
+Dominican Rep   ca	  1     0   0     0
+
+Venezuela       sa	  2     1   0     0
+Brazil          sa	  2     1   0     0
+Chile           sa	  3     1   0     0
+Argentina       sa	  2     1   0     0
+Columbia        sa	  1     0   0     0
+Ecuador         sa	  2     0   0     0
+Peru            sa	  2     0   0     0
+Bolivia         sa	  2     0   0     0
+Paraguay        sa	  2     0   0     0
+Uruguay         sa	  2     0   0     0

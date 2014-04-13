@@ -1659,6 +1659,51 @@ address {
 .southeastAsiaScoring, .southeastAsiaScoring a {
   color: #d17607; }
 
+[class^="node-"], [class*=" node-"] {
+  stroke: #000;
+  stroke-width: 1px;
+  stroke-opacity: 0.3; }
+
+.link {
+  stroke: #999;
+  stroke-opacity: 0.6; }
+
+.node-usa {
+  fill: #268BD2; }
+
+.node-ussr {
+  fill: #DC322F; }
+
+.node-eeu {
+  fill: #b792e1; }
+
+.node-weu {
+  fill: #8242cb; }
+
+.node-eu {
+  fill: #9E6AD6; }
+
+.node-me {
+  fill: #95C4DA; }
+
+.node-as {
+  fill: #F89E2C; }
+
+.node-sea {
+  fill: #F89E2C; }
+
+.node-af {
+  fill: #B9B26D; }
+
+.node-ca {
+  fill: #99B388; }
+
+.node-sa {
+  fill: #6F9655; }
+
+.map {
+  border: 1px solid #ccc; }
+
 .card {
   display: block;
   -moz-box-sizing: border-box;

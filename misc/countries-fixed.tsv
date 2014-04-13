@@ -1,0 +1,94 @@
+name						group			stab	btl		usa		ussr	links																					position
+
+USA							usa				0			0			0			0			Canada,Cuba,Mexico														40,150
+USSR						ussr			0			0			0			0			Afghanistan,Finland,N Korea,Poland,Romania		665,80
+
+Austria					eu				4			0			0			0			E Germany,Hungary,Italy,W Germany
+Benelux					weu				3			0			0			0			W Germany,UK
+Bulgaria				eeu				3			0			0			0			Turkey,Greece
+Canada					weu				4			0			2			0			UK
+Czechoslovakia	eeu				3			0			0			0			Poland,E Germany,Hungary
+Denmark					weu				3			0			0			0			W Germany,Sweden
+E Germany				eeu				3			1			0			3			Poland,W Germany
+Finland					eu				4			0			0			1			Sweden
+France					weu				3			1			0			0			Algeria,UK,W Germany,Italy,Spain/Portugal
+Greece					weu				2			0			0			0			Italy,Yugoslavia,Turkey
+Hungary					eu				3			0			0			0			Romania,Yugoslavia
+Italy						weu				2			1			0			0			Yugoslavia,Spain/Portugal
+Norway					weu				4			0			0			0			UK,Sweden
+Poland					eeu				3			1			0			0			
+Romania					eeu				3			0			0			0			Turkey,Yugoslavia
+Spain/Portugal	weu				2			0			0			0			Morocco
+Sweden					weu				4			0			0			0			
+Turkey					weu				2			0			0			0
+UK							weu				5			0			5			0
+W Germany				weu				4			1			0			0			0																							
+Yugoslavia			eeu				3			0			0			0
+
+Egypt						me				2			1			0			0			Israel,Libya,Sudan
+Gulf States			me				3			0			0			0			Iraq,Saudi Arabia
+Iran						me				2			1			1			0			Iraq,Afghanistan,Pakistan
+Iraq						me				3			1			0			1			Saudi Arabia,Jordan														
+Israel					me				4			1			1			0			Jordan,Lebanon,Syria
+Jordan					me				2			0			0			0			Saudi Arabia,Lebanon
+Lebanon					me				1			0			0			0			Syria
+Libya						me				2			1			0			0			Tunisia
+Saudi Arabia		me				3			1			0			0	
+Syria						me				2			0			0			1
+
+Afghanistan			as				2			0			0			0			Pakistan
+Australia				as				4			0			4			0			Malaysia
+Burma						sea				2			0			0			0			India,Laos/Cambodia
+India						as				3			1			0			0			Pakistan
+Indonesia				sea				1			0			0			0			Malaysia,Phillippines
+Japan						as				4			1			1			0			Phillippines,S Korea,Taiwan
+Laos/Cambodia		sea				1			0			0			0			Thailand,Vietnam
+Malaysia				sea				2			0			0			0			Thailand
+N Korea					as				3			1			0			3			S Korea
+Pakistan				as				2			1			0			0
+Phillippines		sea				2			0			1			0
+S Korea					as				3			1			1			0			Taiwan
+Taiwan					as				3			0			0			0
+Thailand				sea				2			1			0			0			Vietnam
+Vietnam					sea				1			0			0			0			0																						
+
+Algeria					af				2			1			0			0			Morocco,Tunisia,Saharan States
+Angola					af				1			1			0			0			Botswana,South Africa,Zaire
+Botswana				af				2			0			0			0			South Africa,Zimbabwe
+Cameroon				af				1			0			0			0			Nigeria,Zaire																
+Ethiopia				af				1			0			0			0			Sudan,Somalia
+Ivory Coast			af				2			0			0			0			West Africa,Nigeria
+Kenya						af				1			0			0			0			Somalia,SE Africa
+Morocco					af				3			0			0			0			West Africa
+Nigeria					af				1			1			0			0			Saharan States
+SE Africa				af				1			0			0			0			Zimbabwe
+Saharan States	af				1			0			0			0
+Somalia					af				1			0			0			0
+South Africa		af				3			1			1			0
+Sudan						af				1			0			0			0
+Tunisia					af				2			0			0			0
+West Africa			af				2			0			0			0
+Zaire						af				1			1			0			0			Zimbabwe
+Zimbabwe				af				1			0			0			0
+
+Costa Rica			ca				3			0			0			0			Honduras,Nicaragua,Panama
+Cuba						ca				3			1			0			0			Haiti,Nicaragua	
+Dominican Rep		ca				1			0			0			0			Haiti
+El Salvador			ca				1			0			0			0			Honduras,Guatemala
+Guatemala				ca				1			0			0			0			Honduras,Mexico
+Haiti						ca				1			0			0			0			
+Honduras				ca				2			0			0			0			Nicaragua																	
+Mexico					ca				2			1			0			0	
+Nicaragua				ca				1			0			0			0
+Panama					ca				2			1			1			0			Columbia
+
+Argentina				sa				2			1			0			0			Chile,Paraguay,Uruguay
+Bolivia					sa				2			0			0			0			Paraguay,Peru
+Brazil					sa				2			1			0			0			Uruguay,Venezuela
+Chile						sa				3			1			0			0			Peru
+Columbia				sa				1			0			0			0			Ecuador,Venezuela
+Ecuador					sa				2			0			0			0			Peru
+Paraguay				sa				2			0			0			0			Uruguay
+Peru						sa				2			0			0			0
+Uruguay					sa				2			0			0			0
+Venezuela				sa				2			1			0			0
