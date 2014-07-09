@@ -384,23 +384,26 @@ MapView = React.createClass
     debugObj: {}
 
   getDefaultProps: ->
-    width: 1100
-    height: 500
+    width: 1280
+    height: 1000
 
   dragend: (el)->
     coords = @state.coords
-    coords[el.name] = [Math.round(el.x), Math.round(el.y)]
+    coords[el.name] =
+      x: Math.round(el.x)
+      y: Math.round(el.y)
     console.log el.name, coords[el.name]
+    el.fixed = true
     @setState {coords}
 
   componentDidMount: ->
     $.getScript '/bower_components/d3/d3.js', ()=>
       color = d3.scale.category20()
       force = d3.layout.force()
-        .charge -320
+        #.charge -320
         .linkDistance 10
         .size [@props.width, @props.height]
-        .gravity 0.4
+        .gravity 0.2
       
       drag = force.drag()
       drag.on 'dragend', (el)=>
@@ -418,50 +421,57 @@ MapView = React.createClass
         as: [787,290]
         sea: [784,308]
 
-      d3.json '/data/countries-for-graph.json', (err,graph)=>
-        console.log graph
-        coordsReduce = (obj={}, el)=>
-          obj[el.name] = []
-          obj
+      d3.json '/data/map-positions-grid-v4.json', (err,positions)=>
+        console.log positions
+        d3.json '/data/countries-for-graph.json', (err,graph)=>
+          console.log graph
+          coordsReduce = (obj={}, el)=>
+            obj[el.name] = []
+            obj
 
-        @setState
-          coords: graph.nodes.reduce coordsReduce, {}
+          @setState
+            coords: positions
 
-        force.nodes graph.nodes
-          .links graph.links
-          .start()
+          graph.nodes = graph.nodes.map (node)->
+            node.px = positions[node.name].x
+            node.py = positions[node.name].y
+            node
 
-        link = svg.selectAll '.link'
-          .data(graph.links).enter()
-          .append 'line'
-          .attr 'class', 'link'
+          force.nodes graph.nodes
+            .links graph.links
+            .start()
 
-        node = svg.selectAll '.node'
-          .data(graph.nodes).enter()
-          .append 'g'
-          .call drag
+          link = svg.selectAll '.link'
+            .data(graph.links).enter()
+            .append 'line'
+            .attr 'class', 'link'
 
-        node.append 'rect'
-          .attr 'class', 'node'
-          .attr 'width', 60
-          .attr 'height', 30
-          .attr 'x', -30
-          .attr 'y', -15
-          .attr 'class', (d)->
-            "node-#{d.group}"
+          node = svg.selectAll '.node'
+            .data(graph.nodes).enter()
+            .append 'g'
+            .call drag
 
-        node.append 'text'
-          .attr 'class', 'node-label'
-          .attr 'dy', "0.5em"
-          .text (d)-> d.name
+          node.append 'rect'
+            .attr 'class', 'node'
+            .attr 'width', 60
+            .attr 'height', 30
+            .attr 'x', -30
+            .attr 'y', -15
+            .attr 'class', (d)->
+              "node-#{d.group}"
 
-        force.on 'tick', (e)->
-          link.attr 'x1', (d)-> d.source.x
-            .attr 'y1', (d)-> d.source.y
-            .attr 'x2', (d)-> d.target.x
-            .attr 'y2', (d)-> d.target.y
+          node.append 'text'
+            .attr 'class', 'node-label'
+            .attr 'dy', "0.4em"
+            .text (d)-> d.name
 
-          node.attr 'transform', (d)-> "translate (#{d.x},#{d.y})"
+          force.on 'tick', (e)->
+            link.attr 'x1', (d)-> d.source.x
+              .attr 'y1', (d)-> d.source.y
+              .attr 'x2', (d)-> d.target.x
+              .attr 'y2', (d)-> d.target.y
+
+            node.attr 'transform', (d)-> "translate (#{d.x},#{d.y})"
 
   render: ->
     R.div className: 'mapView', [

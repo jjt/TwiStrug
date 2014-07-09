@@ -92,20 +92,39 @@ p {
 .navbar {
   border:none;
   border-radius:0;
-  border-bottom:1px solid rgba(#000,0.3);
+  border-bottom:1px solid #ccc;
   margin-bottom:0;
-  background-color:#333;
-  @include background(
-    linear-gradient(to right, darken($solarized-blue,1%), darken($solarized-red,1%))
-  );
+  background-color:#eee;
 }
 
 .navbar-nav > li > a, .navbar-brand {
-  color:rgba(#fff,0.8);
+  color:#666;
   &:hover {
-    color:rgba(#fff,0.9);
+    color:#333;
     background:rgba(#000,0.1);
   }
+}
+
+.navbar-brand {
+  padding:0;
+  .twi, .strug {
+    display:inline-block;
+    padding:15px;
+  }
+  .twi {
+    padding-right:0;
+    @extend .owner-us;
+  }
+  .strug {
+    padding-left:0;
+    @extend .owner-ussr;
+  }
+
+  &:hover {
+    .twi { color: darken($solarized-blue, 10%); }
+    .strug { color: darken($solarized-red, 10%); }
+  }
+  
 }
 
 .page-header {
@@ -186,6 +205,24 @@ a[href^="https://"] {
   text-align:center;
   margin:3rem 1rem;
 }
+
+.map {
+  //background:url(/images/tsboard.jpg) no-repeat;
+  //background-size: contain;
+  .node-label {
+    stroke:rgba(#fff, 0.8);
+    stroke-width:0;
+    fill:rgba(#fff, 0.8);
+    text-anchor:middle;
+    cursor:pointer;
+    font-size:11px;
+  }
+  .link {
+    stroke:rgba(#000,0.8);
+    stroke-width:3px;
+  }
+}
+
 
 
 /* Responsive: Portrait tablets and up */

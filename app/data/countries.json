@@ -7,10 +7,10 @@
     "usa": 0,
     "ussr": 0,
     "links": "Canada,Cuba,Mexico",
-    "position": "40,150",
+    "position": "155,280",
     "id": 0,
-    "x": "40",
-    "y": "150",
+    "x": "155",
+    "y": "280",
     "fixed": true
   },
   {
@@ -21,10 +21,10 @@
     "usa": 0,
     "ussr": 0,
     "links": "Afghanistan,Finland,N Korea,Poland,Romania",
-    "position": "665,80",
+    "position": "736,169",
     "id": 1,
-    "x": "665",
-    "y": "80",
+    "x": "736",
+    "y": "169",
     "fixed": true
   },
   {
@@ -35,7 +35,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "E Germany,Hungary,Italy,W Germany",
-    "id": 2
+    "position": "573,228",
+    "id": 2,
+    "x": "573",
+    "y": "228",
+    "fixed": true
   },
   {
     "name": "Benelux",
@@ -45,7 +49,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "W Germany,UK",
-    "id": 3
+    "position": "487,193",
+    "id": 3,
+    "x": "487",
+    "y": "193",
+    "fixed": true
   },
   {
     "name": "Bulgaria",
@@ -55,7 +63,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Turkey,Greece",
-    "id": 4
+    "position": "675,271",
+    "id": 4,
+    "x": "675",
+    "y": "271",
+    "fixed": true
   },
   {
     "name": "Canada",
@@ -65,7 +77,11 @@
     "usa": 2,
     "ussr": 0,
     "links": "UK",
-    "id": 5
+    "position": "236,197",
+    "id": 5,
+    "x": "236",
+    "y": "197",
+    "fixed": true
   },
   {
     "name": "Czechoslovakia",
@@ -75,7 +91,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Poland,E Germany,Hungary",
-    "id": 6
+    "position": "619,191",
+    "id": 6,
+    "x": "619",
+    "y": "191",
+    "fixed": true
   },
   {
     "name": "Denmark",
@@ -85,7 +105,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "W Germany,Sweden",
-    "id": 7
+    "position": "520,118",
+    "id": 7,
+    "x": "520",
+    "y": "118",
+    "fixed": true
   },
   {
     "name": "E Germany",
@@ -95,7 +119,11 @@
     "usa": 0,
     "ussr": 3,
     "links": "Poland,W Germany",
-    "id": 8
+    "position": "563,152",
+    "id": 8,
+    "x": "563",
+    "y": "152",
+    "fixed": true
   },
   {
     "name": "Finland",
@@ -105,7 +133,11 @@
     "usa": 0,
     "ussr": 1,
     "links": "Sweden",
-    "id": 9
+    "position": "654,78",
+    "id": 9,
+    "x": "654",
+    "y": "78",
+    "fixed": true
   },
   {
     "name": "France",
@@ -115,7 +147,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Algeria,UK,W Germany,Italy,Spain/Portugal",
-    "id": 10
+    "position": "480,233",
+    "id": 10,
+    "x": "480",
+    "y": "233",
+    "fixed": true
   },
   {
     "name": "Greece",
@@ -125,7 +161,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Italy,Yugoslavia,Turkey",
-    "id": 11
+    "position": "628,310",
+    "id": 11,
+    "x": "628",
+    "y": "310",
+    "fixed": true
   },
   {
     "name": "Hungary",
@@ -135,7 +175,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Romania,Yugoslavia",
-    "id": 12
+    "position": "628,228",
+    "id": 12,
+    "x": "628",
+    "y": "228",
+    "fixed": true
   },
   {
     "name": "Italy",
@@ -145,7 +189,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Yugoslavia,Spain/Portugal",
-    "id": 13
+    "position": "558,268",
+    "id": 13,
+    "x": "558",
+    "y": "268",
+    "fixed": true
   },
   {
     "name": "Norway",
@@ -155,7 +203,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "UK,Sweden",
-    "id": 14
+    "position": "507,77",
+    "id": 14,
+    "x": "507",
+    "y": "77",
+    "fixed": true
   },
   {
     "name": "Poland",
@@ -164,8 +216,12 @@
     "btl": 1,
     "usa": 0,
     "ussr": 0,
-    "links": "",
-    "id": 15
+    "links": 0,
+    "position": "627,156",
+    "id": 15,
+    "x": "627",
+    "y": "156",
+    "fixed": true
   },
   {
     "name": "Romania",
@@ -175,7 +231,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Turkey,Yugoslavia",
-    "id": 16
+    "position": "683,230",
+    "id": 16,
+    "x": "683",
+    "y": "230",
+    "fixed": true
   },
   {
     "name": "Spain/Portugal",
@@ -185,7 +245,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Morocco",
-    "id": 17
+    "position": "440,290",
+    "id": 17,
+    "x": "440",
+    "y": "290",
+    "fixed": true
   },
   {
     "name": "Sweden",
@@ -194,8 +258,12 @@
     "btl": 0,
     "usa": 0,
     "ussr": 0,
-    "links": "",
-    "id": 18
+    "links": 0,
+    "position": "586,109",
+    "id": 18,
+    "x": "586",
+    "y": "109",
+    "fixed": true
   },
   {
     "name": "Turkey",
@@ -204,7 +272,12 @@
     "btl": 0,
     "usa": 0,
     "ussr": 0,
-    "id": 19
+    "links": 0,
+    "position": "725,272",
+    "id": 19,
+    "x": "725",
+    "y": "272",
+    "fixed": true
   },
   {
     "name": "UK",
@@ -213,7 +286,12 @@
     "btl": 0,
     "usa": 5,
     "ussr": 0,
-    "id": 20
+    "links": 0,
+    "position": "442,151",
+    "id": 20,
+    "x": "442",
+    "y": "151",
+    "fixed": true
   },
   {
     "name": "W Germany",
@@ -223,8 +301,11 @@
     "usa": 0,
     "ussr": 0,
     "links": 0,
-    "position": "",
-    "id": 21
+    "position": "551,190",
+    "id": 21,
+    "x": "551",
+    "y": "190",
+    "fixed": true
   },
   {
     "name": "Yugoslavia",
@@ -233,7 +314,12 @@
     "btl": 0,
     "usa": 0,
     "ussr": 0,
-    "id": 22
+    "links": 0,
+    "position": "613,267",
+    "id": 22,
+    "x": "613",
+    "y": "267",
+    "fixed": true
   },
   {
     "name": "Egypt",
@@ -243,7 +329,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Israel,Libya,Sudan",
-    "id": 23
+    "position": "659,389",
+    "id": 23,
+    "x": "659",
+    "y": "389",
+    "fixed": true
   },
   {
     "name": "Gulf States",
@@ -253,7 +343,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Iraq,Saudi Arabia",
-    "id": 24
+    "position": "785,388",
+    "id": 24,
+    "x": "785",
+    "y": "388",
+    "fixed": true
   },
   {
     "name": "Iran",
@@ -263,7 +357,11 @@
     "usa": 1,
     "ussr": 0,
     "links": "Iraq,Afghanistan,Pakistan",
-    "id": 25
+    "position": "797,347",
+    "id": 25,
+    "x": "797",
+    "y": "347",
+    "fixed": true
   },
   {
     "name": "Iraq",
@@ -273,8 +371,11 @@
     "usa": 0,
     "ussr": 1,
     "links": "Saudi Arabia,Jordan",
-    "position": "",
-    "id": 26
+    "position": "744,348",
+    "id": 26,
+    "x": "744",
+    "y": "348",
+    "fixed": true
   },
   {
     "name": "Israel",
@@ -284,7 +385,11 @@
     "usa": 1,
     "ussr": 0,
     "links": "Jordan,Lebanon,Syria",
-    "id": 27
+    "position": "676,351",
+    "id": 27,
+    "x": "676",
+    "y": "351",
+    "fixed": true
   },
   {
     "name": "Jordan",
@@ -294,7 +399,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Saudi Arabia,Lebanon",
-    "id": 28
+    "position": "723,386",
+    "id": 28,
+    "x": "723",
+    "y": "386",
+    "fixed": true
   },
   {
     "name": "Lebanon",
@@ -304,7 +413,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Syria",
-    "id": 29
+    "position": "692,311",
+    "id": 29,
+    "x": "692",
+    "y": "311",
+    "fixed": true
   },
   {
     "name": "Libya",
@@ -314,7 +427,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Tunisia",
-    "id": 30
+    "position": "599,380",
+    "id": 30,
+    "x": "599",
+    "y": "380",
+    "fixed": true
   },
   {
     "name": "Saudi Arabia",
@@ -323,8 +440,12 @@
     "btl": 1,
     "usa": 0,
     "ussr": 0,
-    "links": "",
-    "id": 31
+    "links": 0,
+    "position": "765,428",
+    "id": 31,
+    "x": "765",
+    "y": "428",
+    "fixed": true
   },
   {
     "name": "Syria",
@@ -333,7 +454,12 @@
     "btl": 0,
     "usa": 0,
     "ussr": 1,
-    "id": 32
+    "links": 0,
+    "position": "758,309",
+    "id": 32,
+    "x": "758",
+    "y": "309",
+    "fixed": true
   },
   {
     "name": "Afghanistan",
@@ -343,7 +469,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Pakistan",
-    "id": 33
+    "position": "866,326",
+    "id": 33,
+    "x": "866",
+    "y": "326",
+    "fixed": true
   },
   {
     "name": "Australia",
@@ -353,7 +483,11 @@
     "usa": 4,
     "ussr": 0,
     "links": "Malaysia",
-    "id": 34
+    "position": "1137,621",
+    "id": 34,
+    "x": "1137",
+    "y": "621",
+    "fixed": true
   },
   {
     "name": "Burma",
@@ -363,7 +497,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "India,Laos/Cambodia",
-    "id": 35
+    "position": "993,407",
+    "id": 35,
+    "x": "993",
+    "y": "407",
+    "fixed": true
   },
   {
     "name": "India",
@@ -373,7 +511,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Pakistan",
-    "id": 36
+    "position": "931,399",
+    "id": 36,
+    "x": "931",
+    "y": "399",
+    "fixed": true
   },
   {
     "name": "Indonesia",
@@ -383,7 +525,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Malaysia,Phillippines",
-    "id": 37
+    "position": "1137,555",
+    "id": 37,
+    "x": "1137",
+    "y": "555",
+    "fixed": true
   },
   {
     "name": "Japan",
@@ -393,7 +539,11 @@
     "usa": 1,
     "ussr": 0,
     "links": "Phillippines,S Korea,Taiwan",
-    "id": 38
+    "position": "1202,348",
+    "id": 38,
+    "x": "1202",
+    "y": "348",
+    "fixed": true
   },
   {
     "name": "Laos/Cambodia",
@@ -403,7 +553,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Thailand,Vietnam",
-    "id": 39
+    "position": "1056,413",
+    "id": 39,
+    "x": "1056",
+    "y": "413",
+    "fixed": true
   },
   {
     "name": "Malaysia",
@@ -413,7 +567,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Thailand",
-    "id": 40
+    "position": "1055,509",
+    "id": 40,
+    "x": "1055",
+    "y": "509",
+    "fixed": true
   },
   {
     "name": "N Korea",
@@ -423,7 +581,11 @@
     "usa": 0,
     "ussr": 3,
     "links": "S Korea",
-    "id": 41
+    "position": "1146,274",
+    "id": 41,
+    "x": "1146",
+    "y": "274",
+    "fixed": true
   },
   {
     "name": "Pakistan",
@@ -432,7 +594,12 @@
     "btl": 1,
     "usa": 0,
     "ussr": 0,
-    "id": 42
+    "links": 0,
+    "position": "868,371",
+    "id": 42,
+    "x": "868",
+    "y": "371",
+    "fixed": true
   },
   {
     "name": "Phillippines",
@@ -441,7 +608,12 @@
     "btl": 0,
     "usa": 1,
     "ussr": 0,
-    "id": 43
+    "links": 0,
+    "position": "1168,448",
+    "id": 43,
+    "x": "1168",
+    "y": "448",
+    "fixed": true
   },
   {
     "name": "S Korea",
@@ -451,7 +623,11 @@
     "usa": 1,
     "ussr": 0,
     "links": "Taiwan",
-    "id": 44
+    "position": "1160,311",
+    "id": 44,
+    "x": "1160",
+    "y": "311",
+    "fixed": true
   },
   {
     "name": "Taiwan",
@@ -460,7 +636,12 @@
     "btl": 0,
     "usa": 0,
     "ussr": 0,
-    "id": 45
+    "links": 0,
+    "position": "1134,390",
+    "id": 45,
+    "x": "1134",
+    "y": "390",
+    "fixed": true
   },
   {
     "name": "Thailand",
@@ -470,7 +651,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Vietnam",
-    "id": 46
+    "position": "1022,447",
+    "id": 46,
+    "x": "1022",
+    "y": "447",
+    "fixed": true
   },
   {
     "name": "Vietnam",
@@ -480,8 +665,11 @@
     "usa": 0,
     "ussr": 0,
     "links": 0,
-    "position": "",
-    "id": 47
+    "position": "1086,452",
+    "id": 47,
+    "x": "1086",
+    "y": "452",
+    "fixed": true
   },
   {
     "name": "Algeria",
@@ -491,7 +679,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Morocco,Tunisia,Saharan States",
-    "id": 48
+    "position": "512,348",
+    "id": 48,
+    "x": "512",
+    "y": "348",
+    "fixed": true
   },
   {
     "name": "Angola",
@@ -501,7 +693,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Botswana,South Africa,Zaire",
-    "id": 49
+    "position": "596,583",
+    "id": 49,
+    "x": "596",
+    "y": "583",
+    "fixed": true
   },
   {
     "name": "Botswana",
@@ -511,7 +707,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "South Africa,Zimbabwe",
-    "id": 50
+    "position": "648,646",
+    "id": 50,
+    "x": "648",
+    "y": "646",
+    "fixed": true
   },
   {
     "name": "Cameroon",
@@ -521,8 +721,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Nigeria,Zaire",
-    "position": "",
-    "id": 51
+    "position": "579,521",
+    "id": 51,
+    "x": "579",
+    "y": "521",
+    "fixed": true
   },
   {
     "name": "Ethiopia",
@@ -532,7 +735,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Sudan,Somalia",
-    "id": 52
+    "position": "711,472",
+    "id": 52,
+    "x": "711",
+    "y": "472",
+    "fixed": true
   },
   {
     "name": "Ivory Coast",
@@ -542,7 +749,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "West Africa,Nigeria",
-    "id": 53
+    "position": "491,477",
+    "id": 53,
+    "x": "491",
+    "y": "477",
+    "fixed": true
   },
   {
     "name": "Kenya",
@@ -552,7 +763,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Somalia,SE Africa",
-    "id": 54
+    "position": "708,519",
+    "id": 54,
+    "x": "708",
+    "y": "519",
+    "fixed": true
   },
   {
     "name": "Morocco",
@@ -562,7 +777,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "West Africa",
-    "id": 55
+    "position": "461,360",
+    "id": 55,
+    "x": "461",
+    "y": "360",
+    "fixed": true
   },
   {
     "name": "Nigeria",
@@ -572,7 +791,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Saharan States",
-    "id": 56
+    "position": "557,474",
+    "id": 56,
+    "x": "557",
+    "y": "474",
+    "fixed": true
   },
   {
     "name": "SE Africa",
@@ -582,7 +805,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Zimbabwe",
-    "id": 57
+    "position": "713,572",
+    "id": 57,
+    "x": "713",
+    "y": "572",
+    "fixed": true
   },
   {
     "name": "Saharan States",
@@ -591,7 +818,12 @@
     "btl": 0,
     "usa": 0,
     "ussr": 0,
-    "id": 58
+    "links": 0,
+    "position": "531,424",
+    "id": 58,
+    "x": "531",
+    "y": "424",
+    "fixed": true
   },
   {
     "name": "Somalia",
@@ -600,7 +832,12 @@
     "btl": 0,
     "usa": 0,
     "ussr": 0,
-    "id": 59
+    "links": 0,
+    "position": "775,488",
+    "id": 59,
+    "x": "775",
+    "y": "488",
+    "fixed": true
   },
   {
     "name": "South Africa",
@@ -609,7 +846,12 @@
     "btl": 1,
     "usa": 1,
     "ussr": 0,
-    "id": 60
+    "links": 0,
+    "position": "617,681",
+    "id": 60,
+    "x": "617",
+    "y": "681",
+    "fixed": true
   },
   {
     "name": "Sudan",
@@ -618,7 +860,12 @@
     "btl": 0,
     "usa": 0,
     "ussr": 0,
-    "id": 61
+    "links": 0,
+    "position": "666,432",
+    "id": 61,
+    "x": "666",
+    "y": "432",
+    "fixed": true
   },
   {
     "name": "Tunisia",
@@ -627,7 +874,12 @@
     "btl": 0,
     "usa": 0,
     "ussr": 0,
-    "id": 62
+    "links": 0,
+    "position": "571,339",
+    "id": 62,
+    "x": "571",
+    "y": "339",
+    "fixed": true
   },
   {
     "name": "West Africa",
@@ -636,7 +888,12 @@
     "btl": 0,
     "usa": 0,
     "ussr": 0,
-    "id": 63
+    "links": 0,
+    "position": "454,417",
+    "id": 63,
+    "x": "454",
+    "y": "417",
+    "fixed": true
   },
   {
     "name": "Zaire",
@@ -646,7 +903,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Zimbabwe",
-    "id": 64
+    "position": "647,538",
+    "id": 64,
+    "x": "647",
+    "y": "538",
+    "fixed": true
   },
   {
     "name": "Zimbabwe",
@@ -655,7 +916,12 @@
     "btl": 0,
     "usa": 0,
     "ussr": 0,
-    "id": 65
+    "links": 0,
+    "position": "671,599",
+    "id": 65,
+    "x": "671",
+    "y": "599",
+    "fixed": true
   },
   {
     "name": "Costa Rica",
@@ -665,7 +931,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Honduras,Nicaragua,Panama",
-    "id": 66
+    "position": "148,468",
+    "id": 66,
+    "x": "148",
+    "y": "468",
+    "fixed": true
   },
   {
     "name": "Cuba",
@@ -675,8 +945,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Haiti,Nicaragua",
-    "position": "",
-    "id": 67
+    "position": "213,381",
+    "id": 67,
+    "x": "213",
+    "y": "381",
+    "fixed": true
   },
   {
     "name": "Dominican Rep",
@@ -686,7 +959,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Haiti",
-    "id": 68
+    "position": "332,413",
+    "id": 68,
+    "x": "332",
+    "y": "413",
+    "fixed": true
   },
   {
     "name": "El Salvador",
@@ -696,7 +973,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Honduras,Guatemala",
-    "id": 69
+    "position": "100,433",
+    "id": 69,
+    "x": "100",
+    "y": "433",
+    "fixed": true
   },
   {
     "name": "Guatemala",
@@ -706,7 +987,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Honduras,Mexico",
-    "id": 70
+    "position": "122,392",
+    "id": 70,
+    "x": "122",
+    "y": "392",
+    "fixed": true
   },
   {
     "name": "Haiti",
@@ -715,8 +1000,12 @@
     "btl": 0,
     "usa": 0,
     "ussr": 0,
-    "links": "",
-    "id": 71
+    "links": 0,
+    "position": "269,413",
+    "id": 71,
+    "x": "269",
+    "y": "413",
+    "fixed": true
   },
   {
     "name": "Honduras",
@@ -726,8 +1015,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Nicaragua",
-    "position": "",
-    "id": 72
+    "position": "162,429",
+    "id": 72,
+    "x": "162",
+    "y": "429",
+    "fixed": true
   },
   {
     "name": "Mexico",
@@ -736,8 +1028,12 @@
     "btl": 1,
     "usa": 0,
     "ussr": 0,
-    "links": "",
-    "id": 73
+    "links": 0,
+    "position": "71,351",
+    "id": 73,
+    "x": "71",
+    "y": "351",
+    "fixed": true
   },
   {
     "name": "Nicaragua",
@@ -746,7 +1042,12 @@
     "btl": 0,
     "usa": 0,
     "ussr": 0,
-    "id": 74
+    "links": 0,
+    "position": "218,429",
+    "id": 74,
+    "x": "218",
+    "y": "429",
+    "fixed": true
   },
   {
     "name": "Panama",
@@ -756,7 +1057,11 @@
     "usa": 1,
     "ussr": 0,
     "links": "Columbia",
-    "id": 75
+    "position": "211,469",
+    "id": 75,
+    "x": "211",
+    "y": "469",
+    "fixed": true
   },
   {
     "name": "Argentina",
@@ -766,7 +1071,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Chile,Paraguay,Uruguay",
-    "id": 76
+    "position": "265,727",
+    "id": 76,
+    "x": "265",
+    "y": "727",
+    "fixed": true
   },
   {
     "name": "Bolivia",
@@ -776,7 +1085,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Paraguay,Peru",
-    "id": 77
+    "position": "285,609",
+    "id": 77,
+    "x": "285",
+    "y": "609",
+    "fixed": true
   },
   {
     "name": "Brazil",
@@ -786,7 +1099,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Uruguay,Venezuela",
-    "id": 78
+    "position": "370,567",
+    "id": 78,
+    "x": "370",
+    "y": "567",
+    "fixed": true
   },
   {
     "name": "Chile",
@@ -796,7 +1113,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Peru",
-    "id": 79
+    "position": "248,656",
+    "id": 79,
+    "x": "248",
+    "y": "656",
+    "fixed": true
   },
   {
     "name": "Columbia",
@@ -806,7 +1127,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Ecuador,Venezuela",
-    "id": 80
+    "position": "247,517",
+    "id": 80,
+    "x": "247",
+    "y": "517",
+    "fixed": true
   },
   {
     "name": "Ecuador",
@@ -816,7 +1141,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Peru",
-    "id": 81
+    "position": "186,531",
+    "id": 81,
+    "x": "186",
+    "y": "531",
+    "fixed": true
   },
   {
     "name": "Paraguay",
@@ -826,7 +1155,11 @@
     "usa": 0,
     "ussr": 0,
     "links": "Uruguay",
-    "id": 82
+    "position": "314,648",
+    "id": 82,
+    "x": "314",
+    "y": "648",
+    "fixed": true
   },
   {
     "name": "Peru",
@@ -835,7 +1168,12 @@
     "btl": 0,
     "usa": 0,
     "ussr": 0,
-    "id": 83
+    "links": 0,
+    "position": "215,571",
+    "id": 83,
+    "x": "215",
+    "y": "571",
+    "fixed": true
   },
   {
     "name": "Uruguay",
@@ -844,7 +1182,12 @@
     "btl": 0,
     "usa": 0,
     "ussr": 0,
-    "id": 84
+    "links": 0,
+    "position": "330,696",
+    "id": 84,
+    "x": "330",
+    "y": "696",
+    "fixed": true
   },
   {
     "name": "Venezuela",
@@ -853,6 +1196,11 @@
     "btl": 1,
     "usa": 0,
     "ussr": 0,
-    "id": 85
+    "links": 0,
+    "position": "273,471",
+    "id": 85,
+    "x": "273",
+    "y": "471",
+    "fixed": true
   }
 ]

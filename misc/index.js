@@ -48,7 +48,6 @@ function makeCountriesAndLinks() {
     var tsv = require('tsv')
     var dataCleaned = data.replace(/\t+/g,'\t');
     var countries = tsv.parse(dataCleaned);
-
     countries = _.filter(countries,function(el){
       if(el.group)
         return true; 
@@ -64,12 +63,16 @@ function makeCountriesAndLinks() {
         
       return el;
     });
+    //console.log(countries);
+    //;w
+    //
     writeFile('../app/data/countries.json', JSON.stringify(countries, null, '  '));
     
     links = countries.reduce(function(out,country){
       if(country.links) {
         out.push.apply(out, country.links.split(',').map(function(target) {
           targetCountry = _.find(countries,{name:target});
+          console.log(targetCountry);
           return {
             source:country.id,
             target:targetCountry.id

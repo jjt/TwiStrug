@@ -1632,10 +1632,10 @@ address {
 .card, .card a {
   color: #666; }
 
-.owner-us, .owner-us a {
+.owner-us, .navbar-brand .twi, .owner-us a, .owner-us .navbar-brand .twi, .navbar-brand .owner-us .twi {
   color: #268BD2; }
 
-.owner-ussr, .owner-ussr a {
+.owner-ussr, .navbar-brand .strug, .owner-ussr a, .owner-ussr .navbar-brand .strug, .navbar-brand .owner-ussr .strug {
   color: #DC322F; }
 
 .asiaScoring, .asiaScoring a {
@@ -1735,12 +1735,13 @@ address {
   width: 3.6rem;
   height: 3.6rem;
   margin: 0 0.6rem 0 0;
-  color: rgba(255, 255, 255, 0.9); }
+  color: rgba(255, 255, 255, 0.9);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3); }
   .owner-neutral .card-ops {
     background: #777; }
-  .owner-us .card-ops {
+  .owner-us .card-ops, .owner-us .navbar-brand .twi, .navbar-brand .owner-us .twi {
     background: #268BD2; }
-  .owner-ussr .card-ops {
+  .owner-ussr .card-ops, .owner-ussr .navbar-brand .strug, .navbar-brand .owner-ussr .strug {
     background: #DC322F; }
   .asiaScoring .card-ops {
     background: #F89E2C; }
@@ -2021,16 +2022,29 @@ p {
 .navbar {
   border: none;
   border-radius: 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid #ccc;
   margin-bottom: 0;
-  background-color: #333;
-  background: linear-gradient(to right, #258ace, #db2e2b); }
+  background-color: #eee; }
 
 .navbar-nav > li > a, .navbar-brand {
-  color: rgba(255, 255, 255, 0.8); }
+  color: #666; }
   .navbar-nav > li > a:hover, .navbar-brand:hover {
-    color: rgba(255, 255, 255, 0.9);
+    color: #333;
     background: rgba(0, 0, 0, 0.1); }
+
+.navbar-brand {
+  padding: 0; }
+  .navbar-brand .twi, .navbar-brand .strug {
+    display: inline-block;
+    padding: 15px; }
+  .navbar-brand .twi {
+    padding-right: 0; }
+  .navbar-brand .strug {
+    padding-left: 0; }
+  .navbar-brand:hover .twi {
+    color: #1e70a7; }
+  .navbar-brand:hover .strug {
+    color: #b9221f; }
 
 .page-header {
   margin-top: 1rem;
@@ -2094,6 +2108,17 @@ a[href^="http://"], a[href^="https://"] {
 .blurb {
   text-align: center;
   margin: 3rem 1rem; }
+
+.map .node-label {
+  stroke: rgba(255, 255, 255, 0.8);
+  stroke-width: 0;
+  fill: rgba(255, 255, 255, 0.8);
+  text-anchor: middle;
+  cursor: pointer;
+  font-size: 11px; }
+.map .link {
+  stroke: rgba(0, 0, 0, 0.8);
+  stroke-width: 3px; }
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
