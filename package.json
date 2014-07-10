@@ -40,5 +40,11 @@
   },
   "engines": {
     "node": ">=0.10.0"
-  }
+  },
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  },
+  "browserify-shim": {}
 }

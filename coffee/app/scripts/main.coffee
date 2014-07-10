@@ -378,14 +378,32 @@ BoardView = React.createClass
         R.img className: 'fluid', src:'/images/tsboard.jpg'
     ]
 
+
+nodeWidth = 66
+nodeHeight = 50
+nodeGutter = 14
+nodeTitleHeight = 16
+nodeTitleFontSize = 12
+
+snapToGrid = (obj)->
+  gridX = Math.round (nodeWidth + nodeGutter) / 2
+  gridY = Math.round (nodeHeight + nodeGutter) / 2
+  obj.x = Math.round(obj.x / gridX) * gridX
+  obj.y = Math.round(obj.y / gridY) * gridY
+  if obj.px
+    obj.px = obj.x
+  if obj.py
+    obj.py = obj.y
+  obj
+
 MapView = React.createClass
   
   getInitialState: ->
     debugObj: {}
 
   getDefaultProps: ->
-    width: 1280
-    height: 1000
+    width: 1140
+    height: 700
 
   dragend: (el)->
     coords = @state.coords
@@ -406,22 +424,16 @@ MapView = React.createClass
         .gravity 0.2
       
       drag = force.drag()
+
       drag.on 'dragend', (el)=>
+        console.log 'dragend', el
+        el = snapToGrid el
         @dragend el
 
       svg = d3.select @refs.svg.getDOMNode()
-      
-      foci =
-        ca: [118,242]
-        sa: [122,372]
-        weu: [426,100]
-        eeu: [522,126]
-        af: [482,366]
-        me: [649,225]
-        as: [787,290]
-        sea: [784,308]
+    
 
-      d3.json '/data/map-positions-grid-v4.json', (err,positions)=>
+      d3.json '/data/map-positions-grid-v5.json', (err,positions)=>
         console.log positions
         d3.json '/data/countries-for-graph.json', (err,graph)=>
           console.log graph
@@ -429,12 +441,18 @@ MapView = React.createClass
             obj[el.name] = []
             obj
 
+          positions = _.mapValues positions, (position)->
+            position = snapToGrid position
+            position
+
           @setState
             coords: positions
 
           graph.nodes = graph.nodes.map (node)->
+            console.log(node.name)
             node.px = positions[node.name].x
             node.py = positions[node.name].y
+            node.fixed = true
             node
 
           force.nodes graph.nodes
@@ -444,26 +462,46 @@ MapView = React.createClass
           link = svg.selectAll '.link'
             .data(graph.links).enter()
             .append 'line'
-            .attr 'class', 'link'
+            .attr 'class', (d)->
+              crossContinent = if d.crossContinent then 'link-cross' else ''
+              "link #{crossContinent}"
 
           node = svg.selectAll '.node'
             .data(graph.nodes).enter()
             .append 'g'
             .call drag
 
+          node.attr 'class', (d)->
+              btl = if d.btl == 1 then 'node-btl' else ''
+              "node node-#{d.group} #{btl}"
+
           node.append 'rect'
-            .attr 'class', 'node'
-            .attr 'width', 60
-            .attr 'height', 30
-            .attr 'x', -30
-            .attr 'y', -15
-            .attr 'class', (d)->
-              "node-#{d.group}"
+            .attr 'width', nodeWidth
+            .attr 'height', nodeHeight
+            .attr 'x', -(nodeWidth/2)
+            .attr 'y', -(nodeHeight/2)
+            .attr 'class', "node-bg"
+          
+          node.append 'rect'
+            .attr 'class', 'node-title'
+            .attr 'width', nodeWidth
+            .attr 'height', nodeTitleHeight
+            .attr 'x', -(nodeWidth/2)
+            .attr 'y', -(nodeHeight/2)
 
           node.append 'text'
-            .attr 'class', 'node-label'
-            .attr 'dy', "0.4em"
-            .text (d)-> d.name
+            #.attr 'dy', "0.4em"
+            .attr 'class', "node-label"
+            .attr 'dx', -(nodeWidth/2) + 2
+            .attr 'dy', -(nodeHeight/2) + nodeTitleFontSize
+            .text (d)-> d.shortname
+
+          node.append 'text'
+            .attr 'class', "node-stab"
+            .attr 'dx', (nodeWidth/2) - 10
+            .attr 'dy', -(nodeHeight/2) + nodeTitleFontSize + 1
+            .text (d)-> d.stab
+          
 
           force.on 'tick', (e)->
             link.attr 'x1', (d)-> d.source.x
@@ -475,7 +513,9 @@ MapView = React.createClass
 
   render: ->
     R.div className: 'mapView', [
-      R.h2 {}, "Map"
+      R.div className: 'page-header', [
+          R.h2 {}, "Map"
+        ]
       R.svg className:'map', width:@props.width, height:@props.height, ref:'svg'
       R.textarea ref:'debug', style:{width:'100%', height:'60rem'}, value: JSON.stringify(@state.coords, null, ' ')
     ]

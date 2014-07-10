@@ -1,478 +1,1073 @@
 [
  {
   "source": 0,
-  "target": 5
+  "target": 5,
+  "nodes": [
+   "USA",
+   "Canada"
+  ],
+  "crossContinent": true
  },
  {
   "source": 0,
-  "target": 67
+  "target": 67,
+  "nodes": [
+   "USA",
+   "Cuba"
+  ],
+  "crossContinent": true
  },
  {
   "source": 0,
-  "target": 73
+  "target": 73,
+  "nodes": [
+   "USA",
+   "Mexico"
+  ],
+  "crossContinent": true
  },
  {
   "source": 1,
-  "target": 33
+  "target": 33,
+  "nodes": [
+   "USSR",
+   "Afghanistan"
+  ],
+  "crossContinent": true
  },
  {
   "source": 1,
-  "target": 9
+  "target": 9,
+  "nodes": [
+   "USSR",
+   "Finland"
+  ],
+  "crossContinent": true
  },
  {
   "source": 1,
-  "target": 41
+  "target": 41,
+  "nodes": [
+   "USSR",
+   "N Korea"
+  ],
+  "crossContinent": true
  },
  {
   "source": 1,
-  "target": 15
+  "target": 15,
+  "nodes": [
+   "USSR",
+   "Poland"
+  ],
+  "crossContinent": true
  },
  {
   "source": 1,
-  "target": 16
+  "target": 16,
+  "nodes": [
+   "USSR",
+   "Romania"
+  ],
+  "crossContinent": true
  },
  {
   "source": 2,
-  "target": 8
+  "target": 8,
+  "nodes": [
+   "Austria",
+   "E Germany"
+  ],
+  "crossContinent": false
  },
  {
   "source": 2,
-  "target": 12
+  "target": 12,
+  "nodes": [
+   "Austria",
+   "Hungary"
+  ],
+  "crossContinent": false
  },
  {
   "source": 2,
-  "target": 13
+  "target": 13,
+  "nodes": [
+   "Austria",
+   "Italy"
+  ],
+  "crossContinent": false
  },
  {
   "source": 2,
-  "target": 21
+  "target": 21,
+  "nodes": [
+   "Austria",
+   "W Germany"
+  ],
+  "crossContinent": false
  },
  {
   "source": 3,
-  "target": 21
+  "target": 21,
+  "nodes": [
+   "Benelux",
+   "W Germany"
+  ],
+  "crossContinent": false
  },
  {
   "source": 3,
-  "target": 20
+  "target": 20,
+  "nodes": [
+   "Benelux",
+   "UK"
+  ],
+  "crossContinent": false
  },
  {
   "source": 4,
-  "target": 19
+  "target": 19,
+  "nodes": [
+   "Bulgaria",
+   "Turkey"
+  ],
+  "crossContinent": false
  },
  {
   "source": 4,
-  "target": 11
+  "target": 11,
+  "nodes": [
+   "Bulgaria",
+   "Greece"
+  ],
+  "crossContinent": false
  },
  {
   "source": 5,
-  "target": 20
+  "target": 20,
+  "nodes": [
+   "Canada",
+   "UK"
+  ],
+  "crossContinent": false
  },
  {
   "source": 6,
-  "target": 15
+  "target": 15,
+  "nodes": [
+   "Czechoslovakia",
+   "Poland"
+  ],
+  "crossContinent": false
  },
  {
   "source": 6,
-  "target": 8
+  "target": 8,
+  "nodes": [
+   "Czechoslovakia",
+   "E Germany"
+  ],
+  "crossContinent": false
  },
  {
   "source": 6,
-  "target": 12
+  "target": 12,
+  "nodes": [
+   "Czechoslovakia",
+   "Hungary"
+  ],
+  "crossContinent": false
  },
  {
   "source": 7,
-  "target": 21
+  "target": 21,
+  "nodes": [
+   "Denmark",
+   "W Germany"
+  ],
+  "crossContinent": false
  },
  {
   "source": 7,
-  "target": 18
+  "target": 18,
+  "nodes": [
+   "Denmark",
+   "Sweden"
+  ],
+  "crossContinent": false
  },
  {
   "source": 8,
-  "target": 15
+  "target": 15,
+  "nodes": [
+   "E Germany",
+   "Poland"
+  ],
+  "crossContinent": false
  },
  {
   "source": 8,
-  "target": 21
+  "target": 21,
+  "nodes": [
+   "E Germany",
+   "W Germany"
+  ],
+  "crossContinent": false
  },
  {
   "source": 9,
-  "target": 18
+  "target": 18,
+  "nodes": [
+   "Finland",
+   "Sweden"
+  ],
+  "crossContinent": false
  },
  {
   "source": 10,
-  "target": 48
+  "target": 48,
+  "nodes": [
+   "France",
+   "Algeria"
+  ],
+  "crossContinent": true
  },
  {
   "source": 10,
-  "target": 20
+  "target": 20,
+  "nodes": [
+   "France",
+   "UK"
+  ],
+  "crossContinent": false
  },
  {
   "source": 10,
-  "target": 21
+  "target": 21,
+  "nodes": [
+   "France",
+   "W Germany"
+  ],
+  "crossContinent": false
  },
  {
   "source": 10,
-  "target": 13
+  "target": 13,
+  "nodes": [
+   "France",
+   "Italy"
+  ],
+  "crossContinent": false
  },
  {
   "source": 10,
-  "target": 17
+  "target": 17,
+  "nodes": [
+   "France",
+   "Spain/Portugal"
+  ],
+  "crossContinent": false
  },
  {
   "source": 11,
-  "target": 13
+  "target": 13,
+  "nodes": [
+   "Greece",
+   "Italy"
+  ],
+  "crossContinent": false
  },
  {
   "source": 11,
-  "target": 22
+  "target": 22,
+  "nodes": [
+   "Greece",
+   "Yugoslavia"
+  ],
+  "crossContinent": false
  },
  {
   "source": 11,
-  "target": 19
+  "target": 19,
+  "nodes": [
+   "Greece",
+   "Turkey"
+  ],
+  "crossContinent": false
  },
  {
   "source": 12,
-  "target": 16
+  "target": 16,
+  "nodes": [
+   "Hungary",
+   "Romania"
+  ],
+  "crossContinent": false
  },
  {
   "source": 12,
-  "target": 22
+  "target": 22,
+  "nodes": [
+   "Hungary",
+   "Yugoslavia"
+  ],
+  "crossContinent": false
  },
  {
   "source": 13,
-  "target": 22
+  "target": 22,
+  "nodes": [
+   "Italy",
+   "Yugoslavia"
+  ],
+  "crossContinent": false
  },
  {
   "source": 13,
-  "target": 17
+  "target": 17,
+  "nodes": [
+   "Italy",
+   "Spain/Portugal"
+  ],
+  "crossContinent": false
  },
  {
   "source": 14,
-  "target": 20
+  "target": 20,
+  "nodes": [
+   "Norway",
+   "UK"
+  ],
+  "crossContinent": false
  },
  {
   "source": 14,
-  "target": 18
+  "target": 18,
+  "nodes": [
+   "Norway",
+   "Sweden"
+  ],
+  "crossContinent": false
  },
  {
   "source": 16,
-  "target": 19
+  "target": 19,
+  "nodes": [
+   "Romania",
+   "Turkey"
+  ],
+  "crossContinent": false
  },
  {
   "source": 16,
-  "target": 22
+  "target": 22,
+  "nodes": [
+   "Romania",
+   "Yugoslavia"
+  ],
+  "crossContinent": false
  },
  {
   "source": 17,
-  "target": 55
+  "target": 55,
+  "nodes": [
+   "Spain/Portugal",
+   "Morocco"
+  ],
+  "crossContinent": true
  },
  {
   "source": 23,
-  "target": 27
+  "target": 27,
+  "nodes": [
+   "Egypt",
+   "Israel"
+  ],
+  "crossContinent": false
  },
  {
   "source": 23,
-  "target": 30
+  "target": 30,
+  "nodes": [
+   "Egypt",
+   "Libya"
+  ],
+  "crossContinent": false
  },
  {
   "source": 23,
-  "target": 61
+  "target": 61,
+  "nodes": [
+   "Egypt",
+   "Sudan"
+  ],
+  "crossContinent": true
  },
  {
   "source": 24,
-  "target": 26
+  "target": 26,
+  "nodes": [
+   "Gulf States",
+   "Iraq"
+  ],
+  "crossContinent": false
  },
  {
   "source": 24,
-  "target": 31
+  "target": 31,
+  "nodes": [
+   "Gulf States",
+   "Saudi Arabia"
+  ],
+  "crossContinent": false
  },
  {
   "source": 25,
-  "target": 26
+  "target": 26,
+  "nodes": [
+   "Iran",
+   "Iraq"
+  ],
+  "crossContinent": false
  },
  {
   "source": 25,
-  "target": 33
+  "target": 33,
+  "nodes": [
+   "Iran",
+   "Afghanistan"
+  ],
+  "crossContinent": true
  },
  {
   "source": 25,
-  "target": 42
+  "target": 42,
+  "nodes": [
+   "Iran",
+   "Pakistan"
+  ],
+  "crossContinent": true
  },
  {
   "source": 26,
-  "target": 31
+  "target": 31,
+  "nodes": [
+   "Iraq",
+   "Saudi Arabia"
+  ],
+  "crossContinent": false
  },
  {
   "source": 26,
-  "target": 28
+  "target": 28,
+  "nodes": [
+   "Iraq",
+   "Jordan"
+  ],
+  "crossContinent": false
  },
  {
   "source": 27,
-  "target": 28
+  "target": 28,
+  "nodes": [
+   "Israel",
+   "Jordan"
+  ],
+  "crossContinent": false
  },
  {
   "source": 27,
-  "target": 29
+  "target": 29,
+  "nodes": [
+   "Israel",
+   "Lebanon"
+  ],
+  "crossContinent": false
  },
  {
   "source": 27,
-  "target": 32
+  "target": 32,
+  "nodes": [
+   "Israel",
+   "Syria"
+  ],
+  "crossContinent": false
  },
  {
   "source": 28,
-  "target": 31
+  "target": 31,
+  "nodes": [
+   "Jordan",
+   "Saudi Arabia"
+  ],
+  "crossContinent": false
  },
  {
   "source": 28,
-  "target": 29
+  "target": 29,
+  "nodes": [
+   "Jordan",
+   "Lebanon"
+  ],
+  "crossContinent": false
  },
  {
   "source": 29,
-  "target": 32
+  "target": 32,
+  "nodes": [
+   "Lebanon",
+   "Syria"
+  ],
+  "crossContinent": false
  },
  {
   "source": 30,
-  "target": 62
+  "target": 62,
+  "nodes": [
+   "Libya",
+   "Tunisia"
+  ],
+  "crossContinent": true
  },
  {
   "source": 33,
-  "target": 42
+  "target": 42,
+  "nodes": [
+   "Afghanistan",
+   "Pakistan"
+  ],
+  "crossContinent": false
  },
  {
   "source": 34,
-  "target": 40
+  "target": 40,
+  "nodes": [
+   "Australia",
+   "Malaysia"
+  ],
+  "crossContinent": false
  },
  {
   "source": 35,
-  "target": 36
+  "target": 36,
+  "nodes": [
+   "Burma",
+   "India"
+  ],
+  "crossContinent": false
  },
  {
   "source": 35,
-  "target": 39
+  "target": 39,
+  "nodes": [
+   "Burma",
+   "Laos/Cambodia"
+  ],
+  "crossContinent": false
  },
  {
   "source": 36,
-  "target": 42
+  "target": 42,
+  "nodes": [
+   "India",
+   "Pakistan"
+  ],
+  "crossContinent": false
  },
  {
   "source": 37,
-  "target": 40
+  "target": 40,
+  "nodes": [
+   "Indonesia",
+   "Malaysia"
+  ],
+  "crossContinent": false
  },
  {
   "source": 37,
-  "target": 43
+  "target": 43,
+  "nodes": [
+   "Indonesia",
+   "Phillippines"
+  ],
+  "crossContinent": false
  },
  {
   "source": 38,
-  "target": 43
+  "target": 43,
+  "nodes": [
+   "Japan",
+   "Phillippines"
+  ],
+  "crossContinent": false
  },
  {
   "source": 38,
-  "target": 44
+  "target": 44,
+  "nodes": [
+   "Japan",
+   "S Korea"
+  ],
+  "crossContinent": false
  },
  {
   "source": 38,
-  "target": 45
+  "target": 45,
+  "nodes": [
+   "Japan",
+   "Taiwan"
+  ],
+  "crossContinent": false
  },
  {
   "source": 39,
-  "target": 46
+  "target": 46,
+  "nodes": [
+   "Laos/Cambodia",
+   "Thailand"
+  ],
+  "crossContinent": false
  },
  {
   "source": 39,
-  "target": 47
+  "target": 47,
+  "nodes": [
+   "Laos/Cambodia",
+   "Vietnam"
+  ],
+  "crossContinent": false
  },
  {
   "source": 40,
-  "target": 46
+  "target": 46,
+  "nodes": [
+   "Malaysia",
+   "Thailand"
+  ],
+  "crossContinent": false
  },
  {
   "source": 41,
-  "target": 44
+  "target": 44,
+  "nodes": [
+   "N Korea",
+   "S Korea"
+  ],
+  "crossContinent": false
  },
  {
   "source": 44,
-  "target": 45
+  "target": 45,
+  "nodes": [
+   "S Korea",
+   "Taiwan"
+  ],
+  "crossContinent": false
  },
  {
   "source": 46,
-  "target": 47
+  "target": 47,
+  "nodes": [
+   "Thailand",
+   "Vietnam"
+  ],
+  "crossContinent": false
  },
  {
   "source": 48,
-  "target": 55
+  "target": 55,
+  "nodes": [
+   "Algeria",
+   "Morocco"
+  ],
+  "crossContinent": false
  },
  {
   "source": 48,
-  "target": 62
+  "target": 62,
+  "nodes": [
+   "Algeria",
+   "Tunisia"
+  ],
+  "crossContinent": false
  },
  {
   "source": 48,
-  "target": 58
+  "target": 58,
+  "nodes": [
+   "Algeria",
+   "Saharan States"
+  ],
+  "crossContinent": false
  },
  {
   "source": 49,
-  "target": 50
+  "target": 50,
+  "nodes": [
+   "Angola",
+   "Botswana"
+  ],
+  "crossContinent": false
  },
  {
   "source": 49,
-  "target": 60
+  "target": 60,
+  "nodes": [
+   "Angola",
+   "South Africa"
+  ],
+  "crossContinent": false
  },
  {
   "source": 49,
-  "target": 64
+  "target": 64,
+  "nodes": [
+   "Angola",
+   "Zaire"
+  ],
+  "crossContinent": false
  },
  {
   "source": 50,
-  "target": 60
+  "target": 60,
+  "nodes": [
+   "Botswana",
+   "South Africa"
+  ],
+  "crossContinent": false
  },
  {
   "source": 50,
-  "target": 65
+  "target": 65,
+  "nodes": [
+   "Botswana",
+   "Zimbabwe"
+  ],
+  "crossContinent": false
  },
  {
   "source": 51,
-  "target": 56
+  "target": 56,
+  "nodes": [
+   "Cameroon",
+   "Nigeria"
+  ],
+  "crossContinent": false
  },
  {
   "source": 51,
-  "target": 64
+  "target": 64,
+  "nodes": [
+   "Cameroon",
+   "Zaire"
+  ],
+  "crossContinent": false
  },
  {
   "source": 52,
-  "target": 61
+  "target": 61,
+  "nodes": [
+   "Ethiopia",
+   "Sudan"
+  ],
+  "crossContinent": false
  },
  {
   "source": 52,
-  "target": 59
+  "target": 59,
+  "nodes": [
+   "Ethiopia",
+   "Somalia"
+  ],
+  "crossContinent": false
  },
  {
   "source": 53,
-  "target": 63
+  "target": 63,
+  "nodes": [
+   "Ivory Coast",
+   "West Africa"
+  ],
+  "crossContinent": false
  },
  {
   "source": 53,
-  "target": 56
+  "target": 56,
+  "nodes": [
+   "Ivory Coast",
+   "Nigeria"
+  ],
+  "crossContinent": false
  },
  {
   "source": 54,
-  "target": 59
+  "target": 59,
+  "nodes": [
+   "Kenya",
+   "Somalia"
+  ],
+  "crossContinent": false
  },
  {
   "source": 54,
-  "target": 57
+  "target": 57,
+  "nodes": [
+   "Kenya",
+   "SE Africa"
+  ],
+  "crossContinent": false
  },
  {
   "source": 55,
-  "target": 63
+  "target": 63,
+  "nodes": [
+   "Morocco",
+   "West Africa"
+  ],
+  "crossContinent": false
  },
  {
   "source": 56,
-  "target": 58
+  "target": 58,
+  "nodes": [
+   "Nigeria",
+   "Saharan States"
+  ],
+  "crossContinent": false
  },
  {
   "source": 57,
-  "target": 65
+  "target": 65,
+  "nodes": [
+   "SE Africa",
+   "Zimbabwe"
+  ],
+  "crossContinent": false
  },
  {
   "source": 64,
-  "target": 65
+  "target": 65,
+  "nodes": [
+   "Zaire",
+   "Zimbabwe"
+  ],
+  "crossContinent": false
  },
  {
   "source": 66,
-  "target": 72
+  "target": 72,
+  "nodes": [
+   "Costa Rica",
+   "Honduras"
+  ],
+  "crossContinent": false
  },
  {
   "source": 66,
-  "target": 74
+  "target": 74,
+  "nodes": [
+   "Costa Rica",
+   "Nicaragua"
+  ],
+  "crossContinent": false
  },
  {
   "source": 66,
-  "target": 75
+  "target": 75,
+  "nodes": [
+   "Costa Rica",
+   "Panama"
+  ],
+  "crossContinent": false
  },
  {
   "source": 67,
-  "target": 71
+  "target": 71,
+  "nodes": [
+   "Cuba",
+   "Haiti"
+  ],
+  "crossContinent": false
  },
  {
   "source": 67,
-  "target": 74
+  "target": 74,
+  "nodes": [
+   "Cuba",
+   "Nicaragua"
+  ],
+  "crossContinent": false
  },
  {
   "source": 68,
-  "target": 71
+  "target": 71,
+  "nodes": [
+   "Dominican Rep",
+   "Haiti"
+  ],
+  "crossContinent": false
  },
  {
   "source": 69,
-  "target": 72
+  "target": 72,
+  "nodes": [
+   "El Salvador",
+   "Honduras"
+  ],
+  "crossContinent": false
  },
  {
   "source": 69,
-  "target": 70
+  "target": 70,
+  "nodes": [
+   "El Salvador",
+   "Guatemala"
+  ],
+  "crossContinent": false
  },
  {
   "source": 70,
-  "target": 72
+  "target": 72,
+  "nodes": [
+   "Guatemala",
+   "Honduras"
+  ],
+  "crossContinent": false
  },
  {
   "source": 70,
-  "target": 73
+  "target": 73,
+  "nodes": [
+   "Guatemala",
+   "Mexico"
+  ],
+  "crossContinent": false
  },
  {
   "source": 72,
-  "target": 74
+  "target": 74,
+  "nodes": [
+   "Honduras",
+   "Nicaragua"
+  ],
+  "crossContinent": false
  },
  {
   "source": 75,
-  "target": 80
+  "target": 80,
+  "nodes": [
+   "Panama",
+   "Columbia"
+  ],
+  "crossContinent": true
  },
  {
   "source": 76,
-  "target": 79
+  "target": 79,
+  "nodes": [
+   "Argentina",
+   "Chile"
+  ],
+  "crossContinent": false
  },
  {
   "source": 76,
-  "target": 82
+  "target": 82,
+  "nodes": [
+   "Argentina",
+   "Paraguay"
+  ],
+  "crossContinent": false
  },
  {
   "source": 76,
-  "target": 84
+  "target": 84,
+  "nodes": [
+   "Argentina",
+   "Uruguay"
+  ],
+  "crossContinent": false
  },
  {
   "source": 77,
-  "target": 82
+  "target": 82,
+  "nodes": [
+   "Bolivia",
+   "Paraguay"
+  ],
+  "crossContinent": false
  },
  {
   "source": 77,
-  "target": 83
+  "target": 83,
+  "nodes": [
+   "Bolivia",
+   "Peru"
+  ],
+  "crossContinent": false
  },
  {
   "source": 78,
-  "target": 84
+  "target": 84,
+  "nodes": [
+   "Brazil",
+   "Uruguay"
+  ],
+  "crossContinent": false
  },
  {
   "source": 78,
-  "target": 85
+  "target": 85,
+  "nodes": [
+   "Brazil",
+   "Venezuela"
+  ],
+  "crossContinent": false
  },
  {
   "source": 79,
-  "target": 83
+  "target": 83,
+  "nodes": [
+   "Chile",
+   "Peru"
+  ],
+  "crossContinent": false
  },
  {
   "source": 80,
-  "target": 81
+  "target": 81,
+  "nodes": [
+   "Columbia",
+   "Ecuador"
+  ],
+  "crossContinent": false
  },
  {
   "source": 80,
-  "target": 85
+  "target": 85,
+  "nodes": [
+   "Columbia",
+   "Venezuela"
+  ],
+  "crossContinent": false
  },
  {
   "source": 81,
-  "target": 83
+  "target": 83,
+  "nodes": [
+   "Ecuador",
+   "Peru"
+  ],
+  "crossContinent": false
  },
  {
   "source": 82,
-  "target": 84
+  "target": 84,
+  "nodes": [
+   "Paraguay",
+   "Uruguay"
+  ],
+  "crossContinent": false
  }
 ]

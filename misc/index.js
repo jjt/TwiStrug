@@ -72,10 +72,12 @@ function makeCountriesAndLinks() {
       if(country.links) {
         out.push.apply(out, country.links.split(',').map(function(target) {
           targetCountry = _.find(countries,{name:target});
-          console.log(targetCountry);
+          // Have to figure out if it's cross-continental
           return {
             source:country.id,
-            target:targetCountry.id
+            target:targetCountry.id,
+            nodes: [country.name, targetCountry.name],
+            crossContinent: country.continent !== targetCountry.continent
           }
         }));
       }

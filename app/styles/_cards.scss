@@ -1,14 +1,5 @@
 @import 'solarized/scss/solarized';
-
-$asia: #F89E2C;
-$europe: #9E6AD6;
-$easternEurope: lighten($europe,10%);
-$westernEurope: darken($europe,10%);
-$middleEast: #95C4DA;
-$centralAmerica: #99B388;
-$southAmerica: #6F9655;
-$africa: #B9B26D;
-$southeastAsia: #F89E2C;
+@import 'groupColors';
 
 
 .card {
@@ -29,27 +20,6 @@ $southeastAsia: #F89E2C;
 
 
 
-[class^="node-"], [class*=" node-"] {
-  stroke: #000;
-  stroke-width:1px;
-  stroke-opacity:0.3
-}
-.link {stroke: #999; stroke-opacity:0.6;}
-.node-usa { fill:$solarized-blue; }
-.node-ussr { fill:$solarized-red; }
-.node-eeu { fill:$easternEurope; }
-.node-weu { fill:$westernEurope; }
-.node-eu { fill:$europe; }
-.node-me { fill:$middleEast; }
-.node-as { fill:$asia; }
-.node-sea { fill:$southeastAsia; }
-.node-af { fill:$africa; }
-.node-ca { fill:$centralAmerica; }
-.node-sa { fill:$southAmerica; }
-
-.map {
-  border:1px solid #ccc;
-}
 
 
 

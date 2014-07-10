@@ -1629,6 +1629,38 @@ address {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .card, .card a {
   color: #666; }
 
@@ -1658,51 +1690,6 @@ address {
 
 .southeastAsiaScoring, .southeastAsiaScoring a {
   color: #d17607; }
-
-[class^="node-"], [class*=" node-"] {
-  stroke: #000;
-  stroke-width: 1px;
-  stroke-opacity: 0.3; }
-
-.link {
-  stroke: #999;
-  stroke-opacity: 0.6; }
-
-.node-usa {
-  fill: #268BD2; }
-
-.node-ussr {
-  fill: #DC322F; }
-
-.node-eeu {
-  fill: #b792e1; }
-
-.node-weu {
-  fill: #8242cb; }
-
-.node-eu {
-  fill: #9E6AD6; }
-
-.node-me {
-  fill: #95C4DA; }
-
-.node-as {
-  fill: #F89E2C; }
-
-.node-sea {
-  fill: #F89E2C; }
-
-.node-af {
-  fill: #B9B26D; }
-
-.node-ca {
-  fill: #99B388; }
-
-.node-sa {
-  fill: #6F9655; }
-
-.map {
-  border: 1px solid #ccc; }
 
 .card {
   display: block;
@@ -2024,7 +2011,7 @@ p {
   border-radius: 0;
   border-bottom: 1px solid #ccc;
   margin-bottom: 0;
-  background-color: #eee; }
+  background-color: #eff0ee; }
 
 .navbar-nav > li > a, .navbar-brand {
   color: #666; }
@@ -2109,16 +2096,77 @@ a[href^="http://"], a[href^="https://"] {
   text-align: center;
   margin: 3rem 1rem; }
 
-.map .node-label {
-  stroke: rgba(255, 255, 255, 0.8);
-  stroke-width: 0;
-  fill: rgba(255, 255, 255, 0.8);
-  text-anchor: middle;
-  cursor: pointer;
-  font-size: 11px; }
-.map .link {
-  stroke: rgba(0, 0, 0, 0.8);
-  stroke-width: 3px; }
+
+.link {
+  stroke: #999;
+  stroke-opacity: 0.6; }
+
+.node-usa .node-bg {
+  fill: #268BD2; }
+
+.node-ussr .node-bg {
+  fill: #DC322F; }
+
+.node-eeu .node-bg {
+  fill: #b792e1; }
+
+.node-weu .node-bg {
+  fill: #8242cb; }
+
+.node-eu .node-bg {
+  fill: #9E6AD6; }
+
+.node-me .node-bg {
+  fill: #95C4DA; }
+
+.node-as .node-bg {
+  fill: #F89E2C; }
+
+.node-sea .node-bg {
+  fill: #F89E2C; }
+
+.node-af .node-bg {
+  fill: #B9B26D; }
+
+.node-ca .node-bg {
+  fill: #99B388; }
+
+.node-sa .node-bg {
+  fill: #6F9655; }
+
+.map {
+  border: 1px solid #b9bdb7;
+  background: #dcdfd9; }
+  .map .node {
+    cursor: pointer;
+    stroke-width: 0; }
+  .map .node-title {
+    fill: rgba(255, 255, 255, 0.5);
+    stroke-width: 0; }
+  .map .node-label, .map .node-stab {
+    stroke: rgba(0, 0, 0, 0.8);
+    stroke-width: 0.5;
+    fill: rgba(0, 0, 0, 0.8); }
+  .map .node-stab {
+    font-weight: bold;
+    stroke-width: 0; }
+  .map .node-label {
+    font-size: 11px; }
+  .map .node-bg {
+    stroke: rgba(0, 0, 0, 0.4);
+    stroke-width: 1px; }
+  .map .node-btl .node-label, .map .node-btl .node-stab {
+    stroke: rgba(255, 255, 255, 0.8);
+    stroke-width: 0;
+    fill: rgba(255, 255, 255, 0.8); }
+  .map .node-btl .node-title {
+    fill: rgba(0, 0, 0, 0.5); }
+  .map .link {
+    stroke: rgba(0, 0, 0, 0.8);
+    stroke-width: 2px; }
+  .map .link-cross {
+    stroke-dasharray: 3;
+    stroke: rgba(170, 0, 0, 0.8); }
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {

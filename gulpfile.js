@@ -3,7 +3,6 @@
 
 var domain = 'http://twistrug.loc';
 
-
 var gulp = require('gulp');
 var open = require('open');
 var wiredep = require('wiredep').stream;
@@ -11,6 +10,12 @@ var runSequence = require('run-sequence');
 
 // Load plugins
 var $ = require('gulp-load-plugins')();
+
+
+var logErr = function(err) {
+  console.log('ERR', err);
+  this.emit('end')
+}
 
 
 // Styles
@@ -42,7 +47,7 @@ gulp.task('scripts', function () {
 gulp.task('coffee', function() {
   return gulp.src('coffee/**/*.coffee')
     .pipe($.coffee())
-    .on('error', $.util.log)
+    .on('error', logErr)
     .pipe(gulp.dest(''));
 });
 

@@ -1,5 +1,5 @@
 (function() {
-  var $, AboutView, BoardView, Card, CardList, CardView, CardsView, CountriesView, HomeView, MapView, R, TwiStrug, WhoopsView, addReactKey, cardClassName, cardStages, cx, filterTruthy, filterUnique, filterValidCardIds, qs, setPageTitle, sortNumerical, zeroPad,
+  var $, AboutView, BoardView, Card, CardList, CardView, CardsView, CountriesView, HomeView, MapView, R, TwiStrug, WhoopsView, addReactKey, cardClassName, cardStages, cx, filterTruthy, filterUnique, filterValidCardIds, nodeGutter, nodeHeight, nodeTitleFontSize, nodeTitleHeight, nodeWidth, qs, setPageTitle, snapToGrid, sortNumerical, zeroPad,
     __hasProp = {}.hasOwnProperty,
     __slice = [].slice,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
@@ -517,6 +517,31 @@
     }
   });
 
+  nodeWidth = 66;
+
+  nodeHeight = 50;
+
+  nodeGutter = 14;
+
+  nodeTitleHeight = 16;
+
+  nodeTitleFontSize = 12;
+
+  snapToGrid = function(obj) {
+    var gridX, gridY;
+    gridX = Math.round((nodeWidth + nodeGutter) / 2);
+    gridY = Math.round((nodeHeight + nodeGutter) / 2);
+    obj.x = Math.round(obj.x / gridX) * gridX;
+    obj.y = Math.round(obj.y / gridY) * gridY;
+    if (obj.px) {
+      obj.px = obj.x;
+    }
+    if (obj.py) {
+      obj.py = obj.y;
+    }
+    return obj;
+  };
+
   MapView = React.createClass({
     getInitialState: function() {
       return {
@@ -525,8 +550,8 @@
     },
     getDefaultProps: function() {
       return {
-        width: 1280,
-        height: 1000
+        width: 1140,
+        height: 700
       };
     },
     dragend: function(el) {
@@ -545,25 +570,17 @@
     componentDidMount: function() {
       return $.getScript('/bower_components/d3/d3.js', (function(_this) {
         return function() {
-          var color, drag, foci, force, svg;
+          var color, drag, force, svg;
           color = d3.scale.category20();
           force = d3.layout.force().linkDistance(10).size([_this.props.width, _this.props.height]).gravity(0.2);
           drag = force.drag();
           drag.on('dragend', function(el) {
+            console.log('dragend', el);
+            el = snapToGrid(el);
             return _this.dragend(el);
           });
           svg = d3.select(_this.refs.svg.getDOMNode());
-          foci = {
-            ca: [118, 242],
-            sa: [122, 372],
-            weu: [426, 100],
-            eeu: [522, 126],
-            af: [482, 366],
-            me: [649, 225],
-            as: [787, 290],
-            sea: [784, 308]
-          };
-          return d3.json('/data/map-positions-grid-v4.json', function(err, positions) {
+          return d3.json('/data/map-positions-grid-v5.json', function(err, positions) {
             console.log(positions);
             return d3.json('/data/countries-for-graph.json', function(err, graph) {
               var coordsReduce, link, node;
@@ -575,22 +592,39 @@
                 obj[el.name] = [];
                 return obj;
               };
+              positions = _.mapValues(positions, function(position) {
+                position = snapToGrid(position);
+                return position;
+              });
               _this.setState({
                 coords: positions
               });
               graph.nodes = graph.nodes.map(function(node) {
+                console.log(node.name);
                 node.px = positions[node.name].x;
                 node.py = positions[node.name].y;
+                node.fixed = true;
                 return node;
               });
               force.nodes(graph.nodes).links(graph.links).start();
-              link = svg.selectAll('.link').data(graph.links).enter().append('line').attr('class', 'link');
-              node = svg.selectAll('.node').data(graph.nodes).enter().append('g').call(drag);
-              node.append('rect').attr('class', 'node').attr('width', 60).attr('height', 30).attr('x', -30).attr('y', -15).attr('class', function(d) {
-                return "node-" + d.group;
+              link = svg.selectAll('.link').data(graph.links).enter().append('line').attr('class', function(d) {
+                var crossContinent;
+                crossContinent = d.crossContinent ? 'link-cross' : '';
+                return "link " + crossContinent;
               });
-              node.append('text').attr('class', 'node-label').attr('dy', "0.4em").text(function(d) {
-                return d.name;
+              node = svg.selectAll('.node').data(graph.nodes).enter().append('g').call(drag);
+              node.attr('class', function(d) {
+                var btl;
+                btl = d.btl === 1 ? 'node-btl' : '';
+                return "node node-" + d.group + " " + btl;
+              });
+              node.append('rect').attr('width', nodeWidth).attr('height', nodeHeight).attr('x', -(nodeWidth / 2)).attr('y', -(nodeHeight / 2)).attr('class', "node-bg");
+              node.append('rect').attr('class', 'node-title').attr('width', nodeWidth).attr('height', nodeTitleHeight).attr('x', -(nodeWidth / 2)).attr('y', -(nodeHeight / 2));
+              node.append('text').attr('class', "node-label").attr('dx', -(nodeWidth / 2) + 2).attr('dy', -(nodeHeight / 2) + nodeTitleFontSize).text(function(d) {
+                return d.shortname;
+              });
+              node.append('text').attr('class', "node-stab").attr('dx', (nodeWidth / 2) - 10).attr('dy', -(nodeHeight / 2) + nodeTitleFontSize + 1).text(function(d) {
+                return d.stab;
               });
               return force.on('tick', function(e) {
                 link.attr('x1', function(d) {
@@ -615,7 +649,9 @@
       return R.div({
         className: 'mapView'
       }, [
-        R.h2({}, "Map"), R.svg({
+        R.div({
+          className: 'page-header'
+        }, [R.h2({}, "Map")]), R.svg({
           className: 'map',
           width: this.props.width,
           height: this.props.height,

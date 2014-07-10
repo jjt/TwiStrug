@@ -94,7 +94,7 @@ p {
   border-radius:0;
   border-bottom:1px solid #ccc;
   margin-bottom:0;
-  background-color:#eee;
+  background-color:#eff0ee;
 }
 
 .navbar-nav > li > a, .navbar-brand {
@@ -206,20 +206,74 @@ a[href^="https://"] {
   margin:3rem 1rem;
 }
 
+[class^="node-"], [class*=" node-"] {
+}
+.link {stroke: #999; stroke-opacity:0.6;}
+
+.node-usa .node-bg { fill:$solarized-blue; }
+.node-ussr .node-bg { fill:$solarized-red; }
+.node-eeu .node-bg { fill:$easternEurope; }
+.node-weu .node-bg { fill:$westernEurope; }
+.node-eu .node-bg { fill:$europe; }
+.node-me .node-bg { fill:$middleEast; }
+.node-as .node-bg { fill:$asia; }
+.node-sea .node-bg { fill:$southeastAsia; }
+.node-af .node-bg { fill:$africa; }
+.node-ca .node-bg { fill:$centralAmerica; }
+.node-sa .node-bg { fill:$southAmerica; }
+
+
 .map {
   //background:url(/images/tsboard.jpg) no-repeat;
-  //background-size: contain;
-  .node-label {
-    stroke:rgba(#fff, 0.8);
-    stroke-width:0;
-    fill:rgba(#fff, 0.8);
-    text-anchor:middle;
+  border:1px solid #b9bdb7;
+  background: #dcdfd9;
+  .node {
     cursor:pointer;
+    stroke-width:0;
+  }
+  .node-title {
+    fill: rgba(#fff, 0.5);
+    stroke-width:0;
+  }
+  .node-label, .node-stab {
+    stroke:rgba(#000, 0.8);
+    stroke-width:0.5;
+    fill: rgba(#000,0.8);
+  }
+  .node-stab {
+    font-weight:bold;
+    stroke-width:0;
+  }
+  .node-label {
     font-size:11px;
+  }
+
+  .node-bg {
+    stroke: rgba(#000,0.4);
+    stroke-width:1px;
+  }
+
+  .node-btl {
+    .node-label, .node-stab {
+      stroke:rgba(#fff, 0.8);
+      stroke-width:0;
+      fill: rgba(#fff,0.8);
+      //text-anchor:middle;
+    }
+
+    .node-title {
+      fill:rgba(#000, 0.5);
+    }
+  
   }
   .link {
     stroke:rgba(#000,0.8);
-    stroke-width:3px;
+    stroke-width:2px;
+  }
+
+  .link-cross {
+    stroke-dasharray: 3;
+    stroke:rgba(#a00,0.8);
   }
 }
 
