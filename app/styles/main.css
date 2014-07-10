@@ -1680,7 +1680,7 @@ address {
   color: #5ca5c6; }
 
 .centralAmericaScoring, .centralAmericaScoring a {
-  color: #72925d; }
+  color: #5c633f; }
 
 .southAmericaScoring, .southAmericaScoring a {
   color: #587543; }
@@ -1737,7 +1737,7 @@ address {
   .middleEastScoring .card-ops {
     background: #95C4DA; }
   .centralAmericaScoring .card-ops {
-    background: #99B388; }
+    background: #87925D; }
   .southAmericaScoring .card-ops {
     background: #6F9655; }
   .africaScoring .card-ops {
@@ -2102,37 +2102,37 @@ a[href^="http://"], a[href^="https://"] {
   stroke-opacity: 0.6; }
 
 .node-usa .node-bg {
-  fill: #268BD2; }
+  fill: #4ca4df; }
 
 .node-ussr .node-bg {
-  fill: #DC322F; }
+  fill: #e35d5b; }
 
 .node-eeu .node-bg {
-  fill: #b792e1; }
+  fill: #d1baec; }
 
-.node-weu .node-bg {
-  fill: #8242cb; }
+.node-weu .node-bg, .node-eu .node-bg {
+  fill: #a87edc; }
 
-.node-eu .node-bg {
-  fill: #9E6AD6; }
+.node-bg-eu {
+  fill: #d1baec; }
 
 .node-me .node-bg {
-  fill: #95C4DA; }
+  fill: #bbd9e7; }
 
-.node-as .node-bg {
-  fill: #F89E2C; }
+.node-as .node-bg, .node-sea .node-bg {
+  fill: #f8a136; }
 
-.node-sea .node-bg {
-  fill: #F89E2C; }
+.node-bg-sea {
+  fill: #fbc380; }
 
 .node-af .node-bg {
-  fill: #B9B26D; }
+  fill: #F5E696; }
 
 .node-ca .node-bg {
-  fill: #99B388; }
+  fill: #E2ECB9; }
 
 .node-sa .node-bg {
-  fill: #6F9655; }
+  fill: #95b57d; }
 
 .map {
   border: 1px solid #b9bdb7;
@@ -2155,18 +2155,35 @@ a[href^="http://"], a[href^="https://"] {
   .map .node-bg {
     stroke: rgba(0, 0, 0, 0.4);
     stroke-width: 1px; }
+  .map .node-bg-hidden {
+    display: none; }
+  .map .node-line {
+    stroke: rgba(0, 0, 0, 0.4);
+    stroke-width: 1px; }
   .map .node-btl .node-label, .map .node-btl .node-stab {
     stroke: rgba(255, 255, 255, 0.8);
     stroke-width: 0;
     fill: rgba(255, 255, 255, 0.8); }
   .map .node-btl .node-title {
     fill: rgba(0, 0, 0, 0.5); }
+  .map .node-btl.node-weu .node-title, .map .node-btl.node-eeu .node-title {
+    fill: #4a227b; }
+  .map .node-usa .node-stab, .map .node-ussr .node-stab {
+    display: none; }
   .map .link {
-    stroke: rgba(0, 0, 0, 0.8);
-    stroke-width: 2px; }
+    stroke: rgba(0, 0, 0, 0.4);
+    stroke-width: 6px; }
   .map .link-cross {
-    stroke-dasharray: 3;
-    stroke: rgba(170, 0, 0, 0.8); }
+    stroke-dasharray: 6 3; }
+  .map .link-usa {
+    stroke: #268BD2;
+    stroke-dasharray: 6 3; }
+  .map .link-ussr {
+    stroke: #DC322F;
+    stroke-dasharray: 6 3; }
+
+.map-position-debug {
+  display: none; }
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {

@@ -91,12 +91,18 @@ gulp.task('clean', function () {
       'dist/styles',
       'dist/scripts',
       'dist/images',
-      'dist/fontello'
+      'dist/fontello',
+      'dist/bower_components'
       ],
       { read: false }
     ).pipe($.clean());
 });
 
+// Bower components
+gulp.task('bowerComponents', function(){
+  return gulp.src('app/bower_components/**/*')
+    .pipe(gulp.dest('dist/bower_components'))
+});
 
 
 
@@ -112,7 +118,8 @@ gulp.task('fontello', function(){
 // Build
 gulp.task('build', function() {
   return runSequence('clean',
-    ['styles', 'coffee', 'html', 'images', 'data', 'fontello']);
+    ['styles', 'coffee', 'html', 'images', 'data', 'fontello']
+  );
 
 });
 

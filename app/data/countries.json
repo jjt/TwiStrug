@@ -1,6 +1,5 @@
 [
   {
-    "9": "",
     "name": "USA",
     "shortname": "USA",
     "group": "usa",
@@ -9,7 +8,7 @@
     "btl": 0,
     "usa": 0,
     "ussr": 0,
-    "links": "Canada,Cuba,Mexico",
+    "links": "Canada,Cuba,Mexico,Japan",
     "id": 0
   },
   {
@@ -223,7 +222,7 @@
   {
     "9": "",
     "name": "Spain/Portugal",
-    "shortname": "Sp/Port",
+    "shortname": "Spain/Po",
     "group": "weu",
     "continent": "eu",
     "stab": 2,
@@ -288,7 +287,7 @@
   {
     "9": "",
     "name": "Yugoslavia",
-    "shortname": "Yugosl",
+    "shortname": "Yugoslav",
     "group": "eeu",
     "continent": "eu",
     "stab": 3,

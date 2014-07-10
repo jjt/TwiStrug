@@ -210,17 +210,17 @@ a[href^="https://"] {
 }
 .link {stroke: #999; stroke-opacity:0.6;}
 
-.node-usa .node-bg { fill:$solarized-blue; }
-.node-ussr .node-bg { fill:$solarized-red; }
-.node-eeu .node-bg { fill:$easternEurope; }
-.node-weu .node-bg { fill:$westernEurope; }
-.node-eu .node-bg { fill:$europe; }
-.node-me .node-bg { fill:$middleEast; }
-.node-as .node-bg { fill:$asia; }
-.node-sea .node-bg { fill:$southeastAsia; }
-.node-af .node-bg { fill:$africa; }
-.node-ca .node-bg { fill:$centralAmerica; }
-.node-sa .node-bg { fill:$southAmerica; }
+.node-usa .node-bg { fill:lighten($solarized-blue, 10%); }
+.node-ussr .node-bg { fill:lighten($solarized-red, 10%); }
+.node-eeu .node-bg { fill:lighten($easternEurope, 10%); }
+.node-weu .node-bg, .node-eu .node-bg { fill:lighten($westernEurope, 15%); }
+.node-bg-eu { fill:lighten($easternEurope, 10%)}
+.node-me .node-bg { fill:lighten($middleEast, 10%); }
+.node-as .node-bg, .node-sea .node-bg { fill:lighten($asia, 2%); }
+.node-bg-sea { fill:lighten($asia, 17%); }
+.node-af .node-bg { fill:#F5E696; }
+.node-ca .node-bg { fill:#E2ECB9; }
+.node-sa .node-bg { fill:lighten($southAmerica, 14%); }
 
 
 .map {
@@ -253,6 +253,15 @@ a[href^="https://"] {
     stroke-width:1px;
   }
 
+  .node-bg-hidden {
+    display:none;
+  }
+
+  .node-line {
+    stroke: rgba(#000, 0.4);
+    stroke-width:1px;
+  }
+
   .node-btl {
     .node-label, .node-stab {
       stroke:rgba(#fff, 0.8);
@@ -264,17 +273,54 @@ a[href^="https://"] {
     .node-title {
       fill:rgba(#000, 0.5);
     }
+
+    
+    &.node-weu, &.node-eeu {
+      .node-title {
+        fill: darken($westernEurope, 22%);
+      }
+    }
   
   }
+
+  .node-usa, .node-ussr {
+    .node-stab {
+      display:none;
+    }
+  }
+
   .link {
-    stroke:rgba(#000,0.8);
-    stroke-width:2px;
+    stroke:rgba(#000,0.4);
+    stroke-width:6px;
   }
 
   .link-cross {
-    stroke-dasharray: 3;
-    stroke:rgba(#a00,0.8);
+    stroke-dasharray: 6 3;
   }
+
+  %link-superpower {
+  }
+
+  .link-usa, .link-ussr {
+    @extend %link-superpower;
+  }
+
+  .link-usa {
+    stroke:$solarized-blue;
+    stroke-dasharray: 6 3;
+  }
+
+  .link-ussr {
+    stroke:$solarized-red;
+    stroke-dasharray: 6 3;
+  }
+
+
+
+}
+
+.map-position-debug {
+  display:none;
 }
 
 

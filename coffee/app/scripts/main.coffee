@@ -379,6 +379,7 @@ BoardView = React.createClass
     ]
 
 
+paddingTop = 12
 nodeWidth = 66
 nodeHeight = 50
 nodeGutter = 14
@@ -389,7 +390,7 @@ snapToGrid = (obj)->
   gridX = Math.round (nodeWidth + nodeGutter) / 2
   gridY = Math.round (nodeHeight + nodeGutter) / 2
   obj.x = Math.round(obj.x / gridX) * gridX
-  obj.y = Math.round(obj.y / gridY) * gridY
+  obj.y = Math.round(obj.y / gridY) * gridY + paddingTop
   if obj.px
     obj.px = obj.x
   if obj.py
@@ -403,19 +404,18 @@ MapView = React.createClass
 
   getDefaultProps: ->
     width: 1140
-    height: 700
+    height: 730
 
   dragend: (el)->
     coords = @state.coords
     coords[el.name] =
       x: Math.round(el.x)
       y: Math.round(el.y)
-    console.log el.name, coords[el.name]
     el.fixed = true
     @setState {coords}
 
   componentDidMount: ->
-    $.getScript '/bower_components/d3/d3.js', ()=>
+    $.getScript '/scripts/d3.min.js', ()=>
       color = d3.scale.category20()
       force = d3.layout.force()
         #.charge -320
@@ -426,7 +426,6 @@ MapView = React.createClass
       drag = force.drag()
 
       drag.on 'dragend', (el)=>
-        console.log 'dragend', el
         el = snapToGrid el
         @dragend el
 
@@ -434,9 +433,7 @@ MapView = React.createClass
     
 
       d3.json '/data/map-positions-grid-v5.json', (err,positions)=>
-        console.log positions
         d3.json '/data/countries-for-graph.json', (err,graph)=>
-          console.log graph
           coordsReduce = (obj={}, el)=>
             obj[el.name] = []
             obj
@@ -449,7 +446,6 @@ MapView = React.createClass
             coords: positions
 
           graph.nodes = graph.nodes.map (node)->
-            console.log(node.name)
             node.px = positions[node.name].x
             node.py = positions[node.name].y
             node.fixed = true
@@ -463,8 +459,15 @@ MapView = React.createClass
             .data(graph.links).enter()
             .append 'line'
             .attr 'class', (d)->
-              crossContinent = if d.crossContinent then 'link-cross' else ''
-              "link #{crossContinent}"
+              linkClass = ''
+              if d.crossContinent
+                linkClass = 'link-cross'
+              if _.contains(d.nodes, 'USA')
+                linkClass = 'link-usa'
+              if _.contains(d.nodes, 'USSR')
+                linkClass = 'link-ussr'
+              
+              "link #{linkClass}"
 
           node = svg.selectAll '.node'
             .data(graph.nodes).enter()
@@ -478,16 +481,39 @@ MapView = React.createClass
           node.append 'rect'
             .attr 'width', nodeWidth
             .attr 'height', nodeHeight
-            .attr 'x', -(nodeWidth/2)
-            .attr 'y', -(nodeHeight/2)
+            .attr 'x', -nodeWidth/2
+            .attr 'y', -nodeHeight/2
             .attr 'class', "node-bg"
+
+          cornerBL = "#{-nodeWidth/2},#{nodeHeight/2}"
+          cornerBR = "#{nodeWidth/2},#{nodeHeight/2}"
+          cornerTR = "#{nodeWidth/2},#{-nodeHeight/2 + nodeTitleHeight}"
+          triangle = [cornerBL, cornerBR, cornerTR]
+
+
+          node.append 'polygon'
+            .attr 'points', triangle.join ' '
+            .attr 'class', (d)->
+              switch d.group
+                when 'eu' then 'node-bg-eu'
+                when 'sea' then 'node-bg-sea'
+                else 'node-bg-hidden'
+
           
           node.append 'rect'
             .attr 'class', 'node-title'
             .attr 'width', nodeWidth
             .attr 'height', nodeTitleHeight
-            .attr 'x', -(nodeWidth/2)
-            .attr 'y', -(nodeHeight/2)
+            .attr 'x', -nodeWidth/2
+            .attr 'y', -nodeHeight/2
+
+          node.append 'line'
+            .attr 'class', 'node-line'
+            .attr 'width', nodeWidth
+            .attr 'x1', -nodeWidth/2
+            .attr 'y1', -nodeHeight/2 + nodeTitleHeight
+            .attr 'x2', nodeWidth/2
+            .attr 'y2', -nodeHeight/2 + nodeTitleHeight
 
           node.append 'text'
             #.attr 'dy', "0.4em"
@@ -504,10 +530,16 @@ MapView = React.createClass
           
 
           force.on 'tick', (e)->
+            jUSA = (d, targ)->
+              japanUSABump = 18
+              if d.source.name == 'USA' and d.target.name == 'Japan'
+                return d[targ].y - japanUSABump
+              d[targ].y
+
             link.attr 'x1', (d)-> d.source.x
-              .attr 'y1', (d)-> d.source.y
+              .attr 'y1', (d)-> jUSA d, 'source'
               .attr 'x2', (d)-> d.target.x
-              .attr 'y2', (d)-> d.target.y
+              .attr 'y2', (d)-> jUSA d, 'target'
 
             node.attr 'transform', (d)-> "translate (#{d.x},#{d.y})"
 
@@ -517,7 +549,7 @@ MapView = React.createClass
           R.h2 {}, "Map"
         ]
       R.svg className:'map', width:@props.width, height:@props.height, ref:'svg'
-      R.textarea ref:'debug', style:{width:'100%', height:'60rem'}, value: JSON.stringify(@state.coords, null, ' ')
+      R.textarea className: 'map-position-debug', ref:'debug', style:{width:'100%', height:'60rem'}, value: JSON.stringify(@state.coords, null, ' ')
     ]
 
 

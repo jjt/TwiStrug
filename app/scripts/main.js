@@ -1,5 +1,5 @@
 (function() {
-  var $, AboutView, BoardView, Card, CardList, CardView, CardsView, CountriesView, HomeView, MapView, R, TwiStrug, WhoopsView, addReactKey, cardClassName, cardStages, cx, filterTruthy, filterUnique, filterValidCardIds, nodeGutter, nodeHeight, nodeTitleFontSize, nodeTitleHeight, nodeWidth, qs, setPageTitle, snapToGrid, sortNumerical, zeroPad,
+  var $, AboutView, BoardView, Card, CardList, CardView, CardsView, CountriesView, HomeView, MapView, R, TwiStrug, WhoopsView, addReactKey, cardClassName, cardStages, cx, filterTruthy, filterUnique, filterValidCardIds, nodeGutter, nodeHeight, nodeTitleFontSize, nodeTitleHeight, nodeWidth, paddingTop, qs, setPageTitle, snapToGrid, sortNumerical, zeroPad,
     __hasProp = {}.hasOwnProperty,
     __slice = [].slice,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
@@ -517,6 +517,8 @@
     }
   });
 
+  paddingTop = 12;
+
   nodeWidth = 66;
 
   nodeHeight = 50;
@@ -532,7 +534,7 @@
     gridX = Math.round((nodeWidth + nodeGutter) / 2);
     gridY = Math.round((nodeHeight + nodeGutter) / 2);
     obj.x = Math.round(obj.x / gridX) * gridX;
-    obj.y = Math.round(obj.y / gridY) * gridY;
+    obj.y = Math.round(obj.y / gridY) * gridY + paddingTop;
     if (obj.px) {
       obj.px = obj.x;
     }
@@ -551,7 +553,7 @@
     getDefaultProps: function() {
       return {
         width: 1140,
-        height: 700
+        height: 730
       };
     },
     dragend: function(el) {
@@ -561,30 +563,26 @@
         x: Math.round(el.x),
         y: Math.round(el.y)
       };
-      console.log(el.name, coords[el.name]);
       el.fixed = true;
       return this.setState({
         coords: coords
       });
     },
     componentDidMount: function() {
-      return $.getScript('/bower_components/d3/d3.js', (function(_this) {
+      return $.getScript('/scripts/d3.min.js', (function(_this) {
         return function() {
           var color, drag, force, svg;
           color = d3.scale.category20();
           force = d3.layout.force().linkDistance(10).size([_this.props.width, _this.props.height]).gravity(0.2);
           drag = force.drag();
           drag.on('dragend', function(el) {
-            console.log('dragend', el);
             el = snapToGrid(el);
             return _this.dragend(el);
           });
           svg = d3.select(_this.refs.svg.getDOMNode());
           return d3.json('/data/map-positions-grid-v5.json', function(err, positions) {
-            console.log(positions);
             return d3.json('/data/countries-for-graph.json', function(err, graph) {
-              var coordsReduce, link, node;
-              console.log(graph);
+              var coordsReduce, cornerBL, cornerBR, cornerTR, link, node, triangle;
               coordsReduce = function(obj, el) {
                 if (obj == null) {
                   obj = {};
@@ -600,7 +598,6 @@
                 coords: positions
               });
               graph.nodes = graph.nodes.map(function(node) {
-                console.log(node.name);
                 node.px = positions[node.name].x;
                 node.py = positions[node.name].y;
                 node.fixed = true;
@@ -608,9 +605,18 @@
               });
               force.nodes(graph.nodes).links(graph.links).start();
               link = svg.selectAll('.link').data(graph.links).enter().append('line').attr('class', function(d) {
-                var crossContinent;
-                crossContinent = d.crossContinent ? 'link-cross' : '';
-                return "link " + crossContinent;
+                var linkClass;
+                linkClass = '';
+                if (d.crossContinent) {
+                  linkClass = 'link-cross';
+                }
+                if (_.contains(d.nodes, 'USA')) {
+                  linkClass = 'link-usa';
+                }
+                if (_.contains(d.nodes, 'USSR')) {
+                  linkClass = 'link-ussr';
+                }
+                return "link " + linkClass;
               });
               node = svg.selectAll('.node').data(graph.nodes).enter().append('g').call(drag);
               node.attr('class', function(d) {
@@ -618,8 +624,23 @@
                 btl = d.btl === 1 ? 'node-btl' : '';
                 return "node node-" + d.group + " " + btl;
               });
-              node.append('rect').attr('width', nodeWidth).attr('height', nodeHeight).attr('x', -(nodeWidth / 2)).attr('y', -(nodeHeight / 2)).attr('class', "node-bg");
-              node.append('rect').attr('class', 'node-title').attr('width', nodeWidth).attr('height', nodeTitleHeight).attr('x', -(nodeWidth / 2)).attr('y', -(nodeHeight / 2));
+              node.append('rect').attr('width', nodeWidth).attr('height', nodeHeight).attr('x', -nodeWidth / 2).attr('y', -nodeHeight / 2).attr('class', "node-bg");
+              cornerBL = "" + (-nodeWidth / 2) + "," + (nodeHeight / 2);
+              cornerBR = "" + (nodeWidth / 2) + "," + (nodeHeight / 2);
+              cornerTR = "" + (nodeWidth / 2) + "," + (-nodeHeight / 2 + nodeTitleHeight);
+              triangle = [cornerBL, cornerBR, cornerTR];
+              node.append('polygon').attr('points', triangle.join(' ')).attr('class', function(d) {
+                switch (d.group) {
+                  case 'eu':
+                    return 'node-bg-eu';
+                  case 'sea':
+                    return 'node-bg-sea';
+                  default:
+                    return 'node-bg-hidden';
+                }
+              });
+              node.append('rect').attr('class', 'node-title').attr('width', nodeWidth).attr('height', nodeTitleHeight).attr('x', -nodeWidth / 2).attr('y', -nodeHeight / 2);
+              node.append('line').attr('class', 'node-line').attr('width', nodeWidth).attr('x1', -nodeWidth / 2).attr('y1', -nodeHeight / 2 + nodeTitleHeight).attr('x2', nodeWidth / 2).attr('y2', -nodeHeight / 2 + nodeTitleHeight);
               node.append('text').attr('class', "node-label").attr('dx', -(nodeWidth / 2) + 2).attr('dy', -(nodeHeight / 2) + nodeTitleFontSize).text(function(d) {
                 return d.shortname;
               });
@@ -627,14 +648,23 @@
                 return d.stab;
               });
               return force.on('tick', function(e) {
+                var jUSA;
+                jUSA = function(d, targ) {
+                  var japanUSABump;
+                  japanUSABump = 18;
+                  if (d.source.name === 'USA' && d.target.name === 'Japan') {
+                    return d[targ].y - japanUSABump;
+                  }
+                  return d[targ].y;
+                };
                 link.attr('x1', function(d) {
                   return d.source.x;
                 }).attr('y1', function(d) {
-                  return d.source.y;
+                  return jUSA(d, 'source');
                 }).attr('x2', function(d) {
                   return d.target.x;
                 }).attr('y2', function(d) {
-                  return d.target.y;
+                  return jUSA(d, 'target');
                 });
                 return node.attr('transform', function(d) {
                   return "translate (" + d.x + "," + d.y + ")";
@@ -657,6 +687,7 @@
           height: this.props.height,
           ref: 'svg'
         }), R.textarea({
+          className: 'map-position-debug',
           ref: 'debug',
           style: {
             width: '100%',

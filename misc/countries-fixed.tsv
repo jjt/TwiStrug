@@ -1,6 +1,6 @@
 name						shortname				group			continent	stab	btl		usa		ussr	links																					
                                           
-USA							USA							usa				usa				0			0			0			0			Canada,Cuba,Mexico														
+USA							USA							usa				usa				0			0			0			0			Canada,Cuba,Mexico,Japan
 USSR						USSR						ussr			ussr			0			0			0			0			Afghanistan,Finland,N Korea,Poland,Romania		
                                                                                                                           
 Austria					Austria					eu				eu				4			0			0			0			E Germany,Hungary,Italy,W Germany							
@@ -18,12 +18,12 @@ Italy						Italy						weu				eu				2			1			0			0			Yugoslavia,Spain/Portugal
 Norway					Norway					weu				eu				4			0			0			0			UK,Sweden																			
 Poland					Poland					eeu				eu				3			1			0			0			0																							
 Romania					Romania					eeu				eu				3			0			0			0			Turkey,Yugoslavia															
-Spain/Portugal	Sp/Port					weu				eu				2			0			0			0			Morocco																				
+Spain/Portugal	Spain/Po					weu				eu				2			0			0			0			Morocco																				
 Sweden					Sweden					weu				eu				4			0			0			0			0																							
 Turkey					Turkey					weu				eu				2			0			0			0			0																							
 UK							UK							weu				eu				5			0			5			0			0																							
 W Germany				W.Germ					weu				eu				4			1			0			0			0																							
-Yugoslavia			Yugosl					eeu				eu				3			0			0			0			0																							
+Yugoslavia			Yugoslav				eeu				eu				3			0			0			0			0																							
                                                                                                                           
 Egypt						Egypt						me				me				2			1			0			0			Israel,Libya,Sudan														
 Gulf States			Gulf Sts				me				me				3			0			0			0			Iraq,Saudi Arabia															
