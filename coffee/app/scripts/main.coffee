@@ -379,7 +379,6 @@ BoardView = React.createClass
     ]
 
 
-paddingTop = 12
 nodeWidth = 66
 nodeHeight = 50
 nodeGutter = 14
@@ -390,7 +389,7 @@ snapToGrid = (obj)->
   gridX = Math.round (nodeWidth + nodeGutter) / 2
   gridY = Math.round (nodeHeight + nodeGutter) / 2
   obj.x = Math.round(obj.x / gridX) * gridX
-  obj.y = Math.round(obj.y / gridY) * gridY + paddingTop
+  obj.y = Math.round(obj.y / gridY) * gridY
   if obj.px
     obj.px = obj.x
   if obj.py
@@ -415,7 +414,7 @@ MapView = React.createClass
     @setState {coords}
 
   componentDidMount: ->
-    $.getScript '/scripts/d3.min.js', ()=>
+    $.getScript '/scripts/lib/d3.min.js', ()=>
       color = d3.scale.category20()
       force = d3.layout.force()
         #.charge -320

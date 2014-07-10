@@ -99,9 +99,9 @@ gulp.task('clean', function () {
 });
 
 // Bower components
-gulp.task('bowerComponents', function(){
-  return gulp.src('app/bower_components/**/*')
-    .pipe(gulp.dest('dist/bower_components'))
+gulp.task('libs', function(){
+  return gulp.src('app/scripts/lib/**/*')
+    .pipe(gulp.dest('dist/scripts/lib'))
 });
 
 
@@ -118,7 +118,8 @@ gulp.task('fontello', function(){
 // Build
 gulp.task('build', function() {
   return runSequence('clean',
-    ['styles', 'coffee', 'html', 'images', 'data', 'fontello']
+    ['styles', 'coffee', 'html', 'images', 'data', 'fontello'],
+    'libs'
   );
 
 });

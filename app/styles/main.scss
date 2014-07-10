@@ -212,9 +212,9 @@ a[href^="https://"] {
 
 .node-usa .node-bg { fill:lighten($solarized-blue, 10%); }
 .node-ussr .node-bg { fill:lighten($solarized-red, 10%); }
-.node-eeu .node-bg { fill:lighten($easternEurope, 10%); }
-.node-weu .node-bg, .node-eu .node-bg { fill:lighten($westernEurope, 15%); }
-.node-bg-eu { fill:lighten($easternEurope, 10%)}
+.node-eeu .node-bg { fill:lighten($easternEurope, 7%); }
+.node-weu .node-bg, .node-eu .node-bg { fill:lighten($westernEurope, 18%); }
+.node-bg-eu { fill:lighten($easternEurope, 7%)}
 .node-me .node-bg { fill:lighten($middleEast, 10%); }
 .node-as .node-bg, .node-sea .node-bg { fill:lighten($asia, 2%); }
 .node-bg-sea { fill:lighten($asia, 17%); }
@@ -277,7 +277,7 @@ a[href^="https://"] {
     
     &.node-weu, &.node-eeu {
       .node-title {
-        fill: darken($westernEurope, 22%);
+        fill: darken($westernEurope, 17%);
       }
     }
   

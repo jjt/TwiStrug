@@ -1,5 +1,5 @@
 (function() {
-  var $, AboutView, BoardView, Card, CardList, CardView, CardsView, CountriesView, HomeView, MapView, R, TwiStrug, WhoopsView, addReactKey, cardClassName, cardStages, cx, filterTruthy, filterUnique, filterValidCardIds, nodeGutter, nodeHeight, nodeTitleFontSize, nodeTitleHeight, nodeWidth, paddingTop, qs, setPageTitle, snapToGrid, sortNumerical, zeroPad,
+  var $, AboutView, BoardView, Card, CardList, CardView, CardsView, CountriesView, HomeView, MapView, R, TwiStrug, WhoopsView, addReactKey, cardClassName, cardStages, cx, filterTruthy, filterUnique, filterValidCardIds, nodeGutter, nodeHeight, nodeTitleFontSize, nodeTitleHeight, nodeWidth, qs, setPageTitle, snapToGrid, sortNumerical, zeroPad,
     __hasProp = {}.hasOwnProperty,
     __slice = [].slice,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
@@ -517,8 +517,6 @@
     }
   });
 
-  paddingTop = 12;
-
   nodeWidth = 66;
 
   nodeHeight = 50;
@@ -534,7 +532,7 @@
     gridX = Math.round((nodeWidth + nodeGutter) / 2);
     gridY = Math.round((nodeHeight + nodeGutter) / 2);
     obj.x = Math.round(obj.x / gridX) * gridX;
-    obj.y = Math.round(obj.y / gridY) * gridY + paddingTop;
+    obj.y = Math.round(obj.y / gridY) * gridY;
     if (obj.px) {
       obj.px = obj.x;
     }
@@ -569,7 +567,7 @@
       });
     },
     componentDidMount: function() {
-      return $.getScript('/scripts/d3.min.js', (function(_this) {
+      return $.getScript('/scripts/lib/d3.min.js', (function(_this) {
         return function() {
           var color, drag, force, svg;
           color = d3.scale.category20();

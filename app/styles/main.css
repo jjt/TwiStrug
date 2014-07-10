@@ -2108,13 +2108,13 @@ a[href^="http://"], a[href^="https://"] {
   fill: #e35d5b; }
 
 .node-eeu .node-bg {
-  fill: #d1baec; }
+  fill: #c9aee9; }
 
 .node-weu .node-bg, .node-eu .node-bg {
-  fill: #a87edc; }
+  fill: #b08adf; }
 
 .node-bg-eu {
-  fill: #d1baec; }
+  fill: #c9aee9; }
 
 .node-me .node-bg {
   fill: #bbd9e7; }
@@ -2167,7 +2167,7 @@ a[href^="http://"], a[href^="https://"] {
   .map .node-btl .node-title {
     fill: rgba(0, 0, 0, 0.5); }
   .map .node-btl.node-weu .node-title, .map .node-btl.node-eeu .node-title {
-    fill: #4a227b; }
+    fill: #56278f; }
   .map .node-usa .node-stab, .map .node-ussr .node-stab {
     display: none; }
   .map .link {
