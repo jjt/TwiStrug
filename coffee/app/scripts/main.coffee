@@ -396,6 +396,9 @@ snapToGrid = (obj)->
     obj.py = obj.y
   obj
 
+
+
+
 MapView = React.createClass
   
   getInitialState: ->
@@ -413,143 +416,241 @@ MapView = React.createClass
     el.fixed = true
     @setState {coords}
 
-  componentDidMount: ->
-    $.getScript '/scripts/lib/d3.min.js', ()=>
-      color = d3.scale.category20()
-      force = d3.layout.force()
-        #.charge -320
-        .linkDistance 10
-        .size [@props.width, @props.height]
-        .gravity 0.2
-      
-      drag = force.drag()
-
-      drag.on 'dragend', (el)=>
-        el = snapToGrid el
-        @dragend el
-
-      svg = d3.select @refs.svg.getDOMNode()
-    
-
-      d3.json '/data/map-positions-grid-v5.json', (err,positions)=>
-        d3.json '/data/countries-for-graph.json', (err,graph)=>
-          coordsReduce = (obj={}, el)=>
-            obj[el.name] = []
-            obj
-
-          positions = _.mapValues positions, (position)->
-            position = snapToGrid position
-            position
-
-          @setState
-            coords: positions
-
-          graph.nodes = graph.nodes.map (node)->
-            node.px = positions[node.name].x
-            node.py = positions[node.name].y
-            node.fixed = true
-            node
-
-          force.nodes graph.nodes
-            .links graph.links
-            .start()
-
-          link = svg.selectAll '.link'
-            .data(graph.links).enter()
-            .append 'line'
-            .attr 'class', (d)->
-              linkClass = ''
-              if d.crossContinent
-                linkClass = 'link-cross'
-              if _.contains(d.nodes, 'USA')
-                linkClass = 'link-usa'
-              if _.contains(d.nodes, 'USSR')
-                linkClass = 'link-ussr'
-              
-              "link #{linkClass}"
-
-          node = svg.selectAll '.node'
-            .data(graph.nodes).enter()
-            .append 'g'
-            .call drag
-
-          node.attr 'class', (d)->
-              btl = if d.btl == 1 then 'node-btl' else ''
-              "node node-#{d.group} #{btl}"
-
-          node.append 'rect'
-            .attr 'width', nodeWidth
-            .attr 'height', nodeHeight
-            .attr 'x', -nodeWidth/2
-            .attr 'y', -nodeHeight/2
-            .attr 'class', "node-bg"
-
-          cornerBL = "#{-nodeWidth/2},#{nodeHeight/2}"
-          cornerBR = "#{nodeWidth/2},#{nodeHeight/2}"
-          cornerTR = "#{nodeWidth/2},#{-nodeHeight/2 + nodeTitleHeight}"
-          triangle = [cornerBL, cornerBR, cornerTR]
-
-
-          node.append 'polygon'
-            .attr 'points', triangle.join ' '
-            .attr 'class', (d)->
-              switch d.group
-                when 'eu' then 'node-bg-eu'
-                when 'sea' then 'node-bg-sea'
-                else 'node-bg-hidden'
-
-          
-          node.append 'rect'
-            .attr 'class', 'node-title'
-            .attr 'width', nodeWidth
-            .attr 'height', nodeTitleHeight
-            .attr 'x', -nodeWidth/2
-            .attr 'y', -nodeHeight/2
-
-          node.append 'line'
-            .attr 'class', 'node-line'
-            .attr 'width', nodeWidth
-            .attr 'x1', -nodeWidth/2
-            .attr 'y1', -nodeHeight/2 + nodeTitleHeight
-            .attr 'x2', nodeWidth/2
-            .attr 'y2', -nodeHeight/2 + nodeTitleHeight
-
-          node.append 'text'
-            #.attr 'dy', "0.4em"
-            .attr 'class', "node-label"
-            .attr 'dx', -(nodeWidth/2) + 2
-            .attr 'dy', -(nodeHeight/2) + nodeTitleFontSize
-            .text (d)-> d.shortname
-
-          node.append 'text'
-            .attr 'class', "node-stab"
-            .attr 'dx', (nodeWidth/2) - 10
-            .attr 'dy', -(nodeHeight/2) + nodeTitleFontSize + 1
-            .text (d)-> d.stab
-          
-
-          force.on 'tick', (e)->
-            jUSA = (d, targ)->
-              japanUSABump = 18
-              if d.source.name == 'USA' and d.target.name == 'Japan'
-                return d[targ].y - japanUSABump
-              d[targ].y
-
-            link.attr 'x1', (d)-> d.source.x
-              .attr 'y1', (d)-> jUSA d, 'source'
-              .attr 'x2', (d)-> d.target.x
-              .attr 'y2', (d)-> jUSA d, 'target'
-
-            node.attr 'transform', (d)-> "translate (#{d.x},#{d.y})"
-
   render: ->
+    console.log @props, @props.mapData
     R.div className: 'mapView', [
       R.div className: 'page-header', [
           R.h2 {}, "Map"
         ]
-      R.svg className:'map', width:@props.width, height:@props.height, ref:'svg'
+      Board width:@props.width, height:@props.height, mapData: @props.mapData
       R.textarea className: 'map-position-debug', ref:'debug', style:{width:'100%', height:'60rem'}, value: JSON.stringify(@state.coords, null, ' ')
     ]
+
+
+
+
+Board = React.createClass
+  getInitialState: ->
+    @props
+
+  # d3.js handles all of the manipulation
+  render: ->
+    R.svg className:'map', width:@props.width, height:@props.height, ref:'svg'
+  
+  shouldComponentUpdate: (nextProps, nextState) ->
+    false
+
+  # 
+  refreshBoard: ->
+
+  componentDidMount: ->
+
+    force = d3.layout.force()
+      #.charge -320
+      .linkDistance 10
+      .size [@props.width, @props.height]
+      .gravity 0.2
+    
+    #drag = force.drag()
+#
+    #drag.on 'dragend', (el)=>
+      #el = snapToGrid el
+      #@dragend el
+
+    svg = d3.select @refs.svg.getDOMNode()
+    mapData = @props.mapData
+
+    {countryPositions, countries, links, regionInfoNodes} = mapData
+
+    coordsReduce = (obj={}, el)=>
+      obj[el.name] = []
+      obj
+
+    countries = countries.map (node)->
+      node.x = countryPositions[node.name].x
+      node.y = countryPositions[node.name].y
+      node.fixed = true
+      node
+    
+    regionInfoNodes = regionInfoNodes.map (node)->
+      node.regionInfo = true
+      node.fixed = true
+      node
+
+    nodes = _.union(countries, regionInfoNodes).map (node)->
+      node
+
+    force.nodes nodes
+      .links links
+      .start()
+
+    link = svg.selectAll '.link'
+      .data(links).enter()
+      .append 'line'
+      .attr 'class', (d)->
+        linkClass = ''
+        if d.crossContinent
+          linkClass = 'link-cross'
+        if _.contains(d.nodes, 'USA')
+          linkClass = 'link-usa'
+        if _.contains(d.nodes, 'USSR')
+          linkClass = 'link-ussr'
+        
+        "link #{linkClass}"
+
+    node = svg.selectAll '.node'
+      .data(nodes).enter()
+      .append 'g'
+      #.call drag
+
+    node.attr 'class', (d)->
+        btl = if d.btl == 1 then 'node-btl' else 'node-nonbtl'
+        regionInfo = if d.regionInfo then 'node-region-info' else ''
+        usaCtrl = if (d.usa - d.ussr) >= d.stab then 'node-usa-control' else ''
+        ussrCtrl = if (d.ussr - d.usa) >= d.stab then 'node-ussr-control' else ''
+        "node node-#{d.group} #{regionInfo} #{btl} #{usaCtrl} #{ussrCtrl}"
+
+    node.append 'rect'
+      .attr 'width', nodeWidth
+      .attr 'height', nodeHeight
+      .attr 'x', -nodeWidth/2
+      .attr 'y', -nodeHeight/2
+      .attr 'class', "node-bg"
+
+    # Triangle for dual Europe and South-East Asia countries
+    cornerBL = "#{-nodeWidth/2},#{nodeHeight/2}"
+    cornerBR = "#{nodeWidth/2},#{nodeHeight/2}"
+    cornerTR = "#{nodeWidth/2},#{-nodeHeight/2 + nodeTitleHeight}"
+    triangle = [cornerBL, cornerBR, cornerTR]
+    node.append 'polygon'
+      .attr 'points', triangle.join ' '
+      .attr 'class', (d)->
+        if d.regionInfo
+          return 'node-bg-hidden'
+        switch d.group
+          when 'eu' then 'node-bg-eu'
+          when 'sea' then 'node-bg-sea'
+          else 'node-bg-hidden'
+    
+    ipGutter = 0
+
+    # IP status background
+    node.append 'rect'
+      .attr 'class', (d)->
+        if d.superpower or d.points or d.usa == 0 then return 'hide'
+        return 'node-ip-bg-usa'
+      .attr 'width', nodeWidth/2 - ipGutter * 2
+      .attr 'height', nodeHeight - nodeTitleHeight - ipGutter * 2
+      .attr 'x', -nodeWidth/2 + ipGutter
+      .attr 'y', -nodeTitleHeight/2 - 1 + ipGutter
+
+    node.append 'rect'
+      .attr 'class', (d)->
+        if d.superpower or d.points or d.ussr == 0 then return 'hide'
+        return 'node-ip-bg-ussr'
+      .attr 'width', nodeWidth/2 - ipGutter * 2
+      .attr 'height', nodeHeight - nodeTitleHeight - ipGutter * 2
+      .attr 'x', ipGutter
+      .attr 'y', -nodeTitleHeight/2 - 1 + ipGutter
+
+    # Title bg
+    node.append 'rect'
+      .attr 'class', 'node-title-bg'
+      .attr 'width', nodeWidth
+      .attr 'height', nodeTitleHeight
+      .attr 'x', -nodeWidth/2
+      .attr 'y', -nodeHeight/2
+
+    # Title "shadow"
+    node.append 'line'
+      .attr 'class', 'node-line'
+      .attr 'width', nodeWidth
+      .attr 'x1', -nodeWidth/2
+      .attr 'y1', -nodeHeight/2 + nodeTitleHeight
+      .attr 'x2', nodeWidth/2
+      .attr 'y2', -nodeHeight/2 + nodeTitleHeight
+
+    # Title text
+    node.append 'text'
+      #.attr 'dy', "0.4em"
+      .attr 'class', "node-title-text"
+      .attr 'dx', (d)->
+        if d.regionInfo or d.superpower
+          return 0
+        return -(nodeWidth/2) + 2
+      .attr 'dy', (d)->
+        dy = -(nodeHeight/2) + nodeTitleFontSize
+        if d.regionInfo
+          dy = -6
+        if d.superpower
+          dy = 6
+        return dy
+      .text (d)-> d.shortname
+
+    # Stability text
+    node.append 'text'
+      .attr 'class', "node-stab"
+      .attr 'dx', (nodeWidth/2) - 10
+      .attr 'dy', -(nodeHeight/2) + nodeTitleFontSize + 1
+      .text (d)-> d.stab
+
+    # Text for region info - should be hidden if not applicable
+    node.append 'text'
+      .attr 'class', (d)->
+        if d.regionInfo then 'node-text' else 'hide'
+      .attr 'dx', 0
+      .attr 'dy', 10
+      .attr 'width', nodeWidth
+      .text (d)->
+        if not d.points? then return ''
+        d.points.join('/')
+
+
+
+
+    node.append 'text'
+      .attr 'class', (d)->
+        hide = if d.usa < 1 then 'hide' else ''
+        ctrl = if d.usa - d.ussr > d.stab then 'node-ip-ctrl' else ''
+        return "node-ip-usa #{hide} #{ctrl}"
+      .attr 'dx', -(nodeWidth/4)
+      .attr 'dy', 14
+      .text (d)-> d.usa
+
+    node.append 'text'
+      .attr 'class', (d)->
+        hide = if d.ussr < 1 then 'hide' else ''
+        ctrl = if d.ussr - d.usa > d.stab then 'node-ip-ctrl' else ''
+        return "node-ip-ussr #{hide} #{ctrl}"
+      .attr 'dx', nodeWidth/4
+      .attr 'dy', 14
+      .text (d)-> d.ussr
+
+    
+
+    force.on 'tick', (e)->
+      jUSA = (d, targ)->
+        japanUSABump = 18
+        if d.source.name == 'USA' and d.target.name == 'Japan'
+          return d[targ].y - japanUSABump
+        d[targ].y
+
+      link.attr 'x1', (d)-> d.source.x
+        .attr 'y1', (d)-> jUSA d, 'source'
+        .attr 'x2', (d)-> d.target.x
+        .attr 'y2', (d)-> jUSA d, 'target'
+
+      node.attr 'transform', (d)-> "translate (#{d.x},#{d.y})"
+
+    @setState
+      coords: countryPositions
+
+
+
+
+
+
+
 
 
 WhoopsView = React.createClass
@@ -585,6 +686,7 @@ TwiStrug = React.createClass
   # Takes a view name and associated data
   setView: (name, pageTitle, data={}) ->
     if pageTitle? then setPageTitle pageTitle
+    console.log data
     @setState view: {name, data}
 
   componentDidMount: ->
@@ -600,7 +702,11 @@ TwiStrug = React.createClass
     router = new Router
       '/board': @setView.bind this, 'board', 'Board'
 
-      '/map': @setView.bind this, 'map', 'Map'
+      '/map': ()=>
+        $.getJSON '/data/map-data.json', (mapData) =>
+          console.log mapData
+          console.log @
+          @setView 'map', 'Map', mapData: mapData
 
       '/card/:id': (id)=>
         id = parseInt id, 10
@@ -640,7 +746,7 @@ TwiStrug = React.createClass
         state: @state.view.data.state
       when 'countries' then return CountriesView()
       when 'board' then return BoardView()
-      when 'map' then return MapView()
+      when 'map' then return MapView @state.view.data
       when 'about' then return AboutView()
       when 'whoops' then return WhoopsView()
     

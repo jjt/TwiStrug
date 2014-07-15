@@ -1,5 +1,5 @@
 (function() {
-  var $, AboutView, BoardView, Card, CardList, CardView, CardsView, CountriesView, HomeView, MapView, R, TwiStrug, WhoopsView, addReactKey, cardClassName, cardStages, cx, filterTruthy, filterUnique, filterValidCardIds, nodeGutter, nodeHeight, nodeTitleFontSize, nodeTitleHeight, nodeWidth, qs, setPageTitle, snapToGrid, sortNumerical, zeroPad,
+  var $, AboutView, Board, BoardView, Card, CardList, CardView, CardsView, CountriesView, HomeView, MapView, R, TwiStrug, WhoopsView, addReactKey, cardClassName, cardStages, cx, filterTruthy, filterUnique, filterValidCardIds, nodeGutter, nodeHeight, nodeTitleFontSize, nodeTitleHeight, nodeWidth, qs, setPageTitle, snapToGrid, sortNumerical, zeroPad,
     __hasProp = {}.hasOwnProperty,
     __slice = [].slice,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
@@ -566,124 +566,17 @@
         coords: coords
       });
     },
-    componentDidMount: function() {
-      return $.getScript('/scripts/lib/d3.min.js', (function(_this) {
-        return function() {
-          var color, drag, force, svg;
-          color = d3.scale.category20();
-          force = d3.layout.force().linkDistance(10).size([_this.props.width, _this.props.height]).gravity(0.2);
-          drag = force.drag();
-          drag.on('dragend', function(el) {
-            el = snapToGrid(el);
-            return _this.dragend(el);
-          });
-          svg = d3.select(_this.refs.svg.getDOMNode());
-          return d3.json('/data/map-positions-grid-v5.json', function(err, positions) {
-            return d3.json('/data/countries-for-graph.json', function(err, graph) {
-              var coordsReduce, cornerBL, cornerBR, cornerTR, link, node, triangle;
-              coordsReduce = function(obj, el) {
-                if (obj == null) {
-                  obj = {};
-                }
-                obj[el.name] = [];
-                return obj;
-              };
-              positions = _.mapValues(positions, function(position) {
-                position = snapToGrid(position);
-                return position;
-              });
-              _this.setState({
-                coords: positions
-              });
-              graph.nodes = graph.nodes.map(function(node) {
-                node.px = positions[node.name].x;
-                node.py = positions[node.name].y;
-                node.fixed = true;
-                return node;
-              });
-              force.nodes(graph.nodes).links(graph.links).start();
-              link = svg.selectAll('.link').data(graph.links).enter().append('line').attr('class', function(d) {
-                var linkClass;
-                linkClass = '';
-                if (d.crossContinent) {
-                  linkClass = 'link-cross';
-                }
-                if (_.contains(d.nodes, 'USA')) {
-                  linkClass = 'link-usa';
-                }
-                if (_.contains(d.nodes, 'USSR')) {
-                  linkClass = 'link-ussr';
-                }
-                return "link " + linkClass;
-              });
-              node = svg.selectAll('.node').data(graph.nodes).enter().append('g').call(drag);
-              node.attr('class', function(d) {
-                var btl;
-                btl = d.btl === 1 ? 'node-btl' : '';
-                return "node node-" + d.group + " " + btl;
-              });
-              node.append('rect').attr('width', nodeWidth).attr('height', nodeHeight).attr('x', -nodeWidth / 2).attr('y', -nodeHeight / 2).attr('class', "node-bg");
-              cornerBL = "" + (-nodeWidth / 2) + "," + (nodeHeight / 2);
-              cornerBR = "" + (nodeWidth / 2) + "," + (nodeHeight / 2);
-              cornerTR = "" + (nodeWidth / 2) + "," + (-nodeHeight / 2 + nodeTitleHeight);
-              triangle = [cornerBL, cornerBR, cornerTR];
-              node.append('polygon').attr('points', triangle.join(' ')).attr('class', function(d) {
-                switch (d.group) {
-                  case 'eu':
-                    return 'node-bg-eu';
-                  case 'sea':
-                    return 'node-bg-sea';
-                  default:
-                    return 'node-bg-hidden';
-                }
-              });
-              node.append('rect').attr('class', 'node-title').attr('width', nodeWidth).attr('height', nodeTitleHeight).attr('x', -nodeWidth / 2).attr('y', -nodeHeight / 2);
-              node.append('line').attr('class', 'node-line').attr('width', nodeWidth).attr('x1', -nodeWidth / 2).attr('y1', -nodeHeight / 2 + nodeTitleHeight).attr('x2', nodeWidth / 2).attr('y2', -nodeHeight / 2 + nodeTitleHeight);
-              node.append('text').attr('class', "node-label").attr('dx', -(nodeWidth / 2) + 2).attr('dy', -(nodeHeight / 2) + nodeTitleFontSize).text(function(d) {
-                return d.shortname;
-              });
-              node.append('text').attr('class', "node-stab").attr('dx', (nodeWidth / 2) - 10).attr('dy', -(nodeHeight / 2) + nodeTitleFontSize + 1).text(function(d) {
-                return d.stab;
-              });
-              return force.on('tick', function(e) {
-                var jUSA;
-                jUSA = function(d, targ) {
-                  var japanUSABump;
-                  japanUSABump = 18;
-                  if (d.source.name === 'USA' && d.target.name === 'Japan') {
-                    return d[targ].y - japanUSABump;
-                  }
-                  return d[targ].y;
-                };
-                link.attr('x1', function(d) {
-                  return d.source.x;
-                }).attr('y1', function(d) {
-                  return jUSA(d, 'source');
-                }).attr('x2', function(d) {
-                  return d.target.x;
-                }).attr('y2', function(d) {
-                  return jUSA(d, 'target');
-                });
-                return node.attr('transform', function(d) {
-                  return "translate (" + d.x + "," + d.y + ")";
-                });
-              });
-            });
-          });
-        };
-      })(this));
-    },
     render: function() {
+      console.log(this.props, this.props.mapData);
       return R.div({
         className: 'mapView'
       }, [
         R.div({
           className: 'page-header'
-        }, [R.h2({}, "Map")]), R.svg({
-          className: 'map',
+        }, [R.h2({}, "Map")]), Board({
           width: this.props.width,
           height: this.props.height,
-          ref: 'svg'
+          mapData: this.props.mapData
         }), R.textarea({
           className: 'map-position-debug',
           ref: 'debug',
@@ -694,6 +587,186 @@
           value: JSON.stringify(this.state.coords, null, ' ')
         })
       ]);
+    }
+  });
+
+  Board = React.createClass({
+    getInitialState: function() {
+      return this.props;
+    },
+    render: function() {
+      return R.svg({
+        className: 'map',
+        width: this.props.width,
+        height: this.props.height,
+        ref: 'svg'
+      });
+    },
+    shouldComponentUpdate: function(nextProps, nextState) {
+      return false;
+    },
+    refreshBoard: function() {},
+    componentDidMount: function() {
+      var coordsReduce, cornerBL, cornerBR, cornerTR, countries, countryPositions, force, ipGutter, link, links, mapData, node, nodes, regionInfoNodes, svg, triangle;
+      force = d3.layout.force().linkDistance(10).size([this.props.width, this.props.height]).gravity(0.2);
+      svg = d3.select(this.refs.svg.getDOMNode());
+      mapData = this.props.mapData;
+      countryPositions = mapData.countryPositions, countries = mapData.countries, links = mapData.links, regionInfoNodes = mapData.regionInfoNodes;
+      coordsReduce = (function(_this) {
+        return function(obj, el) {
+          if (obj == null) {
+            obj = {};
+          }
+          obj[el.name] = [];
+          return obj;
+        };
+      })(this);
+      countries = countries.map(function(node) {
+        node.x = countryPositions[node.name].x;
+        node.y = countryPositions[node.name].y;
+        node.fixed = true;
+        return node;
+      });
+      regionInfoNodes = regionInfoNodes.map(function(node) {
+        node.regionInfo = true;
+        node.fixed = true;
+        return node;
+      });
+      nodes = _.union(countries, regionInfoNodes).map(function(node) {
+        return node;
+      });
+      force.nodes(nodes).links(links).start();
+      link = svg.selectAll('.link').data(links).enter().append('line').attr('class', function(d) {
+        var linkClass;
+        linkClass = '';
+        if (d.crossContinent) {
+          linkClass = 'link-cross';
+        }
+        if (_.contains(d.nodes, 'USA')) {
+          linkClass = 'link-usa';
+        }
+        if (_.contains(d.nodes, 'USSR')) {
+          linkClass = 'link-ussr';
+        }
+        return "link " + linkClass;
+      });
+      node = svg.selectAll('.node').data(nodes).enter().append('g');
+      node.attr('class', function(d) {
+        var btl, regionInfo, usaCtrl, ussrCtrl;
+        btl = d.btl === 1 ? 'node-btl' : 'node-nonbtl';
+        regionInfo = d.regionInfo ? 'node-region-info' : '';
+        usaCtrl = (d.usa - d.ussr) >= d.stab ? 'node-usa-control' : '';
+        ussrCtrl = (d.ussr - d.usa) >= d.stab ? 'node-ussr-control' : '';
+        return "node node-" + d.group + " " + regionInfo + " " + btl + " " + usaCtrl + " " + ussrCtrl;
+      });
+      node.append('rect').attr('width', nodeWidth).attr('height', nodeHeight).attr('x', -nodeWidth / 2).attr('y', -nodeHeight / 2).attr('class', "node-bg");
+      cornerBL = "" + (-nodeWidth / 2) + "," + (nodeHeight / 2);
+      cornerBR = "" + (nodeWidth / 2) + "," + (nodeHeight / 2);
+      cornerTR = "" + (nodeWidth / 2) + "," + (-nodeHeight / 2 + nodeTitleHeight);
+      triangle = [cornerBL, cornerBR, cornerTR];
+      node.append('polygon').attr('points', triangle.join(' ')).attr('class', function(d) {
+        if (d.regionInfo) {
+          return 'node-bg-hidden';
+        }
+        switch (d.group) {
+          case 'eu':
+            return 'node-bg-eu';
+          case 'sea':
+            return 'node-bg-sea';
+          default:
+            return 'node-bg-hidden';
+        }
+      });
+      ipGutter = 0;
+      node.append('rect').attr('class', function(d) {
+        if (d.superpower || d.points || d.usa === 0) {
+          return 'hide';
+        }
+        return 'node-ip-bg-usa';
+      }).attr('width', nodeWidth / 2 - ipGutter * 2).attr('height', nodeHeight - nodeTitleHeight - ipGutter * 2).attr('x', -nodeWidth / 2 + ipGutter).attr('y', -nodeTitleHeight / 2 - 1 + ipGutter);
+      node.append('rect').attr('class', function(d) {
+        if (d.superpower || d.points || d.ussr === 0) {
+          return 'hide';
+        }
+        return 'node-ip-bg-ussr';
+      }).attr('width', nodeWidth / 2 - ipGutter * 2).attr('height', nodeHeight - nodeTitleHeight - ipGutter * 2).attr('x', ipGutter).attr('y', -nodeTitleHeight / 2 - 1 + ipGutter);
+      node.append('rect').attr('class', 'node-title-bg').attr('width', nodeWidth).attr('height', nodeTitleHeight).attr('x', -nodeWidth / 2).attr('y', -nodeHeight / 2);
+      node.append('line').attr('class', 'node-line').attr('width', nodeWidth).attr('x1', -nodeWidth / 2).attr('y1', -nodeHeight / 2 + nodeTitleHeight).attr('x2', nodeWidth / 2).attr('y2', -nodeHeight / 2 + nodeTitleHeight);
+      node.append('text').attr('class', "node-title-text").attr('dx', function(d) {
+        if (d.regionInfo || d.superpower) {
+          return 0;
+        }
+        return -(nodeWidth / 2) + 2;
+      }).attr('dy', function(d) {
+        var dy;
+        dy = -(nodeHeight / 2) + nodeTitleFontSize;
+        if (d.regionInfo) {
+          dy = -6;
+        }
+        if (d.superpower) {
+          dy = 6;
+        }
+        return dy;
+      }).text(function(d) {
+        return d.shortname;
+      });
+      node.append('text').attr('class', "node-stab").attr('dx', (nodeWidth / 2) - 10).attr('dy', -(nodeHeight / 2) + nodeTitleFontSize + 1).text(function(d) {
+        return d.stab;
+      });
+      node.append('text').attr('class', function(d) {
+        if (d.regionInfo) {
+          return 'node-text';
+        } else {
+          return 'hide';
+        }
+      }).attr('dx', 0).attr('dy', 10).attr('width', nodeWidth).text(function(d) {
+        if (d.points == null) {
+          return '';
+        }
+        return d.points.join('/');
+      });
+      node.append('text').attr('class', function(d) {
+        var ctrl, hide;
+        hide = d.usa < 1 ? 'hide' : '';
+        ctrl = d.usa - d.ussr > d.stab ? 'node-ip-ctrl' : '';
+        return "node-ip-usa " + hide + " " + ctrl;
+      }).attr('dx', -(nodeWidth / 4)).attr('dy', 14).text(function(d) {
+        return d.usa;
+      });
+      node.append('text').attr('class', function(d) {
+        var ctrl, hide;
+        hide = d.ussr < 1 ? 'hide' : '';
+        ctrl = d.ussr - d.usa > d.stab ? 'node-ip-ctrl' : '';
+        return "node-ip-ussr " + hide + " " + ctrl;
+      }).attr('dx', nodeWidth / 4).attr('dy', 14).text(function(d) {
+        return d.ussr;
+      });
+      force.on('tick', function(e) {
+        var jUSA;
+        jUSA = function(d, targ) {
+          var japanUSABump;
+          japanUSABump = 18;
+          if (d.source.name === 'USA' && d.target.name === 'Japan') {
+            return d[targ].y - japanUSABump;
+          }
+          return d[targ].y;
+        };
+        link.attr('x1', function(d) {
+          return d.source.x;
+        }).attr('y1', function(d) {
+          return jUSA(d, 'source');
+        }).attr('x2', function(d) {
+          return d.target.x;
+        }).attr('y2', function(d) {
+          return jUSA(d, 'target');
+        });
+        return node.attr('transform', function(d) {
+          return "translate (" + d.x + "," + d.y + ")";
+        });
+      });
+      return this.setState({
+        coords: countryPositions
+      });
     }
   });
 
@@ -741,6 +814,7 @@
       if (pageTitle != null) {
         setPageTitle(pageTitle);
       }
+      console.log(data);
       return this.setState({
         view: {
           name: name,
@@ -764,7 +838,17 @@
       };
       router = new Router({
         '/board': this.setView.bind(this, 'board', 'Board'),
-        '/map': this.setView.bind(this, 'map', 'Map'),
+        '/map': (function(_this) {
+          return function() {
+            return $.getJSON('/data/map-data.json', function(mapData) {
+              console.log(mapData);
+              console.log(_this);
+              return _this.setView('map', 'Map', {
+                mapData: mapData
+              });
+            });
+          };
+        })(this),
         '/card/:id': (function(_this) {
           return function(id) {
             var card, nextCard, nextId, pageTitle, prevCard, prevId;
@@ -823,7 +907,7 @@
         case 'board':
           return BoardView();
         case 'map':
-          return MapView();
+          return MapView(this.state.view.data);
         case 'about':
           return AboutView();
         case 'whoops':

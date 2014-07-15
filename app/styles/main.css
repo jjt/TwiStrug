@@ -1990,7 +1990,8 @@ address {
 
 /* '' */
 html, body {
-  color: #666; }
+  color: #666;
+  background-color: #eff0ee; }
 
 body {
   padding-bottom: 4rem; }
@@ -2006,12 +2007,15 @@ a {
 p {
   font-size: 18px; }
 
+.hide {
+  display: none !important; }
+
 .navbar {
   border: none;
   border-radius: 0;
   border-bottom: 1px solid #ccc;
   margin-bottom: 0;
-  background-color: #eff0ee; }
+  background-color: #fff; }
 
 .navbar-nav > li > a, .navbar-brand {
   color: #666; }
@@ -2101,75 +2105,134 @@ a[href^="http://"], a[href^="https://"] {
   stroke: #999;
   stroke-opacity: 0.6; }
 
-.node-usa .node-bg {
-  fill: #4ca4df; }
-
-.node-ussr .node-bg {
-  fill: #e35d5b; }
-
-.node-eeu .node-bg {
-  fill: #c9aee9; }
-
-.node-weu .node-bg, .node-eu .node-bg {
-  fill: #b08adf; }
-
-.node-bg-eu {
-  fill: #c9aee9; }
-
-.node-me .node-bg {
-  fill: #bbd9e7; }
-
-.node-as .node-bg, .node-sea .node-bg {
-  fill: #f8a136; }
-
-.node-bg-sea {
-  fill: #fbc380; }
-
-.node-af .node-bg {
-  fill: #F5E696; }
-
-.node-ca .node-bg {
-  fill: #E2ECB9; }
-
-.node-sa .node-bg {
-  fill: #95b57d; }
-
 .map {
   border: 1px solid #b9bdb7;
   background: #dcdfd9; }
+  .map .node-usa .node-bg {
+    fill: #268BD2; }
+  .map .node-ussr .node-bg {
+    fill: #DC322F; }
+  .map .node-eeu .node-bg {
+    fill: #c9aee9; }
+  .map .node-weu .node-bg, .map .node-eu .node-bg {
+    fill: #b08adf; }
+  .map .node-bg-eu {
+    fill: #c9aee9; }
+  .map .node-weu .node-btl .node-title-bg, .map .node-eeu .node-btl .node-title-bg {
+    fill: #603799; }
+  .map .node-me .node-bg {
+    fill: #bbd9e7; }
+  .map .node-me.node-btl .node-title-bg {
+    fill: #3a5a69; }
+  .map .node-as .node-bg, .map .node-sea .node-bg {
+    fill: #f8a136; }
+  .map .node-bg-sea {
+    fill: #fbc380; }
+  .map .node-as.node-btl .node-title-bg, .map .node-sea.node-btl .node-title-bg {
+    fill: #894f0c; }
+  .map .node-af .node-bg {
+    fill: #F5E696; }
+  .map .node-af.node-btl .node-title-bg {
+    fill: #72621a; }
+  .map .node-ca .node-bg {
+    fill: #E2ECB9; }
+  .map .node-ca.node-btl .node-title-bg {
+    fill: #677234; }
+  .map .node-sa .node-bg {
+    fill: #95b57d; }
+  .map .node-sa.node-btl .node-title-bg {
+    fill: #4b5a3f; }
   .map .node {
     cursor: pointer;
     stroke-width: 0; }
-  .map .node-title {
-    fill: rgba(255, 255, 255, 0.5);
-    stroke-width: 0; }
-  .map .node-label, .map .node-stab {
+  .map .node-title-bg {
+    stroke-width: 0;
+    fill: rgba(255, 255, 255, 0.6); }
+  .map .node-title-text, .map .node-stab {
     stroke: rgba(0, 0, 0, 0.8);
     stroke-width: 0.5;
     fill: rgba(0, 0, 0, 0.8); }
   .map .node-stab {
     font-weight: bold;
     stroke-width: 0; }
-  .map .node-label {
+  .map .node-title-text {
     font-size: 11px; }
   .map .node-bg {
-    stroke: rgba(0, 0, 0, 0.4);
-    stroke-width: 1px; }
+    stroke: black;
+    stroke-width: 0.2px; }
   .map .node-bg-hidden {
     display: none; }
   .map .node-line {
     stroke: rgba(0, 0, 0, 0.4);
-    stroke-width: 1px; }
-  .map .node-btl .node-label, .map .node-btl .node-stab {
+    stroke-width: 0.3px; }
+  .map .node-btl .node-title-text, .map .node-btl .node-stab {
     stroke: rgba(255, 255, 255, 0.8);
     stroke-width: 0;
     fill: rgba(255, 255, 255, 0.8); }
-  .map .node-btl .node-title {
-    fill: rgba(0, 0, 0, 0.5); }
-  .map .node-btl.node-weu .node-title, .map .node-btl.node-eeu .node-title {
+  .map .node-btl.node-weu .node-title-bg, .map .node-btl.node-eeu .node-title-bg {
     fill: #56278f; }
   .map .node-usa .node-stab, .map .node-ussr .node-stab {
     display: none; }
+  .map .node-usa .node-title-text, .map .node-ussr .node-title-text {
+    text-anchor: middle;
+    font-size: 18px;
+    fill: rgba(255, 255, 255, 0.8);
+    stroke: rgba(255, 255, 255, 0.8);
+    stroke-width: 0; }
+  .map .node-usa .node-line, .map .node-usa .node-title-bg, .map .node-ussr .node-line, .map .node-ussr .node-title-bg {
+    display: none; }
+  .map .node-region-info .node-bg {
+    fill: rgba(0, 0, 0, 0);
+    stroke: rgba(0, 0, 0, 0.1);
+    stroke-width: 0; }
+  .map .node-region-info .node-stab {
+    display: none; }
+  .map .node-region-info .node-title-bg {
+    fill: rgba(0, 0, 0, 0); }
+  .map .node-region-info .node-title-text {
+    stroke: #333;
+    stroke-width: 0;
+    fill: #333;
+    font-weight: bold;
+    text-anchor: middle; }
+  .map .node-region-info .node-line {
+    display: none; }
+  .map .node-region-info .node-text {
+    text-anchor: middle;
+    font-weight: bold; }
+  .map .node-region-info.node-eu text {
+    fill: #603799; }
+  .map .node-region-info.node-as text {
+    fill: #894f0c; }
+  .map .node-region-info.node-me text {
+    fill: #3a5a69; }
+  .map .node-region-info.node-ca text {
+    fill: #677234; }
+  .map .node-region-info.node-sa text {
+    fill: #4b5a3f; }
+  .map .node-region-info.node-af text {
+    fill: #72621a; }
+  .map .node-ip-usa, .map .node-ip-ussr {
+    text-anchor: middle;
+    stroke-width: 0;
+    font-size: 20px;
+    font-weight: bold; }
+  .map .node-ip-usa {
+    fill: #268BD2; }
+  .map .node-ip-ussr {
+    fill: #DC322F; }
+  .map .node-ip-bg-usa, .map .node-ip-bg-ussr {
+    fill: #eee;
+    stroke: rgba(0, 0, 0, 0.2);
+    stroke-width: 1px; }
+  .map .node-usa-control .node-ip-bg-usa {
+    fill: #268BD2; }
+  .map .node-usa-control .node-ip-usa {
+    fill: rgba(255, 255, 255, 0.8); }
+  .map .node-ussr-control .node-ip-bg-ussr {
+    fill: #DC322F; }
+  .map .node-ussr-control .node-ip-ussr {
+    fill: rgba(255, 255, 255, 0.8); }
   .map .link {
     stroke: rgba(0, 0, 0, 0.4);
     stroke-width: 6px; }

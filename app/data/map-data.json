@@ -1,0 +1,2639 @@
+{
+  "regionInfoNodes": [
+    {
+      "id": "eu",
+      "group": "eu",
+      "continent": "eu",
+      "name": "Europe",
+      "shortname": "Europe",
+      "points": [3,7,"Win"],
+      "x": 440, "y": 288,
+      "stab":99,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":""
+    }, 
+    {
+      "id": "me",
+      "group": "me",
+      "continent": "me",
+      "name": "Mid East",
+      "shortname": "Mid East",
+      "points": [3,5,7],
+      "x": 1040, "y": 480,
+      "stab":99,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":""
+    }, 
+    {
+      "id": "as",
+      "group": "as",
+      "continent": "as",
+      "name": "Asia",
+      "shortname": "Asia",
+      "points": [3,7,9],
+      "extra": "1 per SE country, 2 for Thailand",
+      "x": 880, "y": 128,
+      "stab":99,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":""
+    }, 
+    {
+      "id": "af",
+      "group": "af",
+      "continent": "af",
+      "name": "Africa",
+      "shortname": "Africa",
+      "points": [1,4,6],
+      "x": 520, "y": 544,
+      "stab":99,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":""
+    }, 
+    {
+      "id": "ca",
+      "group": "ca",
+      "continent": "ca",
+      "name": "C.America",
+      "shortname": "C.America",
+      "points": [1,3,5],
+      "x": 240, "y": 352,
+      "stab":99,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":""
+    }, 
+    {
+      "id": "sa",
+      "group": "sa",
+      "continent": "sa",
+      "name": "S.America",
+      "shortname": "S.America",
+      "points": [2,5,6],
+      "x": 240, "y": 672,
+      "stab":99,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":""
+    }
+  ],
+
+  "countryPositions": {
+    "USA": {
+      "x": 200,
+      "y": 64
+    },
+    "USSR": {
+      "x": 720,
+      "y": 224
+    },
+    "Austria": {
+      "x": 520,
+      "y": 288
+    },
+    "Benelux": {
+      "x": 400,
+      "y": 224
+    },
+    "Bulgaria": {
+      "x": 640,
+      "y": 416
+    },
+    "Canada": {
+      "x": 360,
+      "y": 96
+    },
+    "Czechoslovakia": {
+      "x": 600,
+      "y": 224
+    },
+    "Denmark": {
+      "x": 440,
+      "y": 160
+    },
+    "E Germany": {
+      "x": 520,
+      "y": 160
+    },
+    "Finland": {
+      "x": 600,
+      "y": 96
+    },
+    "France": {
+      "x": 360,
+      "y": 288
+    },
+    "Greece": {
+      "x": 560,
+      "y": 416
+    },
+    "Hungary": {
+      "x": 600,
+      "y": 288
+    },
+    "Italy": {
+      "x": 440,
+      "y": 352
+    },
+    "Norway": {
+      "x": 440,
+      "y": 96
+    },
+    "Poland": {
+      "x": 600,
+      "y": 160
+    },
+    "Romania": {
+      "x": 600,
+      "y": 352
+    },
+    "Spain/Portugal": {
+      "x": 360,
+      "y": 416
+    },
+    "Sweden": {
+      "x": 520,
+      "y": 96
+    },
+    "Turkey": {
+      "x": 680,
+      "y": 352
+    },
+    "UK": {
+      "x": 360,
+      "y": 160
+    },
+    "W Germany": {
+      "x": 480,
+      "y": 224
+    },
+    "Yugoslavia": {
+      "x": 520,
+      "y": 352
+    },
+    "Egypt": {
+      "x": 800,
+      "y": 448
+    },
+    "Gulf States": {
+      "x": 1040,
+      "y": 352
+    },
+    "Iran": {
+      "x": 800,
+      "y": 352
+    },
+    "Iraq": {
+      "x": 960,
+      "y": 352
+    },
+    "Israel": {
+      "x": 880,
+      "y": 416
+    },
+    "Jordan": {
+      "x": 960,
+      "y": 416
+    },
+    "Lebanon": {
+      "x": 960,
+      "y": 480
+    },
+    "Libya": {
+      "x": 720,
+      "y": 480
+    },
+    "Saudi Arabia": {
+      "x": 1040,
+      "y": 416
+    },
+    "Syria": {
+      "x": 880,
+      "y": 480
+    },
+    "Afghanistan": {
+      "x": 760,
+      "y": 288
+    },
+    "Australia": {
+      "x": 1040,
+      "y": 96
+    },
+    "Burma": {
+      "x": 880,
+      "y": 224
+    },
+    "India": {
+      "x": 800,
+      "y": 224
+    },
+    "Indonesia": {
+      "x": 960,
+      "y": 160
+    },
+    "Japan": {
+      "x": 800,
+      "y": 64
+    },
+    "Laos/Cambodia": {
+      "x": 960,
+      "y": 256
+    },
+    "Malaysia": {
+      "x": 1040,
+      "y": 160
+    },
+    "N Korea": {
+      "x": 720,
+      "y": 160
+    },
+    "Pakistan": {
+      "x": 840,
+      "y": 288
+    },
+    "Phillippines": {
+      "x": 960,
+      "y": 96
+    },
+    "S Korea": {
+      "x": 720,
+      "y": 96
+    },
+    "Taiwan": {
+      "x": 800,
+      "y": 128
+    },
+    "Thailand": {
+      "x": 1040,
+      "y": 224
+    },
+    "Vietnam": {
+      "x": 1040,
+      "y": 288
+    },
+    "Algeria": {
+      "x": 440,
+      "y": 480
+    },
+    "Angola": {
+      "x": 560,
+      "y": 672
+    },
+    "Botswana": {
+      "x": 600,
+      "y": 608
+    },
+    "Cameroon": {
+      "x": 440,
+      "y": 672
+    },
+    "Ethiopia": {
+      "x": 800,
+      "y": 608
+    },
+    "Ivory Coast": {
+      "x": 360,
+      "y": 608
+    },
+    "Kenya": {
+      "x": 720,
+      "y": 672
+    },
+    "Morocco": {
+      "x": 360,
+      "y": 480
+    },
+    "Nigeria": {
+      "x": 440,
+      "y": 608
+    },
+    "SE Africa": {
+      "x": 720,
+      "y": 608
+    },
+    "Saharan States": {
+      "x": 440,
+      "y": 544
+    },
+    "Somalia": {
+      "x": 800,
+      "y": 672
+    },
+    "South Africa": {
+      "x": 640,
+      "y": 672
+    },
+    "Sudan": {
+      "x": 800,
+      "y": 544
+    },
+    "Tunisia": {
+      "x": 520,
+      "y": 480
+    },
+    "West Africa": {
+      "x": 360,
+      "y": 544
+    },
+    "Zaire": {
+      "x": 520,
+      "y": 608
+    },
+    "Zimbabwe": {
+      "x": 600,
+      "y": 544
+    },
+    "Costa Rica": {
+      "x": 240,
+      "y": 288
+    },
+    "Cuba": {
+      "x": 160,
+      "y": 160
+    },
+    "Dominican Rep": {
+      "x": 280,
+      "y": 224
+    },
+    "El Salvador": {
+      "x": 80,
+      "y": 288
+    },
+    "Guatemala": {
+      "x": 120,
+      "y": 224
+    },
+    "Haiti": {
+      "x": 240,
+      "y": 160
+    },
+    "Honduras": {
+      "x": 160,
+      "y": 288
+    },
+    "Mexico": {
+      "x": 80,
+      "y": 160
+    },
+    "Nicaragua": {
+      "x": 200,
+      "y": 224
+    },
+    "Panama": {
+      "x": 160,
+      "y": 352
+    },
+    "Argentina": {
+      "x": 160,
+      "y": 640
+    },
+    "Bolivia": {
+      "x": 160,
+      "y": 512
+    },
+    "Brazil": {
+      "x": 240,
+      "y": 544
+    },
+    "Chile": {
+      "x": 80,
+      "y": 608
+    },
+    "Columbia": {
+      "x": 160,
+      "y": 448
+    },
+    "Ecuador": {
+      "x": 80,
+      "y": 480
+    },
+    "Paraguay": {
+      "x": 160,
+      "y": 576
+    },
+    "Peru": {
+      "x": 80,
+      "y": 544
+    },
+    "Uruguay": {
+      "x": 240,
+      "y": 608
+    },
+    "Venezuela": {
+      "x": 240,
+      "y": 480
+    }
+  },
+  "countries": [
+    {
+      "name":"USA",
+      "shortname":"USA",
+      "superpower": true,
+      "group":"usa",
+      "continent":"usa",
+      "stab":99,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"Canada,Cuba,Mexico,Japan",
+      "id":0
+    },
+    {
+      
+      "name":"USSR",
+      "shortname":"USSR",
+      "superpower": true,
+      "group":"ussr",
+      "continent":"ussr",
+      "stab":99,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"Afghanistan,Finland,N Korea,Poland,Romania",
+      "id":1
+    },
+    {
+      "name":"Austria",
+      "shortname":"Austria",
+      "group":"eu",
+      "continent":"eu",
+      "stab":4,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"E Germany,Hungary,Italy,W Germany",
+      "id":2
+    },
+    {
+      
+      "name":"Benelux",
+      "shortname":"Benelux",
+      "group":"weu",
+      "continent":"eu",
+      "stab":3,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"W Germany,UK",
+      "id":3
+    },
+    {
+      
+      "name":"Bulgaria",
+      "shortname":"Bulgaria",
+      "group":"eeu",
+      "continent":"eu",
+      "stab":3,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"Turkey,Greece",
+      "id":4
+    },
+    {
+      
+      "name":"Canada",
+      "shortname":"Canada",
+      "group":"weu",
+      "continent":"eu",
+      "stab":4,
+      "btl":0,
+      "usa":2,
+      "ussr":0,
+      "links":"UK",
+      "id":5
+    },
+    {
+      
+      "name":"Czechoslovakia",
+      "shortname":"Czech",
+      "group":"eeu",
+      "continent":"eu",
+      "stab":3,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"Poland,E Germany,Hungary",
+      "id":6
+    },
+    {
+      
+      "name":"Denmark",
+      "shortname":"Denmark",
+      "group":"weu",
+      "continent":"eu",
+      "stab":3,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"W Germany,Sweden",
+      "id":7
+    },
+    {
+      
+      "name":"E Germany",
+      "shortname":"E.Germ",
+      "group":"eeu",
+      "continent":"eu",
+      "stab":3,
+      "btl":1,
+      "usa":0,
+      "ussr":3,
+      "links":"Poland,W Germany",
+      "id":8
+    },
+    {
+      
+      "name":"Finland",
+      "shortname":"Finland",
+      "group":"eu",
+      "continent":"eu",
+      "stab":4,
+      "btl":0,
+      "usa":0,
+      "ussr":1,
+      "links":"Sweden",
+      "id":9
+    },
+    {
+      
+      "name":"France",
+      "shortname":"France",
+      "group":"weu",
+      "continent":"eu",
+      "stab":3,
+      "btl":1,
+      "usa":0,
+      "ussr":0,
+      "links":"Algeria,UK,W Germany,Italy,Spain/Portugal",
+      "id":10
+    },
+    {
+      
+      "name":"Greece",
+      "shortname":"Greece",
+      "group":"weu",
+      "continent":"eu",
+      "stab":2,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"Italy,Yugoslavia,Turkey",
+      "id":11
+    },
+    {
+      
+      "name":"Hungary",
+      "shortname":"Hungary",
+      "group":"eeu",
+      "continent":"eu",
+      "stab":3,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"Romania,Yugoslavia",
+      "id":12
+    },
+    {
+      
+      "name":"Italy",
+      "shortname":"Italy",
+      "group":"weu",
+      "continent":"eu",
+      "stab":2,
+      "btl":1,
+      "usa":0,
+      "ussr":0,
+      "links":"Yugoslavia,Spain/Portugal",
+      "id":13
+    },
+    {
+      
+      "name":"Norway",
+      "shortname":"Norway",
+      "group":"weu",
+      "continent":"eu",
+      "stab":4,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"UK,Sweden",
+      "id":14
+    },
+    {
+      
+      "name":"Poland",
+      "shortname":"Poland",
+      "group":"eeu",
+      "continent":"eu",
+      "stab":3,
+      "btl":1,
+      "usa":0,
+      "ussr":0,
+      "links":0,
+      "id":15
+    },
+    {
+      
+      "name":"Romania",
+      "shortname":"Romania",
+      "group":"eeu",
+      "continent":"eu",
+      "stab":3,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"Turkey,Yugoslavia",
+      "id":16
+    },
+    {
+      
+      "name":"Spain/Portugal",
+      "shortname":"Spain/Po",
+      "group":"weu",
+      "continent":"eu",
+      "stab":2,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"Morocco",
+      "id":17
+    },
+    {
+      
+      "name":"Sweden",
+      "shortname":"Sweden",
+      "group":"weu",
+      "continent":"eu",
+      "stab":4,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":0,
+      "id":18
+    },
+    {
+      
+      "name":"Turkey",
+      "shortname":"Turkey",
+      "group":"weu",
+      "continent":"eu",
+      "stab":2,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":0,
+      "id":19
+    },
+    {
+      
+      "name":"UK",
+      "shortname":"UK",
+      "group":"weu",
+      "continent":"eu",
+      "stab":5,
+      "btl":0,
+      "usa":5,
+      "ussr":0,
+      "links":0,
+      "id":20
+    },
+    {
+      
+      "name":"W Germany",
+      "shortname":"W.Germ",
+      "group":"weu",
+      "continent":"eu",
+      "stab":4,
+      "btl":1,
+      "usa":0,
+      "ussr":0,
+      "links":0,
+      "id":21
+    },
+    {
+      
+      "name":"Yugoslavia",
+      "shortname":"Yugoslav",
+      "group":"eeu",
+      "continent":"eu",
+      "stab":3,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":0,
+      "id":22
+    },
+    {
+      
+      "name":"Egypt",
+      "shortname":"Egypt",
+      "group":"me",
+      "continent":"me",
+      "stab":2,
+      "btl":1,
+      "usa":0,
+      "ussr":0,
+      "links":"Israel,Libya,Sudan",
+      "id":23
+    },
+    {
+      
+      "name":"Gulf States",
+      "shortname":"Gulf Sts",
+      "group":"me",
+      "continent":"me",
+      "stab":3,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"Iraq,Saudi Arabia",
+      "id":24
+    },
+    {
+      
+      "name":"Iran",
+      "shortname":"Iran",
+      "group":"me",
+      "continent":"me",
+      "stab":2,
+      "btl":1,
+      "usa":1,
+      "ussr":0,
+      "links":"Iraq,Afghanistan,Pakistan",
+      "id":25
+    },
+    {
+      
+      "name":"Iraq",
+      "shortname":"Iraq",
+      "group":"me",
+      "continent":"me",
+      "stab":3,
+      "btl":1,
+      "usa":0,
+      "ussr":1,
+      "links":"Saudi Arabia,Jordan",
+      "id":26
+    },
+    {
+      
+      "name":"Israel",
+      "shortname":"Israel",
+      "group":"me",
+      "continent":"me",
+      "stab":4,
+      "btl":1,
+      "usa":1,
+      "ussr":0,
+      "links":"Jordan,Lebanon,Syria",
+      "id":27
+    },
+    {
+      
+      "name":"Jordan",
+      "shortname":"Jordan",
+      "group":"me",
+      "continent":"me",
+      "stab":2,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"Saudi Arabia,Lebanon",
+      "id":28
+    },
+    {
+      
+      "name":"Lebanon",
+      "shortname":"Lebanon",
+      "group":"me",
+      "continent":"me",
+      "stab":1,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"Syria",
+      "id":29
+    },
+    {
+      
+      "name":"Libya",
+      "shortname":"Libya",
+      "group":"me",
+      "continent":"me",
+      "stab":2,
+      "btl":1,
+      "usa":0,
+      "ussr":0,
+      "links":"Tunisia",
+      "id":30
+    },
+    {
+      
+      "name":"Saudi Arabia",
+      "shortname":"Saudi A",
+      "group":"me",
+      "continent":"me",
+      "stab":3,
+      "btl":1,
+      "usa":0,
+      "ussr":0,
+      "links":0,
+      "id":31
+    },
+    {
+      
+      "name":"Syria",
+      "shortname":"Syria",
+      "group":"me",
+      "continent":"me",
+      "stab":2,
+      "btl":0,
+      "usa":0,
+      "ussr":1,
+      "links":0,
+      "id":32
+    },
+    {
+      
+      "name":"Afghanistan",
+      "shortname":"Afghan",
+      "group":"as",
+      "continent":"as",
+      "stab":2,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"Pakistan",
+      "id":33
+    },
+    {
+      
+      "name":"Australia",
+      "shortname":"Australia",
+      "group":"as",
+      "continent":"as",
+      "stab":4,
+      "btl":0,
+      "usa":4,
+      "ussr":0,
+      "links":"Malaysia",
+      "id":34
+    },
+    {
+      
+      "name":"Burma",
+      "shortname":"Burma",
+      "group":"sea",
+      "continent":"as",
+      "stab":2,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"India,Laos/Cambodia",
+      "id":35
+    },
+    {
+      
+      "name":"India",
+      "shortname":"India",
+      "group":"as",
+      "continent":"as",
+      "stab":3,
+      "btl":1,
+      "usa":0,
+      "ussr":0,
+      "links":"Pakistan",
+      "id":36
+    },
+    {
+      
+      "name":"Indonesia",
+      "shortname":"Indonesia",
+      "group":"sea",
+      "continent":"as",
+      "stab":1,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"Malaysia,Phillippines",
+      "id":37
+    },
+    {
+      
+      "name":"Japan",
+      "shortname":"Japan",
+      "group":"as",
+      "continent":"as",
+      "stab":4,
+      "btl":1,
+      "usa":1,
+      "ussr":0,
+      "links":"Phillippines,S Korea,Taiwan",
+      "id":38
+    },
+    {
+      
+      "name":"Laos/Cambodia",
+      "shortname":"Laos/Cam",
+      "group":"sea",
+      "continent":"as",
+      "stab":1,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"Thailand,Vietnam",
+      "id":39
+    },
+    {
+      
+      "name":"Malaysia",
+      "shortname":"Malaysia",
+      "group":"sea",
+      "continent":"as",
+      "stab":2,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"Thailand",
+      "id":40
+    },
+    {
+      
+      "name":"N Korea",
+      "shortname":"N.Korea",
+      "group":"as",
+      "continent":"as",
+      "stab":3,
+      "btl":1,
+      "usa":0,
+      "ussr":3,
+      "links":"S Korea",
+      "id":41
+    },
+    {
+      
+      "name":"Pakistan",
+      "shortname":"Pakistan",
+      "group":"as",
+      "continent":"as",
+      "stab":2,
+      "btl":1,
+      "usa":0,
+      "ussr":0,
+      "links":0,
+      "id":42
+    },
+    {
+      
+      "name":"Phillippines",
+      "shortname":"Phillip",
+      "group":"sea",
+      "continent":"as",
+      "stab":2,
+      "btl":0,
+      "usa":1,
+      "ussr":0,
+      "links":0,
+      "id":43
+    },
+    {
+      
+      "name":"S Korea",
+      "shortname":"S.Korea",
+      "group":"as",
+      "continent":"as",
+      "stab":3,
+      "btl":1,
+      "usa":1,
+      "ussr":0,
+      "links":"Taiwan",
+      "id":44
+    },
+    {
+      
+      "name":"Taiwan",
+      "shortname":"Taiwan",
+      "group":"as",
+      "continent":"as",
+      "stab":3,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":0,
+      "id":45
+    },
+    {
+      
+      "name":"Thailand",
+      "shortname":"Thailand",
+      "group":"sea",
+      "continent":"as",
+      "stab":2,
+      "btl":1,
+      "usa":0,
+      "ussr":0,
+      "links":"Vietnam",
+      "id":46
+    },
+    {
+      
+      "name":"Vietnam",
+      "shortname":"Vietnam",
+      "group":"sea",
+      "continent":"as",
+      "stab":1,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":0,
+      "id":47
+    },
+    {
+      
+      "name":"Algeria",
+      "shortname":"Algeria",
+      "group":"af",
+      "continent":"af",
+      "stab":2,
+      "btl":1,
+      "usa":0,
+      "ussr":0,
+      "links":"Morocco,Tunisia,Saharan States",
+      "id":48
+    },
+    {
+      
+      "name":"Angola",
+      "shortname":"Angola",
+      "group":"af",
+      "continent":"af",
+      "stab":1,
+      "btl":1,
+      "usa":0,
+      "ussr":0,
+      "links":"Botswana,South Africa,Zaire",
+      "id":49
+    },
+    {
+      
+      "name":"Botswana",
+      "shortname":"Botswana",
+      "group":"af",
+      "continent":"af",
+      "stab":2,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"South Africa,Zimbabwe",
+      "id":50
+    },
+    {
+      
+      "name":"Cameroon",
+      "shortname":"Cameroon",
+      "group":"af",
+      "continent":"af",
+      "stab":1,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"Nigeria,Zaire",
+      "id":51
+    },
+    {
+      
+      "name":"Ethiopia",
+      "shortname":"Ethiopia",
+      "group":"af",
+      "continent":"af",
+      "stab":1,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"Sudan,Somalia",
+      "id":52
+    },
+    {
+      
+      "name":"Ivory Coast",
+      "shortname":"Ivory C",
+      "group":"af",
+      "continent":"af",
+      "stab":2,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"West Africa,Nigeria",
+      "id":53
+    },
+    {
+      
+      "name":"Kenya",
+      "shortname":"Kenya",
+      "group":"af",
+      "continent":"af",
+      "stab":1,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"Somalia,SE Africa",
+      "id":54
+    },
+    {
+      
+      "name":"Morocco",
+      "shortname":"Morocco",
+      "group":"af",
+      "continent":"af",
+      "stab":3,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"West Africa",
+      "id":55
+    },
+    {
+      
+      "name":"Nigeria",
+      "shortname":"Nigeria",
+      "group":"af",
+      "continent":"af",
+      "stab":1,
+      "btl":1,
+      "usa":0,
+      "ussr":0,
+      "links":"Saharan States",
+      "id":56
+    },
+    {
+      
+      "name":"SE Africa",
+      "shortname":"SE Africa",
+      "group":"af",
+      "continent":"af",
+      "stab":1,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"Zimbabwe",
+      "id":57
+    },
+    {
+      
+      "name":"Saharan States",
+      "shortname":"Saharan S",
+      "group":"af",
+      "continent":"af",
+      "stab":1,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":0,
+      "id":58
+    },
+    {
+      
+      "name":"Somalia",
+      "shortname":"Somalia",
+      "group":"af",
+      "continent":"af",
+      "stab":1,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":0,
+      "id":59
+    },
+    {
+      
+      "name":"South Africa",
+      "shortname":"South Af",
+      "group":"af",
+      "continent":"af",
+      "stab":3,
+      "btl":1,
+      "usa":1,
+      "ussr":0,
+      "links":0,
+      "id":60
+    },
+    {
+      
+      "name":"Sudan",
+      "shortname":"Sudan",
+      "group":"af",
+      "continent":"af",
+      "stab":1,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":0,
+      "id":61
+    },
+    {
+      
+      "name":"Tunisia",
+      "shortname":"Tunisia",
+      "group":"af",
+      "continent":"af",
+      "stab":2,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":0,
+      "id":62
+    },
+    {
+      
+      "name":"West Africa",
+      "shortname":"West Af",
+      "group":"af",
+      "continent":"af",
+      "stab":2,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":0,
+      "id":63
+    },
+    {
+      
+      "name":"Zaire",
+      "shortname":"Zaire",
+      "group":"af",
+      "continent":"af",
+      "stab":1,
+      "btl":1,
+      "usa":0,
+      "ussr":0,
+      "links":"Zimbabwe",
+      "id":64
+    },
+    {
+      
+      "name":"Zimbabwe",
+      "shortname":"Zimbabwe",
+      "group":"af",
+      "continent":"af",
+      "stab":1,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":0,
+      "id":65
+    },
+    {
+      
+      "name":"Costa Rica",
+      "shortname":"Costa R",
+      "group":"ca",
+      "continent":"ca",
+      "stab":3,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"Honduras,Nicaragua,Panama",
+      "id":66
+    },
+    {
+      
+      "name":"Cuba",
+      "shortname":"Cuba",
+      "group":"ca",
+      "continent":"ca",
+      "stab":3,
+      "btl":1,
+      "usa":0,
+      "ussr":0,
+      "links":"Haiti,Nicaragua",
+      "id":67
+    },
+    {
+      
+      "name":"Dominican Rep",
+      "shortname":"Dominic R",
+      "group":"ca",
+      "continent":"ca",
+      "stab":1,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"Haiti",
+      "id":68
+    },
+    {
+      
+      "name":"El Salvador",
+      "shortname":"El Salva",
+      "group":"ca",
+      "continent":"ca",
+      "stab":1,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"Honduras,Guatemala",
+      "id":69
+    },
+    {
+      
+      "name":"Guatemala",
+      "shortname":"Guatemala",
+      "group":"ca",
+      "continent":"ca",
+      "stab":1,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"Honduras,Mexico",
+      "id":70
+    },
+    {
+      
+      "name":"Haiti",
+      "shortname":"Haiti",
+      "group":"ca",
+      "continent":"ca",
+      "stab":1,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":0,
+      "id":71
+    },
+    {
+      
+      "name":"Honduras",
+      "shortname":"Honduras",
+      "group":"ca",
+      "continent":"ca",
+      "stab":2,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"Nicaragua",
+      "id":72
+    },
+    {
+      
+      "name":"Mexico",
+      "shortname":"Mexico",
+      "group":"ca",
+      "continent":"ca",
+      "stab":2,
+      "btl":1,
+      "usa":0,
+      "ussr":0,
+      "links":0,
+      "id":73
+    },
+    {
+      
+      "name":"Nicaragua",
+      "shortname":"Nicaragua",
+      "group":"ca",
+      "continent":"ca",
+      "stab":1,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":0,
+      "id":74
+    },
+    {
+      
+      "name":"Panama",
+      "shortname":"Panama",
+      "group":"ca",
+      "continent":"ca",
+      "stab":2,
+      "btl":1,
+      "usa":1,
+      "ussr":0,
+      "links":"Columbia",
+      "id":75
+    },
+    {
+      
+      "name":"Argentina",
+      "shortname":"Argentina",
+      "group":"sa",
+      "continent":"sa",
+      "stab":2,
+      "btl":1,
+      "usa":0,
+      "ussr":0,
+      "links":"Chile,Paraguay,Uruguay",
+      "id":76
+    },
+    {
+      
+      "name":"Bolivia",
+      "shortname":"Bolivia",
+      "group":"sa",
+      "continent":"sa",
+      "stab":2,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"Paraguay,Peru",
+      "id":77
+    },
+    {
+      
+      "name":"Brazil",
+      "shortname":"Brazil",
+      "group":"sa",
+      "continent":"sa",
+      "stab":2,
+      "btl":1,
+      "usa":0,
+      "ussr":0,
+      "links":"Uruguay,Venezuela",
+      "id":78
+    },
+    {
+      
+      "name":"Chile",
+      "shortname":"Chile",
+      "group":"sa",
+      "continent":"sa",
+      "stab":3,
+      "btl":1,
+      "usa":0,
+      "ussr":0,
+      "links":"Peru",
+      "id":79
+    },
+    {
+      
+      "name":"Columbia",
+      "shortname":"Columbia",
+      "group":"sa",
+      "continent":"sa",
+      "stab":1,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"Ecuador,Venezuela",
+      "id":80
+    },
+    {
+      
+      "name":"Ecuador",
+      "shortname":"Ecuador",
+      "group":"sa",
+      "continent":"sa",
+      "stab":2,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"Peru",
+      "id":81
+    },
+    {
+      
+      "name":"Paraguay",
+      "shortname":"Paraguay",
+      "group":"sa",
+      "continent":"sa",
+      "stab":2,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":"Uruguay",
+      "id":82
+    },
+    {
+      
+      "name":"Peru",
+      "shortname":"Peru",
+      "group":"sa",
+      "continent":"sa",
+      "stab":2,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":0,
+      "id":83
+    },
+    {
+      
+      "name":"Uruguay",
+      "shortname":"Uruguay",
+      "group":"sa",
+      "continent":"sa",
+      "stab":2,
+      "btl":0,
+      "usa":0,
+      "ussr":0,
+      "links":0,
+      "id":84
+    },
+    {
+      
+      "name":"Venezuela",
+      "shortname":"Venezuela",
+      "group":"sa",
+      "continent":"sa",
+      "stab":2,
+      "btl":1,
+      "usa":0,
+      "ussr":0,
+      "links":0,
+      "id":85
+    }
+  ],
+
+  "links": [
+    {
+      "source":0,
+      "target":5,
+      "nodes":[
+        "USA",
+        "Canada"
+      ],
+      "crossContinent":true
+    },
+    {
+      "source":0,
+      "target":67,
+      "nodes":[
+        "USA",
+        "Cuba"
+      ],
+      "crossContinent":true
+    },
+    {
+      "source":0,
+      "target":73,
+      "nodes":[
+        "USA",
+        "Mexico"
+      ],
+      "crossContinent":true
+    },
+    {
+      "source":0,
+      "target":38,
+      "nodes":[
+        "USA",
+        "Japan"
+      ],
+      "crossContinent":true
+    },
+    {
+      "source":1,
+      "target":33,
+      "nodes":[
+        "USSR",
+        "Afghanistan"
+      ],
+      "crossContinent":true
+    },
+    {
+      "source":1,
+      "target":9,
+      "nodes":[
+        "USSR",
+        "Finland"
+      ],
+      "crossContinent":true
+    },
+    {
+      "source":1,
+      "target":41,
+      "nodes":[
+        "USSR",
+        "N Korea"
+      ],
+      "crossContinent":true
+    },
+    {
+      "source":1,
+      "target":15,
+      "nodes":[
+        "USSR",
+        "Poland"
+      ],
+      "crossContinent":true
+    },
+    {
+      "source":1,
+      "target":16,
+      "nodes":[
+        "USSR",
+        "Romania"
+      ],
+      "crossContinent":true
+    },
+    {
+      "source":2,
+      "target":8,
+      "nodes":[
+        "Austria",
+        "E Germany"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":2,
+      "target":12,
+      "nodes":[
+        "Austria",
+        "Hungary"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":2,
+      "target":13,
+      "nodes":[
+        "Austria",
+        "Italy"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":2,
+      "target":21,
+      "nodes":[
+        "Austria",
+        "W Germany"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":3,
+      "target":21,
+      "nodes":[
+        "Benelux",
+        "W Germany"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":3,
+      "target":20,
+      "nodes":[
+        "Benelux",
+        "UK"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":4,
+      "target":19,
+      "nodes":[
+        "Bulgaria",
+        "Turkey"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":4,
+      "target":11,
+      "nodes":[
+        "Bulgaria",
+        "Greece"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":5,
+      "target":20,
+      "nodes":[
+        "Canada",
+        "UK"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":6,
+      "target":15,
+      "nodes":[
+        "Czechoslovakia",
+        "Poland"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":6,
+      "target":8,
+      "nodes":[
+        "Czechoslovakia",
+        "E Germany"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":6,
+      "target":12,
+      "nodes":[
+        "Czechoslovakia",
+        "Hungary"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":7,
+      "target":21,
+      "nodes":[
+        "Denmark",
+        "W Germany"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":7,
+      "target":18,
+      "nodes":[
+        "Denmark",
+        "Sweden"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":8,
+      "target":15,
+      "nodes":[
+        "E Germany",
+        "Poland"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":8,
+      "target":21,
+      "nodes":[
+        "E Germany",
+        "W Germany"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":9,
+      "target":18,
+      "nodes":[
+        "Finland",
+        "Sweden"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":10,
+      "target":48,
+      "nodes":[
+        "France",
+        "Algeria"
+      ],
+      "crossContinent":true
+    },
+    {
+      "source":10,
+      "target":20,
+      "nodes":[
+        "France",
+        "UK"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":10,
+      "target":21,
+      "nodes":[
+        "France",
+        "W Germany"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":10,
+      "target":13,
+      "nodes":[
+        "France",
+        "Italy"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":10,
+      "target":17,
+      "nodes":[
+        "France",
+        "Spain/Portugal"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":11,
+      "target":13,
+      "nodes":[
+        "Greece",
+        "Italy"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":11,
+      "target":22,
+      "nodes":[
+        "Greece",
+        "Yugoslavia"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":11,
+      "target":19,
+      "nodes":[
+        "Greece",
+        "Turkey"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":12,
+      "target":16,
+      "nodes":[
+        "Hungary",
+        "Romania"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":12,
+      "target":22,
+      "nodes":[
+        "Hungary",
+        "Yugoslavia"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":13,
+      "target":22,
+      "nodes":[
+        "Italy",
+        "Yugoslavia"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":13,
+      "target":17,
+      "nodes":[
+        "Italy",
+        "Spain/Portugal"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":14,
+      "target":20,
+      "nodes":[
+        "Norway",
+        "UK"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":14,
+      "target":18,
+      "nodes":[
+        "Norway",
+        "Sweden"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":16,
+      "target":19,
+      "nodes":[
+        "Romania",
+        "Turkey"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":16,
+      "target":22,
+      "nodes":[
+        "Romania",
+        "Yugoslavia"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":17,
+      "target":55,
+      "nodes":[
+        "Spain/Portugal",
+        "Morocco"
+      ],
+      "crossContinent":true
+    },
+    {
+      "source":23,
+      "target":27,
+      "nodes":[
+        "Egypt",
+        "Israel"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":23,
+      "target":30,
+      "nodes":[
+        "Egypt",
+        "Libya"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":23,
+      "target":61,
+      "nodes":[
+        "Egypt",
+        "Sudan"
+      ],
+      "crossContinent":true
+    },
+    {
+      "source":24,
+      "target":26,
+      "nodes":[
+        "Gulf States",
+        "Iraq"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":24,
+      "target":31,
+      "nodes":[
+        "Gulf States",
+        "Saudi Arabia"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":25,
+      "target":26,
+      "nodes":[
+        "Iran",
+        "Iraq"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":25,
+      "target":33,
+      "nodes":[
+        "Iran",
+        "Afghanistan"
+      ],
+      "crossContinent":true
+    },
+    {
+      "source":25,
+      "target":42,
+      "nodes":[
+        "Iran",
+        "Pakistan"
+      ],
+      "crossContinent":true
+    },
+    {
+      "source":26,
+      "target":31,
+      "nodes":[
+        "Iraq",
+        "Saudi Arabia"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":26,
+      "target":28,
+      "nodes":[
+        "Iraq",
+        "Jordan"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":27,
+      "target":28,
+      "nodes":[
+        "Israel",
+        "Jordan"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":27,
+      "target":29,
+      "nodes":[
+        "Israel",
+        "Lebanon"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":27,
+      "target":32,
+      "nodes":[
+        "Israel",
+        "Syria"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":28,
+      "target":31,
+      "nodes":[
+        "Jordan",
+        "Saudi Arabia"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":28,
+      "target":29,
+      "nodes":[
+        "Jordan",
+        "Lebanon"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":29,
+      "target":32,
+      "nodes":[
+        "Lebanon",
+        "Syria"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":30,
+      "target":62,
+      "nodes":[
+        "Libya",
+        "Tunisia"
+      ],
+      "crossContinent":true
+    },
+    {
+      "source":33,
+      "target":42,
+      "nodes":[
+        "Afghanistan",
+        "Pakistan"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":34,
+      "target":40,
+      "nodes":[
+        "Australia",
+        "Malaysia"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":35,
+      "target":36,
+      "nodes":[
+        "Burma",
+        "India"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":35,
+      "target":39,
+      "nodes":[
+        "Burma",
+        "Laos/Cambodia"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":36,
+      "target":42,
+      "nodes":[
+        "India",
+        "Pakistan"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":37,
+      "target":40,
+      "nodes":[
+        "Indonesia",
+        "Malaysia"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":37,
+      "target":43,
+      "nodes":[
+        "Indonesia",
+        "Phillippines"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":38,
+      "target":43,
+      "nodes":[
+        "Japan",
+        "Phillippines"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":38,
+      "target":44,
+      "nodes":[
+        "Japan",
+        "S Korea"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":38,
+      "target":45,
+      "nodes":[
+        "Japan",
+        "Taiwan"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":39,
+      "target":46,
+      "nodes":[
+        "Laos/Cambodia",
+        "Thailand"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":39,
+      "target":47,
+      "nodes":[
+        "Laos/Cambodia",
+        "Vietnam"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":40,
+      "target":46,
+      "nodes":[
+        "Malaysia",
+        "Thailand"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":41,
+      "target":44,
+      "nodes":[
+        "N Korea",
+        "S Korea"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":44,
+      "target":45,
+      "nodes":[
+        "S Korea",
+        "Taiwan"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":46,
+      "target":47,
+      "nodes":[
+        "Thailand",
+        "Vietnam"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":48,
+      "target":55,
+      "nodes":[
+        "Algeria",
+        "Morocco"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":48,
+      "target":62,
+      "nodes":[
+        "Algeria",
+        "Tunisia"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":48,
+      "target":58,
+      "nodes":[
+        "Algeria",
+        "Saharan States"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":49,
+      "target":50,
+      "nodes":[
+        "Angola",
+        "Botswana"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":49,
+      "target":60,
+      "nodes":[
+        "Angola",
+        "South Africa"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":49,
+      "target":64,
+      "nodes":[
+        "Angola",
+        "Zaire"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":50,
+      "target":60,
+      "nodes":[
+        "Botswana",
+        "South Africa"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":50,
+      "target":65,
+      "nodes":[
+        "Botswana",
+        "Zimbabwe"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":51,
+      "target":56,
+      "nodes":[
+        "Cameroon",
+        "Nigeria"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":51,
+      "target":64,
+      "nodes":[
+        "Cameroon",
+        "Zaire"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":52,
+      "target":61,
+      "nodes":[
+        "Ethiopia",
+        "Sudan"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":52,
+      "target":59,
+      "nodes":[
+        "Ethiopia",
+        "Somalia"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":53,
+      "target":63,
+      "nodes":[
+        "Ivory Coast",
+        "West Africa"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":53,
+      "target":56,
+      "nodes":[
+        "Ivory Coast",
+        "Nigeria"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":54,
+      "target":59,
+      "nodes":[
+        "Kenya",
+        "Somalia"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":54,
+      "target":57,
+      "nodes":[
+        "Kenya",
+        "SE Africa"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":55,
+      "target":63,
+      "nodes":[
+        "Morocco",
+        "West Africa"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":56,
+      "target":58,
+      "nodes":[
+        "Nigeria",
+        "Saharan States"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":57,
+      "target":65,
+      "nodes":[
+        "SE Africa",
+        "Zimbabwe"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":64,
+      "target":65,
+      "nodes":[
+        "Zaire",
+        "Zimbabwe"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":66,
+      "target":72,
+      "nodes":[
+        "Costa Rica",
+        "Honduras"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":66,
+      "target":74,
+      "nodes":[
+        "Costa Rica",
+        "Nicaragua"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":66,
+      "target":75,
+      "nodes":[
+        "Costa Rica",
+        "Panama"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":67,
+      "target":71,
+      "nodes":[
+        "Cuba",
+        "Haiti"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":67,
+      "target":74,
+      "nodes":[
+        "Cuba",
+        "Nicaragua"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":68,
+      "target":71,
+      "nodes":[
+        "Dominican Rep",
+        "Haiti"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":69,
+      "target":72,
+      "nodes":[
+        "El Salvador",
+        "Honduras"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":69,
+      "target":70,
+      "nodes":[
+        "El Salvador",
+        "Guatemala"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":70,
+      "target":72,
+      "nodes":[
+        "Guatemala",
+        "Honduras"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":70,
+      "target":73,
+      "nodes":[
+        "Guatemala",
+        "Mexico"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":72,
+      "target":74,
+      "nodes":[
+        "Honduras",
+        "Nicaragua"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":75,
+      "target":80,
+      "nodes":[
+        "Panama",
+        "Columbia"
+      ],
+      "crossContinent":true
+    },
+    {
+      "source":76,
+      "target":79,
+      "nodes":[
+        "Argentina",
+        "Chile"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":76,
+      "target":82,
+      "nodes":[
+        "Argentina",
+        "Paraguay"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":76,
+      "target":84,
+      "nodes":[
+        "Argentina",
+        "Uruguay"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":77,
+      "target":82,
+      "nodes":[
+        "Bolivia",
+        "Paraguay"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":77,
+      "target":83,
+      "nodes":[
+        "Bolivia",
+        "Peru"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":78,
+      "target":84,
+      "nodes":[
+        "Brazil",
+        "Uruguay"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":78,
+      "target":85,
+      "nodes":[
+        "Brazil",
+        "Venezuela"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":79,
+      "target":83,
+      "nodes":[
+        "Chile",
+        "Peru"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":80,
+      "target":81,
+      "nodes":[
+        "Columbia",
+        "Ecuador"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":80,
+      "target":85,
+      "nodes":[
+        "Columbia",
+        "Venezuela"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":81,
+      "target":83,
+      "nodes":[
+        "Ecuador",
+        "Peru"
+      ],
+      "crossContinent":false
+    },
+    {
+      "source":82,
+      "target":84,
+      "nodes":[
+        "Paraguay",
+        "Uruguay"
+      ],
+      "crossContinent":false
+    }
+  ]
+}

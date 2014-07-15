@@ -108,7 +108,12 @@ gulp.task('libs', function(){
 
 
 gulp.task('data', function() {
-  return gulp.src('app/data/**/*').pipe(gulp.dest('dist/data'));
+  var jsFilter = $.filter('**/*.json');
+  return gulp.src('app/data/**/*')
+    .pipe(jsFilter)
+    .pipe($.jsonminify())
+    .pipe(jsFilter.restore())
+    .pipe(gulp.dest('dist/data'));
 });
 
 gulp.task('fontello', function(){
