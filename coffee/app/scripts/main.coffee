@@ -1,4 +1,5 @@
 R = React.DOM
+update = React.addons.update
 cx = React.addons.classSet
 $ = Zepto
 
@@ -369,7 +370,7 @@ CountriesView = React.createClass
       R.h2 {}, 'Countries'
     ]
 
-BoardView = React.createClass
+BoardPicView = React.createClass
   render: ->
     R.div className: 'boardView', [
       R.div className: 'page-header',
@@ -379,34 +380,28 @@ BoardView = React.createClass
     ]
 
 
-nodeWidth = 66
-nodeHeight = 50
-nodeGutter = 14
-nodeTitleHeight = 16
-nodeTitleFontSize = 12
-
-snapToGrid = (obj)->
-  gridX = Math.round (nodeWidth + nodeGutter) / 2
-  gridY = Math.round (nodeHeight + nodeGutter) / 2
-  obj.x = Math.round(obj.x / gridX) * gridX
-  obj.y = Math.round(obj.y / gridY) * gridY
-  if obj.px
-    obj.px = obj.x
-  if obj.py
-    obj.py = obj.y
-  obj
 
 
 
 
-MapView = React.createClass
+
+
+
+BoardView = React.createClass
+  displayName: 'BoardView'
   
-  getInitialState: ->
-    debugObj: {}
-
   getDefaultProps: ->
     width: 1140
     height: 730
+    node:
+      width: 66
+      height: 50
+      gutter: 14
+      titleHeight: 16
+      titleFontSize: 12
+
+  getInitialState: ->
+    debugObj: {}
 
   dragend: (el)->
     coords = @state.coords
@@ -417,233 +412,334 @@ MapView = React.createClass
     @setState {coords}
 
   render: ->
-    console.log @props, @props.mapData
-    R.div className: 'mapView', [
-      R.div className: 'page-header', [
-          R.h2 {}, "Map"
-        ]
-      Board width:@props.width, height:@props.height, mapData: @props.mapData
+    R.div className: 'BoardView', [
+      R.div className: 'page-header',
+          R.h2 {}, "Board"
+      Board @props
       R.textarea className: 'map-position-debug', ref:'debug', style:{width:'100%', height:'60rem'}, value: JSON.stringify(@state.coords, null, ' ')
+    ]
+
+Board = React.createClass
+  displayName: 'Board'
+
+  getInitialState: ->
+    gameState =
+      game:
+        score: 0
+        turn: 1
+        round: 14
+        defcon: 5
+        milops: [0,0]
+        space: [0,0]
+
+    _.assign gameState, @props
+
+  handleIPClick: (nodeId, side, dir)->
+    node = _.find @state.nodes, {id: nodeId}
+    # Don't let the non-country nodes get updated 
+    if node.points or node.superpower then return
+    state = @state
+
+    ip = state.nodes[nodeId][side]
+    delta = if dir == 'up' then 1 else -1
+    ip += delta
+    if ip < 0 then ip = 0
+
+    state.nodes[nodeId][side] = ip
+
+    @setState state
+
+  render: ->
+    nodeProps = @props.node
+
+    links = @props.links.map (linkData)=>
+      source = _.find @props.countries, id: linkData.source
+      target = _.find @props.countries, id: linkData.target
+      nodes = {source, target}
+
+      jUSA = (link, targ)=>
+        japanUSABump = 18
+        if _.contains(link.nodes, 'USA') and _.contains(link.nodes, 'Japan')
+          return nodes[targ].y - japanUSABump
+        nodes[targ].y
+
+      linkProps =
+        key: "BoardLink-#{linkData.source}-#{linkData.target}"
+        x1: source.x
+        y1: jUSA(linkData, 'source')
+        x2: target.x
+        y2: jUSA(linkData, 'target')
+        className: cx
+          "link": true
+          "link-cross": linkData.crossContinent
+          "link-usa": _.contains linkData.nodes, 'USA'
+          "link-ussr": _.contains linkData.nodes, 'USSR'
+
+      BoardLink linkProps
+
+    nodes = _.map @state.nodes, (countryData)=>
+      props = _.assign countryData,
+        node: nodeProps
+        key: "BoardNode-#{countryData.id}"
+        transform: "translate(#{countryData.x}, #{countryData.y})"
+        width: @props.node.width
+        height: @props.node.height
+        gutter: @props.node.gutter
+        titleHeight: @props.node.titleHeight
+        titleFontSize: @props.node.titleFontSize
+        handleIPClick: @handleIPClick
+
+      BoardNode props
+
+    R.div className: 'Board', [
+      R.svg width:@props.width, height:@props.height, ref: 'svg', [
+        links
+        nodes
+      ]
+      BoardStatus @state.game
+    ]
+
+BoardStatus = React.createClass
+  render: ->
+  
+    # Round: 0 is headline, odds are USSR, evens are USA
+    round = if @props.round == 0 then 'H' else Math.ceil(@props.round / 2)
+    roundClass = ''
+    if @props.round != 0
+      roundClass = if @props.round % 2 == 1 then 'ussr' else 'usa'
+
+    R.div className: 'BoardStatus', [
+      R.dl className: 'col', [
+        R.dt {}, 'Score'
+        R.dd {}, [
+          R.span className: 'dec', '◀'
+          R.span className: 'val', @props.score
+          R.span className: 'inc', '▶'
+        ]
+        R.dt {}, 'Defcon'
+        R.dd {}, [
+          R.span className: 'dec', '◀'
+          R.span className: 'val', @props.defcon
+          R.span className: 'inc', '▶'
+        ]
+        R.dt {}, 'MilOps'
+        R.dd {}, [
+          R.div {}, [
+            R.span className: 'prop-usa', [
+              R.span className: 'dec', '◀'
+              R.span className: 'val', @props.milops[0]
+              R.span className: 'inc', '▶'
+            ]
+          ]
+          R.div {}, [
+            R.span className: 'prop-ussr', [
+              R.span className: 'dec', '◀'
+              R.span className: 'val', @props.milops[1]
+              R.span className: 'inc', '▶'
+            ]
+          ]
+        ]
+      ]
+      R.dl className: 'col', [
+        R.dt {}, 'Turn'
+        R.dd {}, [
+          R.span className: 'dec', '◀'
+          R.span className: 'val', @props.turn
+          R.span className: 'inc', '▶'
+        ]
+        R.dt {}, 'Round'
+        R.dd {}, [
+          R.span className: 'dec', '◀'
+          R.span className: "val #{roundClass}", round
+          R.span className: 'inc', '▶'
+        ]
+        R.dt {}, 'Space'
+        R.dd {}, [
+          R.div {}, [
+            R.span className: 'prop-usa', [
+              R.span className: 'dec', '◀'
+              R.span className: 'val', @props.space[0]
+              R.span className: 'inc', '▶'
+            ]
+          ]
+          R.div {}, [
+            R.span className: 'prop-ussr', [
+              R.span className: 'dec', '◀'
+              R.span className: 'val', @props.space[1]
+              R.span className: 'inc', '▶'
+            ]
+          ]
+        ]
+      ]
     ]
 
 
 
-
-Board = React.createClass
-  getInitialState: ->
-    @props
-
-  # d3.js handles all of the manipulation
+BoardLink = React.createClass
+  displayName: 'BoardLink'
   render: ->
-    R.svg className:'map', width:@props.width, height:@props.height, ref:'svg'
-  
-  shouldComponentUpdate: (nextProps, nextState) ->
-    false
+    R.line @props
 
-  # 
-  refreshBoard: ->
 
-  componentDidMount: ->
 
-    force = d3.layout.force()
-      #.charge -320
-      .linkDistance 10
-      .size [@props.width, @props.height]
-      .gravity 0.2
-    
-    #drag = force.drag()
-#
-    #drag.on 'dragend', (el)=>
-      #el = snapToGrid el
-      #@dragend el
+BoardNode = React.createClass
+  displayName: 'BoardNode'
 
-    svg = d3.select @refs.svg.getDOMNode()
-    mapData = @props.mapData
+  handleIPClick: (side, dir)->
+    @props.handleIPClick @props.id, side, dir
 
-    {countryPositions, countries, links, regionInfoNodes} = mapData
+  getInitialState: ->
+    @componentWillReceiveProps @props
 
-    coordsReduce = (obj={}, el)=>
-      obj[el.name] = []
-      obj
+  componentWillReceiveProps: (nextProps)->
+    {usa, ussr} = nextProps
+    state = {usa, ussr}
+    @setState state
+    state
 
-    countries = countries.map (node)->
-      node.x = countryPositions[node.name].x
-      node.y = countryPositions[node.name].y
-      node.fixed = true
-      node
-    
-    regionInfoNodes = regionInfoNodes.map (node)->
-      node.regionInfo = true
-      node.fixed = true
-      node
 
-    nodes = _.union(countries, regionInfoNodes).map (node)->
-      node
+  render: ->
+    controlUSA = (@state.usa - @state.ussr) >= @props.stab
+    controlUSSR = (@state.ussr - @state.usa) >= @props.stab
 
-    force.nodes nodes
-      .links links
-      .start()
 
-    link = svg.selectAll '.link'
-      .data(links).enter()
-      .append 'line'
-      .attr 'class', (d)->
-        linkClass = ''
-        if d.crossContinent
-          linkClass = 'link-cross'
-        if _.contains(d.nodes, 'USA')
-          linkClass = 'link-usa'
-        if _.contains(d.nodes, 'USSR')
-          linkClass = 'link-ussr'
-        
-        "link #{linkClass}"
+    gAttrs =
+      transform: @props.transform
+      className: "node-#{@props.group} usa#{@state.usa} " + cx
+        'node': true
+        'node-btl': @props.btl == 1
+        'node-nonbtl': @props.btl != 1
+        'node-region-info': @props.regionInfo
+        'node-usa-control': controlUSA
+        'node-ussr-control': controlUSSR
+        'node-region-info': @props.regionInfo
 
-    node = svg.selectAll '.node'
-      .data(nodes).enter()
-      .append 'g'
-      #.call drag
 
-    node.attr 'class', (d)->
-        btl = if d.btl == 1 then 'node-btl' else 'node-nonbtl'
-        regionInfo = if d.regionInfo then 'node-region-info' else ''
-        usaCtrl = if (d.usa - d.ussr) >= d.stab then 'node-usa-control' else ''
-        ussrCtrl = if (d.ussr - d.usa) >= d.stab then 'node-ussr-control' else ''
-        "node node-#{d.group} #{regionInfo} #{btl} #{usaCtrl} #{ussrCtrl}"
 
-    node.append 'rect'
-      .attr 'width', nodeWidth
-      .attr 'height', nodeHeight
-      .attr 'x', -nodeWidth/2
-      .attr 'y', -nodeHeight/2
-      .attr 'class', "node-bg"
-
-    # Triangle for dual Europe and South-East Asia countries
-    cornerBL = "#{-nodeWidth/2},#{nodeHeight/2}"
-    cornerBR = "#{nodeWidth/2},#{nodeHeight/2}"
-    cornerTR = "#{nodeWidth/2},#{-nodeHeight/2 + nodeTitleHeight}"
-    triangle = [cornerBL, cornerBR, cornerTR]
-    node.append 'polygon'
-      .attr 'points', triangle.join ' '
-      .attr 'class', (d)->
-        if d.regionInfo
-          return 'node-bg-hidden'
-        switch d.group
+    polyClassName =
+        if @props.regionInfo
+          'hide'
+        else switch @props.group
           when 'eu' then 'node-bg-eu'
           when 'sea' then 'node-bg-sea'
-          else 'node-bg-hidden'
-    
-    ipGutter = 0
+          else 'hide'
 
-    # IP status background
-    node.append 'rect'
-      .attr 'class', (d)->
-        if d.superpower or d.points or d.usa == 0 then return 'hide'
-        return 'node-ip-bg-usa'
-      .attr 'width', nodeWidth/2 - ipGutter * 2
-      .attr 'height', nodeHeight - nodeTitleHeight - ipGutter * 2
-      .attr 'x', -nodeWidth/2 + ipGutter
-      .attr 'y', -nodeTitleHeight/2 - 1 + ipGutter
+    titleTextAttrs =
+      className: "node-title-text"
+      x: if @props.regionInfo or @props.superpower
+            0
+          else
+            -@props.node.width/2 + 2
+      y: if @props.regionInfo
+            -6
+          else if @props.superpower
+            6
+          else
+            -(@props.node.height/2) + @props.node.titleFontSize
+       
 
-    node.append 'rect'
-      .attr 'class', (d)->
-        if d.superpower or d.points or d.ussr == 0 then return 'hide'
-        return 'node-ip-bg-ussr'
-      .attr 'width', nodeWidth/2 - ipGutter * 2
-      .attr 'height', nodeHeight - nodeTitleHeight - ipGutter * 2
-      .attr 'x', ipGutter
-      .attr 'y', -nodeTitleHeight/2 - 1 + ipGutter
+    stabTextAttrs =
+      className: "node-stab"
+      x: (@props.node.width/2) - 10
+      y: -(@props.node.height/2) + @props.node.titleFontSize + 1
 
-    # Title bg
-    node.append 'rect'
-      .attr 'class', 'node-title-bg'
-      .attr 'width', nodeWidth
-      .attr 'height', nodeTitleHeight
-      .attr 'x', -nodeWidth/2
-      .attr 'y', -nodeHeight/2
+    regionTextAttrs =
+      className: if @props.points then 'node-text' else 'hide'
+      x: 0
+      y: 10
+      width: @props.node.width
 
-    # Title "shadow"
-    node.append 'line'
-      .attr 'class', 'node-line'
-      .attr 'width', nodeWidth
-      .attr 'x1', -nodeWidth/2
-      .attr 'y1', -nodeHeight/2 + nodeTitleHeight
-      .attr 'x2', nodeWidth/2
-      .attr 'y2', -nodeHeight/2 + nodeTitleHeight
+    regionText = if @props.points then @props.points.join(' ') else ''
 
-    # Title text
-    node.append 'text'
-      #.attr 'dy', "0.4em"
-      .attr 'class', "node-title-text"
-      .attr 'dx', (d)->
-        if d.regionInfo or d.superpower
-          return 0
-        return -(nodeWidth/2) + 2
-      .attr 'dy', (d)->
-        dy = -(nodeHeight/2) + nodeTitleFontSize
-        if d.regionInfo
-          dy = -6
-        if d.superpower
-          dy = 6
-        return dy
-      .text (d)-> d.shortname
+    R.g gAttrs, [
+      # Node bg
+      R.rect
+        className: 'node-bg ' + @state.usa
+        width: @props.width
+        height: @props.height
+        title: Math.random()
+        x: -@props.width/2
+        y: -@props.height/2
 
-    # Stability text
-    node.append 'text'
-      .attr 'class', "node-stab"
-      .attr 'dx', (nodeWidth/2) - 10
-      .attr 'dy', -(nodeHeight/2) + nodeTitleFontSize + 1
-      .text (d)-> d.stab
+      R.polygon
+          className: polyClassName
+          points: [
+              "#{-@props.width/2},#{@props.height/2}"
+              "#{@props.width/2},#{@props.height/2}"
+              "#{@props.width/2},#{-@props.height/2 + @props.titleHeight}"
+            ].join ' '
+             
+      R.rect
+        className: 'node-title-bg'
+        width: @props.width
+        height: @props.titleHeight
+        x: -@props.width/2
+        y: -@props.height/2
 
-    # Text for region info - should be hidden if not applicable
-    node.append 'text'
-      .attr 'class', (d)->
-        if d.regionInfo then 'node-text' else 'hide'
-      .attr 'dx', 0
-      .attr 'dy', 10
-      .attr 'width', nodeWidth
-      .text (d)->
-        if not d.points? then return ''
-        d.points.join('/')
+      R.line
+        className: 'node-line'
+        width: @props.width
+        x1: -@props.width/2
+        y1: -@props.height/2 + @props.node.titleHeight
+        x2: @props.width/2
+        y2: -@props.height/2 + @props.node.titleHeight
+
+      R.text titleTextAttrs, @props.shortname
+      R.text stabTextAttrs, @props.stab
+      R.text regionTextAttrs, regionText
+
+      BoardNodeIP node: @props.node, side: 'usa', ip: @state.usa, ctrl: controlUSA, handleIPClick: @handleIPClick, ref: 'ipusa'
+      BoardNodeIP node: @props.node, side: 'ussr', ip: @state.ussr, ctrl: controlUSSR, handleIPClick: @handleIPClick, ref: 'ipussr'
+    ]
 
 
+BoardNodeIP = React.createClass
+  displayName: 'BoardNodeIP'
+
+  handleIPClick: (dir, ev)->
+    @props.handleIPClick @props.side, dir
+
+  render: ->
+    position = if @props.side == 'usa' then 1 else 0
+
+    hideIP = if @props.ip == 0 then 'hide' else ''
+
+    gAttrs =
+      transform: "translate(#{-@props.node.width/2 * position}, #{-@props.node.titleHeight/2 - 1})"
+      width: @props.node.width/2
+      height: @props.node.height - @props.node.titleHeight
+      className: "node-ip-#{@props.side}"
+
+    textAttrs =
+      x: @props.node.width/4
+      y: @props.node.height/2 - 1
+      className: hideIP
+
+    ipClickHeight = (@props.node.height - @props.node.titleHeight) / 2
+
+    R.g gAttrs, [
+      R.rect
+        width: @props.node.width/2
+        height: @props.node.height - @props.node.titleHeight
+        className: "node-ip-bg-#{@props.side} #{hideIP}"
+      R.text textAttrs, @props.ip
+      R.rect
+        width: @props.node.width/2
+        height: ipClickHeight
+        className: "node-ip-click"
+        onClick: @handleIPClick.bind this, 'up'
+      R.rect
+        width: @props.node.width/2
+        height: ipClickHeight
+        y: ipClickHeight
+        className: "node-ip-click"
+        onClick: @handleIPClick.bind this, 'dn'
+    ]
+
+  
 
 
-    node.append 'text'
-      .attr 'class', (d)->
-        hide = if d.usa < 1 then 'hide' else ''
-        ctrl = if d.usa - d.ussr > d.stab then 'node-ip-ctrl' else ''
-        return "node-ip-usa #{hide} #{ctrl}"
-      .attr 'dx', -(nodeWidth/4)
-      .attr 'dy', 14
-      .text (d)-> d.usa
 
-    node.append 'text'
-      .attr 'class', (d)->
-        hide = if d.ussr < 1 then 'hide' else ''
-        ctrl = if d.ussr - d.usa > d.stab then 'node-ip-ctrl' else ''
-        return "node-ip-ussr #{hide} #{ctrl}"
-      .attr 'dx', nodeWidth/4
-      .attr 'dy', 14
-      .text (d)-> d.ussr
-
-    
-
-    force.on 'tick', (e)->
-      jUSA = (d, targ)->
-        japanUSABump = 18
-        if d.source.name == 'USA' and d.target.name == 'Japan'
-          return d[targ].y - japanUSABump
-        d[targ].y
-
-      link.attr 'x1', (d)-> d.source.x
-        .attr 'y1', (d)-> jUSA d, 'source'
-        .attr 'x2', (d)-> d.target.x
-        .attr 'y2', (d)-> jUSA d, 'target'
-
-      node.attr 'transform', (d)-> "translate (#{d.x},#{d.y})"
-
-    @setState
-      coords: countryPositions
 
 
 
@@ -677,6 +773,9 @@ HomeView = React.createClass
       CardsView cards: @props.cards, state: @props.state
     ]
 
+
+
+
 # Main application component
 # Responsible for routing and view management
 TwiStrug = React.createClass
@@ -686,7 +785,6 @@ TwiStrug = React.createClass
   # Takes a view name and associated data
   setView: (name, pageTitle, data={}) ->
     if pageTitle? then setPageTitle pageTitle
-    console.log data
     @setState view: {name, data}
 
   componentDidMount: ->
@@ -700,13 +798,27 @@ TwiStrug = React.createClass
         state: state
 
     router = new Router
-      '/board': @setView.bind this, 'board', 'Board'
+      #'/board': @setView.bind this, 'board', 'Board'
 
-      '/map': ()=>
+      '/board': ()=>
         $.getJSON '/data/map-data.json', (mapData) =>
-          console.log mapData
-          console.log @
-          @setView 'map', 'Map', mapData: mapData
+          {countryPositions, countries, links, regionInfoNodes} = mapData
+
+          countries = countries.map (node)->
+            node.x = countryPositions[node.name].x
+            node.y = countryPositions[node.name].y
+            node.fixed = true
+            node
+          
+          regionInfoNodes = regionInfoNodes.map (node)->
+            node.regionInfo = true
+            node.fixed = true
+            node
+
+          nodes = _.union(countries, regionInfoNodes)
+          nodes = _.zipObject _.pluck(nodes, 'id'), nodes
+
+          @setView 'board', 'Board', {mapData, countries, regionInfoNodes, links, nodes}
 
       '/card/:id': (id)=>
         id = parseInt id, 10
@@ -745,8 +857,8 @@ TwiStrug = React.createClass
         cards: @props.cards
         state: @state.view.data.state
       when 'countries' then return CountriesView()
-      when 'board' then return BoardView()
-      when 'map' then return MapView @state.view.data
+      #when 'board' then return BoardPicView()
+      when 'board' then return BoardView @state.view.data
       when 'about' then return AboutView()
       when 'whoops' then return WhoopsView()
     
@@ -759,4 +871,3 @@ addReactKey = (el)->
 
 React.renderComponent TwiStrug({cards: cardsData.map(addReactKey)}),
   document.getElementById 'app'
-

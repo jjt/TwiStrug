@@ -2105,145 +2105,225 @@ a[href^="http://"], a[href^="https://"] {
   stroke: #999;
   stroke-opacity: 0.6; }
 
-.map {
+.Board text, .BoardStatus dt, .BoardStatus dd, .BoardStatus .prop-usa, .BoardStatus .prop-ussr, .BoardStatus .val, .BoardStatus .dec, .BoardStatus .inc {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
+
+.Board {
   border: 1px solid #b9bdb7;
-  background: #dcdfd9; }
-  .map .node-usa .node-bg {
-    fill: #268BD2; }
-  .map .node-ussr .node-bg {
-    fill: #DC322F; }
-  .map .node-eeu .node-bg {
+  background: #dcdfd9;
+  position: relative;
+  width: 1140px;
+  height: 730px; }
+  .Board text {
+    cursor: default; }
+  .Board .node-eeu .node-bg {
     fill: #c9aee9; }
-  .map .node-weu .node-bg, .map .node-eu .node-bg {
-    fill: #b08adf; }
-  .map .node-bg-eu {
+  .Board .node-weu .node-bg, .Board .node-eu .node-bg {
+    fill: #a376d9; }
+  .Board .node-bg-eu {
     fill: #c9aee9; }
-  .map .node-weu .node-btl .node-title-bg, .map .node-eeu .node-btl .node-title-bg {
-    fill: #603799; }
-  .map .node-me .node-bg {
+  .Board .node-weu .node-btl .node-title-bg, .Board .node-eeu .node-btl .node-title-bg {
+    fill: #553086; }
+  .Board .node-me .node-bg {
     fill: #bbd9e7; }
-  .map .node-me.node-btl .node-title-bg {
+  .Board .node-me.node-btl .node-title-bg {
     fill: #3a5a69; }
-  .map .node-as .node-bg, .map .node-sea .node-bg {
+  .Board .node-as .node-bg, .Board .node-sea .node-bg {
     fill: #f8a136; }
-  .map .node-bg-sea {
+  .Board .node-bg-sea {
     fill: #fbc380; }
-  .map .node-as.node-btl .node-title-bg, .map .node-sea.node-btl .node-title-bg {
+  .Board .node-as.node-btl .node-title-bg, .Board .node-sea.node-btl .node-title-bg {
     fill: #894f0c; }
-  .map .node-af .node-bg {
+  .Board .node-af .node-bg {
     fill: #F5E696; }
-  .map .node-af.node-btl .node-title-bg {
+  .Board .node-af.node-btl .node-title-bg {
     fill: #72621a; }
-  .map .node-ca .node-bg {
+  .Board .node-ca .node-bg {
     fill: #E2ECB9; }
-  .map .node-ca.node-btl .node-title-bg {
+  .Board .node-ca.node-btl .node-title-bg {
     fill: #677234; }
-  .map .node-sa .node-bg {
+  .Board .node-sa .node-bg {
     fill: #95b57d; }
-  .map .node-sa.node-btl .node-title-bg {
+  .Board .node-sa.node-btl .node-title-bg {
     fill: #4b5a3f; }
-  .map .node {
-    cursor: pointer;
+  .Board .node {
     stroke-width: 0; }
-  .map .node-title-bg {
+  .Board .node-title-bg {
     stroke-width: 0;
     fill: rgba(255, 255, 255, 0.6); }
-  .map .node-title-text, .map .node-stab {
+  .Board .node-title-text, .Board .node-stab {
     stroke: rgba(0, 0, 0, 0.8);
     stroke-width: 0.5;
     fill: rgba(0, 0, 0, 0.8); }
-  .map .node-stab {
+  .Board .node-stab {
     font-weight: bold;
     stroke-width: 0; }
-  .map .node-title-text {
+  .Board .node-title-text {
     font-size: 11px; }
-  .map .node-bg {
+  .Board .node-bg {
     stroke: black;
     stroke-width: 0.2px; }
-  .map .node-bg-hidden {
+  .Board .node-bg-hidden {
     display: none; }
-  .map .node-line {
+  .Board .node-line {
     stroke: rgba(0, 0, 0, 0.4);
     stroke-width: 0.3px; }
-  .map .node-btl .node-title-text, .map .node-btl .node-stab {
+  .Board .node-btl .node-title-text, .Board .node-btl .node-stab {
     stroke: rgba(255, 255, 255, 0.8);
     stroke-width: 0;
     fill: rgba(255, 255, 255, 0.8); }
-  .map .node-btl.node-weu .node-title-bg, .map .node-btl.node-eeu .node-title-bg {
-    fill: #56278f; }
-  .map .node-usa .node-stab, .map .node-ussr .node-stab {
+  .Board .node-btl.node-weu .node-title-bg, .Board .node-btl.node-eeu .node-title-bg {
+    fill: #4a227b; }
+  .Board .node-usa .node-bg {
+    fill: #dcdfd9;
+    stroke: #268BD2;
+    stroke-width: 1px; }
+  .Board .node-usa .node-title-text {
+    fill: #268BD2; }
+  .Board .node-ussr .node-bg {
+    fill: #dcdfd9;
+    stroke: #DC322F;
+    stroke-width: 1px; }
+  .Board .node-usa .node-stab, .Board .node-ussr .node-stab {
     display: none; }
-  .map .node-usa .node-title-text, .map .node-ussr .node-title-text {
+  .Board .node-usa .node-title-text, .Board .node-ussr .node-title-text {
     text-anchor: middle;
     font-size: 18px;
-    fill: rgba(255, 255, 255, 0.8);
-    stroke: rgba(255, 255, 255, 0.8);
     stroke-width: 0; }
-  .map .node-usa .node-line, .map .node-usa .node-title-bg, .map .node-ussr .node-line, .map .node-ussr .node-title-bg {
+  .Board .node-usa .node-line, .Board .node-usa .node-title-bg, .Board .node-ussr .node-line, .Board .node-ussr .node-title-bg {
     display: none; }
-  .map .node-region-info .node-bg {
+  .Board .node-usa .node-title-text {
+    fill: #268BD2;
+    stroke: #268BD2; }
+  .Board .node-ussr .node-title-text {
+    fill: #DC322F;
+    stroke: #DC322F; }
+  .Board .node-region-info .node-bg {
     fill: rgba(0, 0, 0, 0);
     stroke: rgba(0, 0, 0, 0.1);
     stroke-width: 0; }
-  .map .node-region-info .node-stab {
+  .Board .node-region-info .node-stab {
     display: none; }
-  .map .node-region-info .node-title-bg {
+  .Board .node-region-info .node-title-bg {
     fill: rgba(0, 0, 0, 0); }
-  .map .node-region-info .node-title-text {
+  .Board .node-region-info .node-title-text {
     stroke: #333;
     stroke-width: 0;
     fill: #333;
     font-weight: bold;
     text-anchor: middle; }
-  .map .node-region-info .node-line {
+  .Board .node-region-info .node-line {
     display: none; }
-  .map .node-region-info .node-text {
+  .Board .node-region-info .node-text {
     text-anchor: middle;
-    font-weight: bold; }
-  .map .node-region-info.node-eu text {
-    fill: #603799; }
-  .map .node-region-info.node-as text {
+    font-weight: bold;
+    word-spacing: 4px; }
+  .Board .node-region-info.node-eu text {
+    fill: #553086; }
+  .Board .node-region-info.node-as text {
     fill: #894f0c; }
-  .map .node-region-info.node-me text {
+  .Board .node-region-info.node-me text {
     fill: #3a5a69; }
-  .map .node-region-info.node-ca text {
+  .Board .node-region-info.node-ca text {
     fill: #677234; }
-  .map .node-region-info.node-sa text {
+  .Board .node-region-info.node-sa text {
     fill: #4b5a3f; }
-  .map .node-region-info.node-af text {
+  .Board .node-region-info.node-af text {
     fill: #72621a; }
-  .map .node-ip-usa, .map .node-ip-ussr {
+  .Board .node-ip-usa text, .Board .node-ip-ussr text {
     text-anchor: middle;
     stroke-width: 0;
     font-size: 20px;
     font-weight: bold; }
-  .map .node-ip-usa {
+  .Board .node-ip-usa {
     fill: #268BD2; }
-  .map .node-ip-ussr {
+  .Board .node-ip-ussr {
     fill: #DC322F; }
-  .map .node-ip-bg-usa, .map .node-ip-bg-ussr {
+  .Board .node-ip-bg-usa, .Board .node-ip-bg-ussr {
     fill: #eee;
     stroke: rgba(0, 0, 0, 0.2);
     stroke-width: 1px; }
-  .map .node-usa-control .node-ip-bg-usa {
+  .Board .node-usa-control .node-ip-bg-usa {
     fill: #268BD2; }
-  .map .node-usa-control .node-ip-usa {
+  .Board .node-usa-control .node-ip-usa {
     fill: rgba(255, 255, 255, 0.8); }
-  .map .node-ussr-control .node-ip-bg-ussr {
+  .Board .node-ussr-control .node-ip-bg-ussr {
     fill: #DC322F; }
-  .map .node-ussr-control .node-ip-ussr {
+  .Board .node-ussr-control .node-ip-ussr {
     fill: rgba(255, 255, 255, 0.8); }
-  .map .link {
+  .Board .node-ip-click {
+    fill: rgba(0, 0, 0, 0);
+    cursor: pointer; }
+    .Board .node-ip-click:hover {
+      fill: rgba(0, 0, 0, 0.4); }
+  .Board .node-usa .node-ip-click, .Board .node-ussr .node-ip-click, .Board .node-region-info .node-ip-click {
+    display: none; }
+  .Board .link {
     stroke: rgba(0, 0, 0, 0.4);
     stroke-width: 6px; }
-  .map .link-cross {
+  .Board .link-cross {
     stroke-dasharray: 6 3; }
-  .map .link-usa {
+  .Board .link-usa {
     stroke: #268BD2;
     stroke-dasharray: 6 3; }
-  .map .link-ussr {
+  .Board .link-ussr {
     stroke: #DC322F;
     stroke-dasharray: 6 3; }
+
+.BoardStatus {
+  width: 260px;
+  height: 200px;
+  position: absolute;
+  right: 20px;
+  bottom: 0; }
+  .BoardStatus .col {
+    float: left;
+    width: 50%; }
+  .BoardStatus dt {
+    cursor: default;
+    width: 40%;
+    float: left;
+    clear: both;
+    padding-top: 5px;
+    text-align: right; }
+  .BoardStatus dd {
+    width: 60%;
+    display: inline-block;
+    text-align: left;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1.4; }
+    .BoardStatus dd .divider {
+      opacity: 0.5; }
+  .BoardStatus .prop-usa, .BoardStatus .prop-ussr {
+    cursor: default; }
+  .BoardStatus .prop-usa {
+    color: #268BD2; }
+  .BoardStatus .prop-ussr {
+    color: #DC322F; }
+  .BoardStatus .val {
+    cursor: default;
+    display: inline-block;
+    width: 20px;
+    text-align: center; }
+    .BoardStatus .val.usa {
+      color: #268BD2; }
+    .BoardStatus .val.ussr {
+      color: #DC322F; }
+  .BoardStatus .dec, .BoardStatus .inc {
+    display: inline-block;
+    font-family: 'Comic Sans MS';
+    color: #b9beb2;
+    font-size: 15px;
+    padding: 2px 4px;
+    cursor: pointer; }
+    .BoardStatus .dec:hover, .BoardStatus .inc:hover {
+      color: #5d6455; }
 
 .map-position-debug {
   display: none; }

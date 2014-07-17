@@ -235,14 +235,32 @@ $afDark: desaturate(darken($af,50%), 20%);
 $caDark: desaturate(darken($ca,50%), 20%);
 $saDark: desaturate(darken($sa,30%), 10%);
 
-.map {
+
+%noSelect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+$mapBg: #dcdfd9;
+
+.Board {
 
   //background:url(/images/tsboard.jpg) no-repeat;
   border:1px solid #b9bdb7;
-  background: #dcdfd9;
+  background: $mapBg;
+  position:relative;
+  width:1140px;
+  height:730px;
+  
+  text {
+    @extend %noSelect;
+    cursor: default;
+  }
 
-  .node-usa .node-bg { fill:$solarized-blue; }
-  .node-ussr .node-bg { fill:$solarized-red; }
 
   .node-eeu .node-bg { fill: $eeu; }
   .node-weu .node-bg, .node-eu .node-bg { fill: $weu; }
@@ -273,9 +291,9 @@ $saDark: desaturate(darken($sa,30%), 10%);
   .node-sa.node-btl .node-title-bg { fill: $saDark; }
 
   .node {
-    cursor:pointer;
     stroke-width:0;
   }
+
   .node-title-bg {
     stroke-width:0;
     fill:rgba(#fff,0.6);
@@ -328,6 +346,12 @@ $saDark: desaturate(darken($sa,30%), 10%);
   
   }
 
+  .node-usa {
+    .node-bg { fill:$mapBg; stroke: $solarized-blue; stroke-width:1px }
+    .node-title-text { fill:$solarized-blue }
+  }
+  .node-ussr .node-bg { fill:$mapBg; stroke: $solarized-red; stroke-width:1px }
+
   .node-usa, .node-ussr {
     .node-stab {
       display:none;
@@ -335,13 +359,21 @@ $saDark: desaturate(darken($sa,30%), 10%);
     .node-title-text {
       text-anchor: middle;
       font-size:18px;
-      fill:rgba(#fff,0.8);
-      stroke: rgba(#fff,0.8);
       stroke-width:0;
     }
     .node-line, .node-title-bg {
       display:none;
     }
+  }
+
+  .node-usa .node-title-text {
+      fill:$solarized-blue;
+      stroke: $solarized-blue;
+  }
+
+  .node-ussr .node-title-text {
+      fill:$solarized-red;
+      stroke: $solarized-red;
   }
 
   .node-region-info {
@@ -369,6 +401,7 @@ $saDark: desaturate(darken($sa,30%), 10%);
     .node-text {
       text-anchor: middle;
       font-weight:bold;
+      word-spacing: 4px;
     }
     &.node-eu text { fill:$weuDark; }
     &.node-as text { fill:$asDark; }
@@ -386,10 +419,12 @@ $saDark: desaturate(darken($sa,30%), 10%);
   }
 
   .node-ip-usa, .node-ip-ussr {
-    text-anchor: middle;
-    stroke-width:0;
-    font-size:20px;
-    font-weight:bold;
+    text {
+      text-anchor: middle;
+      stroke-width:0;
+      font-size:20px;
+      font-weight:bold;
+    }
   }
   .node-ip-usa { fill: $solarized-blue; }
   .node-ip-ussr { fill: $solarized-red; }
@@ -408,6 +443,20 @@ $saDark: desaturate(darken($sa,30%), 10%);
   .node-ussr-control {
     .node-ip-bg-ussr { fill:$solarized-red; }
     .node-ip-ussr { fill:rgba(#fff,0.8); }
+  }
+
+  .node-ip-click {
+    fill:rgba(0,0,0,0);
+    cursor: pointer;
+    &:hover {
+      fill:rgba(#000, 0.4);
+    }
+  }
+
+  .node-usa, .node-ussr, .node-region-info {
+    .node-ip-click {
+      display:none;
+    }
   }
 
   .link {
@@ -437,6 +486,83 @@ $saDark: desaturate(darken($sa,30%), 10%);
   }
 
 }
+
+
+.BoardStatus {
+  width: 260px;
+  height: 200px;
+  position:absolute;
+  right:20px;
+  bottom:0;
+
+  .col {
+    float:left;
+    width:50%;
+  }
+
+  dt {
+    @extend %noSelect;
+    cursor:default;
+    width:40%;
+    float:left;
+    clear:both;
+    padding-top:5px;
+    text-align: right;
+  }
+
+  dd {
+    @extend %noSelect;
+    width:60%;
+    display:inline-block;
+    text-align:left;
+    font-size:20px;
+    font-weight:bold;
+    line-height:1.4;
+
+    .divider {
+      opacity:0.5;
+    }
+  }
+
+  .prop-usa, .prop-ussr {
+    @extend %noSelect;
+    cursor:default;
+  }
+
+  .prop-usa {
+    color: $solarized-blue;
+  }
+
+  .prop-ussr {
+    color: $solarized-red;
+  }
+
+  .val {
+    @extend %noSelect;
+    cursor:default;
+    display:inline-block;
+    width:20px;
+    text-align:center;
+    &.usa { color: $solarized-blue; }
+    &.ussr { color: $solarized-red; }
+  }
+
+  .dec, .inc {
+    @extend %noSelect;
+    display:inline-block;
+    font-family: 'Comic Sans MS';
+    color:darken($mapBg, 14%);
+    font-size:15px;
+    padding:2px 4px;
+    cursor:pointer;
+
+    &:hover {
+      color: darken($mapBg, 50%);
+    }
+  }
+
+}
+
 
 .map-position-debug {
   display:none;

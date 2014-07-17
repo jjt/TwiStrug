@@ -1,10 +1,12 @@
 (function() {
-  var $, AboutView, Board, BoardView, Card, CardList, CardView, CardsView, CountriesView, HomeView, MapView, R, TwiStrug, WhoopsView, addReactKey, cardClassName, cardStages, cx, filterTruthy, filterUnique, filterValidCardIds, nodeGutter, nodeHeight, nodeTitleFontSize, nodeTitleHeight, nodeWidth, qs, setPageTitle, snapToGrid, sortNumerical, zeroPad,
+  var $, AboutView, Board, BoardLink, BoardNode, BoardNodeIP, BoardPicView, BoardStatus, BoardView, Card, CardList, CardView, CardsView, CountriesView, HomeView, R, TwiStrug, WhoopsView, addReactKey, cardClassName, cardStages, cx, filterTruthy, filterUnique, filterValidCardIds, qs, setPageTitle, sortNumerical, update, zeroPad,
     __hasProp = {}.hasOwnProperty,
     __slice = [].slice,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   R = React.DOM;
+
+  update = React.addons.update;
 
   cx = React.addons.classSet;
 
@@ -500,7 +502,7 @@
     }
   });
 
-  BoardView = React.createClass({
+  BoardPicView = React.createClass({
     render: function() {
       return R.div({
         className: 'boardView'
@@ -517,41 +519,24 @@
     }
   });
 
-  nodeWidth = 66;
-
-  nodeHeight = 50;
-
-  nodeGutter = 14;
-
-  nodeTitleHeight = 16;
-
-  nodeTitleFontSize = 12;
-
-  snapToGrid = function(obj) {
-    var gridX, gridY;
-    gridX = Math.round((nodeWidth + nodeGutter) / 2);
-    gridY = Math.round((nodeHeight + nodeGutter) / 2);
-    obj.x = Math.round(obj.x / gridX) * gridX;
-    obj.y = Math.round(obj.y / gridY) * gridY;
-    if (obj.px) {
-      obj.px = obj.x;
-    }
-    if (obj.py) {
-      obj.py = obj.y;
-    }
-    return obj;
-  };
-
-  MapView = React.createClass({
-    getInitialState: function() {
-      return {
-        debugObj: {}
-      };
-    },
+  BoardView = React.createClass({
+    displayName: 'BoardView',
     getDefaultProps: function() {
       return {
         width: 1140,
-        height: 730
+        height: 730,
+        node: {
+          width: 66,
+          height: 50,
+          gutter: 14,
+          titleHeight: 16,
+          titleFontSize: 12
+        }
+      };
+    },
+    getInitialState: function() {
+      return {
+        debugObj: {}
       };
     },
     dragend: function(el) {
@@ -567,17 +552,12 @@
       });
     },
     render: function() {
-      console.log(this.props, this.props.mapData);
       return R.div({
-        className: 'mapView'
+        className: 'BoardView'
       }, [
         R.div({
           className: 'page-header'
-        }, [R.h2({}, "Map")]), Board({
-          width: this.props.width,
-          height: this.props.height,
-          mapData: this.props.mapData
-        }), R.textarea({
+        }, R.h2({}, "Board")), Board(this.props), R.textarea({
           className: 'map-position-debug',
           ref: 'debug',
           style: {
@@ -591,182 +571,370 @@
   });
 
   Board = React.createClass({
+    displayName: 'Board',
     getInitialState: function() {
-      return this.props;
+      var gameState;
+      gameState = {
+        game: {
+          score: 0,
+          turn: 1,
+          round: 14,
+          defcon: 5,
+          milops: [0, 0],
+          space: [0, 0]
+        }
+      };
+      return _.assign(gameState, this.props);
+    },
+    handleIPClick: function(nodeId, side, dir) {
+      var delta, ip, node, state;
+      node = _.find(this.state.nodes, {
+        id: nodeId
+      });
+      if (node.points || node.superpower) {
+        return;
+      }
+      state = this.state;
+      ip = state.nodes[nodeId][side];
+      delta = dir === 'up' ? 1 : -1;
+      ip += delta;
+      if (ip < 0) {
+        ip = 0;
+      }
+      state.nodes[nodeId][side] = ip;
+      return this.setState(state);
     },
     render: function() {
-      return R.svg({
-        className: 'map',
-        width: this.props.width,
-        height: this.props.height,
-        ref: 'svg'
-      });
-    },
-    shouldComponentUpdate: function(nextProps, nextState) {
-      return false;
-    },
-    refreshBoard: function() {},
-    componentDidMount: function() {
-      var coordsReduce, cornerBL, cornerBR, cornerTR, countries, countryPositions, force, ipGutter, link, links, mapData, node, nodes, regionInfoNodes, svg, triangle;
-      force = d3.layout.force().linkDistance(10).size([this.props.width, this.props.height]).gravity(0.2);
-      svg = d3.select(this.refs.svg.getDOMNode());
-      mapData = this.props.mapData;
-      countryPositions = mapData.countryPositions, countries = mapData.countries, links = mapData.links, regionInfoNodes = mapData.regionInfoNodes;
-      coordsReduce = (function(_this) {
-        return function(obj, el) {
-          if (obj == null) {
-            obj = {};
-          }
-          obj[el.name] = [];
-          return obj;
+      var links, nodeProps, nodes;
+      nodeProps = this.props.node;
+      links = this.props.links.map((function(_this) {
+        return function(linkData) {
+          var jUSA, linkProps, nodes, source, target;
+          source = _.find(_this.props.countries, {
+            id: linkData.source
+          });
+          target = _.find(_this.props.countries, {
+            id: linkData.target
+          });
+          nodes = {
+            source: source,
+            target: target
+          };
+          jUSA = function(link, targ) {
+            var japanUSABump;
+            japanUSABump = 18;
+            if (_.contains(link.nodes, 'USA') && _.contains(link.nodes, 'Japan')) {
+              return nodes[targ].y - japanUSABump;
+            }
+            return nodes[targ].y;
+          };
+          linkProps = {
+            key: "BoardLink-" + linkData.source + "-" + linkData.target,
+            x1: source.x,
+            y1: jUSA(linkData, 'source'),
+            x2: target.x,
+            y2: jUSA(linkData, 'target'),
+            className: cx({
+              "link": true,
+              "link-cross": linkData.crossContinent,
+              "link-usa": _.contains(linkData.nodes, 'USA'),
+              "link-ussr": _.contains(linkData.nodes, 'USSR')
+            })
+          };
+          return BoardLink(linkProps);
         };
-      })(this);
-      countries = countries.map(function(node) {
-        node.x = countryPositions[node.name].x;
-        node.y = countryPositions[node.name].y;
-        node.fixed = true;
-        return node;
-      });
-      regionInfoNodes = regionInfoNodes.map(function(node) {
-        node.regionInfo = true;
-        node.fixed = true;
-        return node;
-      });
-      nodes = _.union(countries, regionInfoNodes).map(function(node) {
-        return node;
-      });
-      force.nodes(nodes).links(links).start();
-      link = svg.selectAll('.link').data(links).enter().append('line').attr('class', function(d) {
-        var linkClass;
-        linkClass = '';
-        if (d.crossContinent) {
-          linkClass = 'link-cross';
-        }
-        if (_.contains(d.nodes, 'USA')) {
-          linkClass = 'link-usa';
-        }
-        if (_.contains(d.nodes, 'USSR')) {
-          linkClass = 'link-ussr';
-        }
-        return "link " + linkClass;
-      });
-      node = svg.selectAll('.node').data(nodes).enter().append('g');
-      node.attr('class', function(d) {
-        var btl, regionInfo, usaCtrl, ussrCtrl;
-        btl = d.btl === 1 ? 'node-btl' : 'node-nonbtl';
-        regionInfo = d.regionInfo ? 'node-region-info' : '';
-        usaCtrl = (d.usa - d.ussr) >= d.stab ? 'node-usa-control' : '';
-        ussrCtrl = (d.ussr - d.usa) >= d.stab ? 'node-ussr-control' : '';
-        return "node node-" + d.group + " " + regionInfo + " " + btl + " " + usaCtrl + " " + ussrCtrl;
-      });
-      node.append('rect').attr('width', nodeWidth).attr('height', nodeHeight).attr('x', -nodeWidth / 2).attr('y', -nodeHeight / 2).attr('class', "node-bg");
-      cornerBL = "" + (-nodeWidth / 2) + "," + (nodeHeight / 2);
-      cornerBR = "" + (nodeWidth / 2) + "," + (nodeHeight / 2);
-      cornerTR = "" + (nodeWidth / 2) + "," + (-nodeHeight / 2 + nodeTitleHeight);
-      triangle = [cornerBL, cornerBR, cornerTR];
-      node.append('polygon').attr('points', triangle.join(' ')).attr('class', function(d) {
-        if (d.regionInfo) {
-          return 'node-bg-hidden';
-        }
-        switch (d.group) {
-          case 'eu':
-            return 'node-bg-eu';
-          case 'sea':
-            return 'node-bg-sea';
-          default:
-            return 'node-bg-hidden';
-        }
-      });
-      ipGutter = 0;
-      node.append('rect').attr('class', function(d) {
-        if (d.superpower || d.points || d.usa === 0) {
+      })(this));
+      nodes = _.map(this.state.nodes, (function(_this) {
+        return function(countryData) {
+          var props;
+          props = _.assign(countryData, {
+            node: nodeProps,
+            key: "BoardNode-" + countryData.id,
+            transform: "translate(" + countryData.x + ", " + countryData.y + ")",
+            width: _this.props.node.width,
+            height: _this.props.node.height,
+            gutter: _this.props.node.gutter,
+            titleHeight: _this.props.node.titleHeight,
+            titleFontSize: _this.props.node.titleFontSize,
+            handleIPClick: _this.handleIPClick
+          });
+          return BoardNode(props);
+        };
+      })(this));
+      return R.div({
+        className: 'Board'
+      }, [
+        R.svg({
+          width: this.props.width,
+          height: this.props.height,
+          ref: 'svg'
+        }, [links, nodes]), BoardStatus(this.state.game)
+      ]);
+    }
+  });
+
+  BoardStatus = React.createClass({
+    render: function() {
+      var round, roundClass;
+      round = this.props.round === 0 ? 'H' : Math.ceil(this.props.round / 2);
+      roundClass = '';
+      if (this.props.round !== 0) {
+        roundClass = this.props.round % 2 === 1 ? 'ussr' : 'usa';
+      }
+      return R.div({
+        className: 'BoardStatus'
+      }, [
+        R.dl({
+          className: 'col'
+        }, [
+          R.dt({}, 'Score'), R.dd({}, [
+            R.span({
+              className: 'dec'
+            }, '◀'), R.span({
+              className: 'val'
+            }, this.props.score), R.span({
+              className: 'inc'
+            }, '▶')
+          ]), R.dt({}, 'Defcon'), R.dd({}, [
+            R.span({
+              className: 'dec'
+            }, '◀'), R.span({
+              className: 'val'
+            }, this.props.defcon), R.span({
+              className: 'inc'
+            }, '▶')
+          ]), R.dt({}, 'MilOps'), R.dd({}, [
+            R.div({}, [
+              R.span({
+                className: 'prop-usa'
+              }, [
+                R.span({
+                  className: 'dec'
+                }, '◀'), R.span({
+                  className: 'val'
+                }, this.props.milops[0]), R.span({
+                  className: 'inc'
+                }, '▶')
+              ])
+            ]), R.div({}, [
+              R.span({
+                className: 'prop-ussr'
+              }, [
+                R.span({
+                  className: 'dec'
+                }, '◀'), R.span({
+                  className: 'val'
+                }, this.props.milops[1]), R.span({
+                  className: 'inc'
+                }, '▶')
+              ])
+            ])
+          ])
+        ]), R.dl({
+          className: 'col'
+        }, [
+          R.dt({}, 'Turn'), R.dd({}, [
+            R.span({
+              className: 'dec'
+            }, '◀'), R.span({
+              className: 'val'
+            }, this.props.turn), R.span({
+              className: 'inc'
+            }, '▶')
+          ]), R.dt({}, 'Round'), R.dd({}, [
+            R.span({
+              className: 'dec'
+            }, '◀'), R.span({
+              className: "val " + roundClass
+            }, round), R.span({
+              className: 'inc'
+            }, '▶')
+          ]), R.dt({}, 'Space'), R.dd({}, [
+            R.div({}, [
+              R.span({
+                className: 'prop-usa'
+              }, [
+                R.span({
+                  className: 'dec'
+                }, '◀'), R.span({
+                  className: 'val'
+                }, this.props.space[0]), R.span({
+                  className: 'inc'
+                }, '▶')
+              ])
+            ]), R.div({}, [
+              R.span({
+                className: 'prop-ussr'
+              }, [
+                R.span({
+                  className: 'dec'
+                }, '◀'), R.span({
+                  className: 'val'
+                }, this.props.space[1]), R.span({
+                  className: 'inc'
+                }, '▶')
+              ])
+            ])
+          ])
+        ])
+      ]);
+    }
+  });
+
+  BoardLink = React.createClass({
+    displayName: 'BoardLink',
+    render: function() {
+      return R.line(this.props);
+    }
+  });
+
+  BoardNode = React.createClass({
+    displayName: 'BoardNode',
+    handleIPClick: function(side, dir) {
+      return this.props.handleIPClick(this.props.id, side, dir);
+    },
+    getInitialState: function() {
+      return this.componentWillReceiveProps(this.props);
+    },
+    componentWillReceiveProps: function(nextProps) {
+      var state, usa, ussr;
+      usa = nextProps.usa, ussr = nextProps.ussr;
+      state = {
+        usa: usa,
+        ussr: ussr
+      };
+      this.setState(state);
+      return state;
+    },
+    render: function() {
+      var controlUSA, controlUSSR, gAttrs, polyClassName, regionText, regionTextAttrs, stabTextAttrs, titleTextAttrs;
+      controlUSA = (this.state.usa - this.state.ussr) >= this.props.stab;
+      controlUSSR = (this.state.ussr - this.state.usa) >= this.props.stab;
+      gAttrs = {
+        transform: this.props.transform,
+        className: ("node-" + this.props.group + " usa" + this.state.usa + " ") + cx({
+          'node': true,
+          'node-btl': this.props.btl === 1,
+          'node-nonbtl': this.props.btl !== 1,
+          'node-region-info': this.props.regionInfo,
+          'node-usa-control': controlUSA,
+          'node-ussr-control': controlUSSR,
+          'node-region-info': this.props.regionInfo
+        })
+      };
+      polyClassName = (function() {
+        if (this.props.regionInfo) {
           return 'hide';
-        }
-        return 'node-ip-bg-usa';
-      }).attr('width', nodeWidth / 2 - ipGutter * 2).attr('height', nodeHeight - nodeTitleHeight - ipGutter * 2).attr('x', -nodeWidth / 2 + ipGutter).attr('y', -nodeTitleHeight / 2 - 1 + ipGutter);
-      node.append('rect').attr('class', function(d) {
-        if (d.superpower || d.points || d.ussr === 0) {
-          return 'hide';
-        }
-        return 'node-ip-bg-ussr';
-      }).attr('width', nodeWidth / 2 - ipGutter * 2).attr('height', nodeHeight - nodeTitleHeight - ipGutter * 2).attr('x', ipGutter).attr('y', -nodeTitleHeight / 2 - 1 + ipGutter);
-      node.append('rect').attr('class', 'node-title-bg').attr('width', nodeWidth).attr('height', nodeTitleHeight).attr('x', -nodeWidth / 2).attr('y', -nodeHeight / 2);
-      node.append('line').attr('class', 'node-line').attr('width', nodeWidth).attr('x1', -nodeWidth / 2).attr('y1', -nodeHeight / 2 + nodeTitleHeight).attr('x2', nodeWidth / 2).attr('y2', -nodeHeight / 2 + nodeTitleHeight);
-      node.append('text').attr('class', "node-title-text").attr('dx', function(d) {
-        if (d.regionInfo || d.superpower) {
-          return 0;
-        }
-        return -(nodeWidth / 2) + 2;
-      }).attr('dy', function(d) {
-        var dy;
-        dy = -(nodeHeight / 2) + nodeTitleFontSize;
-        if (d.regionInfo) {
-          dy = -6;
-        }
-        if (d.superpower) {
-          dy = 6;
-        }
-        return dy;
-      }).text(function(d) {
-        return d.shortname;
-      });
-      node.append('text').attr('class', "node-stab").attr('dx', (nodeWidth / 2) - 10).attr('dy', -(nodeHeight / 2) + nodeTitleFontSize + 1).text(function(d) {
-        return d.stab;
-      });
-      node.append('text').attr('class', function(d) {
-        if (d.regionInfo) {
-          return 'node-text';
         } else {
-          return 'hide';
-        }
-      }).attr('dx', 0).attr('dy', 10).attr('width', nodeWidth).text(function(d) {
-        if (d.points == null) {
-          return '';
-        }
-        return d.points.join('/');
-      });
-      node.append('text').attr('class', function(d) {
-        var ctrl, hide;
-        hide = d.usa < 1 ? 'hide' : '';
-        ctrl = d.usa - d.ussr > d.stab ? 'node-ip-ctrl' : '';
-        return "node-ip-usa " + hide + " " + ctrl;
-      }).attr('dx', -(nodeWidth / 4)).attr('dy', 14).text(function(d) {
-        return d.usa;
-      });
-      node.append('text').attr('class', function(d) {
-        var ctrl, hide;
-        hide = d.ussr < 1 ? 'hide' : '';
-        ctrl = d.ussr - d.usa > d.stab ? 'node-ip-ctrl' : '';
-        return "node-ip-ussr " + hide + " " + ctrl;
-      }).attr('dx', nodeWidth / 4).attr('dy', 14).text(function(d) {
-        return d.ussr;
-      });
-      force.on('tick', function(e) {
-        var jUSA;
-        jUSA = function(d, targ) {
-          var japanUSABump;
-          japanUSABump = 18;
-          if (d.source.name === 'USA' && d.target.name === 'Japan') {
-            return d[targ].y - japanUSABump;
+          switch (this.props.group) {
+            case 'eu':
+              return 'node-bg-eu';
+            case 'sea':
+              return 'node-bg-sea';
+            default:
+              return 'hide';
           }
-          return d[targ].y;
-        };
-        link.attr('x1', function(d) {
-          return d.source.x;
-        }).attr('y1', function(d) {
-          return jUSA(d, 'source');
-        }).attr('x2', function(d) {
-          return d.target.x;
-        }).attr('y2', function(d) {
-          return jUSA(d, 'target');
-        });
-        return node.attr('transform', function(d) {
-          return "translate (" + d.x + "," + d.y + ")";
-        });
-      });
-      return this.setState({
-        coords: countryPositions
-      });
+        }
+      }).call(this);
+      titleTextAttrs = {
+        className: "node-title-text",
+        x: this.props.regionInfo || this.props.superpower ? 0 : -this.props.node.width / 2 + 2,
+        y: this.props.regionInfo ? -6 : this.props.superpower ? 6 : -(this.props.node.height / 2) + this.props.node.titleFontSize
+      };
+      stabTextAttrs = {
+        className: "node-stab",
+        x: (this.props.node.width / 2) - 10,
+        y: -(this.props.node.height / 2) + this.props.node.titleFontSize + 1
+      };
+      regionTextAttrs = {
+        className: this.props.points ? 'node-text' : 'hide',
+        x: 0,
+        y: 10,
+        width: this.props.node.width
+      };
+      regionText = this.props.points ? this.props.points.join(' ') : '';
+      return R.g(gAttrs, [
+        R.rect({
+          className: 'node-bg ' + this.state.usa,
+          width: this.props.width,
+          height: this.props.height,
+          title: Math.random(),
+          x: -this.props.width / 2,
+          y: -this.props.height / 2
+        }), R.polygon({
+          className: polyClassName,
+          points: ["" + (-this.props.width / 2) + "," + (this.props.height / 2), "" + (this.props.width / 2) + "," + (this.props.height / 2), "" + (this.props.width / 2) + "," + (-this.props.height / 2 + this.props.titleHeight)].join(' ')
+        }), R.rect({
+          className: 'node-title-bg',
+          width: this.props.width,
+          height: this.props.titleHeight,
+          x: -this.props.width / 2,
+          y: -this.props.height / 2
+        }), R.line({
+          className: 'node-line',
+          width: this.props.width,
+          x1: -this.props.width / 2,
+          y1: -this.props.height / 2 + this.props.node.titleHeight,
+          x2: this.props.width / 2,
+          y2: -this.props.height / 2 + this.props.node.titleHeight
+        }), R.text(titleTextAttrs, this.props.shortname), R.text(stabTextAttrs, this.props.stab), R.text(regionTextAttrs, regionText), BoardNodeIP({
+          node: this.props.node,
+          side: 'usa',
+          ip: this.state.usa,
+          ctrl: controlUSA,
+          handleIPClick: this.handleIPClick,
+          ref: 'ipusa'
+        }), BoardNodeIP({
+          node: this.props.node,
+          side: 'ussr',
+          ip: this.state.ussr,
+          ctrl: controlUSSR,
+          handleIPClick: this.handleIPClick,
+          ref: 'ipussr'
+        })
+      ]);
+    }
+  });
+
+  BoardNodeIP = React.createClass({
+    displayName: 'BoardNodeIP',
+    handleIPClick: function(dir, ev) {
+      return this.props.handleIPClick(this.props.side, dir);
+    },
+    render: function() {
+      var gAttrs, hideIP, ipClickHeight, position, textAttrs;
+      position = this.props.side === 'usa' ? 1 : 0;
+      hideIP = this.props.ip === 0 ? 'hide' : '';
+      gAttrs = {
+        transform: "translate(" + (-this.props.node.width / 2 * position) + ", " + (-this.props.node.titleHeight / 2 - 1) + ")",
+        width: this.props.node.width / 2,
+        height: this.props.node.height - this.props.node.titleHeight,
+        className: "node-ip-" + this.props.side
+      };
+      textAttrs = {
+        x: this.props.node.width / 4,
+        y: this.props.node.height / 2 - 1,
+        className: hideIP
+      };
+      ipClickHeight = (this.props.node.height - this.props.node.titleHeight) / 2;
+      return R.g(gAttrs, [
+        R.rect({
+          width: this.props.node.width / 2,
+          height: this.props.node.height - this.props.node.titleHeight,
+          className: "node-ip-bg-" + this.props.side + " " + hideIP
+        }), R.text(textAttrs, this.props.ip), R.rect({
+          width: this.props.node.width / 2,
+          height: ipClickHeight,
+          className: "node-ip-click",
+          onClick: this.handleIPClick.bind(this, 'up')
+        }), R.rect({
+          width: this.props.node.width / 2,
+          height: ipClickHeight,
+          y: ipClickHeight,
+          className: "node-ip-click",
+          onClick: this.handleIPClick.bind(this, 'dn')
+        })
+      ]);
     }
   });
 
@@ -814,7 +982,6 @@
       if (pageTitle != null) {
         setPageTitle(pageTitle);
       }
-      console.log(data);
       return this.setState({
         view: {
           name: name,
@@ -837,14 +1004,30 @@
         });
       };
       router = new Router({
-        '/board': this.setView.bind(this, 'board', 'Board'),
-        '/map': (function(_this) {
+        '/board': (function(_this) {
           return function() {
             return $.getJSON('/data/map-data.json', function(mapData) {
-              console.log(mapData);
-              console.log(_this);
-              return _this.setView('map', 'Map', {
-                mapData: mapData
+              var countries, countryPositions, links, nodes, regionInfoNodes;
+              countryPositions = mapData.countryPositions, countries = mapData.countries, links = mapData.links, regionInfoNodes = mapData.regionInfoNodes;
+              countries = countries.map(function(node) {
+                node.x = countryPositions[node.name].x;
+                node.y = countryPositions[node.name].y;
+                node.fixed = true;
+                return node;
+              });
+              regionInfoNodes = regionInfoNodes.map(function(node) {
+                node.regionInfo = true;
+                node.fixed = true;
+                return node;
+              });
+              nodes = _.union(countries, regionInfoNodes);
+              nodes = _.zipObject(_.pluck(nodes, 'id'), nodes);
+              return _this.setView('board', 'Board', {
+                mapData: mapData,
+                countries: countries,
+                regionInfoNodes: regionInfoNodes,
+                links: links,
+                nodes: nodes
               });
             });
           };
@@ -905,9 +1088,7 @@
         case 'countries':
           return CountriesView();
         case 'board':
-          return BoardView();
-        case 'map':
-          return MapView(this.state.view.data);
+          return BoardView(this.state.view.data);
         case 'about':
           return AboutView();
         case 'whoops':
