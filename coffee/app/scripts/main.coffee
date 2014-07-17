@@ -826,6 +826,9 @@ TwiStrug = React.createClass
   componentWillMount: ()->
     $('#placeholder').hide()
 
+  getInitialState: ->
+    menuActive:null
+
   # Takes a view name and associated data
   setView: (name, pageTitle, menuActive='', data={}) ->
     if pageTitle? then setPageTitle pageTitle
@@ -892,21 +895,21 @@ TwiStrug = React.createClass
   render: ->
     # If the router hasn't kicked in, do nothing
     if not @state?.view
-      return R.p className: 'lead', 'TwiStrug is loading...'
-  
-    mainView = switch @state.view.name
-      when 'home' then HomeView
-        cards: @props.cards
-        state: @state.view.data.state
-      when 'card' then CardView @state.view.data
-      when 'cards' then CardsView
-        cards: @props.cards
-        state: @state.view.data.state
-      when 'countries' then CountriesView()
-      #when 'board' then return BoardPicView()
-      when 'board' then BoardView @state.view.data
-      when 'about' then AboutView()
-      when 'whoops' then WhoopsView()
+      mainView = R.p className: 'lead', 'TwiStrug is loading...'
+    else
+      mainView = switch @state.view.name
+        when 'home' then HomeView
+          cards: @props.cards
+          state: @state.view.data.state
+        when 'card' then CardView @state.view.data
+        when 'cards' then CardsView
+          cards: @props.cards
+          state: @state.view.data.state
+        when 'countries' then CountriesView()
+        #when 'board' then return BoardPicView()
+        when 'board' then BoardView @state.view.data
+        when 'about' then AboutView()
+        when 'whoops' then WhoopsView()
 
 
     R.div {}, [

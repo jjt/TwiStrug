@@ -36,7 +36,7 @@
       "shortname": "Asia",
       "points": [3,7,9],
       "extra": "1 per SE country, 2 for Thailand",
-      "x": 880, "y": 128,
+      "x": 880, "y": 160,
       "stab":99,
       "btl":0,
       "usa":0,
@@ -181,8 +181,8 @@
       "y": 352
     },
     "Egypt": {
-      "x": 800,
-      "y": 448
+      "x": 760,
+      "y": 480
     },
     "Gulf States": {
       "x": 1040,
@@ -209,7 +209,7 @@
       "y": 480
     },
     "Libya": {
-      "x": 720,
+      "x": 680,
       "y": 480
     },
     "Saudi Arabia": {
@@ -261,7 +261,7 @@
       "y": 288
     },
     "Phillippines": {
-      "x": 960,
+      "x": 920,
       "y": 96
     },
     "S Korea": {
@@ -1939,6 +1939,15 @@
       "nodes":[
         "Spain/Portugal",
         "Morocco"
+      ],
+      "crossContinent":true
+    },
+    {
+      "source":19,
+      "target":32,
+      "nodes":[
+        "Turkey",
+        "Syria"
       ],
       "crossContinent":true
     },

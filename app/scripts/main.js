@@ -1032,6 +1032,11 @@
     componentWillMount: function() {
       return $('#placeholder').hide();
     },
+    getInitialState: function() {
+      return {
+        menuActive: null
+      };
+    },
     setView: function(name, pageTitle, menuActive, data) {
       if (menuActive == null) {
         menuActive = '';
@@ -1129,34 +1134,35 @@
     render: function() {
       var mainView, _ref;
       if (!((_ref = this.state) != null ? _ref.view : void 0)) {
-        return R.p({
+        mainView = R.p({
           className: 'lead'
         }, 'TwiStrug is loading...');
+      } else {
+        mainView = (function() {
+          switch (this.state.view.name) {
+            case 'home':
+              return HomeView({
+                cards: this.props.cards,
+                state: this.state.view.data.state
+              });
+            case 'card':
+              return CardView(this.state.view.data);
+            case 'cards':
+              return CardsView({
+                cards: this.props.cards,
+                state: this.state.view.data.state
+              });
+            case 'countries':
+              return CountriesView();
+            case 'board':
+              return BoardView(this.state.view.data);
+            case 'about':
+              return AboutView();
+            case 'whoops':
+              return WhoopsView();
+          }
+        }).call(this);
       }
-      mainView = (function() {
-        switch (this.state.view.name) {
-          case 'home':
-            return HomeView({
-              cards: this.props.cards,
-              state: this.state.view.data.state
-            });
-          case 'card':
-            return CardView(this.state.view.data);
-          case 'cards':
-            return CardsView({
-              cards: this.props.cards,
-              state: this.state.view.data.state
-            });
-          case 'countries':
-            return CountriesView();
-          case 'board':
-            return BoardView(this.state.view.data);
-          case 'about':
-            return AboutView();
-          case 'whoops':
-            return WhoopsView();
-        }
-      }).call(this);
       return R.div({}, [
         NavView({
           active: this.state.menuActive

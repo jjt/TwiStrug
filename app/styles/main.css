@@ -1992,7 +1992,7 @@ address {
 /* '' */
 html, body {
   color: #666;
-  background-color: #e8e8e3; }
+  background-color: #f3f4f1; }
 
 body {
   padding-bottom: 4rem; }
@@ -2049,11 +2049,11 @@ label, .label {
 .page-header {
   margin-top: 2rem;
   position: relative;
-  border-bottom: 1px solid #b9baab; }
+  border-bottom: 1px solid #c5c6b9; }
 
 .imgRight {
   display: block;
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
   margin: 2rem auto;
   max-width: 100%; }
 
@@ -2124,7 +2124,7 @@ a[href^="http://"], a[href^="https://"] {
   user-select: none; }
 
 .Board {
-  background: #e8e8e3;
+  background: #f3f4f1;
   position: relative;
   width: 1140px;
   height: 730px; }
@@ -2189,13 +2189,13 @@ a[href^="http://"], a[href^="https://"] {
   .Board .node-btl.node-weu .node-title-bg, .Board .node-btl.node-eeu .node-title-bg {
     fill: #4a227b; }
   .Board .node-usa .node-bg {
-    fill: #e8e8e3;
+    fill: #f3f4f1;
     stroke: #268BD2;
     stroke-width: 1px; }
   .Board .node-usa .node-title-text {
     fill: #268BD2; }
   .Board .node-ussr .node-bg {
-    fill: #e8e8e3;
+    fill: #f3f4f1;
     stroke: #DC322F;
     stroke-width: 1px; }
   .Board .node-usa .node-stab, .Board .node-ussr .node-stab {
@@ -2299,7 +2299,8 @@ a[href^="http://"], a[href^="https://"] {
     float: left;
     clear: both;
     padding-top: 5px;
-    text-align: right; }
+    text-align: right;
+    color: #7c7e67; }
   .BoardStatus dd {
     width: 60%;
     display: inline-block;
@@ -2327,12 +2328,12 @@ a[href^="http://"], a[href^="https://"] {
   .BoardStatus .dec, .BoardStatus .inc {
     display: inline-block;
     font-family: 'Comic Sans MS';
-    color: #c7c8bc;
+    color: #d3d3ca;
     font-size: 15px;
     padding: 2px 4px;
     cursor: pointer; }
     .BoardStatus .dec:hover, .BoardStatus .inc:hover {
-      color: #6e705c; }
+      color: #7c7e67; }
 
 .map-position-debug {
   display: none; }

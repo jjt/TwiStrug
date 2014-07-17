@@ -65,7 +65,7 @@ $grid-float-breakpoint: 300px;
 $fontello-dir: "../fontello/font";
 @import 'fontello';
 
-$mapBg: lighten(desaturate($solarized-green, 90%), 60%);
+$mapBg: lighten(desaturate($solarized-green, 90%), 65%);
 
 html, body {
   color: #666;
@@ -153,7 +153,7 @@ label, .label {
 
 .imgRight {
   display:block;
-  border:1px solid #ddd;
+  border:1px solid #ccc;
   margin:2rem auto;
   max-width:100%;
 }
@@ -520,6 +520,7 @@ $saDark: desaturate(darken($sa,30%), 10%);
     clear:both;
     padding-top:5px;
     text-align: right;
+    color:darken($mapBg,50%); 
   }
 
   dd {
