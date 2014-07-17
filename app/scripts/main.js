@@ -1,5 +1,5 @@
 (function() {
-  var $, AboutView, Board, BoardLink, BoardNode, BoardNodeIP, BoardPicView, BoardStatus, BoardView, Card, CardList, CardView, CardsView, CountriesView, HomeView, R, TwiStrug, WhoopsView, addReactKey, cardClassName, cardStages, cx, filterTruthy, filterUnique, filterValidCardIds, qs, setPageTitle, sortNumerical, update, zeroPad,
+  var $, AboutView, Board, BoardLink, BoardNode, BoardNodeIP, BoardPicView, BoardStatus, BoardView, Card, CardList, CardView, CardsView, CountriesView, HomeView, NavView, R, StatusValue, TwiStrug, WhoopsView, addReactKey, cardClassName, cardStages, cx, filterTruthy, filterUnique, filterValidCardIds, qs, rangedGameVal, setPageTitle, sortNumerical, update, zeroPad,
     __hasProp = {}.hasOwnProperty,
     __slice = [].slice,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
@@ -213,10 +213,14 @@
       return _.merge(this.defaultState(this.props), this.props.state);
     },
     getFilterIds: function() {
-      var _ref;
+      var filterIds, _ref;
       if (((_ref = this.state) != null ? _ref.filter : void 0) != null) {
-        return this.state.filter.sort(sortNumerical).filter(filterTruthy).filter(filterUnique);
+        filterIds = this.state.filter.sort(sortNumerical).filter(filterTruthy).filter(filterUnique);
       }
+      if (filterIds == null) {
+        filterIds = [];
+      }
+      return filterIds;
     },
     getFilteredCards: function() {
       if (this.state.filter != null) {
@@ -290,7 +294,7 @@
       this.setState({
         cardFilterInput: filterIds.join(' ')
       });
-      if (filterIds != null) {
+      if ((filterIds != null) && filterIds.length > 0) {
         return qs.set('filter', filterIds);
       } else {
         return qs["delete"]('filter');
@@ -327,35 +331,38 @@
         className: 'cardsView'
       }, [
         R.div({
-          className: 'page-header'
+          className: 'page-header row'
         }, [
-          R.h2({}, 'Cards'), " ", R.div({
-            className: 'cardControls'
-          }, [R.strong({}, 'Sort by:'), sortLink('stage', 'Stage'), sortLink('ops', 'Ops'), sortLink('side', 'Side')]), R.div({
-            className: 'cardControls'
+          R.div({
+            className: 'col-md-6'
           }, [
-            R.input({
-              name: 'fullText',
-              id: 'fullText',
-              type: 'checkbox',
-              ref: 'fullText',
-              onChange: this.handleFullText,
-              checked: this.state.fullText
-            }), " ", R.label({
-              htmlFor: 'fullText',
-              className: 'card-show-text-label'
-            }, 'Show card text')
+            R.div({
+              className: 'cardControls'
+            }, [
+              R.span({
+                className: 'label'
+              }, 'Sort by:'), sortLink('stage', 'Stage'), sortLink('ops', 'Ops'), sortLink('side', 'Side')
+            ]), R.div({
+              className: 'cardControls'
+            }, [
+              R.input({
+                name: 'fullText',
+                id: 'fullText',
+                type: 'checkbox',
+                ref: 'fullText',
+                onChange: this.handleFullText,
+                checked: this.state.fullText
+              }), " ", R.label({
+                htmlFor: 'fullText',
+                className: 'card-show-text-label'
+              }, 'Show card text')
+            ])
           ]), R.div({
-            className: 'cards-filter-by-id'
+            className: 'cards-filter-by-id col-md-6'
           }, [
             R.label({
               htmlFor: 'cardFilter'
-            }, [
-              "Filter cards by ids ", R.a({
-                className: 'cards-filter-by-id-clear',
-                onClick: this.handleCardFilterClear
-              }, 'clear')
-            ]), R.input({
+            }, ["Filter cards by ids "]), R.input({
               name: 'cardFilter',
               type: 'text',
               ref: 'cardFilter',
@@ -363,7 +370,10 @@
               onBlur: this.handleCardFilterBlur,
               value: this.state.cardFilterInput,
               placeholder: 'Paste from Wargameroom or enter ids'
-            })
+            }), R.a({
+              className: 'cards-filter-by-id-clear',
+              onClick: this.handleCardFilterClear
+            }, 'clear')
           ])
         ]), CardList({
           cards: this.filterAndSortCards(),
@@ -378,9 +388,7 @@
       return R.div({
         className: 'aboutView'
       }, [
-        R.div({
-          className: 'page-header'
-        }, R.h2({}, "About TwiStrug")), R.img({
+        R.h2({}, "About TwiStrug"), R.img({
           className: 'imgRight',
           src: "/images/tsbox.jpg"
         }), R.p({}, [
@@ -555,9 +563,7 @@
       return R.div({
         className: 'BoardView'
       }, [
-        R.div({
-          className: 'page-header'
-        }, R.h2({}, "Board")), Board(this.props), R.textarea({
+        Board(this.props), R.textarea({
           className: 'map-position-debug',
           ref: 'debug',
           style: {
@@ -570,6 +576,26 @@
     }
   });
 
+  rangedGameVal = function(id, val) {
+    var range, ranges;
+    ranges = {
+      score: [-20, 20],
+      turn: [1, 10],
+      round: [0, 16],
+      defcon: [1, 5],
+      milops: [0, 5],
+      space: [0, 8]
+    };
+    range = ranges[id];
+    if (val < range[0]) {
+      return range[1];
+    }
+    if (val > range[1]) {
+      return range[0];
+    }
+    return val;
+  };
+
   Board = React.createClass({
     displayName: 'Board',
     getInitialState: function() {
@@ -578,13 +604,25 @@
         game: {
           score: 0,
           turn: 1,
-          round: 14,
+          round: 0,
           defcon: 5,
           milops: [0, 0],
           space: [0, 0]
         }
       };
       return _.assign(gameState, this.props);
+    },
+    handleValClick: function(id, dir, side) {
+      var delta, index, state;
+      state = this.state;
+      delta = dir === 'inc' ? 1 : -1;
+      if (id !== 'milops' && id !== 'space') {
+        state.game[id] = rangedGameVal(id, state.game[id] + delta);
+      } else {
+        index = side === 'usa' ? 0 : 1;
+        state.game[id][index] = rangedGameVal(id, state.game[id][index] + delta);
+      }
+      return this.setState(state);
     },
     handleIPClick: function(nodeId, side, dir) {
       var delta, ip, node, state;
@@ -668,115 +706,89 @@
           width: this.props.width,
           height: this.props.height,
           ref: 'svg'
-        }, [links, nodes]), BoardStatus(this.state.game)
+        }, [links, nodes]), BoardStatus(_.assign({
+          handleValClick: this.handleValClick
+        }, this.state.game))
+      ]);
+    }
+  });
+
+  StatusValue = React.createClass({
+    render: function() {
+      var decAttrs, incAttrs, sideClass;
+      sideClass = (function() {
+        switch (this.props.side) {
+          case 'usa':
+          case 'ussr':
+            return this.props.side;
+          default:
+            return '';
+        }
+      }).call(this);
+      decAttrs = {
+        className: 'dec',
+        onClick: this.props.handleValClick.bind(null, this.props.id, 'dec', this.props.side)
+      };
+      incAttrs = {
+        className: 'inc',
+        onClick: this.props.handleValClick.bind(null, this.props.id, 'inc', this.props.side)
+      };
+      return R.div({}, [
+        R.dt({}, this.props.title), R.dd({
+          className: "StatusValue " + sideClass
+        }, [
+          R.span(decAttrs, '◀'), R.span({
+            className: 'val'
+          }, this.props.val), R.span(incAttrs, '▶')
+        ])
       ]);
     }
   });
 
   BoardStatus = React.createClass({
     render: function() {
-      var round, roundClass;
-      round = this.props.round === 0 ? 'H' : Math.ceil(this.props.round / 2);
-      roundClass = '';
-      if (this.props.round !== 0) {
-        roundClass = this.props.round % 2 === 1 ? 'ussr' : 'usa';
+      var round, roundSide, scoreSide, statusValue;
+      scoreSide = '';
+      if (this.props.score !== 0) {
+        scoreSide = this.props.score < 0 ? 'ussr' : 'usa';
       }
+      round = this.props.round === 0 ? 'H' : Math.ceil(this.props.round / 2);
+      roundSide = '';
+      if (this.props.round !== 0) {
+        roundSide = this.props.round % 2 === 1 ? 'ussr' : 'usa';
+      }
+      statusValue = (function(_this) {
+        return function(id, title, val, side) {
+          if (id == null) {
+            id = '';
+          }
+          if (title == null) {
+            title = '';
+          }
+          if (val == null) {
+            val = '';
+          }
+          if (side == null) {
+            side = '';
+          }
+          return StatusValue(_.assign({
+            id: id,
+            title: title,
+            val: val,
+            side: side
+          }, {
+            handleValClick: _this.props.handleValClick
+          }));
+        };
+      })(this);
       return R.div({
         className: 'BoardStatus'
       }, [
         R.dl({
           className: 'col'
-        }, [
-          R.dt({}, 'Score'), R.dd({}, [
-            R.span({
-              className: 'dec'
-            }, '◀'), R.span({
-              className: 'val'
-            }, this.props.score), R.span({
-              className: 'inc'
-            }, '▶')
-          ]), R.dt({}, 'Defcon'), R.dd({}, [
-            R.span({
-              className: 'dec'
-            }, '◀'), R.span({
-              className: 'val'
-            }, this.props.defcon), R.span({
-              className: 'inc'
-            }, '▶')
-          ]), R.dt({}, 'MilOps'), R.dd({}, [
-            R.div({}, [
-              R.span({
-                className: 'prop-usa'
-              }, [
-                R.span({
-                  className: 'dec'
-                }, '◀'), R.span({
-                  className: 'val'
-                }, this.props.milops[0]), R.span({
-                  className: 'inc'
-                }, '▶')
-              ])
-            ]), R.div({}, [
-              R.span({
-                className: 'prop-ussr'
-              }, [
-                R.span({
-                  className: 'dec'
-                }, '◀'), R.span({
-                  className: 'val'
-                }, this.props.milops[1]), R.span({
-                  className: 'inc'
-                }, '▶')
-              ])
-            ])
-          ])
-        ]), R.dl({
+        }, [statusValue('score', 'Score', Math.abs(this.props.score), scoreSide), statusValue('defcon', 'Defcon', this.props.defcon), statusValue('milops', 'MilOps', this.props.milops[0], 'usa'), statusValue('milops', '', this.props.milops[1], 'ussr')]), R.dl({
           className: 'col'
-        }, [
-          R.dt({}, 'Turn'), R.dd({}, [
-            R.span({
-              className: 'dec'
-            }, '◀'), R.span({
-              className: 'val'
-            }, this.props.turn), R.span({
-              className: 'inc'
-            }, '▶')
-          ]), R.dt({}, 'Round'), R.dd({}, [
-            R.span({
-              className: 'dec'
-            }, '◀'), R.span({
-              className: "val " + roundClass
-            }, round), R.span({
-              className: 'inc'
-            }, '▶')
-          ]), R.dt({}, 'Space'), R.dd({}, [
-            R.div({}, [
-              R.span({
-                className: 'prop-usa'
-              }, [
-                R.span({
-                  className: 'dec'
-                }, '◀'), R.span({
-                  className: 'val'
-                }, this.props.space[0]), R.span({
-                  className: 'inc'
-                }, '▶')
-              ])
-            ]), R.div({}, [
-              R.span({
-                className: 'prop-ussr'
-              }, [
-                R.span({
-                  className: 'dec'
-                }, '◀'), R.span({
-                  className: 'val'
-                }, this.props.space[1]), R.span({
-                  className: 'inc'
-                }, '▶')
-              ])
-            ])
-          ])
-        ])
+        }, [statusValue('turn', 'Turn', this.props.turn), statusValue('round', 'Round', round, roundSide), statusValue('space', 'Space', this.props.space[0], 'usa'), statusValue('space', '', this.props.space[1], 'ussr')])
       ]);
     }
   });
@@ -971,11 +983,59 @@
     }
   });
 
+  NavView = React.createClass({
+    getDefaultProps: function() {
+      return {
+        active: ''
+      };
+    },
+    render: function() {
+      var li;
+      li = (function(_this) {
+        return function(menuKey, href, title) {
+          return R.li({
+            className: cx({
+              'active': _this.props.active === menuKey
+            })
+          }, R.a({
+            'data-before': '★',
+            'data-after': '★',
+            href: href
+          }, title));
+        };
+      })(this);
+      return R.nav({
+        className: "navbar ",
+        role: "navigation"
+      }, R.div({
+        className: "container"
+      }, [
+        R.div({
+          className: "navbar-header"
+        }, R.a({
+          className: "navbar-brand",
+          href: '#/'
+        }, [
+          R.span({
+            className: "twi"
+          }, "Twi"), R.span({
+            className: "strug"
+          }, "Strug")
+        ])), R.ul({
+          className: "nav navbar-nav"
+        }, [li('cards', '#/cards', 'Cards'), li('board', '#/board', 'Board'), li('about', '#/about', 'About')])
+      ]));
+    }
+  });
+
   TwiStrug = React.createClass({
     componentWillMount: function() {
       return $('#placeholder').hide();
     },
-    setView: function(name, pageTitle, data) {
+    setView: function(name, pageTitle, menuActive, data) {
+      if (menuActive == null) {
+        menuActive = '';
+      }
       if (data == null) {
         data = {};
       }
@@ -986,12 +1046,13 @@
         view: {
           name: name,
           data: data
-        }
+        },
+        menuActive: menuActive
       });
     },
     componentDidMount: function() {
       var router, stateRoute;
-      stateRoute = function(name, pageTitle, args) {
+      stateRoute = function(name, pageTitle, menuActive, args) {
         var state;
         state = qs.toObj(args);
         if ((state != null ? state.filter : void 0) != null) {
@@ -999,7 +1060,7 @@
             return parseInt(el, 10);
           });
         }
-        return this.setView(name, pageTitle, {
+        return this.setView(name, pageTitle, menuActive, {
           state: state
         });
       };
@@ -1022,7 +1083,7 @@
               });
               nodes = _.union(countries, regionInfoNodes);
               nodes = _.zipObject(_.pluck(nodes, 'id'), nodes);
-              return _this.setView('board', 'Board', {
+              return _this.setView('board', 'Board', 'board', {
                 mapData: mapData,
                 countries: countries,
                 regionInfoNodes: regionInfoNodes,
@@ -1048,53 +1109,61 @@
               id: prevId
             });
             pageTitle = "" + card.title + " (#" + card.id + ")";
-            return _this.setView('card', pageTitle, {
+            return _this.setView('card', pageTitle, 'cards', {
               card: card,
               nextCard: nextCard,
               prevCard: prevCard
             });
           };
         })(this),
-        '/countries': this.setView.bind(this, 'countries', 'Countries'),
-        '/about': this.setView.bind(this, 'about', 'About')
+        '/countries': this.setView.bind(this, 'countries', 'Countries', 'countries'),
+        '/about': this.setView.bind(this, 'about', 'About', 'about')
       });
       router.configure({
         notfound: this.setView.bind(this, 'whoops', 'Whoops')
       });
-      router.on(/cards\??(.*)/, stateRoute.bind(this, 'cards', 'Cards'));
-      router.on(/\??(.*)/, stateRoute.bind(this, 'cards', 'Cards'));
+      router.on(/cards\??(.*)/, stateRoute.bind(this, 'cards', 'Cards', 'cards'));
+      router.on(/\??(.*)/, stateRoute.bind(this, 'cards', 'Cards', 'cards'));
       router.init('/');
     },
     render: function() {
-      var _ref;
+      var mainView, _ref;
       if (!((_ref = this.state) != null ? _ref.view : void 0)) {
         return R.p({
           className: 'lead'
         }, 'TwiStrug is loading...');
       }
-      switch (this.state.view.name) {
-        case 'home':
-          return HomeView({
-            cards: this.props.cards,
-            state: this.state.view.data.state
-          });
-        case 'card':
-          return CardView(this.state.view.data);
-        case 'cards':
-          return CardsView({
-            cards: this.props.cards,
-            state: this.state.view.data.state
-          });
-        case 'countries':
-          return CountriesView();
-        case 'board':
-          return BoardView(this.state.view.data);
-        case 'about':
-          return AboutView();
-        case 'whoops':
-          return WhoopsView();
-      }
-      return WhoopsView();
+      mainView = (function() {
+        switch (this.state.view.name) {
+          case 'home':
+            return HomeView({
+              cards: this.props.cards,
+              state: this.state.view.data.state
+            });
+          case 'card':
+            return CardView(this.state.view.data);
+          case 'cards':
+            return CardsView({
+              cards: this.props.cards,
+              state: this.state.view.data.state
+            });
+          case 'countries':
+            return CountriesView();
+          case 'board':
+            return BoardView(this.state.view.data);
+          case 'about':
+            return AboutView();
+          case 'whoops':
+            return WhoopsView();
+        }
+      }).call(this);
+      return R.div({}, [
+        NavView({
+          active: this.state.menuActive
+        }), R.div({
+          className: 'container'
+        }, mainView)
+      ]);
     }
   });
 

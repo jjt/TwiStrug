@@ -149,13 +149,15 @@
     display:inline-block;
     margin:0 0.4em;
     padding:0 0.5em;
-    cursor:pointer
+    cursor:pointer;
+    &:hover {
+      text-decoration: underline;
+    }
   }
   .active {
-    text-decoration: underline;
+    color:#333;
   }
   label {
-    font-weight:bold;
   }
 }
 
@@ -171,11 +173,10 @@
   }
 }
 
+
+
 .cards-filter-by-id {
-  clear:both;
-  width:100%;
   label {
-    font-weight:bold;
   }
   input {
     width:100%;
@@ -184,8 +185,9 @@
 
 .cards-filter-by-id-clear {
   cursor:pointer;
-  float:right;
-  margin-right:0.2em;
+  position:absolute;
+  right:2rem;
+  top:2.3rem;
 }
 
 
@@ -256,21 +258,8 @@
   .cardList .card {
     flex-basis:calc(100%/3);
   }
-  .cards-filter-by-id {
-    position:absolute;
-    width:auto;
-    bottom:1rem;
-    right:0;
-    label {
-      font-weight:bold;
-      a {
-        cursor:pointer;
-      }
-    }
-    input {
-      min-width:16rem;
-    }
-  }
+
+
 
   .cardControls {
     margin-bottom:0;
@@ -296,6 +285,27 @@
 
   .cardList .card {
     flex-basis: calc(100%/4);
+  }
+  .cards-filter-by-id {
+    right:0;
+    label {
+      float:left;
+      width:30%;
+      padding-right: 0.6rem;
+      text-align:right;
+      a {
+        cursor:pointer;
+      }
+    }
+    input {
+      margin-top:-0.3rem;
+      float:left;
+      width:70%;
+      padding-right:5rem;
+    }
+  }
+  .cards-filter-by-id-clear {
+    top:0;
   }
 
 }

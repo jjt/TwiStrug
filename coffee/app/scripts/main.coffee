@@ -141,10 +141,13 @@ CardsView = React.createClass
     _.merge @defaultState(@props), @props.state
 
   getFilterIds: () ->
+
     if @state?.filter?
-      return @state.filter.sort(sortNumerical)
+      filterIds = @state.filter.sort(sortNumerical)
         .filter(filterTruthy)
         .filter(filterUnique)
+    if not filterIds? then filterIds = []
+    return filterIds
 
   # Just filtering by id right now
   getFilteredCards: ->
@@ -195,11 +198,11 @@ CardsView = React.createClass
 
   handleCardFilterBlur: ->
     filterIds = @getFilterIds()
-    
+
     @setState
       cardFilterInput: filterIds.join ' '
 
-    if filterIds?
+    if filterIds? and filterIds.length > 0
       qs.set 'filter', filterIds
     else
       qs.delete 'filter'
@@ -224,30 +227,29 @@ CardsView = React.createClass
 
 
     R.div className: 'cardsView' , [
-      R.div className: 'page-header', [
-        R.h2 {}, 'Cards'
-        " "
-        R.div className: 'cardControls', [
-          R.strong {}, 'Sort by:'
-          sortLink 'stage', 'Stage'
-          sortLink 'ops', 'Ops'
-          sortLink 'side', 'Side'
+      R.div className: 'page-header row', [
+        R.div className: 'col-md-6', [
+          R.div className: 'cardControls', [
+            R.span className: 'label', 'Sort by:'
+            sortLink 'stage', 'Stage'
+            sortLink 'ops', 'Ops'
+            sortLink 'side', 'Side'
+          ]
+          R.div className: 'cardControls', [
+            R.input
+              name: 'fullText'
+              id: 'fullText'
+              type:'checkbox'
+              ref:'fullText'
+              onChange: @handleFullText
+              checked: @state.fullText
+            " "
+            R.label {htmlFor:'fullText', className:'card-show-text-label'}, 'Show card text'
+          ]
         ]
-        R.div className: 'cardControls', [
-          R.input
-            name: 'fullText'
-            id: 'fullText'
-            type:'checkbox'
-            ref:'fullText'
-            onChange: @handleFullText
-            checked: @state.fullText
-          " "
-          R.label {htmlFor:'fullText', className:'card-show-text-label'}, 'Show card text'
-        ]
-        R.div className: 'cards-filter-by-id', [
+        R.div className: 'cards-filter-by-id col-md-6', [
           R.label {htmlFor:'cardFilter'}, [
             "Filter cards by ids "
-            R.a {className:'cards-filter-by-id-clear', onClick:@handleCardFilterClear}, 'clear'
           ]
           R.input
             name: 'cardFilter'
@@ -257,6 +259,7 @@ CardsView = React.createClass
             onBlur: @handleCardFilterBlur
             value: @state.cardFilterInput
             placeholder: 'Paste from Wargameroom or enter ids'
+          R.a {className:'cards-filter-by-id-clear', onClick:@handleCardFilterClear}, 'clear'
         ]
       ]
       CardList
@@ -268,8 +271,7 @@ CardsView = React.createClass
 AboutView = React.createClass
   render: ->
     R.div className: 'aboutView', [
-      R.div className: 'page-header',
-        R.h2 {}, "About TwiStrug"
+      R.h2 {}, "About TwiStrug"
       R.img className: 'imgRight', src: "/images/tsbox.jpg"
       R.p {}, [
         "TwiStrug is for people who want to reference or learn about the
@@ -413,11 +415,28 @@ BoardView = React.createClass
 
   render: ->
     R.div className: 'BoardView', [
-      R.div className: 'page-header',
-          R.h2 {}, "Board"
+      #R.div className: 'page-header',
+          #R.h2 {}, "Board"
       Board @props
       R.textarea className: 'map-position-debug', ref:'debug', style:{width:'100%', height:'60rem'}, value: JSON.stringify(@state.coords, null, ' ')
     ]
+
+rangedGameVal = (id, val)->
+  ranges =
+    score: [-20, 20]
+    turn: [1, 10]
+    round: [0, 16]
+    defcon: [1, 5]
+    milops: [0, 5]
+    space: [0, 8]
+
+  range = ranges[id]
+
+  if val < range[0]
+    return range[1]
+  if val > range[1]
+    return range[0]
+  val
 
 Board = React.createClass
   displayName: 'Board'
@@ -427,12 +446,23 @@ Board = React.createClass
       game:
         score: 0
         turn: 1
-        round: 14
+        round: 0
         defcon: 5
         milops: [0,0]
         space: [0,0]
 
     _.assign gameState, @props
+
+  handleValClick: (id, dir, side)->
+    state = this.state
+    delta = if dir == 'inc' then 1 else -1
+    if id not in ['milops', 'space']
+      state.game[id] = rangedGameVal(id, state.game[id] + delta)
+    else
+      index = if side == 'usa' then 0 else 1
+      state.game[id][index] = rangedGameVal(id, state.game[id][index] + delta)
+
+    @setState state
 
   handleIPClick: (nodeId, side, dir)->
     node = _.find @state.nodes, {id: nodeId}
@@ -496,80 +526,65 @@ Board = React.createClass
         links
         nodes
       ]
-      BoardStatus @state.game
+      BoardStatus _.assign {handleValClick: @handleValClick}, @state.game
     ]
 
+
+StatusValue = React.createClass
+  render: ->
+
+    sideClass = switch @props.side
+      when 'usa', 'ussr' then @props.side
+      else ''
+
+    decAttrs =
+      className: 'dec'
+      onClick: @props.handleValClick.bind(null, @props.id, 'dec', @props.side)
+    incAttrs =
+      className: 'inc',
+      onClick: @props.handleValClick.bind(null, @props.id, 'inc', @props.side)
+
+    R.div {}, [
+      R.dt {}, @props.title
+      R.dd className: "StatusValue #{sideClass}", [
+        R.span decAttrs, '◀'
+        R.span className: 'val', @props.val
+        R.span incAttrs, '▶'
+      ]
+    ]
+    
+
 BoardStatus = React.createClass
+
   render: ->
   
+    scoreSide = ''
+    if @props.score != 0
+      scoreSide = if @props.score < 0 then 'ussr' else 'usa'
+
     # Round: 0 is headline, odds are USSR, evens are USA
     round = if @props.round == 0 then 'H' else Math.ceil(@props.round / 2)
-    roundClass = ''
+    roundSide = ''
     if @props.round != 0
-      roundClass = if @props.round % 2 == 1 then 'ussr' else 'usa'
+      roundSide = if @props.round % 2 == 1 then 'ussr' else 'usa'
+
+    # Shorthand for the components
+    statusValue = (id='', title='', val='', side='')=>
+      StatusValue _.assign {id, title, val, side}, handleValClick: @props.handleValClick
+
 
     R.div className: 'BoardStatus', [
       R.dl className: 'col', [
-        R.dt {}, 'Score'
-        R.dd {}, [
-          R.span className: 'dec', '◀'
-          R.span className: 'val', @props.score
-          R.span className: 'inc', '▶'
-        ]
-        R.dt {}, 'Defcon'
-        R.dd {}, [
-          R.span className: 'dec', '◀'
-          R.span className: 'val', @props.defcon
-          R.span className: 'inc', '▶'
-        ]
-        R.dt {}, 'MilOps'
-        R.dd {}, [
-          R.div {}, [
-            R.span className: 'prop-usa', [
-              R.span className: 'dec', '◀'
-              R.span className: 'val', @props.milops[0]
-              R.span className: 'inc', '▶'
-            ]
-          ]
-          R.div {}, [
-            R.span className: 'prop-ussr', [
-              R.span className: 'dec', '◀'
-              R.span className: 'val', @props.milops[1]
-              R.span className: 'inc', '▶'
-            ]
-          ]
-        ]
+        statusValue 'score', 'Score', Math.abs(@props.score), scoreSide
+        statusValue 'defcon', 'Defcon', @props.defcon
+        statusValue 'milops', 'MilOps', @props.milops[0], 'usa'
+        statusValue 'milops', '', @props.milops[1], 'ussr'
       ]
       R.dl className: 'col', [
-        R.dt {}, 'Turn'
-        R.dd {}, [
-          R.span className: 'dec', '◀'
-          R.span className: 'val', @props.turn
-          R.span className: 'inc', '▶'
-        ]
-        R.dt {}, 'Round'
-        R.dd {}, [
-          R.span className: 'dec', '◀'
-          R.span className: "val #{roundClass}", round
-          R.span className: 'inc', '▶'
-        ]
-        R.dt {}, 'Space'
-        R.dd {}, [
-          R.div {}, [
-            R.span className: 'prop-usa', [
-              R.span className: 'dec', '◀'
-              R.span className: 'val', @props.space[0]
-              R.span className: 'inc', '▶'
-            ]
-          ]
-          R.div {}, [
-            R.span className: 'prop-ussr', [
-              R.span className: 'dec', '◀'
-              R.span className: 'val', @props.space[1]
-              R.span className: 'inc', '▶'
-            ]
-          ]
-        ]
+        statusValue 'turn', 'Turn', @props.turn
+        statusValue 'round', 'Round', round, roundSide
+        statusValue 'space', 'Space', @props.space[0], 'usa'
+        statusValue 'space', '', @props.space[1], 'ussr'
       ]
     ]
 
@@ -775,6 +790,35 @@ HomeView = React.createClass
 
 
 
+NavView = React.createClass
+  getDefaultProps: ->
+    active: ''
+
+  render: ->
+
+    li = (menuKey, href, title)=>
+      R.li className: cx('active': @props.active == menuKey),
+        R.a 'data-before': '★', 'data-after': '★', href: href, title
+
+    R.nav className: "navbar ", role: "navigation",
+      R.div className: "container", [
+
+        R.div className: "navbar-header",
+          R.a className: "navbar-brand", href: '#/', [
+            R.span className: "twi", "Twi"
+            R.span className: "strug", "Strug"
+          ]
+
+        R.ul className: "nav navbar-nav", [
+          li 'cards', '#/cards', 'Cards'
+          li 'board', '#/board', 'Board'
+          li 'about', '#/about', 'About'
+        ]
+
+      ]
+
+
+
 
 # Main application component
 # Responsible for routing and view management
@@ -783,18 +827,20 @@ TwiStrug = React.createClass
     $('#placeholder').hide()
 
   # Takes a view name and associated data
-  setView: (name, pageTitle, data={}) ->
+  setView: (name, pageTitle, menuActive='', data={}) ->
     if pageTitle? then setPageTitle pageTitle
-    @setState view: {name, data}
+    @setState
+      view: {name, data}
+      menuActive: menuActive
 
   componentDidMount: ->
-    stateRoute = (name, pageTitle, args)->
+    stateRoute = (name, pageTitle, menuActive, args)->
       state = qs.toObj args
       # Convert filter ids from str -> number
       if state?.filter?
         state.filter = state.filter.map (el)->
           parseInt el, 10
-      @setView name, pageTitle,
+      @setView name, pageTitle, menuActive,
         state: state
 
     router = new Router
@@ -818,7 +864,7 @@ TwiStrug = React.createClass
           nodes = _.union(countries, regionInfoNodes)
           nodes = _.zipObject _.pluck(nodes, 'id'), nodes
 
-          @setView 'board', 'Board', {mapData, countries, regionInfoNodes, links, nodes}
+          @setView 'board', 'Board', 'board', {mapData, countries, regionInfoNodes, links, nodes}
 
       '/card/:id': (id)=>
         id = parseInt id, 10
@@ -828,17 +874,17 @@ TwiStrug = React.createClass
         nextCard = _.find @props.cards, id: nextId
         prevCard =  _.find @props.cards, id: prevId
         pageTitle = "#{card.title} (##{card.id})"
-        @setView 'card', pageTitle, {card, nextCard, prevCard}
+        @setView 'card', pageTitle, 'cards', {card, nextCard, prevCard}
       
-      '/countries': @setView.bind this, 'countries', 'Countries'
+      '/countries': @setView.bind this, 'countries', 'Countries', 'countries'
       
-      '/about': @setView.bind this, 'about', 'About'
+      '/about': @setView.bind this, 'about', 'About', 'about'
 
     router.configure
       notfound: @setView.bind this, 'whoops', 'Whoops'
 
-    router.on /cards\??(.*)/, stateRoute.bind this, 'cards', 'Cards'
-    router.on /\??(.*)/, stateRoute.bind this, 'cards', 'Cards'
+    router.on /cards\??(.*)/, stateRoute.bind this, 'cards', 'Cards', 'cards'
+    router.on /\??(.*)/, stateRoute.bind this, 'cards', 'Cards', 'cards'
 
     router.init('/')
     return
@@ -848,21 +894,26 @@ TwiStrug = React.createClass
     if not @state?.view
       return R.p className: 'lead', 'TwiStrug is loading...'
   
-    switch @state.view.name
-      when 'home' then return HomeView
+    mainView = switch @state.view.name
+      when 'home' then HomeView
         cards: @props.cards
         state: @state.view.data.state
-      when 'card' then return CardView @state.view.data
-      when 'cards' then return CardsView
+      when 'card' then CardView @state.view.data
+      when 'cards' then CardsView
         cards: @props.cards
         state: @state.view.data.state
-      when 'countries' then return CountriesView()
+      when 'countries' then CountriesView()
       #when 'board' then return BoardPicView()
-      when 'board' then return BoardView @state.view.data
-      when 'about' then return AboutView()
-      when 'whoops' then return WhoopsView()
+      when 'board' then BoardView @state.view.data
+      when 'about' then AboutView()
+      when 'whoops' then WhoopsView()
+
+
+    R.div {}, [
+      NavView active: @state.menuActive
+      R.div className: 'container', mainView
+    ]
     
-    WhoopsView()
 
 # Add keys to cards
 addReactKey = (el)->

@@ -1797,10 +1797,10 @@ address {
     margin: 0 0.4em;
     padding: 0 0.5em;
     cursor: pointer; }
+    .cardControls a:hover {
+      text-decoration: underline; }
   .cardControls .active {
-    text-decoration: underline; }
-  .cardControls label {
-    font-weight: bold; }
+    color: #333; }
 
 .cardView p, .cardView ul {
   color: #666; }
@@ -1809,18 +1809,14 @@ address {
   .cardView p a:hover, .cardView p a:focus {
     color: #2a6596; }
 
-.cards-filter-by-id {
-  clear: both;
+.cards-filter-by-id input {
   width: 100%; }
-  .cards-filter-by-id label {
-    font-weight: bold; }
-  .cards-filter-by-id input {
-    width: 100%; }
 
 .cards-filter-by-id-clear {
   cursor: pointer;
-  float: right;
-  margin-right: 0.2em; }
+  position: absolute;
+  right: 2rem;
+  top: 2.3rem; }
 
 .card-nav {
   color: #aaa;
@@ -1875,17 +1871,6 @@ address {
   .cardList .card {
     -webkit-flex-basis: calc(100%/3);
     flex-basis: calc(100%/3); }
-  .cards-filter-by-id {
-    position: absolute;
-    width: auto;
-    bottom: 1rem;
-    right: 0; }
-    .cards-filter-by-id label {
-      font-weight: bold; }
-      .cards-filter-by-id label a {
-        cursor: pointer; }
-    .cards-filter-by-id input {
-      min-width: 16rem; }
   .cardControls {
     margin-bottom: 0; } }
 
@@ -1903,7 +1888,23 @@ address {
     border-right: 1px solid #ddd; }
   .cardList .card {
     -webkit-flex-basis: calc(100%/4);
-    flex-basis: calc(100%/4); } }
+    flex-basis: calc(100%/4); }
+  .cards-filter-by-id {
+    right: 0; }
+    .cards-filter-by-id label {
+      float: left;
+      width: 30%;
+      padding-right: 0.6rem;
+      text-align: right; }
+      .cards-filter-by-id label a {
+        cursor: pointer; }
+    .cards-filter-by-id input {
+      margin-top: -0.3rem;
+      float: left;
+      width: 70%;
+      padding-right: 5rem; }
+  .cards-filter-by-id-clear {
+    top: 0; } }
 
 @media screen and (min-width: 1200px) {
   .cardList .card {
@@ -1991,7 +1992,7 @@ address {
 /* '' */
 html, body {
   color: #666;
-  background-color: #eff0ee; }
+  background-color: #e8e8e3; }
 
 body {
   padding-bottom: 4rem; }
@@ -2007,6 +2008,10 @@ a {
 p {
   font-size: 18px; }
 
+label, .label {
+  font-weight: normal;
+  text-transform: uppercase; }
+
 .hide {
   display: none !important; }
 
@@ -2017,11 +2022,15 @@ p {
   margin-bottom: 0;
   background-color: #fff; }
 
-.navbar-nav > li > a, .navbar-brand {
-  color: #666; }
-  .navbar-nav > li > a:hover, .navbar-brand:hover {
+.navbar-nav > li > a {
+  color: #999; }
+  .navbar-nav > li > a:hover {
     color: #333;
-    background: rgba(0, 0, 0, 0.1); }
+    background: white;
+    text-decoration: underline; }
+
+.navbar-nav > li.active > a {
+  color: #333; }
 
 .navbar-brand {
   padding: 0; }
@@ -2038,8 +2047,9 @@ p {
     color: #b9221f; }
 
 .page-header {
-  margin-top: 1rem;
-  position: relative; }
+  margin-top: 2rem;
+  position: relative;
+  border-bottom: 1px solid #b9baab; }
 
 .imgRight {
   display: block;
@@ -2114,8 +2124,7 @@ a[href^="http://"], a[href^="https://"] {
   user-select: none; }
 
 .Board {
-  border: 1px solid #b9bdb7;
-  background: #dcdfd9;
+  background: #e8e8e3;
   position: relative;
   width: 1140px;
   height: 730px; }
@@ -2180,13 +2189,13 @@ a[href^="http://"], a[href^="https://"] {
   .Board .node-btl.node-weu .node-title-bg, .Board .node-btl.node-eeu .node-title-bg {
     fill: #4a227b; }
   .Board .node-usa .node-bg {
-    fill: #dcdfd9;
+    fill: #e8e8e3;
     stroke: #268BD2;
     stroke-width: 1px; }
   .Board .node-usa .node-title-text {
     fill: #268BD2; }
   .Board .node-ussr .node-bg {
-    fill: #dcdfd9;
+    fill: #e8e8e3;
     stroke: #DC322F;
     stroke-width: 1px; }
   .Board .node-usa .node-stab, .Board .node-ussr .node-stab {
@@ -2241,21 +2250,21 @@ a[href^="http://"], a[href^="https://"] {
     font-size: 20px;
     font-weight: bold; }
   .Board .node-ip-usa {
-    fill: #268BD2; }
+    fill: rgba(38, 139, 210, 0.9); }
   .Board .node-ip-ussr {
-    fill: #DC322F; }
+    fill: rgba(220, 50, 47, 0.9); }
   .Board .node-ip-bg-usa, .Board .node-ip-bg-ussr {
-    fill: #eee;
+    fill: #fff;
     stroke: rgba(0, 0, 0, 0.2);
     stroke-width: 1px; }
   .Board .node-usa-control .node-ip-bg-usa {
     fill: #268BD2; }
   .Board .node-usa-control .node-ip-usa {
-    fill: rgba(255, 255, 255, 0.8); }
+    fill: rgba(255, 255, 255, 0.9); }
   .Board .node-ussr-control .node-ip-bg-ussr {
     fill: #DC322F; }
   .Board .node-ussr-control .node-ip-ussr {
-    fill: rgba(255, 255, 255, 0.8); }
+    fill: rgba(255, 255, 255, 0.9); }
   .Board .node-ip-click {
     fill: rgba(0, 0, 0, 0);
     cursor: pointer; }
@@ -2302,9 +2311,9 @@ a[href^="http://"], a[href^="https://"] {
       opacity: 0.5; }
   .BoardStatus .prop-usa, .BoardStatus .prop-ussr {
     cursor: default; }
-  .BoardStatus .prop-usa {
+  .BoardStatus .StatusValue.usa .val {
     color: #268BD2; }
-  .BoardStatus .prop-ussr {
+  .BoardStatus .StatusValue.ussr .val {
     color: #DC322F; }
   .BoardStatus .val {
     cursor: default;
@@ -2318,12 +2327,12 @@ a[href^="http://"], a[href^="https://"] {
   .BoardStatus .dec, .BoardStatus .inc {
     display: inline-block;
     font-family: 'Comic Sans MS';
-    color: #b9beb2;
+    color: #c7c8bc;
     font-size: 15px;
     padding: 2px 4px;
     cursor: pointer; }
     .BoardStatus .dec:hover, .BoardStatus .inc:hover {
-      color: #5d6455; }
+      color: #6e705c; }
 
 .map-position-debug {
   display: none; }

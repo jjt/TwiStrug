@@ -65,9 +65,11 @@ $grid-float-breakpoint: 300px;
 $fontello-dir: "../fontello/font";
 @import 'fontello';
 
+$mapBg: lighten(desaturate($solarized-green, 90%), 60%);
+
 html, body {
   color: #666;
-  background-color:#eff0ee;
+  background-color:$mapBg;
 }
 
 body {
@@ -90,6 +92,11 @@ p {
   font-size:18px; 
 }
 
+label, .label {
+  font-weight:normal;
+  text-transform:uppercase;
+}
+
 .hide {
   display:none !important;
 }
@@ -103,12 +110,17 @@ p {
   background-color:#fff;
 }
 
-.navbar-nav > li > a, .navbar-brand {
-  color:#666;
+.navbar-nav > li > a {
+  color:#999;
   &:hover {
     color:#333;
-    background:rgba(#000,0.1);
+    background:white;
+    text-decoration:underline;
   }
+}
+
+.navbar-nav > li.active > a {
+  color:#333;
 }
 
 .navbar-brand {
@@ -134,8 +146,9 @@ p {
 }
 
 .page-header {
-  margin-top:1rem;
+  margin-top:2rem;
   position:relative;
+  border-bottom:1px solid darken($mapBg,20%);
 }
 
 .imgRight {
@@ -245,12 +258,11 @@ $saDark: desaturate(darken($sa,30%), 10%);
   user-select: none;
 }
 
-$mapBg: #dcdfd9;
 
 .Board {
 
   //background:url(/images/tsboard.jpg) no-repeat;
-  border:1px solid #b9bdb7;
+  //border:1px solid #b9bdb7;
   background: $mapBg;
   position:relative;
   width:1140px;
@@ -426,23 +438,23 @@ $mapBg: #dcdfd9;
       font-weight:bold;
     }
   }
-  .node-ip-usa { fill: $solarized-blue; }
-  .node-ip-ussr { fill: $solarized-red; }
+  .node-ip-usa { fill: rgba($solarized-blue, 0.9); }
+  .node-ip-ussr { fill: rgba($solarized-red, 0.9); }
 
   .node-ip-bg-usa, .node-ip-bg-ussr {
-    fill:#eee;
+    fill:#fff;
     stroke:rgba(#000,0.2);
     stroke-width:1px;
   }
 
   .node-usa-control {
     .node-ip-bg-usa { fill:$solarized-blue; }
-    .node-ip-usa { fill:rgba(#fff,0.8); }
+    .node-ip-usa { fill:rgba(#fff,0.9); }
   }
 
   .node-ussr-control {
     .node-ip-bg-ussr { fill:$solarized-red; }
-    .node-ip-ussr { fill:rgba(#fff,0.8); }
+    .node-ip-ussr { fill:rgba(#fff,0.9); }
   }
 
   .node-ip-click {
@@ -529,11 +541,11 @@ $mapBg: #dcdfd9;
     cursor:default;
   }
 
-  .prop-usa {
+  .StatusValue.usa .val {
     color: $solarized-blue;
   }
 
-  .prop-ussr {
+  .StatusValue.ussr .val {
     color: $solarized-red;
   }
 
