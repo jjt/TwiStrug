@@ -37,14 +37,21 @@
     "rimraf": "^2.2.6",
     "gulp-rev": "^0.3.2",
     "gulp-rev-replace": "^0.1.0",
-    "gulp-jsonminify": "0.0.1"
+    "gulp-jsonminify": "0.0.1",
+    "vinyl-source-stream": "^0.1.1",
+    "coffeeify": "^0.6.0",
+    "browserify": "^4.2.1",
+    "require-directory": "^1.2.0",
+    "require-all": "0.0.8",
+    "bulkify": "^1.0.2"
   },
   "engines": {
     "node": ">=0.10.0"
   },
   "browserify": {
     "transform": [
-      "browserify-shim"
+      "coffeeify",
+      "bulkify"
     ]
   },
   "browserify-shim": {}

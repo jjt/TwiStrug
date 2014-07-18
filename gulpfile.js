@@ -10,7 +10,7 @@ var runSequence = require('run-sequence');
 
 // Load plugins
 var $ = require('gulp-load-plugins')();
-
+var browserify = require('browserify');
 
 var logErr = function(err) {
   console.log('ERR', err);
@@ -50,6 +50,19 @@ gulp.task('coffee', function() {
     .on('error', logErr)
     .pipe(gulp.dest(''));
 });
+
+gulp.task('browserify', function () {
+  return browserify({
+      entries: ['./src/app.coffee'],
+      extensions:['.coffee'] 
+    })
+    .on('error', logErr)
+    .bundle({debug:true})
+    .on('error', logErr)
+    .pipe(require('vinyl-source-stream')('app-bundle.js'))
+    .pipe(gulp.dest('./app/scripts/'));
+});
+
 
 // HTML
 gulp.task('html', ['styles', 'scripts'], function () {
@@ -177,9 +190,6 @@ gulp.task('watch', ['serve'], function () {
     // Watch .scss files
     gulp.watch('app/styles/**/*.scss', ['styles']);
 
-    // Watch .js files
-    gulp.watch('app/scripts/**/*.js', ['scripts']);
-
     // Watch image files
     gulp.watch('app/images/**/*', ['images']);
 
@@ -187,4 +197,6 @@ gulp.task('watch', ['serve'], function () {
     //gulp.watch('bower.json', ['wiredep']);
 
     gulp.watch('coffee/**/*.coffee', ['coffee']);
+
+    gulp.watch('src/**/*.coffee', ['browserify']);
 });
