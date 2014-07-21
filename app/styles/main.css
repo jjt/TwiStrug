@@ -1904,7 +1904,11 @@ address {
       width: 70%;
       padding-right: 5rem; }
   .cards-filter-by-id-clear {
-    top: 0; } }
+    top: 0; }
+  .card-img-scroll {
+    position: fixed;
+    top: 2rem;
+    margin: 0 !important; } }
 
 @media screen and (min-width: 1200px) {
   .cardList .card {
@@ -2014,11 +2018,6 @@ label, .label {
 
 .hide {
   display: none !important; }
-
-.card-img-scroll {
-  position: fixed;
-  top: 2rem;
-  margin: 0 !important; }
 
 .navbar {
   border: none;
