@@ -8,7 +8,8 @@
     "wiredep": "^1.4.3",
     "gulp-connect": "^1.1.1",
     "gulp-imagemin": "^0.1.5",
-    "gulp-jshint": "^1.5.3"
+    "gulp-jshint": "^1.5.3",
+    "microevent": "^1.0.0"
   },
   "devDependencies": {
     "gulp": "^3.6.0",
@@ -43,7 +44,11 @@
     "browserify": "^4.2.1",
     "require-directory": "^1.2.0",
     "require-all": "0.0.8",
-    "bulkify": "^1.0.2"
+    "bulkify": "^1.0.2",
+    "through2": "^0.5.1",
+    "lodash-node": "^2.4.1",
+    "gulp-shell": "^0.2.8",
+    "map-stream": "^0.1.0"
   },
   "engines": {
     "node": ">=0.10.0"

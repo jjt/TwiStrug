@@ -7,9 +7,12 @@ module.exports  = React.createClass
     @getStrategy()
     @setWindowKeypressHandler()
 
+  componentWillUnmount: ->
+    window.onkeypress = null
+
   componentDidUpdate: ->
     @getStrategy()
-    @setWindowKeypressHandler()
+    #@setWindowKeypressHandler()
 
   setWindowKeypressHandler: ->
     window.onkeypress = (ev) =>

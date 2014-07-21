@@ -17,6 +17,7 @@ $.getScript = (src, func) ->
 
 libs = require './libs'
 pages = require './pages'
+views = require './views'
 
 NavView = require './views/Nav'
 
@@ -46,6 +47,7 @@ TwiStrug = React.createClass
 
     router = new Router
       #'/board': @setView.bind this, 'board', 'Board'
+      '/': @setView.bind this, 'home', 'Home'
 
       '/board': ()=>
         $.getJSON '/data/map-data.json', (mapData) =>
@@ -65,7 +67,14 @@ TwiStrug = React.createClass
           nodes = _.union(countries, regionInfoNodes)
           nodes = _.zipObject _.pluck(nodes, 'id'), nodes
 
-          @setView 'board', 'Board', 'board', {mapData, countries, regionInfoNodes, links, nodes}
+          gameId = Math.random().toString(36).slice(2)
+          stateHistory = new libs.StateHistory
+            id: gameId
+
+
+          boardProps = {gameId, mapData, countries, regionInfoNodes, links, nodes, stateHistory}
+
+          @setView 'board', 'Board', 'board', boardProps
 
       '/card/:id': (id)=>
         id = parseInt id, 10
@@ -85,7 +94,7 @@ TwiStrug = React.createClass
       notfound: @setView.bind this, 'whoops', 'Whoops'
 
     router.on /cards\??(.*)/, stateRoute.bind this, 'cards', 'Cards', 'cards'
-    router.on /\??(.*)/, stateRoute.bind this, 'cards', 'Cards', 'cards'
+    #router.on /\??(.*)/, stateRoute.bind this, 'cards', 'Cards', 'cards'
 
     router.init('/')
     return
@@ -109,10 +118,14 @@ TwiStrug = React.createClass
         when 'about' then pages.About()
         when 'whoops' then pages.Whoops()
 
+      if @state.view.name == 'board'
+        boardStateHistory = views.BoardStateHistory stateHistory: @state.view.data.stateHistory
+
 
     R.div {}, [
       NavView active: @state.menuActive
       R.div className: 'container', mainView
+      boardStateHistory
     ]
     
 

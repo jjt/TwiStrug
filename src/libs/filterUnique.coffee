@@ -1,1 +1,1 @@
-filterUnique = (el,i,arr)-> arr.indexOf(el) == i
+module.exports = (el,i,arr)-> arr.indexOf(el) == i

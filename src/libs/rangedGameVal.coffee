@@ -1,7 +1,7 @@
 module.exports = (id, val)->
   ranges =
     score: [-20, 20]
-    turn: [1, 10]
+    turn: [0, 11]
     round: [0, 16]
     defcon: [1, 5]
     milops: [0, 5]

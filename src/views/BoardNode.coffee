@@ -9,24 +9,13 @@ module.exports = React.createClass
   handleIPClick: (side, dir)->
     @props.handleIPClick @props.id, side, dir
 
-  getInitialState: ->
-    @componentWillReceiveProps @props
-
-  componentWillReceiveProps: (nextProps)->
-    {usa, ussr} = nextProps
-    state = {usa, ussr}
-    @setState state
-    state
-
-
   render: ->
-    controlUSA = (@state.usa - @state.ussr) >= @props.stab
-    controlUSSR = (@state.ussr - @state.usa) >= @props.stab
-
+    controlUSA = (@props.usa - @props.ussr) >= @props.stab
+    controlUSSR = (@props.ussr - @props.usa) >= @props.stab
 
     gAttrs =
       transform: @props.transform
-      className: "node-#{@props.group} usa#{@state.usa} " + cx
+      className: "node-#{@props.group} " + cx
         'node': true
         'node-btl': @props.btl == 1
         'node-nonbtl': @props.btl != 1
@@ -34,8 +23,6 @@ module.exports = React.createClass
         'node-usa-control': controlUSA
         'node-ussr-control': controlUSSR
         'node-region-info': @props.regionInfo
-
-
 
     polyClassName =
         if @props.regionInfo
@@ -57,25 +44,60 @@ module.exports = React.createClass
             6
           else
             -(@props.node.height/2) + @props.node.titleFontSize
-       
 
     stabTextAttrs =
       className: "node-stab"
       x: (@props.node.width/2) - 10
       y: -(@props.node.height/2) + @props.node.titleFontSize + 1
+    stabText = @props.stab
+    if @props.superpower
+      stabText = [
+        R.tspan {}, "Btl "
+        R.tspan className:'numBtl', @props.stats.countries.btl
+      ]
+      stabTextAttrs.x = 0
+      stabTextAttrs.y += 1
+
+
 
     regionTextAttrs =
-      className: if @props.points then 'node-text' else 'hide'
+      className: if @props.points or @props.superpower then 'node-text' else 'hide'
       x: 0
       y: 10
       width: @props.node.width
 
-    regionText = if @props.points then @props.points.join(' ') else ''
+
+    regionText = ''
+    if @props.points
+      regionCx = (key)=>
+        obj =
+          usa: @props.stats.usa == key
+          ussr: @props.stats.ussr == key
+          both: @props.stats.ussr == key and @props.stats.usa == key
+        obj[key] = true
+        cx obj
+        
+      cCN = regionCx 'control'
+      dCN = regionCx 'domination'
+      pCN = regionCx 'presence'
+
+      regionText = [
+        R.tspan className:pCN, @props.points[0]
+        R.tspan className:'blank', " "
+        R.tspan className:dCN, @props.points[1]
+        R.tspan className:'blank', " "
+        R.tspan className:cCN, @props.points[2]
+      ]
+
+    if @props.superpower
+      psr = @props.stats.regions
+      regionText = [psr.presence, psr.domination, psr.control].join ' '
+      regionTextAttrs.y = 20
 
     R.g gAttrs, [
       # Node bg
       R.rect
-        className: 'node-bg ' + @state.usa
+        className: 'node-bg'
         width: @props.width
         height: @props.height
         title: Math.random()
@@ -106,11 +128,11 @@ module.exports = React.createClass
         y2: -@props.height/2 + @props.node.titleHeight
 
       R.text titleTextAttrs, @props.shortname
-      R.text stabTextAttrs, @props.stab
+      R.text stabTextAttrs, stabText
       R.text regionTextAttrs, regionText
 
-      BoardNodeIP node: @props.node, side: 'usa', ip: @state.usa, ctrl: controlUSA, handleIPClick: @handleIPClick, ref: 'ipusa'
-      BoardNodeIP node: @props.node, side: 'ussr', ip: @state.ussr, ctrl: controlUSSR, handleIPClick: @handleIPClick, ref: 'ipussr'
+      BoardNodeIP node: @props.node, side: 'usa', ip: @props.usa, ctrl: controlUSA, handleIPClick: @handleIPClick, ref: 'ipusa'
+      BoardNodeIP node: @props.node, side: 'ussr', ip: @props.ussr, ctrl: controlUSSR, handleIPClick: @handleIPClick, ref: 'ipussr'
     ]
 
 

@@ -280,7 +280,7 @@
     display:inline-block;
   }
   .card-nav-prev {
-    border-right:1px solid #ddd;
+    border-right:1px solid darken($mapBg,20%);
   }
 
   .cardList .card {

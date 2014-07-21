@@ -7,10 +7,13 @@ var gulp = require('gulp');
 var open = require('open');
 var wiredep = require('wiredep').stream;
 var runSequence = require('run-sequence');
+var mapStream = require('map-stream');
+var through = require('through2');
 
 // Load plugins
 var $ = require('gulp-load-plugins')();
 var browserify = require('browserify');
+
 
 var logErr = function(err) {
   console.log('ERR', err);
@@ -53,7 +56,7 @@ gulp.task('coffee', function() {
 
 gulp.task('browserify', function () {
   return browserify({
-      entries: ['./src/app.coffee'],
+      entries: ['./src/Twistrug.coffee'],
       extensions:['.coffee'] 
     })
     .on('error', logErr)
@@ -118,8 +121,6 @@ gulp.task('libs', function(){
 });
 
 
-
-
 gulp.task('data', function() {
   var jsFilter = $.filter('**/*.json');
   return gulp.src('app/data/**/*')
@@ -129,9 +130,33 @@ gulp.task('data', function() {
     .pipe(gulp.dest('dist/data'));
 });
 
+
+// Build lodash
+// DOES NOT WORK
+gulp.task('lodash', function(){
+  return gulp.src('src/**/*.coffee')
+    .pipe(function(opts) {
+
+      var stream = through.obj(function(file, enc, cb){
+        var contents = file.contents.toString();
+        var re = /_\.(\w*)/g;
+        var matches = contents.match(re);
+        this.push(file);
+        cb();
+      });
+
+      return stream;
+    })
+    .pipe(function(file, cb){
+      console.log(arguments);
+    });
+});
+
+
 gulp.task('fontello', function(){
   return gulp.src('app/fontello/**/*').pipe(gulp.dest('dist/fontello'));
 });
+
 
 // Build
 gulp.task('build', function() {
@@ -142,9 +167,6 @@ gulp.task('build', function() {
 
 });
 
-// Default task
-gulp.task('default', ['watch'], function () {
-});
 
 // Connect
 gulp.task('connect', $.connect.server({
@@ -199,4 +221,10 @@ gulp.task('watch', ['serve'], function () {
     gulp.watch('coffee/**/*.coffee', ['coffee']);
 
     gulp.watch('src/**/*.coffee', ['browserify']);
+});
+
+
+
+// Default task
+gulp.task('default', ['watch'], function () {
 });
