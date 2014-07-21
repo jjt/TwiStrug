@@ -53,7 +53,7 @@ getRegionStats = (ipStats, regions)->
       vRegion = villain[region.id]
       out =
         presence: hRegion.total > 0
-        domination: hRegion.non > 0 and hRegion.btl > vRegion.btl
+        domination: hRegion.non > 0 and hRegion.btl > vRegion.btl and hRegion.total > vRegion.total
         control: hRegion.btl == region.numBtl and hRegion.total > vRegion.total
 
     regionStats = _.zipObject _.pluck(regions, 'id'), regionStats
@@ -85,6 +85,13 @@ module.exports = React.createClass
   displayName: 'Board'
 
 
+  componentWillReceiveProps: ->
+    state = @getInitialState()
+    @setState state
+    if @props.stateHistory.states.length < 1
+      @props.stateHistory.add state, msg: 'Setup'
+
+
   getInitialState: ->
     gameState =
       game:
@@ -95,6 +102,11 @@ module.exports = React.createClass
         milops: [0,0]
         space: [0,0]
       ips: _.mapValues @props.countries, (c)-> [c.usa, c.ussr]
+
+    if @props.stateHistory.states.length > 0
+      gameState = @props.stateHistory.getCurrent().state
+    else
+      @props.stateHistory.add gameState, msg: 'Setup'
 
     gameState
 
@@ -134,12 +146,12 @@ module.exports = React.createClass
 
   componentWillMount: ->
     $(document).on 'keypress', @keypressHandler
-    @props.stateHistory.add @state, msg: 'New game'
 
 
   componentWillUnmount: ->
     $(document).off 'keypress', @keypressHandler
 
+  componentWillReceiveProps: ->
 
   keypressHandler: (ev)->
     kC = ev.keyCode

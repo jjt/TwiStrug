@@ -15,9 +15,19 @@ class StateHistory extends MicroEventClass
     states = @states.slice 0, @statesToSave
     json = JSON.stringify states
     localStorage.setItem @id, json
-    console.log "StateHistory stored #{states.length} states in #{json.length} characters"
 
-  add: (state, meta)->
+  load: ->
+    states = JSON.parse localStorage.getItem(@id)
+    if states and _.isArray states
+      @states = states
+      @current = states.length - 1
+      @latest = @current
+
+      @emit 'load'
+      @emit 'update'
+      return states
+
+  add: (state, meta={})->
     if @latest != @current
       @states = @states.slice(0,@current+1)
 

@@ -4,18 +4,33 @@ libs = require '../libs'
 module.exports  = React.createClass
   displayName: 'CardView'
   componentDidMount: ->
+    $(window).on 'scroll', @floatingCard
+    $(window).on 'resize', @floatingCard
+    $(document).on 'keypress', @handleKeyPress
     @getStrategy()
     @setWindowKeypressHandler()
 
   componentWillUnmount: ->
     window.onkeypress = null
+    $(window).off 'scroll', @floatingCard
+    $(window).off 'resize', @floatingCard
+    $(document).off 'keypress', @handleKeyPress
 
   componentDidUpdate: ->
     @getStrategy()
     #@setWindowKeypressHandler()
 
-  setWindowKeypressHandler: ->
-    window.onkeypress = (ev) =>
+  floatingCard: ->
+    $header = $ @refs.header.getDOMNode()
+    $img = $ @refs.cardImg.getDOMNode()
+    $win = $ window
+    ho = $header.offset()
+    isScrolling = $win.scrollTop() > ho.top + ho.height
+    console.log ho
+    $img.toggleClass 'card-img-scroll', isScrolling
+    $img.css 'right', "#{($win.width() - ho.width - 15) / 2}px"
+
+  handleKeyPress: (ev) ->
       kC = ev.keyCode
       if kC == 104 or kC == 72
         id = @props.prevCard.id
@@ -33,7 +48,7 @@ module.exports  = React.createClass
     card = @props.card
     imageUrl = "/images/cards/#{libs.zeroPad(card.id)}.jpg"
     R.div className: 'cardView', [
-      R.div className: 'page-header clearfix',
+      R.div className: 'page-header clearfix', ref: 'header',
         R.h2 className: libs.cardClassName(card), [
           R.span className:'card-ops', if card.ops < 1 then "S" else card.ops
           "#{card.title} "
@@ -56,7 +71,7 @@ module.exports  = React.createClass
           ]
         ]
       R.p {className: 'pull-left'}, card.text
-      R.img src: imageUrl, className: 'imgRight'
+      R.img src: imageUrl, className: 'imgRight', ref:'cardImg'
       R.div {className: 'card-strategy', id: 'card-strategy'}, [
         R.h3 {}, [
           'Strategic Notes from'

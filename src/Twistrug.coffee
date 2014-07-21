@@ -49,32 +49,6 @@ TwiStrug = React.createClass
       #'/board': @setView.bind this, 'board', 'Board'
       '/': @setView.bind this, 'home', 'Home'
 
-      '/board': ()=>
-        $.getJSON '/data/map-data.json', (mapData) =>
-          {countryPositions, countries, links, regionInfoNodes} = mapData
-
-          countries = countries.map (node)->
-            node.x = countryPositions[node.name].x
-            node.y = countryPositions[node.name].y
-            node.fixed = true
-            node
-          
-          regionInfoNodes = regionInfoNodes.map (node)->
-            node.regionInfo = true
-            node.fixed = true
-            node
-
-          nodes = _.union(countries, regionInfoNodes)
-          nodes = _.zipObject _.pluck(nodes, 'id'), nodes
-
-          gameId = Math.random().toString(36).slice(2)
-          stateHistory = new libs.StateHistory
-            id: gameId
-
-
-          boardProps = {gameId, mapData, countries, regionInfoNodes, links, nodes, stateHistory}
-
-          @setView 'board', 'Board', 'board', boardProps
 
       '/card/:id': (id)=>
         id = parseInt id, 10
@@ -95,6 +69,38 @@ TwiStrug = React.createClass
 
     router.on /cards\??(.*)/, stateRoute.bind this, 'cards', 'Cards', 'cards'
     #router.on /\??(.*)/, stateRoute.bind this, 'cards', 'Cards', 'cards'
+    router.on /board\/?(.*)/, (gameId)=>
+      if not gameId? or gameId == ''
+        return router.setRoute "board/#{Math.random().toString(36).slice(2)}"
+      $.getJSON '/data/map-data.json', (mapData) =>
+        {countryPositions, countries, links, regionInfoNodes} = mapData
+
+        countries = countries.map (node)->
+          node.x = countryPositions[node.name].x
+          node.y = countryPositions[node.name].y
+          node.fixed = true
+          node
+        
+        regionInfoNodes = regionInfoNodes.map (node)->
+          node.regionInfo = true
+          node.fixed = true
+          node
+
+        nodes = _.union(countries, regionInfoNodes)
+        nodes = _.zipObject _.pluck(nodes, 'id'), nodes
+        
+
+
+        stateHistory = new libs.StateHistory
+          id: gameId
+        stateHistory.load()
+
+        key = gameId
+
+        boardProps = {gameId, mapData, countries, regionInfoNodes, links, nodes, stateHistory, key}
+
+        @setView 'board', 'Board', 'board', boardProps
+
 
     router.init('/')
     return
@@ -119,7 +125,7 @@ TwiStrug = React.createClass
         when 'whoops' then pages.Whoops()
 
       if @state.view.name == 'board'
-        boardStateHistory = views.BoardStateHistory stateHistory: @state.view.data.stateHistory
+        boardStateHistory = views.BoardStateHistory stateHistory: @state.view.data.stateHistory, key:Math.random()
 
 
     R.div {}, [

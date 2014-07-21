@@ -13,7 +13,6 @@ BoardInfo = React.createClass
           it do anything automatically. Use it as you would a physical copy of the game."
         R.h3 {}, "Upcoming and potential features"
         R.ul {}, [
-          R.li {}, "Superpower stats such as the number of countries/battlegrounds controlled, globally and per region (Likely)"
           R.li {}, "Reminder chits for NATO, Red Scare/Purge, etc (Possibly)"
           R.li {}, "Keyboard shortcuts for game status and adjusting IP (Possibly)"
           R.li {}, "Virtual cards (shuffling, hands, etc) meaning TwiStrug is self-contained as a web application instead of requiring the physical cards (Mayyyybe)"

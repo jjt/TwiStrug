@@ -35,7 +35,6 @@ shEntry = (sh)->
 
   shSide = sh.meta.side
 
-
   switch sh.meta.type
     when 'ip'
       [ipUSA, ipUSSR] = sh.meta.ips
@@ -108,6 +107,7 @@ module.exports = React.createClass
           'StateHistory-latest': @props.stateHistory.latest == index
           'StateHistory-current': @props.stateHistory.current == index
       R.li attrs, shEntry(sh)
+
 
     divAttrs =
       className: cx

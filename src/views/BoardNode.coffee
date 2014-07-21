@@ -52,7 +52,7 @@ module.exports = React.createClass
     stabText = @props.stab
     if @props.superpower
       stabText = [
-        R.tspan {}, "Btl "
+        R.tspan {}, "Battle: "
         R.tspan className:'numBtl', @props.stats.countries.btl
       ]
       stabTextAttrs.x = 0
