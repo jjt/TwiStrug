@@ -16,8 +16,8 @@ module.exports = React.createClass
       onClick: @props.handleValClick.bind(null, @props.id, 'inc', @props.side)
 
     R.div {}, [
-      R.dt {}, @props.title
-      R.dd className: "StatusValue #{sideClass}", [
+      R.div className: "StatusLabel", @props.title
+      R.div className: "StatusValue #{sideClass}", [
         R.span decAttrs, '◀'
         R.span className: 'val', @props.val
         R.span incAttrs, '▶'

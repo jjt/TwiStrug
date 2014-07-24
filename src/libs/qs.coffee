@@ -51,6 +51,3 @@ module.exports =
        
   setQS: (qs)->
     window.location.hash = window.location.hash.split('?')[0] + '?' + qs
- 
-
-

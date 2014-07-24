@@ -305,7 +305,11 @@
     }
   }
   .cards-filter-by-id-clear {
-    top:0;
+    top:2px;
+    font-size:11px;
+    line-height:16px;
+    text-transform:uppercase;
+    font-weight:bold;
   }
 
   .card-img-scroll {

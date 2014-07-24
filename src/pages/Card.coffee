@@ -8,7 +8,6 @@ module.exports  = React.createClass
     $(window).on 'resize', @floatingCard
     $(document).on 'keypress', @handleKeyPress
     @getStrategy()
-    @setWindowKeypressHandler()
 
   componentWillUnmount: ->
     window.onkeypress = null
@@ -26,7 +25,6 @@ module.exports  = React.createClass
     $win = $ window
     ho = $header.offset()
     isScrolling = $win.scrollTop() > ho.top + ho.height
-    console.log ho
     $img.toggleClass 'card-img-scroll', isScrolling
     $img.css 'right', "#{($win.width() - ho.width - 15) / 2}px"
 

@@ -5,6 +5,7 @@ class StateHistory extends MicroEventClass
   constructor: (opts)->
     #_.assign this, MicroEvent
     @states = []
+    @staged = []
     @latest = null
     @current = null
     @show = false
@@ -67,11 +68,21 @@ class StateHistory extends MicroEventClass
     state = @getCurrent()
     state
 
+  goTo: (index)->
+    @current = index
+    @emit 'goTo', @getCurrent()
+    @emit 'update'
+
   get: (index)->
     _.cloneDeep @states[index]
 
   getCurrent: ()->
     @get(@current)
+
+  getPrev: ->
+    prev = @current - 1
+    if prev < 0 then prev = 0
+    return @get(prev)
 
   toggleVisible: (force, showTemp=false)->
     clearTimeout @showThenHideTimeout

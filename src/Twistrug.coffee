@@ -1,7 +1,10 @@
 R = React.DOM
+RCTG = React.addons.CSSTransitionGroup
 update = React.addons.update
 cx = React.addons.classSet
 $ = Zepto
+
+cardsData = require('../app/data/cards.json')
 
 
 # Add function to Zepto
@@ -19,14 +22,30 @@ libs = require './libs'
 pages = require './pages'
 views = require './views'
 
-NavView = require './views/Nav'
+router = require './router'
 
 TwiStrug = React.createClass
-  componentWillMount: ()->
-    $('#placeholder').hide()
+  mixins: [router]
 
   getInitialState: ->
     menuActive:null
+
+  componentWillMount: ()->
+    $('#placeholder').hide()
+
+  componentWillUpdate: ->
+    $slideIn = $(@refs.slideIn.getDOMNode())
+    $slideIn.removeClass 'slideIn-in'
+    #$mainView = $(@refs.mainView.getDOMNode())
+    #$mainView.removeClass 'mainView-out'
+
+  componentDidUpdate: -> @slideIn()
+
+  slideIn: ->
+    $slideIn = $(@refs.slideIn.getDOMNode())
+    setTimeout ->
+      $slideIn.addClass('slideIn-in')
+    , 10
 
   # Takes a view name and associated data
   setView: (name, pageTitle, menuActive='', data={}) ->
@@ -34,76 +53,6 @@ TwiStrug = React.createClass
     @setState
       view: {name, data}
       menuActive: menuActive
-
-  componentDidMount: ->
-    stateRoute = (name, pageTitle, menuActive, args)->
-      state = libs.qs.toObj args
-      # Convert filter ids from str -> number
-      if state?.filter?
-        state.filter = state.filter.map (el)->
-          parseInt el, 10
-      @setView name, pageTitle, menuActive,
-        state: state
-
-    router = new Router
-      #'/board': @setView.bind this, 'board', 'Board'
-      '/': @setView.bind this, 'home', 'Home'
-
-
-      '/card/:id': (id)=>
-        id = parseInt id, 10
-        nextId = if id == 110 then 1 else id + 1
-        prevId = if id == 1 then 110 else id - 1
-        card = _.find @props.cards, id: id
-        nextCard = _.find @props.cards, id: nextId
-        prevCard =  _.find @props.cards, id: prevId
-        pageTitle = "#{card.title} (##{card.id})"
-        @setView 'card', pageTitle, 'cards', {card, nextCard, prevCard}
-      
-      '/countries': @setView.bind this, 'countries', 'Countries', 'countries'
-      
-      '/about': @setView.bind this, 'about', 'About', 'about'
-
-    router.configure
-      notfound: @setView.bind this, 'whoops', 'Whoops'
-
-    router.on /cards\??(.*)/, stateRoute.bind this, 'cards', 'Cards', 'cards'
-    #router.on /\??(.*)/, stateRoute.bind this, 'cards', 'Cards', 'cards'
-    router.on /board\/?(.*)/, (gameId)=>
-      if not gameId? or gameId == ''
-        return router.setRoute "board/#{Math.random().toString(36).slice(2)}"
-      $.getJSON '/data/map-data.json', (mapData) =>
-        {countryPositions, countries, links, regionInfoNodes} = mapData
-
-        countries = countries.map (node)->
-          node.x = countryPositions[node.name].x
-          node.y = countryPositions[node.name].y
-          node.fixed = true
-          node
-        
-        regionInfoNodes = regionInfoNodes.map (node)->
-          node.regionInfo = true
-          node.fixed = true
-          node
-
-        nodes = _.union(countries, regionInfoNodes)
-        nodes = _.zipObject _.pluck(nodes, 'id'), nodes
-        
-
-
-        stateHistory = new libs.StateHistory
-          id: gameId
-        stateHistory.load()
-
-        key = gameId
-
-        boardProps = {gameId, mapData, countries, regionInfoNodes, links, nodes, stateHistory, key}
-
-        @setView 'board', 'Board', 'board', boardProps
-
-
-    router.init('/')
-    return
 
   render: ->
     # If the router hasn't kicked in, do nothing
@@ -127,11 +76,11 @@ TwiStrug = React.createClass
       if @state.view.name == 'board'
         boardStateHistory = views.BoardStateHistory stateHistory: @state.view.data.stateHistory, key:Math.random()
 
-
     R.div {}, [
-      NavView active: @state.menuActive
-      R.div className: 'container', mainView
+      views.Nav active: @state.menuActive
+      R.div ref: 'slideIn', className: 'container slideIn', mainView
       boardStateHistory
+      views.Footer()
     ]
     
 

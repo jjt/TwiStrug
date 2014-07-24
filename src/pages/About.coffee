@@ -22,7 +22,7 @@ module.exports = React.createClass
         Please support Twilight Strategy and its author, "
         R.em {}, "theory"
         ", by purchasing Twilight Struggle from Amazon on the sidebar of his
-        site, or by paying some money for the associated"
+        site, or by paying some money for the associated "
         R.a href: "https://leanpub.com/twilightstrategy", "e-book"
         ". It's Twilight Strategy in book form and deserves your money."
       ]

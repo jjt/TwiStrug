@@ -2,6 +2,9 @@ R = React.DOM
 cx = React.addons.classSet
 gameValDisplay = require '../libs/gameValDisplay'
 upperFirst = require '../libs/upperFirst'
+zeroPad = require '../libs/zeroPad'
+intToStrWithSign = require '../libs/intToStrWithSign'
+superpowerToIndex = require '../libs/superpowerToIndex'
 
 
 scoreSide = (score)->
@@ -11,17 +14,21 @@ scoreSide = (score)->
     return 'usa'
   ''
 
+
 shEntry = (sh)->
   roundSide = if sh.state.game.round % 2 == 0 then 'usa' else 'ussr'
   if sh.state.game.round == 0
     roundSide = ''
 
-  if sh.state.game.turn > 0
+  if sh.state.game.turn > 10
+    turn = "END"
+    round = ''
+  else if sh.state.game.turn > 0
     turn = "T#{gameValDisplay('turn', sh.state.game.turn)}-"
     if sh.state.game.round != 0
-      round = "R#{gameValDisplay('round', sh.state.game.round)}"
+      round = "AR#{gameValDisplay('round', sh.state.game.round)}"
     else
-      round = "H"
+      round = "HEAD"
   else
     turn = "SETUP"
     round = ''
@@ -31,7 +38,6 @@ shEntry = (sh)->
       turn
       R.span className: roundSide, round
     ]
-  
 
   shSide = sh.meta.side
 
@@ -41,9 +47,17 @@ shEntry = (sh)->
       country = sh.meta.country
       ctrlUSA = if (ipUSA - ipUSSR) >= country.stab then 'control' else ''
       ctrlUSSR = if (ipUSSR - ipUSA) >= country.stab then 'control' else ''
+      ips = if sh.meta.side == 'both'
+        [
+          R.span className: "usa ip", intToStrWithSign sh.meta.delta[0]
+          R.span className: "divider", '/'
+          R.span className: "ussr ip", intToStrWithSign sh.meta.delta[1]
+        ]
+      else
+        R.span className: "#{sh.meta.side} ip", intToStrWithSign sh.meta.delta[superpowerToIndex sh.meta.side]
       [
         turnRound
-        R.span className: "#{sh.meta.side} ip", sh.meta.delta
+        ips
         " in #{sh.meta.country.shortname} ("
         R.span className: "usa #{ctrlUSA}", sh.meta.ips[0]
         "/"
@@ -78,9 +92,9 @@ shEntry = (sh)->
       ]
     when 'turn'
       disp = "#{gameValDisplay(sh.meta.id, sh.meta.new, 'long')}"
-      if sh.state.game.turn != 0
+      if sh.state.game.turn != 0 and sh.state.game.turn <= 10
         disp = "Turn #{disp}"
-      R.span {}, [
+      R.span className:'strong', [
         turnRound
         disp
       ]
@@ -99,11 +113,16 @@ module.exports = React.createClass
       #@setState r: Math.random()
       #setTimeout fn, 2000
     #fn()
-    
+   
+  handleSHClick: (id)->
+    @props.stateHistory.goTo id
+
   render: ->
     stateComponents = @props.stateHistory.states.map (sh, index)=>
       attrs =
+        onClick: @handleSHClick.bind this, index
         className: cx
+          'clearfix': true
           'StateHistory-latest': @props.stateHistory.latest == index
           'StateHistory-current': @props.stateHistory.current == index
       R.li attrs, shEntry(sh)

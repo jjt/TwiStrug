@@ -6,8 +6,10 @@ Die = require './Die'
 
 module.exports = React.createClass
   displayName: 'BoardStatus'
-  handleBothClick: ->
+  rollDice: ->
     _.each @refs, (ref)-> ref.rollDie()
+  handleBothClick: ->
+    @rollDice()
   render: ->
   
     scoreSide = ''
@@ -31,13 +33,13 @@ module.exports = React.createClass
 
 
     R.div className: 'BoardStatus', [
-      R.dl className: 'col', [
+      R.div className: 'col', [
         statusValue 'score', 'Score', Math.abs(@props.score), scoreSide
         statusValue 'defcon', 'Defcon', @props.defcon
         statusValue 'milops', 'MilOps', @props.milops[0], 'usa'
         statusValue 'milops', 'MilOps', @props.milops[1], 'ussr'
       ]
-      R.dl className: 'col', [
+      R.div className: 'col', [
         statusValue 'turn', 'Turn', turn
         statusValue 'round', 'Round', round, roundSide
         statusValue 'space', 'Space', @props.space[0], 'usa'
@@ -45,7 +47,7 @@ module.exports = React.createClass
       ]
       R.div className: 'dice', [
         Die ref: 'die-usa', side: 'usa'
-        R.div className: 'roll-both', onClick: @handleBothClick, 'Roll dice'
+        R.a className: 'roll-both', onClick: @handleBothClick, 'Roll dice'
         Die ref: 'die-ussr', side: 'ussr'
       ]
     ]

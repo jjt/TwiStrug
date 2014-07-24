@@ -22,7 +22,7 @@ module.exports = React.createClass
       R.div className: 'row', [
         R.div className: 'col-md-6', [
           R.a className: 'home-link', href: '#/board', [
-            R.h3 {}, 'Playable Board'
+            R.h3 {}, 'Virtual Board'
             R.img className: 'img-responsive', src: '/images/home-board.jpg'
             R.p {}, 'Fully playable board - just add cards'
           ]

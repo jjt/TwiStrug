@@ -1,4 +1,5 @@
 R = React.DOM
+RCTG = React.addons.CSSTransitionGroup
 cx = React.addons.classSet
 libs = require '../libs'
 
@@ -84,14 +85,6 @@ superStats = (ips, countryArr, regionArr)->
 module.exports = React.createClass
   displayName: 'Board'
 
-
-  componentWillReceiveProps: ->
-    state = @getInitialState()
-    @setState state
-    if @props.stateHistory.states.length < 1
-      @props.stateHistory.add state, msg: 'Setup'
-
-
   getInitialState: ->
     gameState =
       game:
@@ -106,9 +99,28 @@ module.exports = React.createClass
     if @props.stateHistory.states.length > 0
       gameState = @props.stateHistory.getCurrent().state
     else
-      @props.stateHistory.add gameState, msg: 'Setup'
+      @props.stateHistory.add gameState,
+        type: 'turn'
+        id: 'turn'
+        new: 0
+        old: 0
 
     gameState
+
+  componentWillReceiveProps: ->
+    state = @getInitialState()
+    @setState state
+    #if @props.stateHistory.states.length < 1
+      #@props.stateHistory.add state,
+
+  componentWillMount: ->
+    $(document).on 'keypress', @keypressHandler
+    @props.stateHistory.on 'goTo', (state)=>
+      @setState state.state
+
+
+  componentWillUnmount: ->
+    $(document).off 'keypress', @keypressHandler
 
 
   handleValClick: (id, dir, side)->
@@ -144,29 +156,65 @@ module.exports = React.createClass
     @setState state
 
 
-  componentWillMount: ->
-    $(document).on 'keypress', @keypressHandler
-
-
-  componentWillUnmount: ->
-    $(document).off 'keypress', @keypressHandler
-
-  componentWillReceiveProps: ->
-
   keypressHandler: (ev)->
     kC = ev.keyCode
-    # (Z) Undo
-    if kC == 122 or kC == 90
-      prev = @props.stateHistory.undo()
-      @setState prev.state
-    # (Y) Redo
-    if kC == 121 or kC == 89
-      next = @props.stateHistory.redo()
-      @setState next.state
-    # (H) History show/hide
-    if kC == 104 or kC == 72
-      # Code smell - stateHistory shouldn't be aware of its visibilty
-      @props.stateHistory.toggleVisible()
+    
+    switch kC
+      # (c/C) Dice
+      when 99, 67
+        @refs.BoardStatus.rollDice()
+
+      # History
+      #-----------------
+      # (z/Z) Undo
+      when 122, 90
+        prev = @props.stateHistory.undo()
+        @setState prev.state
+      # (y/Y) Redo
+      when 121, 89
+        next = @props.stateHistory.redo()
+        @setState next.state
+      # (h/H) History show/hide
+      when 104, 72
+        # Code smell - stateHistory shouldn't be aware of its visibilty
+        @props.stateHistory.toggleVisible()
+
+      # Game properties
+      #------------------
+      # (t/T) Turn inc/dec
+      when 116, 84
+        dir = if kC == 116 then 'inc' else 'dec'
+        @handleValClick 'turn', dir
+      # (r/R) Round inc/dec
+      when 114, 82
+        dir = if kC == 114 then 'inc' else 'dec'
+        @handleValClick 'round', dir
+      # (S/s) Score inc/dec
+      when 115, 83
+        dir = if kC == 115 then 'inc' else 'dec'
+        @handleValClick 'score', dir
+      # (D/d) Defcon inc/dec
+      when 100, 68
+        dir = if kC == 100 then 'inc' else 'dec'
+        @handleValClick 'defcon', dir
+      # (M/m) USA MilOps inc/dec
+      when 109, 77
+        dir = if kC == 109 then 'inc' else 'dec'
+        @handleValClick 'milops', dir, 'usa'
+      # (O/o) USSR MilOps inc/dec
+      when 111, 79
+        dir = if kC == 111 then 'inc' else 'dec'
+        @handleValClick 'milops', dir, 'ussr'
+      # (P/p) USA Space inc/dec
+      when 112, 80
+        dir = if kC == 112 then 'inc' else 'dec'
+        @handleValClick 'space', dir, 'usa'
+      # (A/a) USSR Space inc/dec
+      when 97, 65
+        dir = if kC == 97 then 'inc' else 'dec'
+        @handleValClick 'space', dir, 'ussr'
+
+    return true
 
 
   handleIPClick: (nodeId, side, dir)->
@@ -190,7 +238,7 @@ module.exports = React.createClass
       side: side
       country: node
       ips: state.ips[nodeId]
-      delta:"#{sign}#{Math.abs delta}"
+      delta:delta
 
 
   render: ->
@@ -259,5 +307,5 @@ module.exports = React.createClass
         links
         nodes
       ]
-      BoardStatus _.assign {handleValClick: @handleValClick}, @state.game
+      BoardStatus _.assign {ref:'BoardStatus', handleValClick: @handleValClick}, @state.game
     ]

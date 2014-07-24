@@ -1904,7 +1904,11 @@ address {
       width: 70%;
       padding-right: 5rem; }
   .cards-filter-by-id-clear {
-    top: 0; }
+    top: 2px;
+    font-size: 11px;
+    line-height: 16px;
+    text-transform: uppercase;
+    font-weight: bold; }
   .card-img-scroll {
     position: fixed;
     top: 2rem;
@@ -2009,15 +2013,24 @@ a {
   a:hover {
     text-decoration: none; }
 
-p {
-  font-size: 18px; }
+p, li, dt, dd {
+  font-size: 16px; }
 
 label, .label {
-  font-weight: normal;
-  text-transform: uppercase; }
+  text-transform: uppercase;
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: bold; }
 
 .hide {
   display: none !important; }
+
+.slideIn {
+  opacity: 0.01; }
+
+.slideIn-in {
+  opacity: 1;
+  transition: opacity 0.1s ease-out; }
 
 .navbar {
   border: none;
@@ -2134,7 +2147,7 @@ a.home-link {
   stroke: #999;
   stroke-opacity: 0.6; }
 
-.Board text, .BoardStatus dt, .BoardStatus dd, .BoardStatus .prop-usa, .BoardStatus .prop-ussr, .BoardStatus .val, .BoardStatus .dec, .BoardStatus .inc, .BoardStatus .die, .BoardStatus .roll-both {
+.Board text, .BoardStatus .StatusLabel, .BoardStatus .StatusValue, .BoardStatus .prop-usa, .BoardStatus .prop-ussr, .BoardStatus .val, .BoardStatus .dec, .BoardStatus .inc, .BoardStatus .die, .BoardStatus .roll-both {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -2321,23 +2334,25 @@ a.home-link {
   bottom: 0; }
   .BoardStatus .col {
     float: left;
-    width: 50%; }
-  .BoardStatus dt {
+    width: 50%;
+    margin-bottom: 1.6rem; }
+  .BoardStatus .StatusLabel {
     cursor: default;
     width: 40%;
     float: left;
     clear: both;
+    font-size: 16px;
     padding-top: 5px;
     text-align: right;
     color: #7c7e67; }
-  .BoardStatus dd {
+  .BoardStatus .StatusValue {
     width: 60%;
     display: inline-block;
     text-align: left;
     font-size: 20px;
     font-weight: bold;
     line-height: 1.4; }
-    .BoardStatus dd .divider {
+    .BoardStatus .StatusValue .divider {
       opacity: 0.5; }
   .BoardStatus .prop-usa, .BoardStatus .prop-ussr {
     cursor: default; }
@@ -2392,7 +2407,9 @@ a.home-link {
   .BoardStatus .roll-both {
     vertical-align: middle;
     display: inline-block;
-    width: 75px;
+    font-size: 11px;
+    font-weight: bold;
+    width: 70px;
     text-align: center;
     line-height: 1;
     text-transform: uppercase;
@@ -2400,12 +2417,24 @@ a.home-link {
     margin: 0 4px;
     cursor: pointer; }
 
+.BoardPage-shortcuts {
+  margin-bottom: 0;
+  padding: 0; }
+  .BoardPage-shortcuts dt {
+    float: left;
+    width: 3.6rem;
+    margin-right: 1rem;
+    text-align: right; }
+  .BoardPage-shortcuts dd {
+    margin-bottom: 0.5rem; }
+
 .map-position-debug {
   display: none; }
 
 .StateHistory {
   position: fixed;
   width: 300px;
+  overflow-y: auto;
   left: -300px;
   background: #f3f4f1;
   top: 0;
@@ -2423,9 +2452,17 @@ a.home-link {
     padding-left: 1rem; }
   .StateHistory ul {
     overflow-y: auto;
-    padding: 0 0 0 25px; }
+    padding: 5px 0 8px 0; }
   .StateHistory li {
-    color: #666; }
+    color: #666;
+    font-size: 14px;
+    padding: 3px 0 2px 25px;
+    cursor: pointer; }
+    .StateHistory li:hover {
+      background: #dcddd5; }
+    .StateHistory li.StateHistory-current, .StateHistory li.StateHistory-current:hover {
+      box-shadow: 0 1px 7px 0px rgba(0, 0, 0, 0.2);
+      background: white; }
   .StateHistory .arrow {
     opacity: 0.4; }
   .StateHistory .strong {
@@ -2435,25 +2472,40 @@ a.home-link {
     font-weight: bold;
     font-size: 0.8em;
     display: block;
-    margin: 0 15px 0 10px; }
+    margin: 1px 15px 0 10px; }
   .StateHistory .control {
     font-weight: bold; }
   .StateHistory .ip {
     font-weight: bold;
     line-height: 1; }
 
-li.StateHistory-current:before {
-  content: '\27a4';
-  display: inline-block;
-  width: 15px;
-  margin-left: -18px;
-  margin-right: 3px; }
+.footer {
+  text-align: center;
+  width: 100%;
+  margin-top: 20px; }
+  .footer p {
+    font-size: 12px;
+    margin: 0; }
+  .footer a[href^="http://"]:after, .footer a[href^="https://"]:after {
+    display: none; }
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   /* Remove the padding we set earlier */
   /* Space out the masthead */
   /* Remove the bottom border on the jumbotron for visual effect */
+  html {
+    position: relative;
+    min-height: 100%; }
+  body {
+    /* Margin bottom by footer height */
+    margin-bottom: 50px; }
+  .footer {
+    position: absolute;
+    text-align: center;
+    bottom: 0;
+    margin-top: 0;
+    height: 50px; }
   .container {
     max-width: 1140px; }
   .header, .marketing, .footer {
