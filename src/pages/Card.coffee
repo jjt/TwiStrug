@@ -69,7 +69,7 @@ module.exports  = React.createClass
           ]
         ]
       R.p {className: 'pull-left'}, card.text
-      R.img src: imageUrl, className: 'imgRight', ref:'cardImg'
+      R.img key: imageUrl, src: imageUrl, className: 'imgRight', ref:'cardImg'
       R.div {className: 'card-strategy', id: 'card-strategy'}, [
         R.h3 {}, [
           'Strategic Notes from'

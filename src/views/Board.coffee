@@ -122,6 +122,62 @@ module.exports = React.createClass
   componentWillUnmount: ->
     $(document).off 'keypress', @keypressHandler
 
+  # Adds the state to the history
+  # This is to avoid having to deep-check the state in componentWillUpdate
+  setStateHistory: (state, meta)->
+    @props.stateHistory.add state, meta
+    @setState state
+
+  keypressHandler: (ev)->
+    kC = ev.keyCode
+    dir = if kC >= 97 then 'inc' else 'dec'
+
+    switch kC
+      # (c/C) Dice
+      when 99, 67
+        @refs.BoardStatus.rollDice()
+
+      # History
+      #-----------------
+      # (z/Z) Undo
+      when 122, 90
+        @undoHist()
+      # (y/Y) Redo
+      when 121, 89
+        @redoHist()
+      # (h/H) History show/hide
+      when 104, 72
+        @toggleHist()
+
+      # Game properties
+      #------------------
+      # (t/T) Turn inc/dec
+      when 116, 84
+        @handleValClick 'turn', dir
+      # (r/R) Round inc/dec
+      when 114, 82
+        @handleValClick 'round', dir
+      # (S/s) Score inc/dec
+      when 115, 83
+        @handleValClick 'score', dir
+      # (D/d) Defcon inc/dec
+      when 100, 68
+        @handleValClick 'defcon', dir
+      # (M/m) USA MilOps inc/dec
+      when 109, 77
+        @handleValClick 'milops', dir, 'usa'
+      # (O/o) USSR MilOps inc/dec
+      when 111, 79
+        @handleValClick 'milops', dir, 'ussr'
+      # (P/p) USA Space inc/dec
+      when 112, 80
+        @handleValClick 'space', dir, 'usa'
+      # (A/a) USSR Space inc/dec
+      when 97, 65
+        @handleValClick 'space', dir, 'ussr'
+
+    return true
+
 
   handleValClick: (id, dir, side)->
     state = this.state
@@ -149,74 +205,6 @@ module.exports = React.createClass
     @setStateHistory state, meta
 
 
-  # Adds the state to the history
-  # This is to avoid having to deep-check the state in componentWillUpdate
-  setStateHistory: (state, meta)->
-    @props.stateHistory.add state, meta
-    @setState state
-
-
-  keypressHandler: (ev)->
-    kC = ev.keyCode
-    
-    switch kC
-      # (c/C) Dice
-      when 99, 67
-        @refs.BoardStatus.rollDice()
-
-      # History
-      #-----------------
-      # (z/Z) Undo
-      when 122, 90
-        prev = @props.stateHistory.undo()
-        @setState prev.state
-      # (y/Y) Redo
-      when 121, 89
-        next = @props.stateHistory.redo()
-        @setState next.state
-      # (h/H) History show/hide
-      when 104, 72
-        # Code smell - stateHistory shouldn't be aware of its visibilty
-        @props.stateHistory.toggleVisible()
-
-      # Game properties
-      #------------------
-      # (t/T) Turn inc/dec
-      when 116, 84
-        dir = if kC == 116 then 'inc' else 'dec'
-        @handleValClick 'turn', dir
-      # (r/R) Round inc/dec
-      when 114, 82
-        dir = if kC == 114 then 'inc' else 'dec'
-        @handleValClick 'round', dir
-      # (S/s) Score inc/dec
-      when 115, 83
-        dir = if kC == 115 then 'inc' else 'dec'
-        @handleValClick 'score', dir
-      # (D/d) Defcon inc/dec
-      when 100, 68
-        dir = if kC == 100 then 'inc' else 'dec'
-        @handleValClick 'defcon', dir
-      # (M/m) USA MilOps inc/dec
-      when 109, 77
-        dir = if kC == 109 then 'inc' else 'dec'
-        @handleValClick 'milops', dir, 'usa'
-      # (O/o) USSR MilOps inc/dec
-      when 111, 79
-        dir = if kC == 111 then 'inc' else 'dec'
-        @handleValClick 'milops', dir, 'ussr'
-      # (P/p) USA Space inc/dec
-      when 112, 80
-        dir = if kC == 112 then 'inc' else 'dec'
-        @handleValClick 'space', dir, 'usa'
-      # (A/a) USSR Space inc/dec
-      when 97, 65
-        dir = if kC == 97 then 'inc' else 'dec'
-        @handleValClick 'space', dir, 'ussr'
-
-    return true
-
-
   handleIPClick: (nodeId, side, dir)->
     node = _.find @props.nodes, {id: nodeId}
     # Don't let the non-country nodes get updated 
@@ -239,6 +227,18 @@ module.exports = React.createClass
       country: node
       ips: state.ips[nodeId]
       delta:delta
+
+  handleHistoryClick: (type)->
+    @["#{type}Hist"]()
+
+  undoHist: ->
+    state = @props.stateHistory.undo()
+    @setState state.state
+  redoHist: ->
+    state = @props.stateHistory.redo()
+    @setState state.state
+  toggleHist: ->
+    @props.stateHistory.toggleVisible()
 
 
   render: ->
@@ -302,10 +302,15 @@ module.exports = React.createClass
 
       BoardNode props
 
+    boardStatusAttrs =
+      ref:'BoardStatus'
+      handleValClick: @handleValClick
+      handleHistoryClick: @handleHistoryClick
+
     R.div className: 'Board', [
       R.svg width:@props.width, height:@props.height, ref: 'svg', [
         links
         nodes
       ]
-      BoardStatus _.assign {ref:'BoardStatus', handleValClick: @handleValClick}, @state.game
+      BoardStatus _.assign boardStatusAttrs, @state.game
     ]

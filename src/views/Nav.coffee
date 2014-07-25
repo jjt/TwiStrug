@@ -10,7 +10,7 @@ module.exports = React.createClass
 
     li = (menuKey, href, title)=>
       R.li className: cx('active': @props.active == menuKey),
-        R.a 'data-before': '★', 'data-after': '★', href: href, title
+        R.a href: href, title
 
     R.nav className: "navbar ", role: "navigation",
       R.div className: "container", [

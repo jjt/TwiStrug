@@ -576,7 +576,7 @@ $saDark: desaturate(darken($sa,30%), 10%);
 
 .BoardStatus {
   width: 240px;
-  height: 210px;
+  height: 214px;
   position:absolute;
   right:50px;
   bottom:0;
@@ -584,7 +584,7 @@ $saDark: desaturate(darken($sa,30%), 10%);
   .col {
     float:left;
     width:50%;
-    margin-bottom:1.6rem;
+    margin-bottom:1rem;
   }
 
   .StatusLabel {
@@ -593,7 +593,7 @@ $saDark: desaturate(darken($sa,30%), 10%);
     width:40%;
     float:left;
     clear:both;
-    font-size:16px;
+    font-size:14px;
     padding-top:5px;
     text-align: right;
     color:darken($mapBg,50%); 
@@ -604,7 +604,7 @@ $saDark: desaturate(darken($sa,30%), 10%);
     width:60%;
     display:inline-block;
     text-align:left;
-    font-size:20px;
+    font-size:18px;
     font-weight:bold;
     line-height:1.4;
 
@@ -644,23 +644,50 @@ $saDark: desaturate(darken($sa,30%), 10%);
     font-size:15px;
     padding:2px 4px;
     cursor:pointer;
+    text-align:center;
 
     &:hover {
       color: darken($mapBg, 50%);
     }
   }
 
+
+  .historyControls {
+    margin-bottom:1rem;
+  }
+  .historyControls-undo,
+  .historyControls-redo,
+  .historyControls-history {
+    display:inline-block;
+    a {
+      @extend %noSelect;
+      cursor:pointer;
+      display:block;
+      text-align:center;
+      font-size:12px;
+      text-transform:uppercase;
+      font-weight:bold;
+    }
+  }
+  .historyControls-undo, .historyControls-redo {
+    width:25%;
+  }
+
+  .historyControls-history {
+    width:50%;
+  }
+
   .die {
     @extend %noSelect;
-    width:50px;
-    height:50px;
+    width:42px;
+    height:42px;
     margin:0 auto 0;
     display:inline-block;
-    border-radius: 10px;
+    border-radius: 6px;
     text-align:center;
     color: white;
     font-size:26px;
-    padding-top:6px;
+    padding-top:2px;
     vertical-align: middle;
     cursor:pointer;
     &.rolling {
@@ -681,11 +708,11 @@ $saDark: desaturate(darken($sa,30%), 10%);
     text-align: center;
   }
 
-  .roll-both {
+  .roll-dice {
     @extend %noSelect;
     vertical-align: middle;
     display:inline-block;
-    font-size:11px;
+    font-size:12px;
     font-weight:bold;
     width:70px;
     text-align: center;
@@ -722,6 +749,7 @@ $saDark: desaturate(darken($sa,30%), 10%);
 
 .StateHistory {
   position:fixed;
+  z-index:10;
   width:300px;
   overflow-y:auto;
   left:-300px;

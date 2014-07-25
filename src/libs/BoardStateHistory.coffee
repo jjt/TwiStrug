@@ -56,6 +56,10 @@ module.exports = class BoardStateHistory extends StateHistory
         if nm.old == nm.new
           pop = true
 
+    if @latest != @current
+      @states = @states.slice(0,@current+1)
+      @latest = @current
+
     if pop == true
       @states.pop()
       @current--
@@ -67,5 +71,6 @@ module.exports = class BoardStateHistory extends StateHistory
         meta: nm
         state: state
 
+    @save()
     @emit 'update'
 

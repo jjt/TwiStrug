@@ -32,7 +32,7 @@ module.exports = React.createClass
       @setState
         val: _.random(1,6)
         rolls: @state.rolls - 1
-      setTimeout @iterateRoll.bind(this), time
+      setTimeout @iterateRoll, time
 
   render: ->
     rolling = if @state.rolling and @state.rolls > 0 then 'rolling' else ''

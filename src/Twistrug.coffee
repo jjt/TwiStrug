@@ -74,13 +74,15 @@ TwiStrug = React.createClass
         when 'whoops' then pages.Whoops()
 
       if @state.view.name == 'board'
-        boardStateHistory = views.BoardStateHistory stateHistory: @state.view.data.stateHistory, key:Math.random()
+        boardStateHistory = views.BoardStateHistory
+          stateHistory: @state.view.data.stateHistory
+          key: "BoardStateHistory-#{@state.view.data.gameId}"
 
     R.div {}, [
-      views.Nav active: @state.menuActive
-      R.div ref: 'slideIn', className: 'container slideIn', mainView
+      views.Nav key:'nav', active: @state.menuActive
+      R.div key:'mainview', ref: 'slideIn', className: 'container slideIn', mainView
       boardStateHistory
-      views.Footer()
+      views.Footer key:'footer'
     ]
     
 

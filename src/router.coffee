@@ -51,8 +51,12 @@ module.exports =
     router.on /cards\??(.*)/, stateRoute.bind this, 'cards', 'Cards', 'cards'
 
     router.on /board\/?(.*)/, (gameId)=>
+      console.log 'BOARD ROUTE', gameId == ''
+      #if not gameId? or gameId == ''
+        #return router.setRoute "board/#{Math.random().toString(36).slice(2)}"
       if not gameId? or gameId == ''
-        return router.setRoute "board/#{Math.random().toString(36).slice(2)}"
+        gameId = Math.random().toString(36).slice(2)
+        window.history.replaceState null, "Board #{gameId}", "#/board/#{gameId}"
 
       {countryPositions, countries, links, regionInfoNodes} = mapData
 
@@ -70,8 +74,6 @@ module.exports =
       nodes = _.union(countries, regionInfoNodes)
       nodes = _.zipObject _.pluck(nodes, 'id'), nodes
       
-
-
       stateHistory = new libs.BoardStateHistory
         id: gameId
       stateHistory.load()

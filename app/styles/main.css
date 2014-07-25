@@ -2147,7 +2147,7 @@ a.home-link {
   stroke: #999;
   stroke-opacity: 0.6; }
 
-.Board text, .BoardStatus .StatusLabel, .BoardStatus .StatusValue, .BoardStatus .prop-usa, .BoardStatus .prop-ussr, .BoardStatus .val, .BoardStatus .dec, .BoardStatus .inc, .BoardStatus .die, .BoardStatus .roll-both {
+.Board text, .BoardStatus .StatusLabel, .BoardStatus .StatusValue, .BoardStatus .prop-usa, .BoardStatus .prop-ussr, .BoardStatus .val, .BoardStatus .dec, .BoardStatus .inc, .BoardStatus .historyControls-undo a, .BoardStatus .historyControls-redo a, .BoardStatus .historyControls-history a, .BoardStatus .die, .BoardStatus .roll-dice {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -2328,20 +2328,20 @@ a.home-link {
 
 .BoardStatus {
   width: 240px;
-  height: 210px;
+  height: 214px;
   position: absolute;
   right: 50px;
   bottom: 0; }
   .BoardStatus .col {
     float: left;
     width: 50%;
-    margin-bottom: 1.6rem; }
+    margin-bottom: 1rem; }
   .BoardStatus .StatusLabel {
     cursor: default;
     width: 40%;
     float: left;
     clear: both;
-    font-size: 16px;
+    font-size: 14px;
     padding-top: 5px;
     text-align: right;
     color: #7c7e67; }
@@ -2349,7 +2349,7 @@ a.home-link {
     width: 60%;
     display: inline-block;
     text-align: left;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
     line-height: 1.4; }
     .BoardStatus .StatusValue .divider {
@@ -2375,19 +2375,35 @@ a.home-link {
     color: #d3d3ca;
     font-size: 15px;
     padding: 2px 4px;
-    cursor: pointer; }
+    cursor: pointer;
+    text-align: center; }
     .BoardStatus .dec:hover, .BoardStatus .inc:hover {
       color: #7c7e67; }
+  .BoardStatus .historyControls {
+    margin-bottom: 1rem; }
+  .BoardStatus .historyControls-undo, .BoardStatus .historyControls-redo, .BoardStatus .historyControls-history {
+    display: inline-block; }
+    .BoardStatus .historyControls-undo a, .BoardStatus .historyControls-redo a, .BoardStatus .historyControls-history a {
+      cursor: pointer;
+      display: block;
+      text-align: center;
+      font-size: 12px;
+      text-transform: uppercase;
+      font-weight: bold; }
+  .BoardStatus .historyControls-undo, .BoardStatus .historyControls-redo {
+    width: 25%; }
+  .BoardStatus .historyControls-history {
+    width: 50%; }
   .BoardStatus .die {
-    width: 50px;
-    height: 50px;
+    width: 42px;
+    height: 42px;
     margin: 0 auto 0;
     display: inline-block;
-    border-radius: 10px;
+    border-radius: 6px;
     text-align: center;
     color: white;
     font-size: 26px;
-    padding-top: 6px;
+    padding-top: 2px;
     vertical-align: middle;
     cursor: pointer;
     transition: all 0.2s ease-out; }
@@ -2404,10 +2420,10 @@ a.home-link {
   .BoardStatus .dice {
     clear: both;
     text-align: center; }
-  .BoardStatus .roll-both {
+  .BoardStatus .roll-dice {
     vertical-align: middle;
     display: inline-block;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: bold;
     width: 70px;
     text-align: center;
@@ -2433,6 +2449,7 @@ a.home-link {
 
 .StateHistory {
   position: fixed;
+  z-index: 10;
   width: 300px;
   overflow-y: auto;
   left: -300px;
