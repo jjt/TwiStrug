@@ -2016,11 +2016,14 @@ a {
 p, li, dt, dd {
   font-size: 16px; }
 
-label, .label {
+label, .label, .StateHistory .close {
   text-transform: uppercase;
   font-size: 11px;
-  line-height: 16px;
-  font-weight: bold; }
+  font-weight: bold;
+  cursor: pointer; }
+
+label, .label {
+  line-height: 16px; }
 
 .hide {
   display: none !important; }
@@ -2335,7 +2338,7 @@ a.home-link {
   .BoardStatus .col {
     float: left;
     width: 50%;
-    margin-bottom: 1rem; }
+    margin-bottom: 0.4rem; }
   .BoardStatus .StatusLabel {
     cursor: default;
     width: 40%;
@@ -2380,11 +2383,12 @@ a.home-link {
     .BoardStatus .dec:hover, .BoardStatus .inc:hover {
       color: #7c7e67; }
   .BoardStatus .historyControls {
-    margin-bottom: 1rem; }
+    margin-bottom: 0.2rem; }
   .BoardStatus .historyControls-undo, .BoardStatus .historyControls-redo, .BoardStatus .historyControls-history {
     display: inline-block; }
     .BoardStatus .historyControls-undo a, .BoardStatus .historyControls-redo a, .BoardStatus .historyControls-history a {
       cursor: pointer;
+      padding: 0.8rem 0;
       display: block;
       text-align: center;
       font-size: 12px;
@@ -2466,7 +2470,9 @@ a.home-link {
   .StateHistory .ussr {
     color: #DC322F; }
   .StateHistory h3 {
-    padding-left: 1rem; }
+    padding-left: 1rem;
+    padding-top: 0;
+    margin-top: 1rem; }
   .StateHistory ul {
     overflow-y: auto;
     padding: 5px 0 8px 0; }
@@ -2480,6 +2486,9 @@ a.home-link {
     .StateHistory li.StateHistory-current, .StateHistory li.StateHistory-current:hover {
       box-shadow: 0 1px 7px 0px rgba(0, 0, 0, 0.2);
       background: white; }
+  .StateHistory .close {
+    margin-top: 1.4rem;
+    padding: 0.6rem 1.4rem; }
   .StateHistory .arrow {
     opacity: 0.4; }
   .StateHistory .strong {
@@ -2499,7 +2508,8 @@ a.home-link {
 .footer {
   text-align: center;
   width: 100%;
-  margin-top: 20px; }
+  margin-top: 20px;
+  color: #7c7e67; }
   .footer p {
     font-size: 12px;
     margin: 0; }

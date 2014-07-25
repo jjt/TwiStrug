@@ -94,11 +94,15 @@ p, li, dt, dd {
   font-size:16px; 
 }
 
-label, .label {
+%label {
   text-transform:uppercase;
   font-size:11px;
-  line-height:16px;
   font-weight:bold;
+  cursor:pointer;
+}
+label, .label {
+  @extend %label;
+  line-height:16px;
 }
 
 
@@ -584,7 +588,7 @@ $saDark: desaturate(darken($sa,30%), 10%);
   .col {
     float:left;
     width:50%;
-    margin-bottom:1rem;
+    margin-bottom:0.4rem;
   }
 
   .StatusLabel {
@@ -653,7 +657,7 @@ $saDark: desaturate(darken($sa,30%), 10%);
 
 
   .historyControls {
-    margin-bottom:1rem;
+    margin-bottom:0.2rem;
   }
   .historyControls-undo,
   .historyControls-redo,
@@ -662,6 +666,7 @@ $saDark: desaturate(darken($sa,30%), 10%);
     a {
       @extend %noSelect;
       cursor:pointer;
+      padding:0.8rem 0;
       display:block;
       text-align:center;
       font-size:12px;
@@ -768,6 +773,8 @@ $saDark: desaturate(darken($sa,30%), 10%);
 
   h3 {
     padding-left:1rem;
+    padding-top:0;
+    margin-top:1rem;
   }
   ul {
     overflow-y:auto;
@@ -787,6 +794,13 @@ $saDark: desaturate(darken($sa,30%), 10%);
         background:white;
       }
     }
+  }
+
+  .close {
+    @extend %label;
+    margin-top:1.4rem;
+    padding:0.6rem 1.4rem;
+
   }
 
   .arrow {
@@ -823,6 +837,7 @@ $saDark: desaturate(darken($sa,30%), 10%);
   text-align:center;
   width: 100%;
   margin-top:20px;
+  color: darken($mapBg, 50%);
   p {
     font-size:12px;
     margin:0;

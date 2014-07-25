@@ -98,4 +98,10 @@ class StateHistory extends MicroEventClass
     if @showTemp
       @showThenHideTimeout = setTimeout @toggleVisible.bind(this, false), time
 
+  hide: ->
+    @toggleVisible false
+
+  show: ->
+    @toggleVisible true
+
 module.exports = StateHistory

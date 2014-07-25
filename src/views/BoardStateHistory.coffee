@@ -117,6 +117,9 @@ module.exports = React.createClass
   handleSHClick: (id)->
     @props.stateHistory.goTo id
 
+  handleCloseHistory: ->
+    @props.stateHistory.hide()
+
   render: ->
     stateComponents = @props.stateHistory.states.map (sh, index)=>
       attrs =
@@ -134,6 +137,7 @@ module.exports = React.createClass
         'in': @props.stateHistory.show
 
     R.div divAttrs, [
+      R.a className: 'close pull-right', onClick: @handleCloseHistory, 'Close'
       R.h3 {}, "Action History"
       R.ul className: 'list-unstyled', stateComponents.reverse()
     ]
