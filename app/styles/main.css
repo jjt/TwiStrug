@@ -1716,7 +1716,16 @@ address {
 
 .cardList-groupHeading {
   color: #adaf9d;
-  text-transform: uppercase; }
+  text-transform: uppercase;
+  margin-bottom: 2rem; }
+
+.cardsView--filtered .cardList {
+  padding-top: 2rem; }
+.cardsView--filtered .cardList-groupHeading {
+  display: none; }
+
+.cardsView--fullText .cardList-groupHeading {
+  margin-bottom: 2rem; }
 
 .card-ops {
   display: inline-block;

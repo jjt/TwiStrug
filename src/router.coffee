@@ -17,6 +17,8 @@ module.exports =
       state = libs.qs.toObj args
       # Convert filter ids from str -> number
       if state?.filter?
+        if not _.isArray state.filter
+          state.filter = [state.filter]
         state.filter = state.filter.map (el)->
           parseInt el, 10
       @setView name, pageTitle, menuActive,

@@ -45,6 +45,7 @@
   clear:both;
 }
 
+
 .cardList .card-title {
   font-weight: normal;
   display: table-cell;
@@ -57,7 +58,25 @@
   //margin:-1rem 0 1rem 0; 
   color:darken($mapBg, 30%);
   text-transform:uppercase;
+  margin-bottom:2rem;
 }
+
+.cardsView--filtered {
+  .cardList {
+    padding-top:2rem;
+  }
+  .cardList-groupHeading {
+    display:none;
+  }
+}
+
+.cardsView--fullText {
+  .cardList-groupHeading {
+    margin-bottom:2rem;
+  }  
+}
+  
+
 
 .card-ops {
   display:inline-block;

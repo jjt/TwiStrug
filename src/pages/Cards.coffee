@@ -58,6 +58,9 @@ module.exports = React.createClass
     cards
 
   groupCards: (cards = @filterAndSortCards())->
+    if @state.filter?
+      return [cards]
+
     sort = @state.sort
     if sort == 'side'
       sort = 'owner'
@@ -111,7 +114,10 @@ module.exports = React.createClass
         s = if valInt > 1 then 's' else ''
         if valInt == 0 then 'Scoring' else "#{val} Op#{s}"
       when 'side'
-        val.toUpperCase()
+        if val == 0
+          'Neutral'
+        else
+          val.toUpperCase()
       when 'stage'
         switch valInt
           when 1 then 'Early War'
@@ -126,8 +132,6 @@ module.exports = React.createClass
         libs.qs.set 'sort', sort
       R.a {onClick, ref, className}, display
 
-    
-
     cards = @groupCards @filterAndSortCards()
 
     cardLists = _.map cards, (cards, val)=>
@@ -138,7 +142,12 @@ module.exports = React.createClass
           cards: cards
       ]
 
-    R.div className: 'cardsView' , [
+    cardsViewClass = cx
+      'cardsView': true
+      'cardsView--filtered': @state.filter?
+      'cardsView--fullText': @state.fullText
+
+    R.div className: cardsViewClass, [
       R.div className: 'page-header row', [
         R.div className: 'col-md-6', [
           R.div className: 'cardControls', [
