@@ -7,8 +7,7 @@ module.exports = React.createClass
       R.h2 {}, "About TwiStrug"
       R.img className: 'imgRight', src: "/images/tsbox.jpg"
       R.p {}, [
-        "TwiStrug was created for people who want to reference or learn about the
-        cards of "
+        "TwiStrug was created as a card reference for "
         R.a href:"http://en.wikipedia.org/wiki/Twilight_Struggle",
           "Twilight Struggle"
         ". It has since expanded to include a playable version of the board for

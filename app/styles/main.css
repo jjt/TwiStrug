@@ -1662,7 +1662,7 @@ address {
 
 
 .card, .card a {
-  color: #666; }
+  color: #505143; }
 
 .owner-us, .navbar-brand .twi, .owner-us a, .owner-us .navbar-brand .twi, .navbar-brand .owner-us .twi {
   color: #268BD2; }
@@ -1714,6 +1714,10 @@ address {
   margin: 0;
   vertical-align: middle; }
 
+.cardList-groupHeading {
+  color: #adaf9d;
+  text-transform: uppercase; }
+
 .card-ops {
   display: inline-block;
   -moz-box-sizing: border-box;
@@ -1725,7 +1729,7 @@ address {
   color: rgba(255, 255, 255, 0.9);
   border-bottom: 1px solid rgba(0, 0, 0, 0.3); }
   .owner-neutral .card-ops {
-    background: #777; }
+    background: #6c6d5a; }
   .owner-us .card-ops, .owner-us .navbar-brand .twi, .navbar-brand .owner-us .twi {
     background: #268BD2; }
   .owner-ussr .card-ops, .owner-ussr .navbar-brand .strug, .navbar-brand .owner-ussr .strug {
@@ -1780,6 +1784,18 @@ address {
   display: block;
   margin-top: 1rem; }
 
+.card.asiaScoring .card-text, .card.southeastAsiaScoring .card-text {
+  color: #b1640d; }
+
+.card.owner-us .card-text, .card.owner-us .navbar-brand .card.twi, .navbar-brand .card.owner-us .card.twi {
+  color: #217cb8; }
+
+.card.owner-ussr .card-text, .card.owner-ussr .navbar-brand .card.strug, .navbar-brand .card.owner-ussr .card.strug {
+  color: #b0201e; }
+
+.card.middleEastScoring .card-text {
+  color: #3e8db2; }
+
 .cardList .card-ops {
   position: absolute;
   top: 0;
@@ -1800,14 +1816,12 @@ address {
     .cardControls a:hover {
       text-decoration: underline; }
   .cardControls .active {
-    color: #333; }
+    color: #454639; }
 
-.cardView p, .cardView ul {
-  color: #666; }
 .cardView p a {
-  color: #428bca; }
+  color: #268BD2; }
   .cardView p a:hover, .cardView p a:focus {
-    color: #2a6596; }
+    color: #1d6a9e; }
 
 .cards-filter-by-id input {
   width: 100%; }
@@ -1819,7 +1833,7 @@ address {
   top: 2.3rem; }
 
 .card-nav {
-  color: #aaa;
+  color: #969881;
   width: 100%;
   display: table; }
 
@@ -1841,7 +1855,7 @@ address {
 
 
 .card-nav-label {
-  color: #999;
+  color: #7c7e67;
   font-size: 14px;
   display: block;
   margin-top: 0.2em; }
@@ -1999,7 +2013,7 @@ address {
 
 /* '' */
 html, body {
-  color: #666;
+  color: #616250;
   background-color: #f3f4f1; }
 
 body {
@@ -2016,7 +2030,7 @@ a {
 p, li, dt, dd {
   font-size: 16px; }
 
-label, .label, .StateHistory .close {
+label, .label, .BoardStatus .StatusLabel, .StateHistory .close {
   text-transform: uppercase;
   font-size: 11px;
   font-weight: bold;
@@ -2043,14 +2057,14 @@ label, .label {
   background-color: #fff; }
 
 .navbar-nav > li > a {
-  color: #999; }
+  color: #969881; }
   .navbar-nav > li > a:hover {
-    color: #333;
+    color: #616250;
     background: white;
     text-decoration: underline; }
 
 .navbar-nav > li.active > a {
-  color: #333; }
+  color: #616250; }
 
 .navbar-brand {
   padding: 0; }
@@ -2091,7 +2105,7 @@ label, .label {
     text-align: center;
     font-weight: bold;
     line-height: 1;
-    color: #aaa;
+    color: #adaf9d;
     text-shadow: 0px 1px 1px #fff, 0px -1px 1px #666; }
 
 @media screen and (min-width: 768px) {
@@ -2134,7 +2148,7 @@ a.home-link {
   padding: 2rem;
   display: block;
   text-align: center;
-  color: #666; }
+  color: #7c7e67; }
   a.home-link img {
     margin-bottom: 1rem; }
   a.home-link h3 {
@@ -2329,6 +2343,10 @@ a.home-link {
     stroke: #DC322F;
     stroke-dasharray: 6 3; }
 
+.BoardStatus .StatusLabel-shortcut, .BoardPage-shortcuts dt, .StateHistory .close .StatusLabel-shortcut {
+  font-weight: bold;
+  color: #ca2522; }
+
 .BoardStatus {
   width: 240px;
   height: 214px;
@@ -2344,7 +2362,7 @@ a.home-link {
     width: 40%;
     float: left;
     clear: both;
-    font-size: 14px;
+    font-size: 12px;
     padding-top: 5px;
     text-align: right;
     color: #7c7e67; }

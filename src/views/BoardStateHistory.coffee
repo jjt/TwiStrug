@@ -137,7 +137,10 @@ module.exports = React.createClass
         'in': @props.stateHistory.show
 
     R.div divAttrs, [
-      R.a className: 'close pull-right', onClick: @handleCloseHistory, 'Close'
+      R.a className: 'close pull-right', onClick: @handleCloseHistory, [
+        'Close '
+        R.span className: 'StatusLabel-shortcut', '(h)'
+      ]
       R.h3 {}, "Action History"
       R.ul className: 'list-unstyled', stateComponents.reverse()
     ]

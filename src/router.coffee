@@ -51,7 +51,6 @@ module.exports =
     router.on /cards\??(.*)/, stateRoute.bind this, 'cards', 'Cards', 'cards'
 
     router.on /board\/?(.*)/, (gameId)=>
-      console.log 'BOARD ROUTE', gameId == ''
       #if not gameId? or gameId == ''
         #return router.setRoute "board/#{Math.random().toString(36).slice(2)}"
       if not gameId? or gameId == ''

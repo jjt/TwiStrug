@@ -1,7 +1,7 @@
 /**
  * @license
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
- * Build: `lodash include="assign,cloneDeep,contains,each,find,isArray,map,mapValues,merge,pick,pluck,random,reduce,sortBy,union,zipObject," exports="global" -o app/scripts/lodash/lodash.custom.js`
+ * Build: `lodash include="assign,cloneDeep,contains,each,find,groupBy,isArray,map,mapValues,merge,pick,pluck,random,reduce,sortBy,union,zipObject," exports="global" -o app/scripts/lodash/lodash.custom.js`
  * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
  * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -1357,6 +1357,38 @@
   }
 
   /**
+   * Creates a function that aggregates a collection, creating an object composed
+   * of keys generated from the results of running each element of the collection
+   * through a callback. The given `setter` function sets the keys and values
+   * of the composed object.
+   *
+   * @private
+   * @param {Function} setter The setter function.
+   * @returns {Function} Returns the new aggregator function.
+   */
+  function createAggregator(setter) {
+    return function(collection, callback, thisArg) {
+      var result = {};
+      callback = lodash.createCallback(callback, thisArg, 3);
+
+      if (isArray(collection)) {
+        var index = -1,
+            length = collection.length;
+
+        while (++index < length) {
+          var value = collection[index];
+          setter(result, value, callback(value, index, collection), collection);
+        }
+      } else {
+        baseEach(collection, function(value, key, collection) {
+          setter(result, value, callback(value, key, collection), collection);
+        });
+      }
+      return result;
+    };
+  }
+
+  /**
    * Creates a function that, when called, either curries or invokes `func`
    * with an optional `this` binding and partially applied arguments.
    *
@@ -2290,6 +2322,45 @@
   }
 
   /**
+   * Creates an object composed of keys generated from the results of running
+   * each element of a collection through the callback. The corresponding value
+   * of each key is an array of the elements responsible for generating the key.
+   * The callback is bound to `thisArg` and invoked with three arguments;
+   * (value, index|key, collection).
+   *
+   * If a property name is provided for `callback` the created "_.pluck" style
+   * callback will return the property value of the given element.
+   *
+   * If an object is provided for `callback` the created "_.where" style callback
+   * will return `true` for elements that have the properties of the given object,
+   * else `false`
+   *
+   * @static
+   * @memberOf _
+   * @category Collections
+   * @param {Array|Object|string} collection The collection to iterate over.
+   * @param {Function|Object|string} [callback=identity] The function called
+   *  per iteration. If a property name or object is provided it will be used
+   *  to create a "_.pluck" or "_.where" style callback, respectively.
+   * @param {*} [thisArg] The `this` binding of `callback`.
+   * @returns {Object} Returns the composed aggregate object.
+   * @example
+   *
+   * _.groupBy([4.2, 6.1, 6.4], function(num) { return Math.floor(num); });
+   * // => { '4': [4.2], '6': [6.1, 6.4] }
+   *
+   * _.groupBy([4.2, 6.1, 6.4], function(num) { return this.floor(num); }, Math);
+   * // => { '4': [4.2], '6': [6.1, 6.4] }
+   *
+   * // using "_.pluck" callback shorthand
+   * _.groupBy(['one', 'two', 'three'], 'length');
+   * // => { '3': ['one', 'two'], '5': ['three'] }
+   */
+  var groupBy = createAggregator(function(result, value, key) {
+    (hasOwnProperty.call(result, key) ? result[key] : result[key] = []).push(value);
+  });
+
+  /**
    * Creates an array of values by running each element in the collection
    * through the callback. The callback is bound to `thisArg` and invoked with
    * three arguments; (value, index|key, collection).
@@ -2889,6 +2960,7 @@
   lodash.forEach = forEach;
   lodash.forIn = forIn;
   lodash.forOwn = forOwn;
+  lodash.groupBy = groupBy;
   lodash.keys = keys;
   lodash.map = map;
   lodash.mapValues = mapValues;

@@ -3,7 +3,7 @@
 
 
 .card {
-  &, & a { color:#666; }
+  &, & a { color:darken($mapBg, 66%); }
 
 }
 
@@ -53,6 +53,12 @@
   vertical-align:middle;
 }
 
+.cardList-groupHeading {
+  //margin:-1rem 0 1rem 0; 
+  color:darken($mapBg, 30%);
+  text-transform:uppercase;
+}
+
 .card-ops {
   display:inline-block;
   box-sizing: border-box;
@@ -64,7 +70,7 @@
   border-bottom:1px solid rgba(#000,0.3);
 
   .owner-neutral & {
-    background: #777;
+    background: darken($mapBg, 56%);
   }
 
   .owner-us & {
@@ -126,8 +132,24 @@
     display:block;
     margin-top:1rem;
   }
-
 }
+
+.card.asiaScoring .card-text, .card.southeastAsiaScoring .card-text {
+  color:desaturate(darken($asia, 20%),7%);
+}
+
+.card.owner-us .card-text {
+  color:darken($solarized-blue, 6%); 
+}
+
+.card.owner-ussr .card-text {
+  color:darken($solarized-red, 12%); 
+}
+
+.card.middleEastScoring .card-text {
+  color:darken($middleEast, 25%);
+}
+
 
 .cardList .card-ops {
   position: absolute;
@@ -155,7 +177,7 @@
     }
   }
   .active {
-    color:#333;
+    color:darken($mapBg,70%);
   }
   label {
   }
@@ -163,12 +185,11 @@
 
 .cardView {
   p, ul {
-    color:#666;
   }
   p a {
-    color:#428bca;
+    color:$solarized-blue;
     &:hover, &:focus {
-      color:#2a6596;
+      color:darken($solarized-blue,12%);
     }
   }
 }
@@ -194,7 +215,7 @@
 
 
 .card-nav {
-  color: #aaa;
+  color: darken($mapBg,40%);
   width:100%;
   display:table;
 }
@@ -221,7 +242,7 @@
 
 }
 .card-nav-label {
-  color:#999;
+  color:darken($mapBg,50%);
   font-size:14px;
   display:block;
   margin-top:0.2em;

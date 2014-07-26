@@ -23,10 +23,10 @@ module.exports = React.createClass
         R.br()
         'It owes its existence to '
         R.a href:'http://twilightstrategy.com', 'Twilight Strategy'
-        '. Comments, suggestions, and problems can be aimed at '
-        R.a href:'http://twitter.com/jasontrill', '@jasontrill'
-        ' or '
+        '. Comments, suggestions, and bug reports can be aimed at '
         R.a href:'http://github.com/jjt/twistrug/issues', 'Github'
+        ' or '
+        R.a href:'http://twitter.com/jasontrill', '@jasontrill'
         '.'
       ]
     ]

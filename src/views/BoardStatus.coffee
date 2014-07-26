@@ -4,6 +4,31 @@ cx = React.addons.classSet
 BoardStatusValue = require './BoardStatusValue'
 Die = require './Die'
 
+table =
+  'Score': 'S'
+  'Defcon': 'D'
+  'MilOps-usa': 'M'
+  'MilOps-ussr': 'O'
+  'Turn': 'T'
+  'Round': 'R'
+  'Space-usa': 'p'
+  'Space-ussr': 'a'
+  'Action History': 'H'
+  'Roll dice': 'c'
+
+hilightShortcutLetter = (title,side='')->
+  titleSide = title
+  if side != '' and title != 'Round'
+    titleSide = "#{title}-#{side}"
+
+  [head, tail] = title.split table[titleSide]
+  mid = table[titleSide]
+  [
+    head
+    R.span className: 'StatusLabel-shortcut', mid
+    tail
+  ]
+
 module.exports = React.createClass
   displayName: 'BoardStatus'
 
@@ -32,6 +57,7 @@ module.exports = React.createClass
 
     # Shorthand for the components
     statusValue = (id='', title='', val='', side='')=>
+      title = hilightShortcutLetter title, side
       BoardStatusValue _.assign {id, title, val, side}, handleValClick: @props.handleValClick
 
 
@@ -50,15 +76,22 @@ module.exports = React.createClass
       ]
       R.div className: 'historyControls', [
         R.span className: 'historyControls-undo',
-          R.a onClick: @props.handleHistoryClick.bind(null,'undo'), 'Undo'
+          R.a onClick: @props.handleHistoryClick.bind(null,'undo'), [
+            R.span className:'StatusLabel-shortcut', '(z)'
+            ' Undo'
+          ]
         R.span className: 'historyControls-history',
-          R.a onClick: @props.handleHistoryClick.bind(null,'toggle'), 'Action History'
+          R.a onClick: @props.handleHistoryClick.bind(null,'toggle'),
+            hilightShortcutLetter 'Action History'
         R.span className: 'historyControls-redo',
-          R.a onClick: @props.handleHistoryClick.bind(null,'redo'), 'Redo'
+          R.a onClick: @props.handleHistoryClick.bind(null,'redo'), [
+            'Redo '
+            R.span className:'StatusLabel-shortcut', '(y)'
+          ]
       ]
       R.div className: 'dice', [
         Die ref: 'die-usa', side: 'usa'
-        R.a className: 'roll-dice', onClick: @handleBothClick, 'Roll dice'
+        R.a className: 'roll-dice', onClick: @handleBothClick, hilightShortcutLetter('Roll dice')
         Die ref: 'die-ussr', side: 'ussr'
       ]
     ]

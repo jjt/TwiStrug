@@ -57,6 +57,13 @@ module.exports = React.createClass
 
     cards
 
+  groupCards: (cards = @filterAndSortCards())->
+    sort = @state.sort
+    if sort == 'side'
+      sort = 'owner'
+    if @state.sort
+      return _.groupBy(cards, sort)
+         
 
   handleFullText: ->
     @setState
@@ -97,7 +104,19 @@ module.exports = React.createClass
 
     libs.qs.delete 'filter'
 
-
+  sortGroupTitle: (sort = @state.sort, val)->
+    valInt = parseInt val, 10
+    switch sort
+      when 'ops'
+        s = if valInt > 1 then 's' else ''
+        if valInt == 0 then 'Scoring' else "#{val} Op#{s}"
+      when 'side'
+        val.toUpperCase()
+      when 'stage'
+        switch valInt
+          when 1 then 'Early War'
+          when 2 then 'Mid War'
+          when 3 then 'Late war'
 
   render: ->
     sortLink = (sort, display) =>
@@ -107,6 +126,17 @@ module.exports = React.createClass
         libs.qs.set 'sort', sort
       R.a {onClick, ref, className}, display
 
+    
+
+    cards = @groupCards @filterAndSortCards()
+
+    cardLists = _.map cards, (cards, val)=>
+      R.div {}, [
+        R.h2 className:'cardList-groupHeading', @sortGroupTitle @state.sort, val
+        CardList
+          fullText: @state.fullText
+          cards: cards
+      ]
 
     R.div className: 'cardsView' , [
       R.div className: 'page-header row', [
@@ -144,7 +174,5 @@ module.exports = React.createClass
           R.a {className:'cards-filter-by-id-clear', onClick:@handleCardFilterClear}, 'clear'
         ]
       ]
-      CardList
-        cards: @filterAndSortCards()
-        fullText: @state.fullText
+      cardLists
     ]

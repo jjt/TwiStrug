@@ -69,7 +69,7 @@ $fontello-dir: "../fontello/font";
 
 
 html, body {
-  color: #666;
+  color: darken($mapBg,60%);
   background-color:$mapBg;
 }
 
@@ -132,16 +132,16 @@ label, .label {
 }
 
 .navbar-nav > li > a {
-  color:#999;
+  color:darken($mapBg, 40%);
   &:hover {
-    color:#333;
+    color:darken($mapBg, 60%);
     background:white;
     text-decoration:underline;
   }
 }
 
 .navbar-nav > li.active > a {
-  color:#333;
+  color:darken($mapBg, 60%);
 }
 
 .navbar-brand {
@@ -193,7 +193,7 @@ label, .label {
     text-align:center;
     font-weight:bold;
     line-height:1;
-    color:#aaa;
+    color:darken($mapBg, 30%);
     text-shadow: 0px 1px 1px #fff, 0px -1px 1px #666;
   }
 }
@@ -250,7 +250,7 @@ a.home-link {
   padding: 2rem;
   display:block;
   text-align: center;
-  color:#666;
+  color:darken($mapBg, 50%);
   img {
     margin-bottom:1rem;
   }
@@ -577,6 +577,10 @@ $saDark: desaturate(darken($sa,30%), 10%);
 
 }
 
+%StatusLabelShortcut {
+    font-weight:bold;
+    color: darken($solarized-red,6%);
+}
 
 .BoardStatus {
   width: 240px;
@@ -597,10 +601,15 @@ $saDark: desaturate(darken($sa,30%), 10%);
     width:40%;
     float:left;
     clear:both;
-    font-size:14px;
+    font-size:12px;
     padding-top:5px;
     text-align: right;
     color:darken($mapBg,50%); 
+    @extend %label;
+  }
+
+  .StatusLabel-shortcut {
+    @extend %StatusLabelShortcut;
   }
 
   .StatusValue {
@@ -738,6 +747,7 @@ $saDark: desaturate(darken($sa,30%), 10%);
     width:3.6rem;
     margin-right:1rem;
     text-align:right;
+    @extend %StatusLabelShortcut;
   }
 
   dd {
@@ -800,7 +810,10 @@ $saDark: desaturate(darken($sa,30%), 10%);
     @extend %label;
     margin-top:1.4rem;
     padding:0.6rem 1.4rem;
-
+    
+    .StatusLabel-shortcut {
+      @extend %StatusLabelShortcut;
+    }
   }
 
   .arrow {

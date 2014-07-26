@@ -10,4 +10,4 @@ module.exports = React.createClass
       'cardList': true
       'cardListFull': @props.fullText
     R.div {className}, @props.cards.map (el) =>
-      Card _.merge el, showFullText: @props.fullText
+      Card _.merge el, key: "card#{el.id}", showFullText: @props.fullText

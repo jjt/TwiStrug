@@ -60,16 +60,16 @@ BoardInfo = React.createClass
       ]
       R.div className: 'col-lg-6', [
         R.h3 {}, "Instructions"
-        R.p {}, "To add/remove influnce in a country, click in the top/bottom of the influence space on the desired side (USA on left, USSR on right)."
-        R.p {}, "To undo/redo one or more actions, press Z/Y one or more times."
         R.p {}, [
           "This game, "
           R.a href: "#/board/#{@props.id}",
             R.code {}, @props.id
-          ", will be saved in your browser and will survive a refresh or loading at a later time. "
+          ", will be saved in your browser and can be bookmarked and resumed at a later time, even if you close your browser. "
           R.a onClick: @scrollTop, href:'#/board', 'Click here to start a new game'
           '.'
         ]
+        R.p {}, "To add/remove influnce in a country, click in the top/bottom of the influence space on the desired side (USA on left, USSR on right)."
+        R.p {}, "To undo/redo one or more actions, press Z/Y one or more times."
         R.p {}, "The dice can be rolled individually by clicking on them, or as a pair by clicking on \"ROLL DICE\"."
         R.p {}, "Each superpower box (USA, USSR) shows the number of controlled battleground countries on top. On the bottom it shows the number of regions in which the power has presence, domination, and control. For example, if the USSR had \"4 2 1\", it would mean that they have presence in 4 regions, dominate 2, and control 1."
       ]
