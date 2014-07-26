@@ -1,13 +1,13 @@
 TwiStrug
 ========
 
-TwiStrug is a companion application for [Twilight Struggle](http://en.wikipedia.org/wiki/Twilight_Struggle).
+TwiStrug is a companion application for [Twilight Struggle](http://en.wikipedia.org/wiki/Twilight_Struggle). It would not exist without [Twilight Strategy](http://twilightstrategy.com).
 
-http://twistrug.jjt.io/
+#### http://twistrug.jjt.io/
 
 ### Virtual Board
 
-http://twistrug.jjt.io/images/home-board.jpg
+![TwiStrug Board](http://twistrug.jjt.io/images/home-board.jpg)
 
 It's basically an on-screen version of the board, so if you add cards you'll be able to play a full game.
 
@@ -27,6 +27,6 @@ It's definitely beta, and don't be surprised if it doesn't work on lower version
 
 ### Card Explorer
 
-http://twistrug.jjt.io/images/home-cards.jpg
+![TwiStrug Card Explorer](http://twistrug.jjt.io/images/home-cards.jpg)
 
 Explore the cards and learn some strategies from the excellent [Twilight Strategy](http://twilightstrategy.com). I love *theory*'s site, but got overwhelmed that I had to look up 6 other cards for every card strategy page. So I made this to help myself learn.
