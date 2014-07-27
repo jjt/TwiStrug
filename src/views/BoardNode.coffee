@@ -6,6 +6,24 @@ BoardNodeIP = require './BoardNodeIP'
 module.exports = React.createClass
   displayName: 'BoardNode'
 
+  shouldComponentUpdate: (nextProps)->
+    # Assume country
+    shouldIt = nextProps.usa != @props.usa or nextProps.ussr != @props.ussr
+    # Continent labels
+    if @props.points?
+      shouldIt = nextProps.stats.usa != @props.stats.usa or
+        nextProps.stats.ussr != @props.stats.ussr
+    # Superpower labels
+    if @props.superpower
+      nPS = nextProps.stats
+      tPS = @props.stats
+      shouldIt = nPS.countries.btl != tPS.countries.btl or
+        nPS.regions.presence != tPS.regions.presence or
+        nPS.regions.domination != tPS.regions.domination or
+        nPS.regions.control != tPS.regions.control
+
+    shouldIt
+
   handleIPClick: (side, dir)->
     @props.handleIPClick @props.id, side, dir
 
@@ -24,13 +42,6 @@ module.exports = React.createClass
         'node-ussr-control': controlUSSR
         'node-region-info': @props.regionInfo
 
-    polyClassName =
-        if @props.regionInfo
-          'hide'
-        else switch @props.group
-          when 'eu' then 'node-bg-eu'
-          when 'sea' then 'node-bg-sea'
-          else 'hide'
 
     titleTextAttrs =
       className: "node-title-text"
@@ -45,10 +56,12 @@ module.exports = React.createClass
           else
             -(@props.node.height/2) + @props.node.titleFontSize
 
+
     stabTextAttrs =
       className: "node-stab"
       x: (@props.node.width/2) - 10
       y: -(@props.node.height/2) + @props.node.titleFontSize + 1
+
     stabText = @props.stab
     if @props.superpower
       stabText = [
@@ -94,6 +107,21 @@ module.exports = React.createClass
       regionText = [psr.presence, psr.domination, psr.control].join ' '
       regionTextAttrs.y = 20
 
+    # Background for E+W Europe and SE Asia
+    polyClassName = switch @props.group
+      when 'eu' then 'node-bg-eu'
+      when 'sea' then 'node-bg-sea'
+      else null
+
+    if polyClassName? and not @props.points?
+      poly = R.polygon
+        className: polyClassName
+        points: [
+            "#{-@props.width/2},#{@props.height/2}"
+            "#{@props.width/2},#{@props.height/2}"
+            "#{@props.width/2},#{-@props.height/2 + @props.titleHeight}"
+          ].join ' '
+
     R.g gAttrs, [
       # Node bg
       R.rect
@@ -104,14 +132,8 @@ module.exports = React.createClass
         x: -@props.width/2
         y: -@props.height/2
 
-      R.polygon
-          className: polyClassName
-          points: [
-              "#{-@props.width/2},#{@props.height/2}"
-              "#{@props.width/2},#{@props.height/2}"
-              "#{@props.width/2},#{-@props.height/2 + @props.titleHeight}"
-            ].join ' '
-             
+      poly
+
       R.rect
         className: 'node-title-bg'
         width: @props.width

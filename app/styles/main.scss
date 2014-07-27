@@ -451,9 +451,9 @@ $saDark: desaturate(darken($sa,30%), 10%);
 
   .node-region-info {
     .node-bg {
-      fill:rgba(#000,0);
-      stroke:rgba(#000,0.1);
-      stroke-width:0;
+      fill:$mapBg;
+      stroke:darken($mapBg, 30%);
+      stroke-width:1px;
     }
     .node-stab {
       display:none;
@@ -493,19 +493,19 @@ $saDark: desaturate(darken($sa,30%), 10%);
     }
 
     text {}
-    //&.node-eu text { fill:$weuDark; }
-    //&.node-as text { fill:$asDark; }
-    //&.node-me text { fill:$meDark; }
-    //&.node-ca text { fill:$caDark; }
-    //&.node-sa text { fill:$saDark; }
-    //&.node-af text { fill:$afDark; }
+    &.node-eu text { fill:$weuDark; }
+    &.node-as text { fill:$asDark; }
+    &.node-me text { fill:$meDark; }
+    &.node-ca text { fill:$caDark; }
+    &.node-sa text { fill:$saDark; }
+    &.node-af text { fill:$afDark; }
 
-    //&.node-eu .node-bg { fill:lighten($weu, 20%); }
-    //&.node-as .node-bg { fill:lighten($as, 20%); }
-    //&.node-me .node-bg { fill:lighten($me, 15%); }
-    //&.node-ca .node-bg { fill:lighten($ca, 10%); }
-    //&.node-sa .node-bg { fill:lighten($sa, 25%); }
-    //&.node-af .node-bg { fill:lighten($af, 15%); }
+    &.node-eu .node-bg { stroke: $weuDark; }
+    &.node-as .node-bg { stroke: $asDark; }
+    &.node-me .node-bg { stroke: $meDark; }
+    &.node-ca .node-bg { stroke: $caDark; }
+    &.node-sa .node-bg { stroke: $saDark; }
+    &.node-af .node-bg { stroke: $afDark; }
   }
 
   .node-ip-usa, .node-ip-ussr {

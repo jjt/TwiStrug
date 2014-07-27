@@ -3,6 +3,9 @@ R = React.DOM
 module.exports = React.createClass
   displayName: 'Die'
 
+  shouldComponentUpdate: (nP, nS)->
+    nS.rolling != @state.rolling or nS.val != @state.val
+
   getDefaultProps: ->
     rolls: 30
 

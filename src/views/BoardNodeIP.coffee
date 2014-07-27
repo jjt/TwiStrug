@@ -7,6 +7,9 @@ module.exports = React.createClass
   handleIPClick: (dir, ev)->
     @props.handleIPClick @props.side, dir
 
+  shouldComponentUpdate: (nP)->
+    nP.ip != @props.ip
+
   render: ->
     position = if @props.side == 'usa' then 1 else 0
 

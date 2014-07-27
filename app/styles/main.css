@@ -2284,9 +2284,9 @@ a.home-link {
     fill: #DC322F;
     stroke: #DC322F; }
   .Board .node-region-info .node-bg {
-    fill: rgba(0, 0, 0, 0);
-    stroke: rgba(0, 0, 0, 0.1);
-    stroke-width: 0; }
+    fill: #f3f4f1;
+    stroke: #adaf9d;
+    stroke-width: 1px; }
   .Board .node-region-info .node-stab {
     display: none; }
   .Board .node-region-info .node-title-bg {
@@ -2312,6 +2312,30 @@ a.home-link {
       font-weight: bold; }
     .Board .node-region-info .node-text tspan.blank {
       letter-spacing: 4px; }
+  .Board .node-region-info.node-eu text {
+    fill: #553086; }
+  .Board .node-region-info.node-as text {
+    fill: #894f0c; }
+  .Board .node-region-info.node-me text {
+    fill: #3a5a69; }
+  .Board .node-region-info.node-ca text {
+    fill: #677234; }
+  .Board .node-region-info.node-sa text {
+    fill: #4b5a3f; }
+  .Board .node-region-info.node-af text {
+    fill: #72621a; }
+  .Board .node-region-info.node-eu .node-bg {
+    stroke: #553086; }
+  .Board .node-region-info.node-as .node-bg {
+    stroke: #894f0c; }
+  .Board .node-region-info.node-me .node-bg {
+    stroke: #3a5a69; }
+  .Board .node-region-info.node-ca .node-bg {
+    stroke: #677234; }
+  .Board .node-region-info.node-sa .node-bg {
+    stroke: #4b5a3f; }
+  .Board .node-region-info.node-af .node-bg {
+    stroke: #72621a; }
   .Board .node-ip-usa text, .Board .node-ip-ussr text {
     text-anchor: middle;
     stroke-width: 0;
