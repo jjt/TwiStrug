@@ -105,7 +105,9 @@ label, .label {
   line-height:16px;
 }
 
-
+h1,h2,h3 {
+  color: darken($mapBg, 50%);
+}
 
 
 
@@ -180,15 +182,13 @@ label, .label {
 }
 
 #placeholder {
-  display:table;
   height:100%;
   width:100%;
   position:absolute;
   top:0;
   background:rgba(#000,0.2);
   p {
-    display:table-cell;
-    vertical-align:middle;
+    margin-top:15rem;
     font-size:6rem;
     text-align:center;
     font-weight:bold;

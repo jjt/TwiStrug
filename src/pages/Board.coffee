@@ -34,44 +34,38 @@ BoardInfo = React.createClass
       
   render: ->
     R.div {}, [
-      R.div className: 'col-lg-6', [
-        R.div className: 'row', [
+      R.div className: 'row', [
+        R.div className: 'col-lg-6', [
           R.h3 {}, 'Virtual Twilight Struggle board'
           R.p {}, "This is a fully playable board with a more
             compact layout to fit on smaller screens, like a Chromebook or iPad. Just add cards
             and you'll be able to play anywhere. The board isn't aware of the rules, nor will
             it do anything automatically. Use it as you would a physical copy of the game."
-        ]
-        R.div className: 'row', [
+          R.p {}, [
+            "This game, "
+            R.a href: "#/board/#{@props.id}",
+              R.code {}, @props.id
+            ", will be saved in your browser and can be bookmarked and resumed at a later time, even if you close your browser. "
+            R.a onClick: @scrollTop, href:'#/board', 'Click here to start a new game'
+            '.'
+          ]
+          R.p {}, "The URL contains the complete state of the board and will
+            update with each action taken. This can be used to play remotely
+            with someone by sending the URL back and forth. For
+            instance, if you were the USSR starting a new game, you would place your
+            initial influence then copy the URL and send it to your opponent. They
+            would go to that URL, place their influence and send the new URL back to you. Lather, rinse, repeat."
           R.h3 {}, "Keyboard Shortcuts"
           R.dl className:'BoardPage-shortcuts col-lg-6', _.reduce @props.shortcuts.left, reduceShortcuts, []
           R.dl className:'BoardPage-shortcuts col-lg-6', _.reduce @props.shortcuts.right, reduceShortcuts, []
         ]
-        #R.div className: 'row', [
-          #R.h3 {}, "Upcoming and potential features"
-          #R.ul {}, [
-            #R.li {}, "Reminder chits for NATO, Red Scare/Purge, etc (Possibly)"
-            #R.li {}, "Keyboard shortcuts for adding/removing IP (Possibly)"
-            #R.li {}, "Virtual cards (shuffling, hands, etc) meaning TwiStrug is self-contained as a web application instead of requiring the physical cards (Mayyyybe)"
-            #R.li {}, "Remote games (Unlikely but possible)"
-            #R.li {}, "Complete game a la Wargameroom and Vassal (Unlikely but possible)"
-          #]
-        #]
-      ]
-      R.div className: 'col-lg-6', [
-        R.h3 {}, "Instructions"
-        R.p {}, [
-          "This game, "
-          R.a href: "#/board/#{@props.id}",
-            R.code {}, @props.id
-          ", will be saved in your browser and can be bookmarked and resumed at a later time, even if you close your browser. "
-          R.a onClick: @scrollTop, href:'#/board', 'Click here to start a new game'
-          '.'
+        R.div className: 'col-lg-6', [
+          R.h3 {}, "Instructions"
+          R.p {}, "To add/remove influnce in a country, click in the top/bottom of the influence space on the desired side (USA on left, USSR on right)."
+          R.p {}, "To undo/redo one or more actions, press Z/Y one or more times."
+          R.p {}, "The dice can be rolled individually by clicking on them, or as a pair by clicking on \"ROLL DICE\"."
+          R.p {}, "Each superpower box (USA, USSR) shows the number of controlled battleground countries on top. On the bottom it shows the number of regions in which the power has presence, domination, and control. For example, if the USSR had \"4 2 1\", it would mean that they have presence in 4 regions, dominate 2, and control 1."
         ]
-        R.p {}, "To add/remove influnce in a country, click in the top/bottom of the influence space on the desired side (USA on left, USSR on right)."
-        R.p {}, "To undo/redo one or more actions, press Z/Y one or more times."
-        R.p {}, "The dice can be rolled individually by clicking on them, or as a pair by clicking on \"ROLL DICE\"."
-        R.p {}, "Each superpower box (USA, USSR) shows the number of controlled battleground countries on top. On the bottom it shows the number of regions in which the power has presence, domination, and control. For example, if the USSR had \"4 2 1\", it would mean that they have presence in 4 regions, dominate 2, and control 1."
       ]
     ]
 
@@ -105,7 +99,7 @@ module.exports = React.createClass
   render: ->
     R.div className: 'BoardView', [
       Board @props
-      R.div className: 'row', BoardInfo id: @props.gameId
+      BoardInfo id: @props.gameId
       R.textarea
         className: 'map-position-debug'
         ref:'debug'

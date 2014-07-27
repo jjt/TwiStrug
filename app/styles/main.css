@@ -1715,8 +1715,6 @@ address {
   vertical-align: middle; }
 
 .cardList-groupHeading {
-  color: #adaf9d;
-  text-transform: uppercase;
   margin-bottom: 2rem; }
 
 .cardsView--filtered .cardList {
@@ -2048,6 +2046,9 @@ label, .label, .BoardStatus .StatusLabel, .StateHistory .close {
 label, .label {
   line-height: 16px; }
 
+h1, h2, h3 {
+  color: #7c7e67; }
+
 .hide {
   display: none !important; }
 
@@ -2101,15 +2102,13 @@ label, .label {
   max-width: 100%; }
 
 #placeholder {
-  display: table;
   height: 100%;
   width: 100%;
   position: absolute;
   top: 0;
   background: rgba(0, 0, 0, 0.2); }
   #placeholder p {
-    display: table-cell;
-    vertical-align: middle;
+    margin-top: 15rem;
     font-size: 6rem;
     text-align: center;
     font-weight: bold;

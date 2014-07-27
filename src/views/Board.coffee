@@ -94,12 +94,18 @@ module.exports = React.createClass
         defcon: 5
         milops: [0,0]
         space: [0,0]
-      ips: _.mapValues @props.countries, (c)-> [c.usa, c.ussr]
+      ips: _.map @props.countries, (c)-> [c.usa, c.ussr]
 
-    if @props.stateHistory.states.length > 0
+    if @props.incomingState
+      gameState = @props.incomingState
+      @props.stateHistory.add gameState,
+        type: 'load'
+        id: 'load'
+    else if @props.stateHistory.states.length > 0
       gameState = @props.stateHistory.getCurrent().state
     else
       @props.stateHistory.add gameState,
+        newGame: true
         type: 'turn'
         id: 'turn'
         new: 0
@@ -295,7 +301,7 @@ module.exports = React.createClass
           usa: superpowerStats.regions.usa[props.id]
           ussr: superpowerStats.regions.ussr[props.id]
       
-      countryId = countryData.id
+      countryId = parseInt countryData.id, 10
       if countryId of @state.ips
         props.usa = @state.ips[countryId][0]
         props.ussr = @state.ips[countryId][1]

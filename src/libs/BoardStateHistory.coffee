@@ -1,5 +1,6 @@
 StateHistory = require './StateHistory'
 superpowerToIndex = require './superpowerToIndex'
+stateEncoder = require './stateEncoder'
 
 module.exports = class BoardStateHistory extends StateHistory
   add: (state, meta)->
@@ -72,5 +73,10 @@ module.exports = class BoardStateHistory extends StateHistory
         state: state
 
     @save()
-    @emit 'update'
+    @emit 'update', @getCurrent()
 
+
+  # Turn state into a minimal representation
+  encodeCurrent: ()->
+    stateEncoder.encode @getCurrent()
+    

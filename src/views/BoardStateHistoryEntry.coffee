@@ -42,19 +42,27 @@ shEntry = (sh)->
   shSide = sh.meta.side
 
   switch sh.meta.type
+    # Load state from url
+    when 'load'
+      [
+        turnRound
+        R.span className:'strong', 'Loaded state from URL'
+      ]
     when 'ip'
       [ipUSA, ipUSSR] = sh.meta.ips
       country = sh.meta.country
       ctrlUSA = if (ipUSA - ipUSSR) >= country.stab then 'control' else ''
       ctrlUSSR = if (ipUSSR - ipUSA) >= country.stab then 'control' else ''
-      ips = if sh.meta.side == 'both'
-        [
+
+      if sh.meta.side == 'both'
+        ips = [
           R.span className: "usa ip", intToStrWithSign sh.meta.delta[0]
           R.span className: "divider", '/'
           R.span className: "ussr ip", intToStrWithSign sh.meta.delta[1]
         ]
       else
-        R.span className: "#{sh.meta.side} ip", intToStrWithSign sh.meta.delta[superpowerToIndex sh.meta.side]
+        ips = R.span className: "#{sh.meta.side} ip", intToStrWithSign sh.meta.delta[superpowerToIndex sh.meta.side]
+
       [
         turnRound
         ips

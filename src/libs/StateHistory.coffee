@@ -14,6 +14,7 @@ class StateHistory extends MicroEventClass
   
   save: ->
     states = @states.slice 0, @statesToSave
+    
     json = JSON.stringify states
     localStorage.setItem @id, json
 
@@ -47,31 +48,31 @@ class StateHistory extends MicroEventClass
 
     @save()
 
-    @emit 'add', newState, 'a', 'b', 'c'
-    @emit 'update'
+    @emit 'add', newState, 'YEAH'
+    @emit 'update', newState, 'YEAH'
   
   undo: ()->
     if @current > 0
       @current--
-    @emit 'undo'
-    @emit 'update'
     @showThenHide()
     state = @getCurrent()
+    @emit 'undo'
+    @emit 'update', state
     state
   
   redo: ()->
     if @current < @latest
       @current++
-    @emit 'redo'
-    @emit 'update'
     @showThenHide()
     state = @getCurrent()
+    @emit 'redo'
+    @emit 'update', state
     state
 
   goTo: (index)->
     @current = index
     @emit 'goTo', @getCurrent()
-    @emit 'update'
+    @emit 'update', @getCurrent()
 
   get: (index)->
     _.cloneDeep @states[index]

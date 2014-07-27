@@ -114,7 +114,10 @@ module.exports = React.createClass
         s = if valInt > 1 then 's' else ''
         if valInt == 0 then 'Scoring' else "#{val} Op#{s}"
       when 'side'
-        if val == 0
+        console.log val
+        if val == 'us'
+          'USA'
+        else if val == 'neutral'
           'Neutral'
         else
           val.toUpperCase()

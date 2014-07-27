@@ -32,6 +32,7 @@ module.exports =
       notfound: @setView.bind this, 'whoops', 'Whoops'
       #'/board': @setView.bind this, 'board', 'Board'
 
+
     router.on '/', @setView.bind this, 'home', 'Home'
 
 
@@ -44,19 +45,22 @@ module.exports =
       prevCard =  _.find @props.cards, id: prevId
       pageTitle = "#{card.title} (##{card.id})"
       @setView 'card', pageTitle, 'cards', {card, nextCard, prevCard}
-    
+
+
     router.on '/countries', @setView.bind this, 'countries', 'Countries', 'countries'
-    
+
+
     router.on '/about', @setView.bind this, 'about', 'About', 'about'
 
 
     router.on /cards\??(.*)/, stateRoute.bind this, 'cards', 'Cards', 'cards'
 
-    router.on /board\/?(.*)/, (gameId)=>
+
+    router.on /board\/?(\w*)\/?(.*)/, (gameId, incomingState)=>
       #if not gameId? or gameId == ''
         #return router.setRoute "board/#{Math.random().toString(36).slice(2)}"
       if not gameId? or gameId == ''
-        gameId = Math.random().toString(36).slice(2)
+        gameId = Math.random().toString(36).slice(2,10)
         window.history.replaceState null, "Board #{gameId}", "#/board/#{gameId}"
 
       {countryPositions, countries, links, regionInfoNodes} = mapData
@@ -79,9 +83,20 @@ module.exports =
         id: gameId
       stateHistory.load()
 
+      # When state changes, update the url
+      stateHistory.on 'update', (state)->
+        if not state? or state.meta.newGame
+          return
+        stateEnc = stateHistory.encodeCurrent()
+        window.history.replaceState null, "Board #{gameId}", "#/board/#{gameId}/#{stateEnc}"
+
+
+      if incomingState? and incomingState
+        incomingState = libs.stateEncoder.decode incomingState
+
       key = gameId
 
-      boardProps = {gameId, mapData, countries, regionInfoNodes, links, nodes, stateHistory, key}
+      boardProps = {gameId, mapData, countries, regionInfoNodes, links, nodes, stateHistory, key, incomingState}
 
       @setView 'board', 'Board', 'board', boardProps
 

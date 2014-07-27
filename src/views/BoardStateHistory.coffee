@@ -11,7 +11,8 @@ module.exports = React.createClass
     r: 0
 
   componentDidMount: ->
-    @props.stateHistory.on 'update', @forceUpdate.bind this
+    @props.stateHistory.on 'update', =>
+      @forceUpdate()
 
     #fn = ()=>
       #@setState r: Math.random()
