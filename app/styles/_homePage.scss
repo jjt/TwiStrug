@@ -1,0 +1,30 @@
+.blurb {
+  color:theon(4);
+  text-align:center;
+  margin:3rem 1rem;
+}
+
+a.home-link {
+  padding: 2rem;
+  display:block;
+  text-align: center;
+  color: theon(5);
+  img {
+    margin-bottom:1rem;
+  }
+  h3 {
+    margin-top:0;
+  }
+  &:hover {
+    color:white;
+    background:$solarized-blue;
+    & h3 {
+      color:white;
+    }
+  }
+
+  &.home-link-cards:hover {
+    background:$solarized-red;
+  }
+}
+

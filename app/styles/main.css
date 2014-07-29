@@ -1,3 +1,52 @@
+@font-face {
+  font-family: 'fontello';
+  src: url("../fontello/font/fontello.eot?49137534");
+  src: url("../fontello/font/fontello.eot?49137534#iefix") format('embedded-opentype'), url("../fontello/font/fontello.woff?49137534") format('woff'), url("../fontello/font/fontello.ttf?49137534") format('truetype'), url("../fontello/font/fontello.svg?49137534#fontello") format('svg');
+  font-weight: normal;
+  font-style: normal; }
+
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'fontello';
+    src: url($fontello-dir + '/fontello.svg?49137534#fontello') format('svg');
+  }
+}
+*/
+[class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "fontello";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: 0.2em;
+  text-align: center;
+  /* opacity: .8; */
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: 0.2em;
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */ }
+
+.icon-link-ext:before {
+  content: '\e801'; }
+
+/* '' */
+.icon-link-ext-alt:before {
+  content: '\e800'; }
+
+/* '' */
 /*! normalize.css v3.0.0 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif;
@@ -1645,6 +1694,174 @@ address {
 
 
 
+.Board text, .BoardStatus .StatusLabel, .BoardStatus .StatusValue, .BoardStatus .prop-usa, .BoardStatus .prop-ussr, .BoardStatus .val, .BoardStatus .dec, .BoardStatus .inc, .BoardStatus .historyControls-undo a, .BoardStatus .historyControls-redo a, .BoardStatus .historyControls-history a, .BoardStatus .die, .BoardStatus .roll-dice {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
+
+.StateHistory .close, .BoardStatus .StatusLabel, label, .label {
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: bold;
+  cursor: pointer; }
+
+.slideIn {
+  opacity: 0.01; }
+
+.slideIn-in {
+  opacity: 1;
+  transition: opacity 0.1s ease-out; }
+
+.page-header {
+  margin-top: 2rem;
+  position: relative;
+  border-bottom: 1px solid #c2c2bd; }
+
+.hide {
+  display: none !important; }
+
+.imgRight {
+  display: block;
+  border: 1px solid #ccc;
+  margin: 2rem auto;
+  max-width: 100%; }
+
+@media screen and (min-width: 768px) {
+  .imgRight {
+    float: right;
+    margin: 0 0 1rem 1rem; } }
+
+html, body {
+  color: #494946;
+  background-color: #f3f3f1; }
+
+body {
+  padding-bottom: 4rem; }
+
+.navbar {
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 0;
+  background-color: #fff; }
+
+.navbar-nav > li > a {
+  color: #85847a; }
+  .navbar-nav > li > a:hover {
+    background: white;
+    text-decoration: underline; }
+
+.navbar-nav > li.active > a {
+  color: #242423; }
+
+.navbar-brand {
+  padding: 0; }
+  .navbar-brand .twi, .navbar-brand .strug {
+    display: inline-block;
+    padding: 15px; }
+  .navbar-brand .twi {
+    padding-right: 0; }
+  .navbar-brand .strug {
+    padding-left: 0; }
+  .navbar-brand:hover .twi {
+    color: #1e70a7; }
+  .navbar-brand:hover .strug {
+    color: #b9221f; }
+
+img.fluid {
+  width: 100%; }
+
+.footer {
+  text-align: center;
+  width: 100%;
+  margin-top: 20px;
+  color: #61615c; }
+  .footer p {
+    font-size: 12px;
+    margin: 0; }
+  .footer a[href^="http://"]:after, .footer a[href^="https://"]:after {
+    display: none; }
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+  /* Remove the padding we set earlier */
+  /* Space out the masthead */
+  /* Remove the bottom border on the jumbotron for visual effect */
+  html {
+    position: relative;
+    min-height: 100%; }
+  body {
+    /* Margin bottom by footer height */
+    margin-bottom: 50px; }
+  .footer {
+    position: absolute;
+    text-align: center;
+    bottom: 0;
+    margin-top: 0;
+    height: 50px; }
+  .container {
+    max-width: 1140px; }
+  .header, .marketing, .footer {
+    padding-left: 0;
+    padding-right: 0; }
+  .header {
+    margin-bottom: 30px; }
+  .jumbotron {
+    border-bottom: 0; }
+  #placeholder p {
+    font-size: 10rem; } }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1662,7 +1879,7 @@ address {
 
 
 .card, .card a {
-  color: #505143; }
+  color: #727269; }
 
 .owner-us, .navbar-brand .twi, .owner-us a, .owner-us .navbar-brand .twi, .navbar-brand .owner-us .twi {
   color: #268BD2; }
@@ -1680,7 +1897,7 @@ address {
   color: #5ca5c6; }
 
 .centralAmericaScoring, .centralAmericaScoring a {
-  color: #5c633f; }
+  color: #798253; }
 
 .southAmericaScoring, .southAmericaScoring a {
   color: #587543; }
@@ -1736,7 +1953,7 @@ address {
   color: rgba(255, 255, 255, 0.9);
   border-bottom: 1px solid rgba(0, 0, 0, 0.3); }
   .owner-neutral .card-ops {
-    background: #6c6d5a; }
+    background: #61615c; }
   .owner-us .card-ops, .owner-us .navbar-brand .twi, .navbar-brand .owner-us .twi {
     background: #268BD2; }
   .owner-ussr .card-ops, .owner-ussr .navbar-brand .strug, .navbar-brand .owner-ussr .strug {
@@ -1783,7 +2000,8 @@ address {
 
 .cardList .card-text {
   display: none;
-  font-size: 14px; }
+  font-size: 14px;
+  color: #61615c; }
 
 .cardList.cardListFull .card {
   height: auto; }
@@ -1798,10 +2016,13 @@ address {
   color: #217cb8; }
 
 .card.owner-ussr .card-text, .card.owner-ussr .navbar-brand .card.strug, .navbar-brand .card.owner-ussr .card.strug {
-  color: #b0201e; }
+  color: #c22321; }
 
 .card.middleEastScoring .card-text {
-  color: #3e8db2; }
+  color: #357897; }
+
+.card.europeScoring .card-text {
+  color: #692fab; }
 
 .cardList .card-ops {
   position: absolute;
@@ -1823,12 +2044,18 @@ address {
     .cardControls a:hover {
       text-decoration: underline; }
   .cardControls .active {
-    color: #454639; }
+    color: #494946;
+    font-weight: bold; }
 
 .cardView p a {
   color: #268BD2; }
   .cardView p a:hover, .cardView p a:focus {
     color: #1d6a9e; }
+.cardView .card-body {
+  font-size: 2rem;
+  padding: 0.2em 0 1em;
+  color: #61615c;
+  font-family: Georgia, serif; }
 
 .cards-filter-by-id input {
   width: 100%; }
@@ -1840,7 +2067,7 @@ address {
   top: 2.3rem; }
 
 .card-nav {
-  color: #969881;
+  color: #727269;
   width: 100%;
   display: table; }
 
@@ -1861,9 +2088,14 @@ address {
   text-align: right; }
 
 
+.shortcut {
+  color: #DC322F; }
+
 .card-nav-label {
-  color: #7c7e67;
-  font-size: 14px;
+  color: #61615c;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 12px;
   display: block;
   margin-top: 0.2em; }
 
@@ -1872,7 +2104,7 @@ address {
 
 @media screen and (min-width: 768px) {
   .cardView p, .cardView ul, .cardView ol {
-    max-width: 30em;
+    max-width: 50rem;
     font-size: 18px; } }
 
 @media screen and (min-width: 480px) {
@@ -1892,6 +2124,8 @@ address {
   .cardList .card {
     -webkit-flex-basis: calc(100%/3);
     flex-basis: calc(100%/3); }
+  .cardView .card-body {
+    font-size: 2.4rem; }
   .cardControls {
     margin-bottom: 0; } }
 
@@ -1906,7 +2140,7 @@ address {
     width: auto;
     display: inline-block; }
   .card-nav-prev {
-    border-right: 1px solid #c5c6b9; }
+    border-right: 1px solid #c2c2bd; }
   .cardList .card {
     -webkit-flex-basis: calc(100%/4);
     flex-basis: calc(100%/4); }
@@ -1936,252 +2170,71 @@ address {
     margin: 0 !important; } }
 
 @media screen and (min-width: 1200px) {
+  .cardView p, .cardView ul, .cardView ol {
+    max-width: 70rem;
+    font-size: 18px; }
   .cardList .card {
     -webkit-flex-basis: calc(100%/5);
     flex-basis: calc(100%/5); } }
 
-/* encapsulate the various syntax in helper clases */
-/* inspired by http://infrequently.org/2009/08/css-3-progress/ */
-/* items flex/expand vertically */
-.flexboxV {
-  /* current syntax */
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: -ms-flex;
-  display: flex;
-  -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  flex-direction: column; }
-
-/* items flex/expand horizontally */
-.flexboxH {
-  /* current syntax */
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: -ms-flex;
-  display: flex;
-  -webkit-flex-direction: row;
-  -moz-flex-direction: row;
-  flex-direction: row; }
-
-.flex1 {
-  /* current syntax */
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1; }
-
-@font-face {
-  font-family: 'fontello';
-  src: url("../fontello/font/fontello.eot?49137534");
-  src: url("../fontello/font/fontello.eot?49137534#iefix") format('embedded-opentype'), url("../fontello/font/fontello.woff?49137534") format('woff'), url("../fontello/font/fontello.ttf?49137534") format('truetype'), url("../fontello/font/fontello.svg?49137534#fontello") format('svg');
-  font-weight: normal;
-  font-style: normal; }
-
-/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
-/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
-/*
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-  @font-face {
-    font-family: 'fontello';
-    src: url($fontello-dir + '/fontello.svg?49137534#fontello') format('svg');
-  }
-}
-*/
-[class^="icon-"]:before, [class*=" icon-"]:before {
-  font-family: "fontello";
-  font-style: normal;
-  font-weight: normal;
-  speak: none;
-  display: inline-block;
-  text-decoration: inherit;
-  width: 1em;
-  margin-right: 0.2em;
-  text-align: center;
-  /* opacity: .8; */
-  /* For safety - reset parent styles, that can break glyph codes*/
-  font-variant: normal;
-  text-transform: none;
-  /* fix buttons height, for twitter bootstrap */
-  line-height: 1em;
-  /* Animation center compensation - margins should be symmetric */
-  /* remove if not needed */
-  margin-left: 0.2em;
-  /* you can be more comfortable with increased icons size */
-  /* font-size: 120%; */
-  /* Uncomment for 3D effect */
-  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */ }
-
-.icon-link-ext:before {
-  content: '\e801'; }
-
-/* '' */
-.icon-link-ext-alt:before {
-  content: '\e800'; }
-
-/* '' */
-html, body {
-  color: #616250;
-  background-color: #f3f4f1; }
-
-body {
-  padding-bottom: 4rem; }
-
-img.fluid {
-  width: 100%; }
-
-a {
-  color: #268BD2; }
-  a:hover {
-    text-decoration: none; }
-
-p, li, dt, dd {
-  font-size: 16px; }
-
-label, .label, .BoardStatus .StatusLabel, .StateHistory .close {
-  text-transform: uppercase;
-  font-size: 11px;
-  font-weight: bold;
-  cursor: pointer; }
-
-label, .label {
-  line-height: 16px; }
-
-h1, h2, h3 {
-  color: #7c7e67; }
-
-.hide {
-  display: none !important; }
-
-.slideIn {
-  opacity: 0.01; }
-
-.slideIn-in {
-  opacity: 1;
-  transition: opacity 0.1s ease-out; }
-
-.navbar {
-  border: none;
-  border-radius: 0;
-  border-bottom: 1px solid #ccc;
-  margin-bottom: 0;
-  background-color: #fff; }
-
-.navbar-nav > li > a {
-  color: #969881; }
-  .navbar-nav > li > a:hover {
-    color: #616250;
-    background: white;
-    text-decoration: underline; }
-
-.navbar-nav > li.active > a {
-  color: #616250; }
-
-.navbar-brand {
-  padding: 0; }
-  .navbar-brand .twi, .navbar-brand .strug {
-    display: inline-block;
-    padding: 15px; }
-  .navbar-brand .twi {
-    padding-right: 0; }
-  .navbar-brand .strug {
-    padding-left: 0; }
-  .navbar-brand:hover .twi {
-    color: #1e70a7; }
-  .navbar-brand:hover .strug {
-    color: #b9221f; }
-
-.page-header {
-  margin-top: 2rem;
-  position: relative;
-  border-bottom: 1px solid #c5c6b9; }
-
-.imgRight {
-  display: block;
-  border: 1px solid #ccc;
-  margin: 2rem auto;
-  max-width: 100%; }
-
-#placeholder {
-  height: 100%;
-  width: 100%;
-  position: absolute;
+.StateHistory {
+  position: fixed;
+  z-index: 10;
+  width: 300px;
+  overflow-y: auto;
+  left: -300px;
+  background: #f3f3f1;
   top: 0;
-  background: rgba(0, 0, 0, 0.2); }
-  #placeholder p {
-    margin-top: 15rem;
-    font-size: 6rem;
-    text-align: center;
-    font-weight: bold;
-    line-height: 1;
-    color: #adaf9d;
-    text-shadow: 0px 1px 1px #fff, 0px -1px 1px #666; }
-
-@media screen and (min-width: 768px) {
-  .imgRight {
+  height: 100%;
+  border-right: 1px solid #989890;
+  box-shadow: 0 0 23px 3px rgba(0, 0, 0, 0.2);
+  transition: left 0.1s ease-out; }
+  .StateHistory.in {
+    left: 0; }
+  .StateHistory .usa {
+    color: #268BD2; }
+  .StateHistory .ussr {
+    color: #DC322F; }
+  .StateHistory h3 {
+    padding-left: 1rem;
+    padding-top: 0;
+    margin-top: 1rem; }
+  .StateHistory ul {
+    overflow-y: auto;
+    padding: 5px 0 8px 0; }
+  .StateHistory li {
+    color: #666;
+    font-size: 14px;
+    padding: 3px 0 2px 25px;
+    cursor: pointer; }
+    .StateHistory li:hover {
+      background: #242423; }
+    .StateHistory li.StateHistory-current, .StateHistory li.StateHistory-current:hover {
+      box-shadow: 0 1px 7px 0px rgba(0, 0, 0, 0.2);
+      background: white; }
+  .StateHistory .close {
+    margin-top: 1.4rem;
+    padding: 0.6rem 1.4rem; }
+  .StateHistory .arrow {
+    opacity: 0.4; }
+  .StateHistory .strong {
+    font-weight: bold; }
+  .StateHistory .turnRound {
     float: right;
-    margin: 0 0 1rem 1rem; } }
+    font-weight: bold;
+    font-size: 0.8em;
+    display: block;
+    margin: 1px 15px 0 10px; }
+  .StateHistory .control {
+    font-weight: bold; }
+  .StateHistory .ip {
+    font-weight: bold;
+    line-height: 1; }
 
-.browsehappy {
-  margin: 0.2em 0;
-  background: #ccc;
-  color: #000;
-  padding: 0.2em 0; }
-
-a[href^="http://"], a[href^="https://"] {
-  display: inline-block; }
-  a[href^="http://"]:after, a[href^="https://"]:after {
-    content: "\e801";
-    font-family: 'fontello';
-    font-size: 0.6em;
-    display: inline-block;
-    position: relative;
-    margin: 0 0.2em 0 0.4em;
-    line-height: 0.5em; }
-
-#blurb {
-  color: rgba(255, 255, 255, 0.8);
-  border-top: 1px solid rgba(0, 0, 0, 0.2);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2); }
-  #blurb a {
-    color: rgba(255, 255, 255, 0.8);
-    font-weight: 500; }
-    #blurb a:hover {
-      text-decoration: underline; }
-
-.blurb {
-  text-align: center;
-  margin: 3rem 1rem; }
-
-a.home-link {
-  padding: 2rem;
-  display: block;
-  text-align: center;
-  color: #7c7e67; }
-  a.home-link img {
-    margin-bottom: 1rem; }
-  a.home-link h3 {
-    margin-top: 0; }
-  a.home-link:hover {
-    color: white;
-    background: #268BD2; }
-  a.home-link.home-link-cards:hover {
-    background: #DC322F; }
-
-
-.link {
-  stroke: #999;
-  stroke-opacity: 0.6; }
-
-.Board text, .BoardStatus .StatusLabel, .BoardStatus .StatusValue, .BoardStatus .prop-usa, .BoardStatus .prop-ussr, .BoardStatus .val, .BoardStatus .dec, .BoardStatus .inc, .BoardStatus .historyControls-undo a, .BoardStatus .historyControls-redo a, .BoardStatus .historyControls-history a, .BoardStatus .die, .BoardStatus .roll-dice {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none; }
+.map-position-debug {
+  display: none; }
 
 .Board {
-  background: #f3f4f1;
   position: relative;
   width: 1140px;
   height: 730px;
@@ -2248,30 +2301,31 @@ a.home-link {
   .Board .node-btl.node-weu .node-title-bg, .Board .node-btl.node-eeu .node-title-bg {
     fill: #4a227b; }
   .Board .node-usa .node-bg {
-    fill: #f3f4f1;
+    fill: #f3f3f1;
     stroke: #268BD2;
     stroke-width: 1px; }
   .Board .node-usa .node-title-text {
     fill: #268BD2; }
   .Board .node-ussr .node-bg {
-    fill: #f3f4f1;
+    fill: #f3f3f1;
     stroke: #DC322F;
     stroke-width: 1px; }
   .Board .node-usa .node-stab, .Board .node-ussr .node-stab {
     font-size: 12px;
     text-anchor: middle;
-    font-weight: normal;
-    opacity: 0.7; }
+    stroke-width: 0;
+    font-weight: normal; }
   .Board .node-usa .node-title-text, .Board .node-ussr .node-title-text {
     text-anchor: middle;
     font-size: 18px;
+    font-weight: bold;
+    opacity: 0.8;
     stroke-width: 0; }
   .Board .node-usa .node-text, .Board .node-ussr .node-text {
     text-anchor: middle;
     font-weight: bold;
     font-weight: normal;
-    word-spacing: 4px;
-    opacity: 0.7; }
+    word-spacing: 4px; }
   .Board .node-usa .node-line, .Board .node-usa .node-title-bg, .Board .node-ussr .node-line, .Board .node-ussr .node-title-bg {
     display: none; }
   .Board .node-usa .numBtl, .Board .node-ussr .numBtl {
@@ -2283,22 +2337,22 @@ a.home-link {
     fill: #DC322F;
     stroke: #DC322F; }
   .Board .node-region-info .node-bg {
-    fill: #f3f4f1;
-    stroke: #adaf9d;
+    fill: #f3f3f1;
+    stroke: #343432;
     stroke-width: 1px; }
   .Board .node-region-info .node-stab {
     display: none; }
   .Board .node-region-info .node-title-bg {
     fill: rgba(0, 0, 0, 0); }
   .Board .node-region-info .node-title-text {
-    fill: #535445;
+    fill: #727269;
     stroke-width: 0;
     font-weight: bold;
     text-anchor: middle; }
   .Board .node-region-info .node-line {
     display: none; }
   .Board .node-region-info .node-text {
-    fill: #7c7e67;
+    fill: #61615c;
     text-anchor: middle; }
     .Board .node-region-info .node-text .usa {
       fill: #268BD2;
@@ -2364,18 +2418,30 @@ a.home-link {
   .Board .node-usa .node-ip-click, .Board .node-ussr .node-ip-click, .Board .node-region-info .node-ip-click {
     display: none; }
   .Board .link {
-    stroke: rgba(0, 0, 0, 0.4);
+    fill: #343432;
+    stroke: rgba(72, 72, 69, 0.4);
     stroke-width: 6px; }
   .Board .link-cross {
     stroke-dasharray: 6 3; }
   .Board .link-usa {
-    stroke: #268BD2;
+    stroke: #63aadb;
     stroke-dasharray: 6 3; }
   .Board .link-ussr {
-    stroke: #DC322F;
+    stroke: #e26b69;
     stroke-dasharray: 6 3; }
 
-.BoardStatus .StatusLabel-shortcut, .BoardPage-shortcuts dt, .StateHistory .close .StatusLabel-shortcut {
+.BoardPage-shortcuts {
+  margin-bottom: 0;
+  padding: 0; }
+  .BoardPage-shortcuts dt {
+    float: left;
+    width: 3.6rem;
+    margin-right: 1rem;
+    text-align: right; }
+  .BoardPage-shortcuts dd {
+    margin-bottom: 0.5rem; }
+
+.StateHistory .close .StatusLabel-shortcut, .BoardPage-shortcuts dt, .BoardStatus .StatusLabel-shortcut {
   font-weight: bold;
   color: #ca2522; }
 
@@ -2397,7 +2463,7 @@ a.home-link {
     font-size: 12px;
     padding-top: 5px;
     text-align: right;
-    color: #7c7e67; }
+    color: #61615c; }
   .BoardStatus .StatusValue {
     width: 60%;
     display: inline-block;
@@ -2425,13 +2491,13 @@ a.home-link {
   .BoardStatus .dec, .BoardStatus .inc {
     display: inline-block;
     font-family: 'Comic Sans MS';
-    color: #d3d3ca;
+    color: #c2c2bd;
     font-size: 15px;
     padding: 2px 4px;
     cursor: pointer;
     text-align: center; }
     .BoardStatus .dec:hover, .BoardStatus .inc:hover {
-      color: #7c7e67; }
+      color: #727269; }
   .BoardStatus .historyControls {
     margin-bottom: 0.2rem; }
   .BoardStatus .historyControls-undo, .BoardStatus .historyControls-redo, .BoardStatus .historyControls-history {
@@ -2487,110 +2553,67 @@ a.home-link {
     margin: 0 4px;
     cursor: pointer; }
 
-.BoardPage-shortcuts {
-  margin-bottom: 0;
-  padding: 0; }
-  .BoardPage-shortcuts dt {
-    float: left;
-    width: 3.6rem;
-    margin-right: 1rem;
-    text-align: right; }
-  .BoardPage-shortcuts dd {
-    margin-bottom: 0.5rem; }
-
-.map-position-debug {
-  display: none; }
-
-.StateHistory {
-  position: fixed;
-  z-index: 10;
-  width: 300px;
-  overflow-y: auto;
-  left: -300px;
-  background: #f3f4f1;
-  top: 0;
-  height: 100%;
-  border-right: 1px solid #c5c6b9;
-  box-shadow: 0 0 23px 3px rgba(0, 0, 0, 0.2);
-  transition: left 0.1s ease-out; }
-  .StateHistory.in {
-    left: 0; }
-  .StateHistory .usa {
-    color: #268BD2; }
-  .StateHistory .ussr {
-    color: #DC322F; }
-  .StateHistory h3 {
-    padding-left: 1rem;
-    padding-top: 0;
-    margin-top: 1rem; }
-  .StateHistory ul {
-    overflow-y: auto;
-    padding: 5px 0 8px 0; }
-  .StateHistory li {
-    color: #666;
-    font-size: 14px;
-    padding: 3px 0 2px 25px;
-    cursor: pointer; }
-    .StateHistory li:hover {
-      background: #dcddd5; }
-    .StateHistory li.StateHistory-current, .StateHistory li.StateHistory-current:hover {
-      box-shadow: 0 1px 7px 0px rgba(0, 0, 0, 0.2);
-      background: white; }
-  .StateHistory .close {
-    margin-top: 1.4rem;
-    padding: 0.6rem 1.4rem; }
-  .StateHistory .arrow {
-    opacity: 0.4; }
-  .StateHistory .strong {
-    font-weight: bold; }
-  .StateHistory .turnRound {
-    float: right;
-    font-weight: bold;
-    font-size: 0.8em;
-    display: block;
-    margin: 1px 15px 0 10px; }
-  .StateHistory .control {
-    font-weight: bold; }
-  .StateHistory .ip {
-    font-weight: bold;
-    line-height: 1; }
-
-.footer {
+.blurb {
+  color: #61615c;
   text-align: center;
-  width: 100%;
-  margin-top: 20px;
-  color: #7c7e67; }
-  .footer p {
-    font-size: 12px;
-    margin: 0; }
-  .footer a[href^="http://"]:after, .footer a[href^="https://"]:after {
-    display: none; }
+  margin: 3rem 1rem; }
 
-/* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
-  /* Remove the padding we set earlier */
-  /* Space out the masthead */
-  /* Remove the bottom border on the jumbotron for visual effect */
-  html {
+a.home-link {
+  padding: 2rem;
+  display: block;
+  text-align: center;
+  color: #727269; }
+  a.home-link img {
+    margin-bottom: 1rem; }
+  a.home-link h3 {
+    margin-top: 0; }
+  a.home-link:hover {
+    color: white;
+    background: #268BD2; }
+    a.home-link:hover h3 {
+      color: white; }
+  a.home-link.home-link-cards:hover {
+    background: #DC322F; }
+
+a {
+  color: #268BD2; }
+  a:hover {
+    text-decoration: none; }
+
+a[href^="http://"], a[href^="https://"] {
+  display: inline-block; }
+  a[href^="http://"]:after, a[href^="https://"]:after {
+    content: "\e801";
+    font-family: 'fontello';
+    font-size: 0.6em;
+    display: inline-block;
     position: relative;
-    min-height: 100%; }
-  body {
-    /* Margin bottom by footer height */
-    margin-bottom: 50px; }
-  .footer {
-    position: absolute;
-    text-align: center;
-    bottom: 0;
-    margin-top: 0;
-    height: 50px; }
-  .container {
-    max-width: 1140px; }
-  .header, .marketing, .footer {
-    padding-left: 0;
-    padding-right: 0; }
-  .header {
-    margin-bottom: 30px; }
-  .jumbotron {
-    border-bottom: 0; }
+    margin: 0 0.2em 0 0.4em;
+    line-height: 0.5em; }
+
+p, li, dt, dd {
+  font-size: 16px; }
+
+label, .label {
+  line-height: 16px; }
+
+h1, h2, h3 {
+  color: #727269; }
+
+p strong {
+  color: #727269; }
+
+#placeholder {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  background: rgba(0, 0, 0, 0.2); }
   #placeholder p {
-    font-size: 10rem; } }
+    margin-top: 30rem;
+    font-size: 9rem;
+    text-align: center;
+    font-weight: bold;
+    line-height: 1;
+    color: #85847a;
+    text-shadow: 0px 1px 1px #fff, 0px -1px 1px #666; }

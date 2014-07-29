@@ -29,6 +29,7 @@ TwiStrug = React.createClass
 
   getInitialState: ->
     menuActive:null
+    view: {}
 
   componentWillMount: ()->
     $('#placeholder').hide()
@@ -47,12 +48,6 @@ TwiStrug = React.createClass
       $slideIn.addClass('slideIn-in')
     , 10
 
-  # Takes a view name and associated data
-  setView: (name, pageTitle, menuActive='', data={}) ->
-    if pageTitle? then libs.setPageTitle pageTitle
-    @setState
-      view: {name, data}
-      menuActive: menuActive
 
   render: ->
     # If the router hasn't kicked in, do nothing
@@ -73,15 +68,13 @@ TwiStrug = React.createClass
         when 'about' then pages.About()
         when 'whoops' then pages.Whoops()
 
-      if @state.view.name == 'board'
-        boardStateHistory = views.BoardStateHistory
-          stateHistory: @state.view.data.stateHistory
-          key: "BoardStateHistory-#{@state.view.data.gameId}"
+    mainViewClass = cx
+      'container': @state.view.name != 'board' # Board needs to have its own container
+      'slideIn': @state.slideIn?
 
     R.div {}, [
       views.Nav key:'nav', active: @state.menuActive
-      R.div key:'mainview', ref: 'slideIn', className: 'container slideIn', mainView
-      boardStateHistory
+      R.div key:'mainview', ref: 'slideIn', className: mainViewClass, mainView
       views.Footer key:'footer'
     ]
     

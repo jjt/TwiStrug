@@ -4,8 +4,7 @@ cx = React.addons.classSet
 module.exports = React.createClass
   displayName: 'BoardStatusValue'
   shouldComponentUpdate: (nP)->
-    nP.val != @props.val
-
+    nP.val != @props.val or nP.side != @props.side
   render: ->
     sideClass = switch @props.side
       when 'usa', 'ussr' then @props.side

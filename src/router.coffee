@@ -10,7 +10,13 @@ Router::setRoute = ->
 module.exports =
   getDefaultProps: ->
     router: new Router
-  componentWillUpdate: ->
+
+  # Takes a view name and associated data
+  setView: (name, pageTitle, menuActive='', data={}) ->
+    if pageTitle? then libs.setPageTitle pageTitle
+    @setState
+      view: {name, data}
+      menuActive: menuActive
 
   componentDidMount: ->
     stateRoute = (name, pageTitle, menuActive, args)->
@@ -59,6 +65,7 @@ module.exports =
     router.on /board\/?(\w*)\/?(.*)/, (gameId, incomingState)=>
       #if not gameId? or gameId == ''
         #return router.setRoute "board/#{Math.random().toString(36).slice(2)}"
+
       if not gameId? or gameId == ''
         gameId = Math.random().toString(36).slice(2,10)
         window.history.replaceState null, "Board #{gameId}", "#/board/#{gameId}"
@@ -78,25 +85,12 @@ module.exports =
 
       nodes = _.union(countries, regionInfoNodes)
       nodes = _.zipObject _.pluck(nodes, 'id'), nodes
-      
-      stateHistory = new libs.BoardStateHistory
-        id: gameId
-      stateHistory.load()
-
-      # When state changes, update the url
-      stateHistory.on 'update', (state)->
-        if not state? or state.meta.newGame
-          return
-        stateEnc = stateHistory.encodeCurrent()
-        window.history.replaceState null, "Board #{gameId}", "#/board/#{gameId}/#{stateEnc}"
-
-
-      if incomingState? and incomingState
-        incomingState = libs.stateEncoder.decode incomingState
 
       key = gameId
 
-      boardProps = {gameId, mapData, countries, regionInfoNodes, links, nodes, stateHistory, key, incomingState}
+      boardProps = {
+        gameId, mapData, countries, regionInfoNodes, links, nodes,
+        key, incomingState }
 
       @setView 'board', 'Board', 'board', boardProps
 

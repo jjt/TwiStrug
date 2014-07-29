@@ -1,0 +1,309 @@
+$weu: lighten($westernEurope, 18%);
+$eeu: lighten($easternEurope, 7%);
+$me: lighten($middleEast, 10%);
+$as: lighten($asia, 2%);
+$sea: lighten($asia, 17%);
+$sa: lighten($southAmerica, 14%);
+$ca: #E2ECB9;
+$af: #F5E696;
+
+$weuDark: desaturate(darken($weu, 30%), 10%);
+$eeuDark: desaturate(darken($eeu, 30%), 10%);
+$meDark: desaturate(darken($me,50%), 20%);
+$asDark: desaturate(darken($as,30%), 10%);
+$afDark: desaturate(darken($af,50%), 20%);
+$caDark: desaturate(darken($ca,50%), 20%);
+$saDark: desaturate(darken($sa,30%), 10%);
+
+.map-position-debug {
+  display:none;
+}
+
+.Board {
+
+  //background:url(/images/tsboard.jpg) no-repeat;
+  //border:1px solid #b9bdb7;
+  position:relative;
+  width:1140px;
+  height:730px;
+  margin-bottom:3rem;
+  margin-top:1rem;
+  
+  text {
+    @extend %noSelect;
+    cursor: default;
+  }
+
+
+  .node-eeu .node-bg { fill: $eeu; }
+  .node-weu .node-bg, .node-eu .node-bg { fill: $weu; }
+  .node-bg-eu { fill: $eeu; }
+
+  .node-weu .node-btl, .node-eeu .node-btl {
+    .node-title-bg {
+      fill: $weuDark;
+    }
+  }
+
+  .node-me .node-bg { fill:$me; }
+  .node-me.node-btl .node-title-bg { fill: $meDark; }
+
+  .node-as .node-bg, .node-sea .node-bg { fill:$as; }
+  .node-bg-sea { fill: $sea; }
+  .node-as.node-btl, .node-sea.node-btl {
+    .node-title-bg { fill: $asDark; }
+  }
+
+  .node-af .node-bg { fill:$af; }
+  .node-af.node-btl .node-title-bg { fill: $afDark; }
+
+  .node-ca .node-bg { fill:$ca; }
+  .node-ca.node-btl .node-title-bg { fill: $caDark; }
+
+  .node-sa .node-bg { fill:$sa; }
+  .node-sa.node-btl .node-title-bg { fill: $saDark; }
+
+  .node {
+    stroke-width:0;
+  }
+
+  .node-title-bg {
+    stroke-width:0;
+    fill:rgba(#fff,0.6);
+  }
+  .node-title-text, .node-stab {
+    stroke:rgba(#000, 0.8);
+    stroke-width:0.5;
+    fill: rgba(#000,0.8);
+  }
+  .node-stab {
+    font-weight:bold;
+    stroke-width:0;
+  }
+  .node-title-text {
+    font-size:11px;
+  }
+
+  .node-bg {
+    stroke: rgba(#000,1);
+    stroke-width:0.2px;
+  }
+
+  .node-bg-hidden {
+    display:none;
+  }
+
+  .node-line {
+    stroke: rgba(#000, 0.4);
+    stroke-width:0.3px;
+  }
+
+  .node-btl {
+    .node-title-text, .node-stab {
+      stroke:rgba(#fff, 0.8);
+      stroke-width:0;
+      fill: rgba(#fff,0.8);
+      //text-anchor:middle;
+    }
+
+    .node-title-bg {
+      //fill:rgba(#000, 0.5);
+    }
+
+    
+    &.node-weu, &.node-eeu {
+      .node-title-bg {
+        fill: darken($westernEurope, 17%);
+      }
+    }
+  
+  }
+
+  .node-usa {
+    .node-bg { fill:$pageBg; stroke: $solarized-blue; stroke-width:1px }
+    .node-title-text { fill:$solarized-blue }
+  }
+  .node-ussr .node-bg { fill:$pageBg; stroke: $solarized-red; stroke-width:1px }
+
+  .node-usa, .node-ussr {
+    .node-stab {
+      font-size:12px;
+      text-anchor: middle;
+      stroke-width:0;
+      font-weight:normal;
+    }
+    .node-title-text {
+      text-anchor: middle;
+      font-size:18px;
+      font-weight:bold;
+      opacity:0.8;
+      stroke-width:0;
+    }
+    .node-text {
+      text-anchor: middle;
+      font-weight:bold;
+      font-weight:normal;
+      word-spacing: 4px;
+    }
+    .node-line, .node-title-bg {
+      display:none;
+    }
+    .numBtl {
+      font-weight:bold;
+    }
+  }
+
+  .node-usa {
+    .node-title-text, .node-text, .node-stab {
+      fill:$solarized-blue;
+      stroke: $solarized-blue;
+    }
+  }
+
+  .node-ussr {
+    .node-title-text, .node-text, .node-stab {
+      fill:$solarized-red;
+      stroke: $solarized-red;
+    }
+  }
+
+  .node-region-info {
+    .node-bg {
+      fill:$pageBg;
+      stroke: theon(2);
+      stroke-width:1px;
+    }
+    .node-stab {
+      display:none;
+    }
+    .node-title-bg {
+      fill:rgba(#000,0);
+    }
+    .node-title-text {
+      fill:  theon(5);
+      stroke-width:0;
+      font-weight:bold;
+      text-anchor:middle;
+    }
+    .node-line {
+      display:none;
+    }
+    .node-text {
+      fill:  theon(4);
+      .usa {
+        fill:$solarized-blue; 
+        font-weight:bold;
+      }
+      .ussr {
+        fill:$solarized-red; 
+        font-weight:bold;
+      }
+      .both {
+        fill:mix($solarized-blue, $solarized-red);
+        font-weight:bold;
+      }
+      text-anchor: middle;
+      tspan {
+      }
+      tspan.blank {
+        letter-spacing: 4px;
+      }
+    }
+
+    text {}
+    &.node-eu text { fill:$weuDark; }
+    &.node-as text { fill:$asDark; }
+    &.node-me text { fill:$meDark; }
+    &.node-ca text { fill:$caDark; }
+    &.node-sa text { fill:$saDark; }
+    &.node-af text { fill:$afDark; }
+
+    &.node-eu .node-bg { stroke: $weuDark; }
+    &.node-as .node-bg { stroke: $asDark; }
+    &.node-me .node-bg { stroke: $meDark; }
+    &.node-ca .node-bg { stroke: $caDark; }
+    &.node-sa .node-bg { stroke: $saDark; }
+    &.node-af .node-bg { stroke: $afDark; }
+  }
+
+  .node-ip-usa, .node-ip-ussr {
+    text {
+      text-anchor: middle;
+      stroke-width:0;
+      font-size:20px;
+      font-weight:bold;
+    }
+  }
+  .node-ip-usa { fill: rgba($solarized-blue, 0.9); }
+  .node-ip-ussr { fill: rgba($solarized-red, 0.9); }
+
+  .node-ip-bg-usa, .node-ip-bg-ussr {
+    fill:#fff;
+    stroke:rgba(#000,0.2);
+    stroke-width:1px;
+  }
+
+  .node-usa-control {
+    .node-ip-bg-usa { fill:$solarized-blue; }
+    .node-ip-usa { fill:rgba(#fff,0.9); }
+  }
+
+  .node-ussr-control {
+    .node-ip-bg-ussr { fill:$solarized-red; }
+    .node-ip-ussr { fill:rgba(#fff,0.9); }
+  }
+
+  .node-ip-click {
+    fill:rgba(0,0,0,0);
+    cursor: pointer;
+    &:hover {
+      fill:rgba(#000, 0.4);
+    }
+  }
+
+  .node-usa, .node-ussr, .node-region-info {
+    .node-ip-click {
+      display:none;
+    }
+  }
+
+  .link {
+    fill: theon(2);
+    stroke: rgba(theon(3), 0.4);
+    stroke-width:6px;
+  }
+
+  .link-cross {
+    stroke-dasharray: 6 3;
+  }
+
+
+  .link-usa {
+    stroke:mix($solarized-blue, $pageBg, 70%);
+    stroke-dasharray: 6 3;
+  }
+
+  .link-ussr {
+    stroke:mix($solarized-red, $pageBg, 70%);
+    stroke-dasharray: 6 3;
+  }
+
+}
+
+.BoardPage-shortcuts {
+  margin-bottom:0;
+  padding:0;
+  dt {
+    float:left;
+    width:3.6rem;
+    margin-right:1rem;
+    text-align:right;
+    @extend %StatusLabelShortcut;
+  }
+
+  dd {
+    margin-bottom:0.5rem;
+  }
+
+}
+

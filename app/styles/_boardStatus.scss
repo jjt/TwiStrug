@@ -1,0 +1,163 @@
+%StatusLabelShortcut {
+    font-weight:bold;
+    color: darken($solarized-red,6%);
+}
+
+.BoardStatus {
+  width: 240px;
+  height: 214px;
+  position:absolute;
+  right:50px;
+  bottom:0;
+
+  .col {
+    float:left;
+    width:50%;
+    margin-bottom:0.4rem;
+  }
+
+  .StatusLabel {
+    @extend %noSelect;
+    cursor:default;
+    width:40%;
+    float:left;
+    clear:both;
+    font-size:12px;
+    padding-top:5px;
+    text-align: right;
+    color: theon(4); 
+    @extend %label;
+  }
+
+  .StatusLabel-shortcut {
+    @extend %StatusLabelShortcut;
+  }
+
+  .StatusValue {
+    @extend %noSelect;
+    width:60%;
+    display:inline-block;
+    text-align:left;
+    font-size:18px;
+    font-weight:bold;
+    line-height:1.4;
+
+    .divider {
+      opacity:0.5;
+    }
+  }
+
+  .prop-usa, .prop-ussr {
+    @extend %noSelect;
+    cursor:default;
+  }
+
+  .StatusValue.usa .val {
+    color: $solarized-blue;
+  }
+
+  .StatusValue.ussr .val {
+    color: $solarized-red;
+  }
+
+  .val {
+    @extend %noSelect;
+    cursor:default;
+    display:inline-block;
+    width:20px;
+    text-align:center;
+    &.usa { color: $solarized-blue; }
+    &.ussr { color: $solarized-red; }
+  }
+
+  .dec, .inc {
+    @extend %noSelect;
+    display:inline-block;
+    font-family: 'Comic Sans MS';
+    color: theon(9);
+    font-size:15px;
+    padding:2px 4px;
+    cursor:pointer;
+    text-align:center;
+
+    &:hover {
+      color:  theon(5);
+    }
+  }
+
+
+  .historyControls {
+    margin-bottom:0.2rem;
+  }
+  .historyControls-undo,
+  .historyControls-redo,
+  .historyControls-history {
+    display:inline-block;
+    a {
+      @extend %noSelect;
+      cursor:pointer;
+      padding:0.8rem 0;
+      display:block;
+      text-align:center;
+      font-size:12px;
+      text-transform:uppercase;
+      font-weight:bold;
+    }
+  }
+  .historyControls-undo, .historyControls-redo {
+    width:25%;
+  }
+
+  .historyControls-history {
+    width:50%;
+  }
+
+  .die {
+    @extend %noSelect;
+    width:42px;
+    height:42px;
+    margin:0 auto 0;
+    display:inline-block;
+    border-radius: 6px;
+    text-align:center;
+    color: white;
+    font-size:26px;
+    padding-top:2px;
+    vertical-align: middle;
+    cursor:pointer;
+    &.rolling {
+      color:rgba(#fff,0.7);
+    }
+
+    @include transition (all 0.2s ease-out);
+  }
+
+  .die-usa { background: $solarized-blue; }
+  .die-usa.rolling { background: darken($solarized-blue, 20%); }
+  .die-ussr { background: $solarized-red; }
+  .die-ussr.rolling { background: darken($solarized-red, 20%); }
+
+
+  .dice {
+    clear:both;
+    text-align: center;
+  }
+
+  .roll-dice {
+    @extend %noSelect;
+    vertical-align: middle;
+    display:inline-block;
+    font-size:12px;
+    font-weight:bold;
+    width:70px;
+    text-align: center;
+    line-height:1;
+    text-transform: uppercase;
+    padding:6px;
+    margin:0 4px;
+    cursor:pointer;
+  }
+}
+
+
+

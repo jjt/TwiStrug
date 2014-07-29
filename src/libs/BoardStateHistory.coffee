@@ -73,7 +73,9 @@ module.exports = class BoardStateHistory extends StateHistory
         state: state
 
     @save()
+    @emit 'merge', @getCurrent()
     @emit 'update', @getCurrent()
+    @emit 'change'
 
 
   # Turn state into a minimal representation

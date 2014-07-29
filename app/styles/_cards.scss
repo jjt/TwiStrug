@@ -3,7 +3,7 @@
 
 
 .card {
-  &, & a { color:darken($mapBg, 66%); }
+  &, & a { color: theon(5); }
 
 }
 
@@ -13,7 +13,7 @@
 .asiaScoring, .asiaScoring a { color: darken($asia,15%); }
 .europeScoring, .europeScoring a { color: darken($europe,10%); }
 .middleEastScoring, .middleEastScoring a { color: darken($middleEast,15%); }
-.centralAmericaScoring, .centralAmericaScoring a { color: darken($centralAmerica,15%); }
+.centralAmericaScoring, .centralAmericaScoring a { color: darken($centralAmerica,5%); }
 .southAmericaScoring, .southAmericaScoring a { color: darken($southAmerica,10%); }
 .africaScoring, .africaScoring a { color: darken($africa,20%); }
 .southeastAsiaScoring, .southeastAsiaScoring a { color: darken($southeastAsia,15%); }
@@ -87,7 +87,7 @@
   border-bottom:1px solid rgba(#000,0.3);
 
   .owner-neutral & {
-    background: darken($mapBg, 56%);
+    background:  theon(4);
   }
 
   .owner-us & {
@@ -139,7 +139,9 @@
 .cardList .card-text {
   display:none;
   font-size:14px;
+  color:theon(4);
 }
+
 
 .cardList.cardListFull {
   .card {
@@ -160,11 +162,15 @@
 }
 
 .card.owner-ussr .card-text {
-  color:darken($solarized-red, 12%); 
+  color:darken($solarized-red, 8%); 
 }
 
 .card.middleEastScoring .card-text {
-  color:darken($middleEast, 25%);
+  color:darken($middleEast, 32%);
+}
+
+.card.europeScoring .card-text {
+  color:darken($europe, 20%);
 }
 
 
@@ -194,7 +200,8 @@
     }
   }
   .active {
-    color:darken($mapBg,70%);
+    color: theon(3);
+    font-weight: bold;
   }
   label {
   }
@@ -208,6 +215,12 @@
     &:hover, &:focus {
       color:darken($solarized-blue,12%);
     }
+  }
+  .card-body {
+    font-size:2rem;
+    padding:0.2em 0 1em;
+    color:theon(4);
+    font-family: Georgia, serif;
   }
 }
 
@@ -232,7 +245,7 @@
 
 
 .card-nav {
-  color: darken($mapBg,40%);
+  color:  theon(5);
   width:100%;
   display:table;
 }
@@ -258,9 +271,16 @@
 .card-nav-prev {
 
 }
+
+.shortcut {
+  color:$solarized-red;
+}
+
 .card-nav-label {
-  color:darken($mapBg,50%);
-  font-size:14px;
+  color: theon(4);
+  text-transform:uppercase;
+  font-weight:bold;
+  font-size:12px;
   display:block;
   margin-top:0.2em;
 }
@@ -273,7 +293,7 @@
 @media screen and (min-width:$screen-sm-min) {
   .cardView {
     p, ul, ol {
-      max-width:30em;
+      max-width:50rem;
       font-size:18px;
     }
   }
@@ -297,7 +317,11 @@
     flex-basis:calc(100%/3);
   }
 
-
+  .cardView {
+    .card-body {
+      font-size:2.4rem;
+    }
+  }
 
   .cardControls {
     margin-bottom:0;
@@ -318,7 +342,7 @@
     display:inline-block;
   }
   .card-nav-prev {
-    border-right:1px solid darken($mapBg,20%);
+    border-right:1px solid theon(9);
   }
 
   .cardList .card {
@@ -358,6 +382,12 @@
 }
 
 @media screen and (min-width:1200px) {
+  .cardView {
+    p, ul, ol {
+      max-width:70rem;
+      font-size:18px;
+    }
+  }
   .cardList .card {
     flex-basis: calc(100%/5);
   }

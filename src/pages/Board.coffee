@@ -1,5 +1,8 @@
 R = React.DOM
 cx = React.addons.classSet
+StateHistory = require '../libs/StateHistory'
+BoardStateHistory = require '../libs/BoardStateHistory'
+BoardStateHistoryView = require '../views/BoardStateHistory'
 Board = require '../views/Board'
 
 reduceShortcuts = (arr, shortcut)->
@@ -72,8 +75,15 @@ BoardInfo = React.createClass
 
 
 module.exports = React.createClass
+ 
   displayName: 'BoardView'
   
+  stateHistory: null
+
+  componentWillMount: ->
+    @stateHistory = new BoardStateHistory id: @props.gameId
+
+  componentWillReceiveProps: (nP)->
 
   getDefaultProps: ->
     width: 1140
@@ -88,24 +98,22 @@ module.exports = React.createClass
   getInitialState: ->
     debugObj: {}
 
-  dragend: (el)->
-    coords = @state.coords
-    coords[el.name] =
-      x: Math.round(el.x)
-      y: Math.round(el.y)
-    el.fixed = true
-    @setState {coords}
 
   render: ->
     R.div className: 'BoardView', [
-      Board @props
-      BoardInfo id: @props.gameId
-      R.textarea
-        className: 'map-position-debug'
-        ref:'debug'
-        value: JSON.stringify(@state.coords, null, ' ')
-        style:
-          width:'100%'
-          height:'60rem'
+      BoardStateHistoryView
+        stateHistory: @stateHistory
+        key: "BoardStateHistory-#{@props.gameId}"
+      R.div className: 'container', [
+        Board _.assign stateHistory: @stateHistory, @props
+        BoardInfo id: @props.gameId
+        R.textarea
+          className: 'map-position-debug'
+          ref:'debug'
+          value: JSON.stringify(@state.coords, null, ' ')
+          style:
+            width:'100%'
+            height:'60rem'
+      ]
     ]
 

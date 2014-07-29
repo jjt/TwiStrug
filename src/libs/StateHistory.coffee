@@ -50,6 +50,7 @@ class StateHistory extends MicroEventClass
 
     @emit 'add', newState, 'YEAH'
     @emit 'update', newState, 'YEAH'
+    @emit 'change'
   
   undo: ()->
     if @current > 0
@@ -58,6 +59,7 @@ class StateHistory extends MicroEventClass
     state = @getCurrent()
     @emit 'undo'
     @emit 'update', state
+    @emit 'change'
     state
   
   redo: ()->
@@ -67,12 +69,14 @@ class StateHistory extends MicroEventClass
     state = @getCurrent()
     @emit 'redo'
     @emit 'update', state
+    @emit 'change'
     state
 
   goTo: (index)->
     @current = index
     @emit 'goTo', @getCurrent()
     @emit 'update', @getCurrent()
+    @emit 'change'
 
   get: (index)->
     _.cloneDeep @states[index]

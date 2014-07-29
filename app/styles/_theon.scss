@@ -1,0 +1,44 @@
+$theonBase: #7a7a79 !default;
+$theonBaseHue: hue($theonBase) !default;
+$theonLits: 14 20 28 37 43 50 58 67 75 84 91 95 !default;
+$theonSats: 2  2  2  3  4  4  4  4  4  5  6  8 !default;
+
+@function theonColor($index:7) {
+  $sat: nth($theonSats, $index);
+  $lit: nth($theonLits, $index);
+  @return hsl(hue($theonBase), $sat, $lit);
+}
+
+// Main interface and configuration
+// Config: theon($base: #787, $lits: 5 17 ... , $sats: 10 12 ...);
+// Color: theon(2);
+@function theon($num:false, $base:$theonBase, $lits:$theonLits, $sats:$theonSats) {
+  @if $base {
+    $theonBase: $base;
+  }
+  @if $lits {
+    $theonLits: $lits;
+  }
+  @if $sats {
+    $theonSats: $sats;
+  }
+  @if round($num) == $num {
+    @return theonColor($num);
+  }
+}
+
+// Placeholders
+@for $i from 1 through length($theonLits) {
+  %theon#{$i} {
+    color: theonColor($i);
+  } 
+  %theonBg#{$i} {
+    background-color: theonColor($i);
+  } 
+  %theonFill#{$i} {
+    fill: theonColor($i);
+  } 
+  %theonStroke#{$i} {
+    stroke: theonColor($i);
+  } 
+}

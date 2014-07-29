@@ -56,19 +56,21 @@ module.exports  = React.createClass
           R.a {href:"#/card/#{@props.prevCard.id}", className:'card-nav-prev'}, [
             "#{@props.prevCard.title}"
             R.span className: 'card-nav-label', [
-              R.small {}, '◀'
-              ' prev (H)'
+              R.small {}, '◀ '
+              R.span className: 'shortcut', '(H)'
+              ' prev'
             ]
           ]
           R.a {href:"#/card/#{@props.nextCard.id}", className:'card-nav-next'}, [
             "#{@props.nextCard.title}"
             R.span className: 'card-nav-label', [
-              'next (L) '
-              R.small {}, '▶'
+              'next '
+              R.span className: 'shortcut', '(L)'
+              R.small {}, ' ▶'
             ]
           ]
         ]
-      R.p {className: 'pull-left'}, card.text
+      R.p {className: 'pull-left card-body'}, card.text
       R.img key: imageUrl, src: imageUrl, className: 'imgRight', ref:'cardImg'
       R.div {className: 'card-strategy', id: 'card-strategy'}, [
         R.h3 {}, [

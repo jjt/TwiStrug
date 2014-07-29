@@ -1,0 +1,119 @@
+html, body {
+  color: theon(3);
+  background-color: $pageBg;
+}
+
+body {
+  padding-bottom:4rem;
+}
+
+.navbar {
+  border:none;
+  border-radius:0;
+  border-bottom:1px solid #ccc;
+  margin-bottom:0;
+  background-color:#fff;
+}
+
+.navbar-nav > li > a {
+  color: theon(6);
+  &:hover {
+    background:white;
+    text-decoration:underline;
+  }
+}
+
+.navbar-nav > li.active > a {
+  color: theon(1);
+}
+
+.navbar-brand {
+  padding:0;
+  .twi, .strug {
+    display:inline-block;
+    padding:15px;
+  }
+  .twi {
+    padding-right:0;
+    @extend .owner-us;
+  }
+  .strug {
+    padding-left:0;
+    @extend .owner-ussr;
+  }
+
+  &:hover {
+    .twi { color: darken($solarized-blue, 10%); }
+    .strug { color: darken($solarized-red, 10%); }
+  }
+  
+}
+
+img.fluid {
+  width:100%;
+}
+
+
+.footer {
+  text-align:center;
+  width: 100%;
+  margin-top:20px;
+  color:  theon(4);
+  p {
+    font-size:12px;
+    margin:0;
+  }
+
+  a[href^="http://"],
+  a[href^="https://"] {
+    &:after {
+      display:none;
+    } 
+  }
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+    html {
+      position: relative;
+      min-height: 100%;
+    }
+    body {
+      /* Margin bottom by footer height */
+      margin-bottom: 50px;
+    }
+
+    .footer {
+      position: absolute;
+      text-align:center;
+      bottom: 0;
+      margin-top:0;
+      height:50px;
+    }
+
+    .container {
+        max-width: 1140px;
+    }
+
+    /* Remove the padding we set earlier */
+    .header,
+    .marketing,
+    .footer {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    /* Space out the masthead */
+    .header {
+        margin-bottom: 30px;
+    }
+
+    /* Remove the bottom border on the jumbotron for visual effect */
+    .jumbotron {
+        border-bottom: 0;
+    }
+
+    #placeholder p {
+      font-size:10rem;
+    }
+}

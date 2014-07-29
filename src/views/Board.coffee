@@ -1,7 +1,8 @@
 R = React.DOM
 RCTG = React.addons.CSSTransitionGroup
 cx = React.addons.classSet
-libs = require '../libs'
+rangedGameVal = require '../libs/rangedGameVal'
+stateEncoder = require '../libs/stateEncoder'
 
 BoardNode = require './BoardNode'
 BoardStatus = require './BoardStatus'
@@ -85,48 +86,70 @@ superStats = (ips, countryArr, regionArr)->
 module.exports = React.createClass
   displayName: 'Board'
 
-  getInitialState: ->
-    gameState =
-      game:
-        score: 0
-        turn: 0
-        round: 0
-        defcon: 5
-        milops: [0,0]
-        space: [0,0]
-      ips: _.map @props.countries, (c)-> [c.usa, c.ussr]
+  getInitialState: (props = @props) ->
+    stateHistory = props.stateHistory
+    stateHistory.load()
+    state = @handleIncomingState props.incomingState
+    if not state?
+      state = stateHistory.getCurrent()?.state
+    if not state?
+      gameState =
+        game:
+          score: 0
+          turn: 0
+          round: 0
+          defcon: 5
+          milops: [0,0]
+          space: [0,0]
+        ips: _.map props.countries, (c)-> [c.usa, c.ussr]
 
-    if @props.incomingState
-      gameState = @props.incomingState
-      @props.stateHistory.add gameState,
-        type: 'load'
-        id: 'load'
-    else if @props.stateHistory.states.length > 0
-      gameState = @props.stateHistory.getCurrent().state
-    else
-      @props.stateHistory.add gameState,
-        newGame: true
+      meta =
         type: 'turn'
         id: 'turn'
+        newGame: true
         new: 0
-        old: 0
+        old:0
 
-    gameState
+      stateHistory.add gameState, meta
+      state = gameState
 
-  componentWillReceiveProps: ->
-    state = @getInitialState()
+    state
+
+  componentWillReceiveProps: (nP)->
+    state = @getInitialState nP
     @setState state
     #if @props.stateHistory.states.length < 1
       #@props.stateHistory.add state,
 
   componentWillMount: ->
-    $(document).on 'keypress', @keypressHandler
-    @props.stateHistory.on 'goTo', (state)=>
+    {stateHistory, gameId} = @props
+
+      
+    # When state changes, update the url
+    stateHistory.on 'change', =>
+      state = @props.stateHistory.getCurrent()
+      if state? and not state.meta.newGame
+        stateEnc = stateHistory.encodeCurrent()
+        window.history.replaceState null, "Board #{gameId}", "#/board/#{gameId}/#{stateEnc}"
+
+    stateHistory.on 'goTo', (state)=>
       @setState state.state
 
+    $(document).on 'keypress', @keypressHandler
 
   componentWillUnmount: ->
     $(document).off 'keypress', @keypressHandler
+
+  handleIncomingState: (stateEncoded = @props.incomingState) ->
+    current = @props.stateHistory.getCurrent()
+    if stateEncoded? and stateEncoded != '' and current?.meta.state != stateEncoded
+      state = stateEncoder.decode stateEncoded
+      @props.stateHistory.add state,
+        type: 'load'
+        id: 'load'
+        state: stateEncoded
+      return state
+
 
   # Adds the state to the history
   # This is to avoid having to deep-check the state in componentWillUpdate
@@ -191,11 +214,11 @@ module.exports = React.createClass
     if id in ['milops', 'space']
       index = if side == 'usa' then 0 else 1
       oldVal = state.game[id][index]
-      newVal = libs.rangedGameVal(id, state.game[id][index] + delta)
+      newVal = rangedGameVal(id, state.game[id][index] + delta)
       state.game[id][index] = newVal
     else
       oldVal = state.game[id]
-      newVal = libs.rangedGameVal(id, state.game[id] + delta)
+      newVal = rangedGameVal(id, state.game[id] + delta)
       state.game[id] = newVal
 
     meta =
