@@ -220,7 +220,7 @@
     font-size:2rem;
     padding:0.2em 0 1em;
     color:theon(4);
-    font-family: Georgia, serif;
+    font-family: Georgia, "Times New Roman", serif;
   }
 }
 
@@ -273,11 +273,11 @@
 }
 
 .shortcut {
-  color:$solarized-red;
+  color:darken($solarized-red, 6%);
 }
 
 .card-nav-label {
-  color: theon(4);
+  color: theon(5);
   text-transform:uppercase;
   font-weight:bold;
   font-size:12px;

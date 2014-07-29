@@ -17,6 +17,7 @@ module.exports =
     @setState
       view: {name, data}
       menuActive: menuActive
+      slideIn: @state.view?.name != name
 
   componentDidMount: ->
     stateRoute = (name, pageTitle, menuActive, args)->
@@ -37,7 +38,6 @@ module.exports =
     router.configure
       notfound: @setView.bind this, 'whoops', 'Whoops'
       #'/board': @setView.bind this, 'board', 'Board'
-
 
     router.on '/', @setView.bind this, 'home', 'Home'
 

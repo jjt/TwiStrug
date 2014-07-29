@@ -13,7 +13,8 @@
     "query-string": "~0.3.0",
     "Grapnel.js": "https://github.com/EngineeringMode/Grapnel.js.git",
     "bourbon": "~3.1.8",
-    "firebase": "~1.0.18"
+    "firebase": "~1.0.18",
+    "theon": "^0.2.0"
   },
   "devDependencies": {}
 }

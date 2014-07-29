@@ -1718,7 +1718,7 @@ address {
 .page-header {
   margin-top: 2rem;
   position: relative;
-  border-bottom: 1px solid #c2c2bd; }
+  border-bottom: 1px solid #c2c2bc; }
 
 .hide {
   display: none !important; }
@@ -1735,7 +1735,7 @@ address {
     margin: 0 0 1rem 1rem; } }
 
 html, body {
-  color: #494946;
+  color: #62625b;
   background-color: #f3f3f1; }
 
 body {
@@ -1749,13 +1749,13 @@ body {
   background-color: #fff; }
 
 .navbar-nav > li > a {
-  color: #85847a; }
+  color: #868679; }
   .navbar-nav > li > a:hover {
     background: white;
     text-decoration: underline; }
 
 .navbar-nav > li.active > a {
-  color: #242423; }
+  color: #353431; }
 
 .navbar-brand {
   padding: 0; }
@@ -1778,7 +1778,7 @@ img.fluid {
   text-align: center;
   width: 100%;
   margin-top: 20px;
-  color: #61615c; }
+  color: #62625b; }
   .footer p {
     font-size: 12px;
     margin: 0; }
@@ -1879,7 +1879,7 @@ img.fluid {
 
 
 .card, .card a {
-  color: #727269; }
+  color: #737368; }
 
 .owner-us, .navbar-brand .twi, .owner-us a, .owner-us .navbar-brand .twi, .navbar-brand .owner-us .twi {
   color: #268BD2; }
@@ -1953,7 +1953,7 @@ img.fluid {
   color: rgba(255, 255, 255, 0.9);
   border-bottom: 1px solid rgba(0, 0, 0, 0.3); }
   .owner-neutral .card-ops {
-    background: #61615c; }
+    background: #62625b; }
   .owner-us .card-ops, .owner-us .navbar-brand .twi, .navbar-brand .owner-us .twi {
     background: #268BD2; }
   .owner-ussr .card-ops, .owner-ussr .navbar-brand .strug, .navbar-brand .owner-ussr .strug {
@@ -2001,7 +2001,7 @@ img.fluid {
 .cardList .card-text {
   display: none;
   font-size: 14px;
-  color: #61615c; }
+  color: #62625b; }
 
 .cardList.cardListFull .card {
   height: auto; }
@@ -2044,7 +2044,7 @@ img.fluid {
     .cardControls a:hover {
       text-decoration: underline; }
   .cardControls .active {
-    color: #494946;
+    color: #4a4945;
     font-weight: bold; }
 
 .cardView p a {
@@ -2054,8 +2054,8 @@ img.fluid {
 .cardView .card-body {
   font-size: 2rem;
   padding: 0.2em 0 1em;
-  color: #61615c;
-  font-family: Georgia, serif; }
+  color: #62625b;
+  font-family: Georgia, "Times New Roman", serif; }
 
 .cards-filter-by-id input {
   width: 100%; }
@@ -2067,7 +2067,7 @@ img.fluid {
   top: 2.3rem; }
 
 .card-nav {
-  color: #727269;
+  color: #737368;
   width: 100%;
   display: table; }
 
@@ -2089,10 +2089,10 @@ img.fluid {
 
 
 .shortcut {
-  color: #DC322F; }
+  color: #ca2522; }
 
 .card-nav-label {
-  color: #61615c;
+  color: #737368;
   text-transform: uppercase;
   font-weight: bold;
   font-size: 12px;
@@ -2140,7 +2140,7 @@ img.fluid {
     width: auto;
     display: inline-block; }
   .card-nav-prev {
-    border-right: 1px solid #c2c2bd; }
+    border-right: 1px solid #c2c2bc; }
   .cardList .card {
     -webkit-flex-basis: calc(100%/4);
     flex-basis: calc(100%/4); }
@@ -2186,7 +2186,7 @@ img.fluid {
   background: #f3f3f1;
   top: 0;
   height: 100%;
-  border-right: 1px solid #989890;
+  border-right: 1px solid #99998f;
   box-shadow: 0 0 23px 3px rgba(0, 0, 0, 0.2);
   transition: left 0.1s ease-out; }
   .StateHistory.in {
@@ -2208,7 +2208,7 @@ img.fluid {
     padding: 3px 0 2px 25px;
     cursor: pointer; }
     .StateHistory li:hover {
-      background: #242423; }
+      background: #252523; }
     .StateHistory li.StateHistory-current, .StateHistory li.StateHistory-current:hover {
       box-shadow: 0 1px 7px 0px rgba(0, 0, 0, 0.2);
       background: white; }
@@ -2338,21 +2338,21 @@ img.fluid {
     stroke: #DC322F; }
   .Board .node-region-info .node-bg {
     fill: #f3f3f1;
-    stroke: #343432;
+    stroke: #353431;
     stroke-width: 1px; }
   .Board .node-region-info .node-stab {
     display: none; }
   .Board .node-region-info .node-title-bg {
     fill: rgba(0, 0, 0, 0); }
   .Board .node-region-info .node-title-text {
-    fill: #727269;
+    fill: #737368;
     stroke-width: 0;
     font-weight: bold;
     text-anchor: middle; }
   .Board .node-region-info .node-line {
     display: none; }
   .Board .node-region-info .node-text {
-    fill: #61615c;
+    fill: #62625b;
     text-anchor: middle; }
     .Board .node-region-info .node-text .usa {
       fill: #268BD2;
@@ -2418,8 +2418,8 @@ img.fluid {
   .Board .node-usa .node-ip-click, .Board .node-ussr .node-ip-click, .Board .node-region-info .node-ip-click {
     display: none; }
   .Board .link {
-    fill: #343432;
-    stroke: rgba(72, 72, 69, 0.4);
+    fill: #353431;
+    stroke: rgba(73, 73, 69, 0.4);
     stroke-width: 6px; }
   .Board .link-cross {
     stroke-dasharray: 6 3; }
@@ -2427,7 +2427,7 @@ img.fluid {
     stroke: #63aadb;
     stroke-dasharray: 6 3; }
   .Board .link-ussr {
-    stroke: #e26b69;
+    stroke: #e36c69;
     stroke-dasharray: 6 3; }
 
 .BoardPage-shortcuts {
@@ -2463,7 +2463,7 @@ img.fluid {
     font-size: 12px;
     padding-top: 5px;
     text-align: right;
-    color: #61615c; }
+    color: #737368; }
   .BoardStatus .StatusValue {
     width: 60%;
     display: inline-block;
@@ -2491,13 +2491,13 @@ img.fluid {
   .BoardStatus .dec, .BoardStatus .inc {
     display: inline-block;
     font-family: 'Comic Sans MS';
-    color: #c2c2bd;
+    color: #c2c2bc;
     font-size: 15px;
     padding: 2px 4px;
     cursor: pointer;
     text-align: center; }
     .BoardStatus .dec:hover, .BoardStatus .inc:hover {
-      color: #727269; }
+      color: #737368; }
   .BoardStatus .historyControls {
     margin-bottom: 0.2rem; }
   .BoardStatus .historyControls-undo, .BoardStatus .historyControls-redo, .BoardStatus .historyControls-history {
@@ -2554,7 +2554,7 @@ img.fluid {
     cursor: pointer; }
 
 .blurb {
-  color: #61615c;
+  color: #62625b;
   text-align: center;
   margin: 3rem 1rem; }
 
@@ -2562,7 +2562,7 @@ a.home-link {
   padding: 2rem;
   display: block;
   text-align: center;
-  color: #727269; }
+  color: #737368; }
   a.home-link img {
     margin-bottom: 1rem; }
   a.home-link h3 {
@@ -2598,10 +2598,10 @@ label, .label {
   line-height: 16px; }
 
 h1, h2, h3 {
-  color: #727269; }
+  color: #737368; }
 
 p strong {
-  color: #727269; }
+  color: #737368; }
 
 #placeholder {
   height: 100%;
@@ -2615,5 +2615,5 @@ p strong {
     text-align: center;
     font-weight: bold;
     line-height: 1;
-    color: #85847a;
+    color: #868679;
     text-shadow: 0px 1px 1px #fff, 0px -1px 1px #666; }

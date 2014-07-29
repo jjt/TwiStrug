@@ -30,6 +30,7 @@ TwiStrug = React.createClass
   getInitialState: ->
     menuActive:null
     view: {}
+    slideIn: true
 
   componentWillMount: ()->
     $('#placeholder').hide()
@@ -43,6 +44,8 @@ TwiStrug = React.createClass
   componentDidUpdate: -> @slideIn()
 
   slideIn: ->
+    if not @state.slideIn
+      return
     $slideIn = $(@refs.slideIn.getDOMNode())
     setTimeout ->
       $slideIn.addClass('slideIn-in')
@@ -70,7 +73,7 @@ TwiStrug = React.createClass
 
     mainViewClass = cx
       'container': @state.view.name != 'board' # Board needs to have its own container
-      'slideIn': @state.slideIn?
+      'slideIn': @state.slideIn
 
     R.div {}, [
       views.Nav key:'nav', active: @state.menuActive

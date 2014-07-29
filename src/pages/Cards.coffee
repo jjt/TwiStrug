@@ -114,7 +114,6 @@ module.exports = React.createClass
         s = if valInt > 1 then 's' else ''
         if valInt == 0 then 'Scoring' else "#{val} Op#{s}"
       when 'side'
-        console.log val
         if val == 'us'
           'USA'
         else if val == 'neutral'
@@ -138,8 +137,12 @@ module.exports = React.createClass
     cards = @groupCards @filterAndSortCards()
 
     cardLists = _.map cards, (cards, val)=>
+      cardListHeading = null
+      if not @state.filter?
+        cardListHeading = R.h2 className:'cardList-groupHeading',
+          @sortGroupTitle @state.sort, val
       R.div {}, [
-        R.h2 className:'cardList-groupHeading', @sortGroupTitle @state.sort, val
+        cardListHeading
         CardList
           fullText: @state.fullText
           cards: cards
