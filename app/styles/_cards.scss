@@ -8,15 +8,15 @@
 }
 
 
-.owner-us, .owner-us a { color:$solarized-blue; }
-.owner-ussr, .owner-ussr a { color:$solarized-red; }
-.asiaScoring, .asiaScoring a { color: darken($asia,15%); }
-.europeScoring, .europeScoring a { color: darken($europe,10%); }
-.middleEastScoring, .middleEastScoring a { color: darken($middleEast,15%); }
-.centralAmericaScoring, .centralAmericaScoring a { color: darken($centralAmerica,5%); }
-.southAmericaScoring, .southAmericaScoring a { color: darken($southAmerica,10%); }
-.africaScoring, .africaScoring a { color: darken($africa,20%); }
-.southeastAsiaScoring, .southeastAsiaScoring a { color: darken($southeastAsia,15%); }
+.owner-us, a.owner-us  { color:$solarized-blue; }
+.owner-ussr, a.owner-ussr  { color:$solarized-red; }
+.asiaScoring, a.asiaScoring  { color: darken($asia,15%); }
+.europeScoring, a.europeScoring  { color: darken($europe,10%); }
+.middleEastScoring, a.middleEastScoring { color: darken($middleEast,15%); }
+.centralAmericaScoring, a.centralAmericaScoring { color: darken($centralAmerica,5%); }
+.southAmericaScoring, a.southAmericaScoring { color: darken($southAmerica,10%); }
+.africaScoring, a.africaScoring { color: darken($africa,20%); }
+.southeastAsiaScoring, a.southeastAsiaScoring { color: darken($southeastAsia,15%); }
 
 
 
@@ -26,7 +26,20 @@
 .card {
   display:block;
   box-sizing: border-box;
+  &:hover .card-title{
+    text-decoration:underline;
+  }
 }
+
+.card-img {
+  margin-bottom:2rem;
+  border:1px solid theon(10);
+  display:inline-block;
+  &:hover {
+    border:1px solid theon(7);
+  }
+}
+
 
 
 
@@ -52,6 +65,10 @@
   line-height:1em;
   margin:0;
   vertical-align:middle;
+}
+
+.cardList .card-img {
+  display:none;
 }
 
 .cardList-groupHeading {
@@ -153,6 +170,17 @@
   }
 }
 
+
+.cardList.cardListImg {
+  .card-text, .card-title-holder {
+    display:none;
+  }
+
+  .card-img {
+    display:inline-block;
+  }
+}
+
 .card.asiaScoring .card-text, .card.southeastAsiaScoring .card-text {
   color:desaturate(darken($asia, 20%),7%);
 }
@@ -188,8 +216,20 @@
 
 .cardControls {
   display: inline-block;
+  vertical-align:middle;
   margin-right:2rem;
   margin-bottom:2rem;
+  i {
+    font-size:2rem;
+    display:inline-block;
+    vertical-align:middle;
+    padding:0 1rem;
+    cursor:pointer;
+    color:$solarized-blue;
+    &.active {
+      color:theon(3);
+    }
+  }
   a {
     display:inline-block;
     margin:0 0.4em;
@@ -199,11 +239,12 @@
       text-decoration: underline;
     }
   }
-  .active {
+  a.active {
     color: theon(3);
     font-weight: bold;
   }
   label {
+    vertical-align:middle;
   }
 }
 

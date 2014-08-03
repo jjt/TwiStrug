@@ -36,7 +36,7 @@ a[href^="http://"],
 a[href^="https://"] {
   display:inline-block;
   &:after {
-    content:"\e801";
+    content:"\e803";
     font-family:'fontello';
     font-size:0.6em;
     display:inline-block;

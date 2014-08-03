@@ -1,3 +1,5 @@
 
-.icon-link-ext:before { content: '\e801'; } /* '' */
-.icon-link-ext-alt:before { content: '\e800'; } /* '' */
+.icon-th-large:before { content: '\e800'; } /* '' */
+.icon-align-left:before { content: '\e801'; } /* '' */
+.icon-th:before { content: '\e802'; } /* '' */
+.icon-link-ext:before { content: '\e803'; } /* '' */

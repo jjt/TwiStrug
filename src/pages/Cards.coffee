@@ -5,13 +5,16 @@ libs = require '../libs'
 CardList = require '../views/CardList'
 
 module.exports = React.createClass
+
   displayName: 'CardsView'
   defaultState: (props)->
     filter = props?.state?.filter
     fullText: if filter then true else false
+    cardImg: false
     cardFilterInput: if filter then filter.join(' ') else ''
     sort: 'stage'
     filter: null
+    view: 'img'
 
   componentWillReceiveProps: (nextProps) ->
     if nextProps.state?
@@ -23,7 +26,6 @@ module.exports = React.createClass
     _.merge @defaultState(@props), @props.state
 
   getFilterIds: () ->
-
     if @state?.filter?
       filterIds = @state.filter.sort(libs.sortNumerical)
         .filter(libs.filterTruthy)
@@ -71,6 +73,10 @@ module.exports = React.createClass
   handleFullText: ->
     @setState
       fullText: @refs.fullText.getDOMNode().checked
+
+  handleCardImg: ->
+    @setState
+      cardImg: @refs.cardImg.getDOMNode().checked
 
   handleCardFilterChange: ->
     value = @refs.cardFilter.getDOMNode().value
@@ -126,6 +132,10 @@ module.exports = React.createClass
           when 2 then 'Mid War'
           when 3 then 'Late war'
 
+  handleViewClick: (view)->
+    @setState { view }
+    libs.qs.set 'view', view
+
   render: ->
     sortLink = (sort, display) =>
       className = cx active: @state.sort == sort
@@ -144,8 +154,10 @@ module.exports = React.createClass
       R.div {}, [
         cardListHeading
         CardList
+          cardImg: @state.cardImg
           fullText: @state.fullText
           cards: cards
+          view: @state.view
       ]
 
     cardsViewClass = cx
@@ -163,15 +175,38 @@ module.exports = React.createClass
             sortLink 'side', 'Side'
           ]
           R.div className: 'cardControls', [
-            R.input
-              name: 'fullText'
-              id: 'fullText'
-              type:'checkbox'
-              ref:'fullText'
-              onChange: @handleFullText
-              checked: @state.fullText
-            " "
-            R.label {htmlFor:'fullText', className:'card-show-text-label'}, 'Show card text'
+            R.label {htmlFor:'', className:''}, 'View: '
+            R.i
+              onClick: @handleViewClick.bind null, 'img'
+              title: 'Card image'
+              className: "icon-th-large #{if @state.view == 'img' then 'active' else ''}"
+            R.i
+              onClick: @handleViewClick.bind null, 'title'
+              title: 'Title and ops'
+              className: "icon-th #{if @state.view == 'title' then 'active' else ''}"
+            R.i
+              onClick: @handleViewClick.bind null, 'text'
+              title: 'Full text'
+              className: "icon-align-left #{if @state.view == 'text' then 'active' else ''}"
+            #R.input
+              #name: 'fullText'
+              #id: 'fullText'
+              #type:'checkbox'
+              #ref:'fullText'
+              #onChange: @handleFullText
+              #checked: @state.fullText
+            #" "
+            #R.label {htmlFor:'fullText', className:'card-show-text-label'}, 'Show card text'
+            #" "
+            #R.input
+              #name: 'cardImg'
+              #id: 'cardImg'
+              #type:'checkbox'
+              #ref:'cardImg'
+              #onChange: @handleCardImg
+              #checked: @state.cardImg
+            #" "
+            #R.label {htmlFor:'cardImg', className:'card-show-text-label'}, 'Show card image'
           ]
         ]
         R.div className: 'cards-filter-by-id col-md-6', [
