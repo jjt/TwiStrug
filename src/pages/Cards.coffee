@@ -81,7 +81,11 @@ module.exports = React.createClass
   handleCardFilterChange: ->
     value = @refs.cardFilter.getDOMNode().value
     # WGR adds "Ops 3: ...", so don't pick those up
-    ids = value.match(/\d+[^:]|\d+$/g)?.map (el)-> parseInt el, 10
+    # But still pick up the scoring cards
+    ids = value.match(/\d+[^:]|\d+$|#\d:/g)?.map (el)->
+      # Strip out any non-digit chars
+      el = el.replace /\D/g, ''
+      parseInt el, 10
     if value == '' or not ids?
       state =
         cardFilterInput: value
@@ -94,6 +98,7 @@ module.exports = React.createClass
 
     @setState state
 
+  # Format the input field to be just the ids on blur
   handleCardFilterBlur: ->
     filterIds = @getFilterIds()
 
