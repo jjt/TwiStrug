@@ -4,6 +4,22 @@ libs = require '../libs'
 
 CardList = require '../views/CardList'
 
+idsFromWGR = (ids=[])->
+  ids.map (id)->
+    switch id
+      when 35 then 81
+      when 98 then 99
+      when 99 then 100
+      when 100 then 35
+      when 101 then 102
+      when 102 then 103
+      when 107 then 110
+      when 109 then 98
+      when 110 then 104
+      when 111 then 109
+      when 112 then 107
+      else id
+
 module.exports = React.createClass
 
   displayName: 'CardsView'
@@ -15,6 +31,7 @@ module.exports = React.createClass
     sort: 'stage'
     filter: null
     view: 'img'
+    filterIsWGR: false
 
   componentWillReceiveProps: (nextProps) ->
     if nextProps.state?
@@ -80,6 +97,9 @@ module.exports = React.createClass
 
   handleCardFilterChange: ->
     value = @refs.cardFilter.getDOMNode().value
+    # If WGR then we have to translate some ids
+    isWGR = value.search(/#.*:/) != -1
+
     # WGR adds "Ops 3: ...", so don't pick those up
     # But still pick up the scoring cards
     ids = value.match(/\d+[^:]|\d+$|#\d:/g)?.map (el)->
@@ -91,10 +111,13 @@ module.exports = React.createClass
         cardFilterInput: value
         filter: null
     else
+      if isWGR
+        ids = idsFromWGR ids
+      ids = ids.sort(libs.sortNumerical).filter(libs.filterValidCardIds)
       state =
         cardFilterInput: value
         fullText: true
-        filter: ids.sort(libs.sortNumerical).filter(libs.filterValidCardIds)
+        filter: ids
 
     @setState state
 
@@ -215,12 +238,11 @@ module.exports = React.createClass
           ]
         ]
         R.div className: 'cards-filter-by-id col-md-6', [
-          R.label {htmlFor:'cardFilter'}, [
-            "Filter cards by ids "
-          ]
+          R.label htmlFor:'cardFilter', className:'cardFilter-label', "Filter by ids "
           R.input
             name: 'cardFilter'
             type: 'text'
+            className: 'cardFilter-input'
             ref: 'cardFilter'
             onChange: @handleCardFilterChange
             onBlur: @handleCardFilterBlur

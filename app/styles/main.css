@@ -2102,7 +2102,11 @@ img.fluid {
   cursor: pointer;
   position: absolute;
   right: 2rem;
-  top: 2.3rem; }
+  top: 2.3rem;
+  font-size: 11px;
+  line-height: 16px;
+  text-transform: uppercase;
+  font-weight: bold; }
 
 .card-nav {
   color: #737368;
@@ -2188,20 +2192,17 @@ img.fluid {
       float: left;
       width: 30%;
       padding-right: 0.6rem;
+      line-height: 26px;
       text-align: right; }
       .cards-filter-by-id label a {
         cursor: pointer; }
     .cards-filter-by-id input {
-      margin-top: -0.3rem;
+      margin-top: 0rem;
       float: left;
       width: 70%;
       padding-right: 5rem; }
   .cards-filter-by-id-clear {
-    top: 2px;
-    font-size: 11px;
-    line-height: 16px;
-    text-transform: uppercase;
-    font-weight: bold; }
+    top: 5px; }
   .card-img-scroll {
     position: fixed;
     top: 2rem;
