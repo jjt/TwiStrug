@@ -28,6 +28,7 @@ module.exports = React.createClass
     @props.handleIPClick @props.id, side, dir
 
   render: ->
+    #console.log @props.shortcut, @props.continent
     controlUSA = (@props.usa - @props.ussr) >= @props.stab
     controlUSSR = (@props.ussr - @props.usa) >= @props.stab
 
@@ -122,6 +123,10 @@ module.exports = React.createClass
             "#{@props.width/2},#{-@props.height/2 + @props.titleHeight}"
           ].join ' '
 
+    shortCutAttrs =
+      className: 'node-shortcut'
+      
+
     R.g gAttrs, [
       # Node bg
       R.rect
@@ -152,6 +157,8 @@ module.exports = React.createClass
       R.text titleTextAttrs, @props.shortname
       R.text stabTextAttrs, stabText
       R.text regionTextAttrs, regionText
+
+      #R.text shortCutAttrs, @props.shortcut
 
       BoardNodeIP node: @props.node, side: 'usa', ip: @props.usa, ctrl: controlUSA, handleIPClick: @handleIPClick, ref: 'ipusa'
       BoardNodeIP node: @props.node, side: 'ussr', ip: @props.ussr, ctrl: controlUSSR, handleIPClick: @handleIPClick, ref: 'ipussr'

@@ -1,6 +1,7 @@
 libs = require './libs'
 vent = require './vent'
 mapData = require '../app/data/map-data.json'
+oneLetterContinentCode = require './libs/oneLetterContinentCode'
 
 setRouteOriginal = Router::setRoute
 Router::setRoute = ->
@@ -75,8 +76,11 @@ module.exports =
       countries = countries.map (node)->
         node.x = countryPositions[node.name].x
         node.y = countryPositions[node.name].y
+        if not node.shortcut?
+          node.shortcut = node.shortname.slice(0,2).toLowerCase()
         node.fixed = true
         node
+
       
       regionInfoNodes = regionInfoNodes.map (node)->
         node.regionInfo = true
@@ -86,11 +90,20 @@ module.exports =
       nodes = _.union(countries, regionInfoNodes)
       nodes = _.zipObject _.pluck(nodes, 'id'), nodes
 
+      countryShortcuts = _.mapValues _.groupBy(nodes, 'continent'), (cNodes, continent)->
+        _.pluck cNodes, 'shortcut'
+      delete countryShortcuts.usa
+      delete countryShortcuts.ussr
+
+      shortKeys = _.map _.keys(countryShortcuts), (cS)-> oneLetterContinentCode cS
+      countryShortcuts = _.zipObject shortKeys, _.values(countryShortcuts)
+
       key = gameId
+
 
       boardProps = {
         gameId, mapData, countries, regionInfoNodes, links, nodes,
-        key, incomingState }
+        key, incomingState, countryShortcuts}
 
       @setView 'board', 'Board', 'board', boardProps
 

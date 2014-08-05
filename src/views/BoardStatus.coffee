@@ -18,7 +18,7 @@ table =
 
 hilightShortcutLetter = (title,side='')->
   titleSide = title
-  if side != '' and title != 'Round'
+  if side != '' and title != 'Round' and title != 'Score'
     titleSide = "#{title}-#{side}"
 
   [head, tail] = title.split table[titleSide]

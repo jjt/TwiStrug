@@ -3,10 +3,21 @@ superpowerToIndex = require './superpowerToIndex'
 stateEncoder = require './stateEncoder'
 
 module.exports = class BoardStateHistory extends StateHistory
+  encodeState: (state)->
+    encoded = stateEncoder.encode state
+    #console.log 'BoardStateHistory encodeState', state, encoded
+    encoded
+
+  decodeState: (state)->
+    decoded = stateEncoder.decode state
+    #console.log 'BoardStateHistory decodeState', state, decoded
+    decoded
+  
   add: (state, meta)->
     # If it's the same thing as the previous entry, don't update the history
     # This is so we can batch the changes for display
     cur = @getCurrent()
+    #console.log cur
     if not cur?
       return super state, meta
 
@@ -70,7 +81,7 @@ module.exports = class BoardStateHistory extends StateHistory
     else
       @states[@current] =
         meta: nm
-        state: state
+        state: @encodeState state
 
     @save()
     @emit 'merge', @getCurrent()
@@ -80,5 +91,34 @@ module.exports = class BoardStateHistory extends StateHistory
 
   # Turn state into a minimal representation
   encodeCurrent: ()->
-    stateEncoder.encode @getCurrent()
-    
+    cur = @getCurrent()
+    return if not cur?
+    stateEncoder.encode @getCurrent()?.state
+
+
+  toggleVisible: (force, showTemp=false)->
+    clearTimeout @showThenHideTimeout
+    @showTemp = showTemp
+    @show = if force? then force else !@show
+    @emit 'toggleVisible', @show
+    @emit 'update'
+
+  showThenHide: (time = 1000)->
+    clearTimeout @showThenHideTimeout
+    if not @show
+      @toggleVisible true, true
+    if @showTemp
+      @showThenHideTimeout = setTimeout @toggleVisible.bind(this, false), time
+
+  hide: ->
+    @toggleVisible false
+
+  show: ->
+    @toggleVisible true
+
+  # cb can be a callback function, shorthand obj, or a key name
+  # http://lodash.com/docs#findIndex
+  findStateIndex: (cb)->
+    index = _.findIndex @states, cb
+    if index != -1
+      return index 

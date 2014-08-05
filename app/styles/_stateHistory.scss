@@ -1,6 +1,6 @@
 .StateHistory {
   position:fixed;
-  z-index:10;
+  z-index:500;
   width:300px;
   overflow-y:auto;
   left:-300px;
@@ -32,7 +32,7 @@
     padding:3px 0 2px 25px;
     cursor:pointer;
     &:hover {
-      background: theon(1); 
+      background: theon(10); 
     }
     &.StateHistory-current {
       &, &:hover {

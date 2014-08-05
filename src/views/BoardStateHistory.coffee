@@ -26,7 +26,7 @@ module.exports = React.createClass
     @props.stateHistory.hide()
 
   render: ->
-    stateComponents = @props.stateHistory.states.map (sh, index)=>
+    stateComponents = @props.stateHistory.getAll().map (sh, index)=>
       shM = sh.meta
       # IP placement in country
       if shM.country?

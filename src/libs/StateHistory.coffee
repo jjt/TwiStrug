@@ -12,6 +12,13 @@ class StateHistory extends MicroEventClass
     @id = opts.id
     @statesToSave = 50
   
+  # Extend to add custom encoding/decoding functionality
+  encodeState: (state)->
+    state
+
+  decodeState: (state)->
+    state
+  
   save: ->
     states = @states.slice 0, @statesToSave
     
@@ -41,7 +48,7 @@ class StateHistory extends MicroEventClass
     @latest = @current
 
     newState =
-      state: _.cloneDeep state
+      state: @encodeState _.cloneDeep state
       meta: _.cloneDeep meta
 
     @states[@current] = newState
@@ -73,13 +80,17 @@ class StateHistory extends MicroEventClass
     state
 
   goTo: (index)->
+    return if not index?
     @current = index
     @emit 'goTo', @getCurrent()
     @emit 'update', @getCurrent()
     @emit 'change'
 
   get: (index)->
-    _.cloneDeep @states[index]
+    return null if @states.length == 0
+    sh = _.cloneDeep @states[index]
+    sh.state = @decodeState sh.state
+    sh
 
   getCurrent: ()->
     @get(@current)
@@ -89,24 +100,9 @@ class StateHistory extends MicroEventClass
     if prev < 0 then prev = 0
     return @get(prev)
 
-  toggleVisible: (force, showTemp=false)->
-    clearTimeout @showThenHideTimeout
-    @showTemp = showTemp
-    @show = if force? then force else !@show
-    @emit 'toggleVisible', @show
-    @emit 'update'
+  getAll: ->
+    _.map @states, (sh, index)=>
+      @get index
 
-  showThenHide: (time = 1000)->
-    clearTimeout @showThenHideTimeout
-    if not @show
-      @toggleVisible true, true
-    if @showTemp
-      @showThenHideTimeout = setTimeout @toggleVisible.bind(this, false), time
-
-  hide: ->
-    @toggleVisible false
-
-  show: ->
-    @toggleVisible true
 
 module.exports = StateHistory

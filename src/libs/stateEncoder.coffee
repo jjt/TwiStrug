@@ -8,8 +8,7 @@ numToChar = require './numToChar'
 #                         MO USA, MO USSR, Space USA, Space USSR
 # 8-176     Country IPs, 2 bytes each, sequentially by id
 module.exports =
-  encode: (stateObj)->
-    state = stateObj.state
+  encode: (state)->
     game = state.game
     ips = state.ips
 
@@ -25,6 +24,7 @@ module.exports =
       .join ''
       
   decode: (str)->
+    return null if not str?
     arr = str.split('').map (el)-> numToChar.decode el
     boardArr = arr.slice(0,8)
     ipArr = arr.slice(8)

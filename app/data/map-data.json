@@ -548,6 +548,7 @@
       
       "name":"E Germany",
       "shortname":"E.Germ",
+      "shortcut":"eg",
       "group":"eeu",
       "continent":"eu",
       "stab":3,
@@ -717,6 +718,7 @@
       
       "name":"W Germany",
       "shortname":"W.Germ",
+      "shortcut":'wg',
       "group":"weu",
       "continent":"eu",
       "stab":4,
@@ -769,6 +771,7 @@
       
       "name":"Iran",
       "shortname":"Iran",
+      "shortcut":"in",
       "group":"me",
       "continent":"me",
       "stab":2,
@@ -782,6 +785,7 @@
       
       "name":"Iraq",
       "shortname":"Iraq",
+      "shortcut":"iq",
       "group":"me",
       "continent":"me",
       "stab":3,
@@ -912,6 +916,7 @@
       
       "name":"India",
       "shortname":"India",
+      "shortcut":"id",
       "group":"as",
       "continent":"as",
       "stab":3,
@@ -925,6 +930,7 @@
       
       "name":"Indonesia",
       "shortname":"Indonesia",
+      "shortcut":"is",
       "group":"sea",
       "continent":"as",
       "stab":1,
@@ -977,6 +983,7 @@
       
       "name":"N Korea",
       "shortname":"N.Korea",
+      "shortcut":"nk",
       "group":"as",
       "continent":"as",
       "stab":3,
@@ -1016,6 +1023,7 @@
       
       "name":"S Korea",
       "shortname":"S.Korea",
+      "shortcut":"sk",
       "group":"as",
       "continent":"as",
       "stab":3,
@@ -1198,6 +1206,7 @@
       
       "name":"Saharan States",
       "shortname":"Sahara S",
+      "shortcut":"ss",
       "group":"af",
       "continent":"af",
       "stab":1,
@@ -1224,6 +1233,7 @@
       
       "name":"South Africa",
       "shortname":"South Af",
+      "shortcut":"sa",
       "group":"af",
       "continent":"af",
       "stab":3,

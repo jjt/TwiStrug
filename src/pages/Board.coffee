@@ -18,27 +18,34 @@ BoardInfo = React.createClass
     , 0
   getDefaultProps: ->
     shortcuts:
+      ip: [
+        { key:'i', desc: 'Start influence placement by keyboard mode' }
+        { key:'esc', desc: 'Stop influence placement by keyboard mode' }
+        { key:'bksp', desc: 'Go back (ex. from country -> continent)' }
+        { key:'a/A', desc: 'USA influence inc/dec (when country selected)' }
+        { key:'r/R', desc: 'USSR influence inc/dec (when country selected)' }
+      ]
       left: [
         { key:'s/S', desc: 'Score inc/dec' }
         { key:'d/D', desc: 'Defcon inc/dec' }
         { key:'m/M', desc: 'USA Military Ops inc/dec' }
         { key:'o/O', desc: 'USSR Military Ops inc/dec' }
-        { key:'z', desc: 'Undo action' }
-        { key:'y', desc: 'Redo action' }
-        { key:'h', desc: 'Show/hide action history' }
+        { key:'h', desc: 'Show/hide Action History' }
+        { key:'c', desc: 'Roll dice' }
       ]
       right: [
         { key:'t/T', desc: 'Turn inc/dec' }
         { key:'r/R', desc: 'Round inc/dec' }
         { key:'p/P', desc: 'USA Space Race inc/dec' }
         { key:'a/A', desc: 'USSR Space Race inc/dec' }
-        { key:'c', desc: 'Roll dice' }
+        { key:'z', desc: 'Undo (Action History)' }
+        { key:'y', desc: 'Redo (Action History)' }
       ]
       
   render: ->
     R.div {}, [
-      R.div className: 'row', [
-        R.div className: 'col-lg-6', [
+      R.div className: 'row',
+        R.div className: 'col-lg-12', [
           R.h3 {}, 'Virtual Twilight Struggle board'
           R.p {}, "This is a fully playable board with a more
             compact layout to fit on smaller screens, like a Chromebook or iPad. Just add cards
@@ -58,16 +65,24 @@ BoardInfo = React.createClass
             instance, if you were the USSR starting a new game, you would place your
             initial influence then copy the URL and send it to your opponent. They
             would go to that URL, place their influence and send the new URL back to you. Lather, rinse, repeat."
-          R.h3 {}, "Keyboard Shortcuts"
-          R.dl className:'BoardPage-shortcuts col-lg-6', _.reduce @props.shortcuts.left, reduceShortcuts, []
-          R.dl className:'BoardPage-shortcuts col-lg-6', _.reduce @props.shortcuts.right, reduceShortcuts, []
         ]
+      R.div className: 'row', [
         R.div className: 'col-lg-6', [
           R.h3 {}, "Instructions"
           R.p {}, "To add/remove influnce in a country, click in the top/bottom of the influence space on the desired side (USA on left, USSR on right)."
           R.p {}, "To undo/redo one or more actions, press Z/Y one or more times."
           R.p {}, "The dice can be rolled individually by clicking on them, or as a pair by clicking on \"ROLL DICE\"."
           R.p {}, "Each superpower box (USA, USSR) shows the number of controlled battleground countries on top. On the bottom it shows the number of regions in which the power has presence, domination, and control. For example, if the USSR had \"4 2 1\", it would mean that they have presence in 4 regions, dominate 2, and control 1."
+        ]
+        R.div className: 'col-lg-6', [
+          R.h3 {}, "Keyboard Shortcuts"
+          R.dl className:'BoardPage-shortcuts col-lg-6', _.reduce @props.shortcuts.left, reduceShortcuts, []
+          R.dl className:'BoardPage-shortcuts col-lg-6', _.reduce @props.shortcuts.right, reduceShortcuts, []
+          R.div className: 'row',
+            R.div className: 'col-lg-12', [
+              R.h4 {}, "Influence placement by keyboard mode"
+              R.dl className:'BoardPage-shortcuts BoardPage-shortcuts-ip', _.reduce @props.shortcuts.ip, reduceShortcuts, []
+            ]
         ]
       ]
     ]

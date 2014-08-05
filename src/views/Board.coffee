@@ -1,71 +1,20 @@
 R = React.DOM
-RCTG = React.addons.CSSTransitionGroup
 cx = React.addons.classSet
+
+superStats = require '../libs/superStats'
 rangedGameVal = require '../libs/rangedGameVal'
 stateEncoder = require '../libs/stateEncoder'
+upperFirst = require '../libs/upperFirst'
+oneLetterContinentCode = require '../libs/oneLetterContinentCode'
+continentCodeFromLetter = require '../libs/continentCodeFromLetter'
 
 BoardNode = require './BoardNode'
+BoardNodeDiv = require './BoardNodeDiv'
 BoardStatus = require './BoardStatus'
 BoardLink = require './BoardLink'
 
 
 superpowerToIndex = (str)-> if str == 'usa' then 0 else 1
-
-
-getIpStats = (ips, countries)->
-  accumulator = ->
-    btl: 0
-    non: 0
-    total: 0
-    eu:   non: 0, btl: 0, total: 0
-    as:   non: 0, btl: 0, total: 0
-    me:   non: 0, btl: 0, total: 0
-    af:   non: 0, btl: 0, total: 0
-    sa:   non: 0, btl: 0, total: 0
-    ca:   non: 0, btl: 0, total: 0
-
-  fn = (accum, ips, countryId)->
-    country = _.find countries, id: parseInt(countryId, 10)
-    if ips[0] - ips[1] >= country.stab
-      accum[country.continent].total++
-      accum.total++
-      if country.btl
-        accum[country.continent].btl++
-        accum.btl++
-      else
-        accum[country.continent].non++
-        accum.non++
-    accum
-
-  # Flipped to have USSR ips first
-  ipsRev = _.map ips, (ips)-> _.cloneDeep(ips).reverse()
-
-  usa = _.reduce ips, fn, accumulator()
-  ussr = _.reduce ipsRev, fn, accumulator()
-
-  {usa, ussr}
-
-sumRegion = (metric, sum, region)-> sum + region[metric]
-
-getRegionStats = (ipStats, regions)->
-  stats = _.mapValues ipStats, (hero, power, powers)->
-    villain = if power == 'usa' then powers.ussr else powers.usa
-    regionStats = regions.map (region)->
-      hRegion = hero[region.id]
-      vRegion = villain[region.id]
-      out =
-        presence: hRegion.total > 0
-        domination: hRegion.non > 0 and hRegion.btl > vRegion.btl and hRegion.total > vRegion.total
-        control: hRegion.btl == region.numBtl and hRegion.total > vRegion.total
-
-    regionStats = _.zipObject _.pluck(regions, 'id'), regionStats
-    regionStats = _.assign regionStats,
-      presence: _.reduce regionStats, sumRegion.bind(null, 'presence'), 0
-      domination: _.reduce regionStats, sumRegion.bind(null, 'domination'), 0
-      control: _.reduce regionStats, sumRegion.bind(null, 'control'), 0
-  
-  stats
-
 
 # Returns a simple {usa: 'presence', ussr: 'domination'}
 getRegionStatus = (stats)->
@@ -77,10 +26,19 @@ getRegionStatus = (stats)->
 
 
 
-superStats = (ips, countryArr, regionArr)->
-  countries = getIpStats(ips, countryArr)
-  regions = getRegionStats(countries, regionArr)
-  {countries, regions}
+
+continentShortcutData = [
+  { char: 'C', x:127, y:200 }
+  { char: 'S', x:127, y:510 }
+  { char: 'F', x:533, y:550 }
+  { char: 'E', x:480, y:220 }
+  { char: 'A', x:840, y:150 }
+  { char: 'M', x:840, y:380 }
+]
+  
+
+
+
 
 
 module.exports = React.createClass
@@ -113,7 +71,11 @@ module.exports = React.createClass
       stateHistory.add gameState, meta
       state = gameState
 
-    state
+    _.assign state,
+      ipShowCountries: []
+      ipKeySequence: ''
+      ipShowContinent: ''
+      ipSetCountry: null
 
   componentWillReceiveProps: (nP)->
     state = @getInitialState nP
@@ -123,7 +85,6 @@ module.exports = React.createClass
 
   componentWillMount: ->
     {stateHistory, gameId} = @props
-
       
     # When state changes, update the url
     stateHistory.on 'change', =>
@@ -135,20 +96,34 @@ module.exports = React.createClass
     stateHistory.on 'goTo', (state)=>
       @setState state.state
 
-    $(document).on 'keypress', @keypressHandler
+    @kpHT = _.throttle @keypressHandler, 100
+    @kuHT = _.throttle @keyupHandler, 100
+    @kdHT = _.throttle @keydownHandler, 100
+
+    $(document).on 'keypress', @kpHT
+    $(document).on 'keyup', @kuHT
+    $(document).on 'keydown', @kdHT
 
   componentWillUnmount: ->
-    $(document).off 'keypress', @keypressHandler
+    $(document).off 'keypress', @kpHT
+    $(document).off 'keyup', @kuHT
+    $(document).off 'keydown', @kdHT
 
   handleIncomingState: (stateEncoded = @props.incomingState) ->
-    current = @props.stateHistory.getCurrent()
-    if stateEncoded? and stateEncoded != '' and current?.meta.state != stateEncoded
-      state = stateEncoder.decode stateEncoded
-      @props.stateHistory.add state,
-        type: 'load'
-        id: 'load'
-        state: stateEncoded
-      return state
+    index = @props.stateHistory.findStateIndex state: stateEncoded
+    if index?
+      @props.stateHistory.goTo index
+      current = @props.stateHistory.getCurrent()
+      return current.state
+    else
+      current = @props.stateHistory.getCurrent()
+      if stateEncoded? and stateEncoded != '' and current?.meta.state != stateEncoded
+        state = stateEncoder.decode stateEncoded
+        @props.stateHistory.add state,
+          type: 'load'
+          id: 'load'
+          state: stateEncoded
+        return state
 
 
   # Adds the state to the history
@@ -160,6 +135,13 @@ module.exports = React.createClass
   keypressHandler: (ev)->
     kC = ev.keyCode
     dir = if kC >= 97 then 'inc' else 'dec'
+
+    if @state.ipKeySequence.length > 0
+      return @ipKeySequence(kC)
+
+    if kC == 105 or kC == 73
+      return @ipKeySequence kC
+      return
 
     switch kC
       # (c/C) Dice
@@ -207,6 +189,122 @@ module.exports = React.createClass
 
     return true
 
+
+  # Esc doesn't trigger on keypress, so it has to be keyup
+  keyupHandler: (ev)->
+    if 37 <= ev.keyCode <= 40
+      return @ipKeySequence ev.keyCode
+    if ev.keyCode == 27
+      @clearIpKeySequence()
+      return
+    ev.preventDefault()
+    return false
+
+  keydownHandler: (ev)->
+    # Prevent backspace from navigating the page
+    # Oridinarily I don't like taking over browser shortcuts, but in this case
+    # we want to prevent users from over-backspacing
+    if ev.keyCode == 8
+      ev.preventDefault()
+      @ipKeySequence(ev.keyCode)
+      return false
+
+  clearIpKeySequence: ->
+    @setState
+      ipKeySequence: ''
+      ipShowCountries: []
+      ipShowContinent: ''
+      ipSetCountry: null
+
+  ipKeySequence: (code)->
+    ipKS = @state.ipKeySequence
+    char = String.fromCharCode(code)
+
+    # Backspace should delete the last char from the ipKS, and set the "current"
+    # char to the last char
+    if code == 8
+      # Back up two spaces when a country is selected
+      delta = -1
+      if ipKS.length == 4
+        delta = -2
+      ipKS = ipKS.slice(0,delta)
+      char = ipKS.slice(-1)
+      ipKS = ipKS.slice(0,-1)
+
+    charLower = char.toLowerCase()
+
+    if not ipKS and not char
+      @clearIpKeySequence()
+      return
+
+    @props.stateHistory.toggleVisible false
+    if ipKS.length == 0 and charLower == 'i'
+      @setState
+        ipKeySequence: 'i'
+        ipShowCountries: []
+        ipShowContinent: ''
+        ipSetCountry: null
+      return
+
+    # Continent selection
+    if ipKS.length == 1 and charLower in ['c','s','e','f','a','m']
+      ipKS += charLower
+      @setState
+        ipKeySequence: ipKS
+        ipShowCountries: @props.countryShortcuts[charLower]
+        ipShowContinent: charLower
+        ipSetCountry: null
+      return
+    
+    continent = ipKS.charAt 1
+
+    # Country selection
+    # ipKS should be 'i[continent]' or 'i[continent][countryChar]'
+    if 2 <= ipKS.length <= 3
+      ipKS += charLower
+      country = ipKS.slice(2)
+
+      countries = @props.countryShortcuts[continent].filter (sc = '')->
+        sc.charAt(0) == country.charAt(0)
+
+      if country.length == 2
+        countries = countries.filter (sc = '')->
+          sc.charAt(1) == country.charAt(1)
+
+      # Make sure we have at least one country
+      if countries.length != 0
+        @setState
+          ipKeySequence: ipKS
+          ipShowCountries: countries
+          ipSetCountry: null
+      return
+    
+    # We have a country "selected" for ip placement
+    country = ipKS.slice(2)
+    if ipKS.length == 4 and country.length == 2
+      node = _.find @props.nodes,
+        shortcut: country
+        continent: continentCodeFromLetter continent
+      if not node?
+        return
+
+      switch char
+        when 'a'
+          side = 'usa'
+          dir = 'up'
+        when 'A'
+          side = 'usa'
+          dir = 'dn'
+        when 'r'
+          side = 'ussr'
+          dir = 'up'
+        when 'R'
+          side = 'ussr'
+          dir = 'dn'
+
+      if side? and dir?
+        @handleIPClick node.id, side, dir
+      return false
 
   handleValClick: (id, dir, side)->
     state = this.state
@@ -275,6 +373,10 @@ module.exports = React.createClass
 
     superpowerStats = superStats @state.ips, @props.countries, @props.regionInfoNodes
 
+    ipKeySequence = @state?.ipKeySequence
+    ipShowCountries = @state?.ipShowCountries || []
+    ipShowContinent = @state?.ipShowContinent
+
     links = @props.links.map (linkData)=>
       source = _.find @props.countries, id: linkData.source
       target = _.find @props.countries, id: linkData.target
@@ -301,16 +403,25 @@ module.exports = React.createClass
       BoardLink linkProps
 
     nodes = _.map @props.nodes, (countryData)=>
+      onTop = not ipKeySequence or
+        countryData.shortcut in ipShowCountries and
+        oneLetterContinentCode(countryData.continent) == ipShowContinent and
+        ipKeySequence.length >= 4
       props =
         node: nodeProps
         key: "BoardNode-#{countryData.id}"
         transform: "translate(#{countryData.x}, #{countryData.y})"
+        x: countryData.x
+        y: countryData.y
         width: @props.node.width
         height: @props.node.height
         gutter: @props.node.gutter
         titleHeight: @props.node.titleHeight
         titleFontSize: @props.node.titleFontSize
         handleIPClick: @handleIPClick
+        # Determine if the country should be on top of the ip shortcut layer
+        onTop: onTop
+          
 
       _.assign props, countryData
 
@@ -329,17 +440,63 @@ module.exports = React.createClass
         props.usa = @state.ips[countryId][0]
         props.ussr = @state.ips[countryId][1]
 
-      BoardNode props
+      BoardNodeDiv props
 
     boardStatusAttrs =
       ref:'BoardStatus'
       handleValClick: @handleValClick
       handleHistoryClick: @handleHistoryClick
 
+
+
+    continentShortcuts = continentShortcutData.map (o)=>
+      if ipKeySequence.length == 1
+        show = 'in'
+      attrs =
+        className: "Board-shortcutContinent Board-shortcut #{show}"
+        style:
+          left: o.x
+          top: o.y
+      R.div attrs, o.char
+
+    nodesByContinent = _.groupBy @props.nodes, 'continent'
+
+    countryShortcuts = _.map nodesByContinent, (nodes, continent)=>
+      contKey = oneLetterContinentCode continent
+      nodeComponents = _.map nodes, (node)=>
+        if node.superpower? or node.points?
+          return null
+        show = ''
+        ipKSL = ipKeySequence.length
+        if ipKSL < 4 and _.contains(@state.ipShowCountries, node.shortcut) and @state.ipShowContinent == oneLetterContinentCode(continent)
+          show = 'in'
+        attrs =
+          className: "Board-shortcut Board-shortcutCountry #{show}"
+          style:
+            left: node.x
+            top: node.y
+        R.div attrs, upperFirst(node.shortcut)
+
+      nodeComponents
+
+
     R.div className: 'Board', [
       R.svg width:@props.width, height:@props.height, ref: 'svg', [
         links
-        nodes
       ]
+      nodes
+      R.div onClick: @clearIpKeySequence ,className: "Board-shortcutHeader #{if ipKeySequence then 'in' else ''}", [
+        R.h3 {}, "Placing Influence"
+        R.span {}, [
+          "Press "
+          R.span className: 'shortcut', "ESC"
+          " or click this box to exit"
+        ]
+      ]
+      R.div
+        className: "Board-shortcutMask #{if ipKeySequence then 'in' else ''}"
+      R.div className: "Board-shortcutContinents #{if ipKeySequence and ipKeySequence.length <= 1 then 'in' else ''}",
+        continentShortcuts
+      countryShortcuts
       BoardStatus _.assign boardStatusAttrs, @state.game
     ]
