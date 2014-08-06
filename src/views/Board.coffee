@@ -330,13 +330,14 @@ module.exports = React.createClass
       return
     
     # We have a country "selected" for ip placement
-    country = ipKS.slice(2,4)
-    if ipKS.length == 4 and country.length == 2
+    countryCode = ipKS.slice(2,4)
+    if ipKS.length == 4 and countryCode.length == 2
       ipChange = @state.ipIPChange || [0,0]
-      node = _.find @props.nodes,
-        shortcut: country
+      country = _.find @props.nodes,
+        shortcut: countryCode
         continent: continentCodeFromLetter continent
-      if not node?
+      countryIPs = @state.ips[parseInt(country.id,10)]
+      if not country?
         return
 
       switch char
@@ -347,7 +348,8 @@ module.exports = React.createClass
         when 'A'
           side = 'usa'
           dir = 'dn'
-          ipChange[0]--
+          if countryIPs[0] > 0
+            ipChange[0]--
         when 'r'
           side = 'ussr'
           dir = 'up'
@@ -355,11 +357,12 @@ module.exports = React.createClass
         when 'R'
           side = 'ussr'
           dir = 'dn'
-          ipChange[1]--
+          if countryIPs[1] > 0
+            ipChange[1]--
 
 
       if side? and dir?
-        @handleIPClick node.id, side, dir
+        @handleIPClick country.id, side, dir
 
       @setState
 
