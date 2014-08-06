@@ -27,6 +27,9 @@ body {
   color: theon(2);
 }
 
+.twi { @extend .owner-us; }
+.strug { @extend .owner-ussr; }
+
 .navbar-brand {
   padding:0;
   .twi, .strug {
@@ -35,11 +38,9 @@ body {
   }
   .twi {
     padding-right:0;
-    @extend .owner-us;
   }
   .strug {
     padding-left:0;
-    @extend .owner-ussr;
   }
 
   &:hover {

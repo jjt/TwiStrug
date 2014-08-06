@@ -1766,6 +1766,8 @@ body {
 .navbar-nav > li.active > a {
   color: #353431; }
 
+
+
 .navbar-brand {
   padding: 0; }
   .navbar-brand .twi, .navbar-brand .strug {
@@ -1890,10 +1892,10 @@ img.fluid {
 .card, .card a {
   color: #737368; }
 
-.owner-us, .navbar-brand .twi, a.owner-us, .navbar-brand a.twi {
+.owner-us, .twi, a.owner-us, a.twi {
   color: #268BD2; }
 
-.owner-ussr, .navbar-brand .strug, a.owner-ussr, .navbar-brand a.strug {
+.owner-ussr, .strug, a.owner-ussr, a.strug {
   color: #DC322F; }
 
 .asiaScoring, a.asiaScoring {
@@ -1975,9 +1977,9 @@ img.fluid {
   border-bottom: 1px solid rgba(0, 0, 0, 0.3); }
   .owner-neutral .card-ops {
     background: #62625b; }
-  .owner-us .card-ops, .owner-us .navbar-brand .twi, .navbar-brand .owner-us .twi {
+  .owner-us .card-ops, .owner-us .twi {
     background: #268BD2; }
-  .owner-ussr .card-ops, .owner-ussr .navbar-brand .strug, .navbar-brand .owner-ussr .strug {
+  .owner-ussr .card-ops, .owner-ussr .strug {
     background: #DC322F; }
   .asiaScoring .card-ops {
     background: #F89E2C; }
@@ -2038,10 +2040,10 @@ img.fluid {
 .card.asiaScoring .card-text, .card.southeastAsiaScoring .card-text {
   color: #b1640d; }
 
-.card.owner-us .card-text, .card.owner-us .navbar-brand .card.twi, .navbar-brand .card.owner-us .card.twi {
+.card.owner-us .card-text, .card.owner-us .card.twi {
   color: #217cb8; }
 
-.card.owner-ussr .card-text, .card.owner-ussr .navbar-brand .card.strug, .navbar-brand .card.owner-ussr .card.strug {
+.card.owner-ussr .card-text, .card.owner-ussr .card.strug {
   color: #c22321; }
 
 .card.middleEastScoring .card-text {
@@ -2269,6 +2271,75 @@ img.fluid {
   .StateHistory .ip {
     font-weight: bold;
     line-height: 1; }
+
+.weu {
+  color: #a376d9; }
+
+.eeu {
+  color: #c9aee9; }
+
+.eu {
+  color: #a376d9; }
+
+.me {
+  color: #bbd9e7; }
+
+.as {
+  color: #f8a136; }
+
+.sea {
+  color: #fbc380; }
+
+.sa {
+  color: #95b57d; }
+
+.ca {
+  color: #E2ECB9; }
+
+.af {
+  color: #F5E696; }
+
+.weuDark {
+  color: #553086; }
+
+.eeuDark {
+  color: #7743ba; }
+
+.euDark {
+  color: #553086; }
+
+.meDark {
+  color: #3a5a69; }
+
+.asDark {
+  color: #894f0c; }
+
+.afDark {
+  color: #72621a; }
+
+.caDark {
+  color: #677234; }
+
+.saDark {
+  color: #4b5a3f; }
+
+.weuLight {
+  color: #bc9ee4; }
+
+.eeuLight {
+  color: #e3d6f4; }
+
+.meLight {
+  color: #e8f2f7; }
+
+.asLight {
+  color: #fcd9b1; }
+
+.afLight {
+  color: #fcf6dc; }
+
+.caLight {
+  color: #f8faed; }
 
 .map-position-debug {
   display: none; }
@@ -2546,23 +2617,41 @@ img.fluid {
   height: 70px;
   background: white;
   display: block;
-  width: 300px;
-  text-align: center;
+  width: 500px;
+  padding: 0 20px;
   position: fixed;
   border: 1px solid #99998f;
   border-top: 0;
   top: -80px;
   left: 50%;
-  margin-left: -150px;
+  margin-left: -250px;
   z-index: 700;
   transition: top 0.1s ease-out; }
   .Board-shortcutHeader.in {
     top: 0px; }
-  .Board-shortcutHeader h3 {
-    margin: 10px 0 2px; }
+  .Board-shortcutHeader .copy {
+    width: 50%;
+    text-align: center;
+    float: left; }
+    .Board-shortcutHeader .copy h3 {
+      margin: 10px 0 2px; }
+  .Board-shortcutHeader .chars {
+    text-align: center;
+    width: 50%;
+    float: left; }
   .Board-shortcutHeader .shortcut {
     color: #DC322F;
     font-weight: bold; }
+
+.Board-ipHeader-Continent {
+  margin: 9px 0 0;
+  font-weight: bold;
+  line-height: 1;
+  opacity: 0.6; }
+
+.Board-ipHeader-Country {
+  margin: 0;
+  line-height: 1; }
 
 .nodediv {
   z-index: 200;
@@ -2921,6 +3010,12 @@ a.home-link {
   a.home-link.home-link-cards:hover {
     background: #DC322F; }
 
+.AboutView-tsbox {
+  max-width: 400px;
+  margin: 0 auto;
+  display: block;
+  margin-top: 60px; }
+
 a {
   color: #268BD2; }
   a:hover {
@@ -2949,6 +3044,9 @@ h1, h2, h3 {
 p strong {
   color: #737368; }
 
+blockquote {
+  border-left: 5px solid #d9d9d4; }
+
 #placeholder {
   height: 100%;
   width: 100%;
@@ -2963,3 +3061,17 @@ p strong {
     line-height: 1;
     color: #868679;
     text-shadow: 0px 1px 1px #fff, 0px -1px 1px #666; }
+
+.img {
+  border: 1px solid #99998f; }
+
+.img-fluid {
+  width: 100%;
+  display: block; }
+
+a.img-link:after {
+  content: '';
+  display: none; }
+
+.img-center {
+  margin: 0 auto; }

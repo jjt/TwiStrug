@@ -37,6 +37,10 @@ continentShortcutData = [
 ]
   
 
+contCountrySelection = (regions, countries, ipKeySeq = '')->
+  continent = _.find regions, {shortcut: ipKeySeq.charAt(1).toLowerCase()}
+  country = _.find countries, {shortcut: ipKeySeq.slice(2,4).toLowerCase(), continent: continent?.continent}
+  { continent, country }
 
 
 
@@ -479,6 +483,13 @@ module.exports = React.createClass
 
       nodeComponents
 
+    contCountry = contCountrySelection @props.regionInfoNodes, @props.countries, ipKeySequence
+    ipContCountry = [
+      R.h3 className: "Board-ipHeader-Continent #{contCountry.continent?.continent}Dark", contCountry.continent?.shortname
+      R.h3 className: "Board-ipHeader-Country #{contCountry.country?.continent}Dark", contCountry.country?.shortname
+    ]
+
+
 
     R.div className: 'Board', [
       R.svg width:@props.width, height:@props.height, ref: 'svg', [
@@ -486,12 +497,15 @@ module.exports = React.createClass
       ]
       nodes
       R.div onClick: @clearIpKeySequence ,className: "Board-shortcutHeader #{if ipKeySequence then 'in' else ''}", [
-        R.h3 {}, "Placing Influence"
-        R.span {}, [
-          "Press "
-          R.span className: 'shortcut', "ESC"
-          " or click this box to exit"
+        R.div className: 'copy', [
+          R.h3 {}, "Placing Influence"
+          R.span {}, [
+            "Click here or press "
+            R.span className: 'shortcut', "ESC"
+            " to exit"
+          ]
         ]
+        R.div className:'chars', ipContCountry
       ]
       R.div
         className: "Board-shortcutMask #{if ipKeySequence then 'in' else ''}"

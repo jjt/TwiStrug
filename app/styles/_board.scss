@@ -23,6 +23,31 @@ $afLight:  lighten($af,15%);
 $caLight:  lighten($ca,13%);
 $saLight:  lighten($sa,25%);
 
+.weu { color: $weu; }
+.eeu { color: $eeu; }
+.eu { color: $weu; }
+.me { color: $me; }
+.as { color: $as; }
+.sea { color: $sea; }
+.sa { color: $sa; }
+.ca { color: $ca; }
+.af { color: $af; }
+
+.weuDark { color: $weuDark; }
+.eeuDark { color: $eeuDark; }
+.euDark { color: $weuDark;  }
+.meDark { color: $meDark; }
+.asDark { color: $asDark; }
+.afDark { color: $afDark; }
+.caDark { color: $caDark; }
+.saDark { color: $saDark; }
+
+.weuLight { color: $weuLight; }
+.eeuLight { color: $eeuLight; }
+.meLight { color: $meLight; }
+.asLight { color: $asLight; }
+.afLight { color: $afLight; }
+.caLight { color: $caLight; }
 
 
 .map-position-debug {
@@ -408,26 +433,48 @@ $saLight:  lighten($sa,25%);
   height:70px;
   background:white;
   display:block;
-  width:300px;
-  text-align:center;
+  width:500px;
+  padding:0 20px;
   position:fixed;
   border: 1px solid theon(7);
   border-top:0;
   //box-shadow:0 0 9px rgba(theon(1),0.5);
   top:-80px;
   left:50%;
-  margin-left:-150px;
+  margin-left:-250px;
   z-index:700;
   @include transition(top 0.1s ease-out);
   &.in {
     // RElative to the board, not the page
     top:0px;
   }
-  h3 {
-    margin:10px 0 2px; 
+  .copy {
+    width:50%;
+    text-align:center;
+    float:left;
+    h3 {
+      margin:10px 0 2px; 
+    }
+  } 
+  .chars {
+    text-align:center; 
+    width:50%;
+    float:left;
   }
   .shortcut {
     color:$solarized-red;
     font-weight:bold;
   }
+}
+
+.Board-ipHeader-Continent {
+  margin:9px 0 0;
+  font-weight:bold;
+  line-height:1;
+  opacity:0.6;
+}
+
+.Board-ipHeader-Country {
+  margin:0;
+  line-height:1;
 }

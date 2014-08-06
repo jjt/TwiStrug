@@ -23,6 +23,7 @@ $pageBg: theon(12);
 @import 'boardDivNodes';
 @import 'boardStatus';
 @import 'homePage';
+@import 'aboutPage';
 
 
 
@@ -65,6 +66,10 @@ p strong {
   color:theon(5);
 }
 
+blockquote {
+  border-left:5px solid theon(10);
+}
+
 
 
 #placeholder {
@@ -86,4 +91,23 @@ p strong {
 
 
 
+.img {
+  border:1px solid theon(7);
+}
+
+.img-fluid {
+  width:100%;
+  display:block;
+}
+
+a.img-link {
+  &:after {
+    content:'';
+    display:none;
+  }
+}
+
+.img-center {
+  margin:0 auto;
+}
 
