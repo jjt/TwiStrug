@@ -19,11 +19,13 @@ BoardInfo = React.createClass
   getDefaultProps: ->
     shortcuts:
       ip: [
-        { key:'i', desc: 'Start influence placement by keyboard mode' }
-        { key:'esc', desc: 'Stop influence placement by keyboard mode' }
-        { key:'bksp', desc: 'Go back (ex. from country -> continent)' }
+        { key:'i', desc: 'Enter IP placement by keyboard (IPbK) mode' }
+        { key:'esc', desc: 'Go "up" (country -> continent -> exit IPbK mode)' }
+        { key:'enter', desc: '(same as above)' }
         { key:'a/A', desc: 'USA influence inc/dec (when country selected)' }
         { key:'r/R', desc: 'USSR influence inc/dec (when country selected)' }
+        { key:'esc', desc: 'Cancel IP placement (when country selected)' }
+        { key:'enter', desc: 'Confirm IP placement (when country selected)' }
       ]
       left: [
         { key:'s/S', desc: 'Score inc/dec' }
@@ -80,7 +82,7 @@ BoardInfo = React.createClass
           R.dl className:'BoardPage-shortcuts col-lg-6', _.reduce @props.shortcuts.right, reduceShortcuts, []
           R.div className: 'row',
             R.div className: 'col-lg-12', [
-              R.h4 {}, "Influence placement by keyboard mode"
+              R.h4 {}, "Influence placement by keyboard"
               R.dl className:'BoardPage-shortcuts BoardPage-shortcuts-ip', _.reduce @props.shortcuts.ip, reduceShortcuts, []
             ]
         ]

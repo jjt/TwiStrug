@@ -3,10 +3,12 @@ cx = React.addons.classSet
 
 superStats = require '../libs/superStats'
 rangedGameVal = require '../libs/rangedGameVal'
+signedNumOrDash = require '../libs/signedNumOrDash'
 stateEncoder = require '../libs/stateEncoder'
 upperFirst = require '../libs/upperFirst'
 oneLetterContinentCode = require '../libs/oneLetterContinentCode'
 continentCodeFromLetter = require '../libs/continentCodeFromLetter'
+filterTruthy = require '../libs/filterTruthy'
 
 BoardNode = require './BoardNode'
 BoardNodeDiv = require './BoardNodeDiv'
@@ -37,9 +39,17 @@ continentShortcutData = [
 ]
   
 
+# Takes an ipKeySequence and returns the applicable continent and country
 contCountrySelection = (regions, countries, ipKeySeq = '')->
   continent = _.find regions, {shortcut: ipKeySeq.charAt(1).toLowerCase()}
-  country = _.find countries, {shortcut: ipKeySeq.slice(2,4).toLowerCase(), continent: continent?.continent}
+  country = ''
+  countryKey = ipKeySeq.slice(2,4)
+  if countryKey.length == 2
+    countryObj = _.find countries, {shortcut: countryKey.toLowerCase(), continent: continent?.continent}
+    country = countryObj.shortname
+  if countryKey.length == 1
+    country = "#{countryKey.toUpperCase()}..."
+
   { continent, country }
 
 
@@ -80,6 +90,7 @@ module.exports = React.createClass
       ipKeySequence: ''
       ipShowContinent: ''
       ipSetCountry: null
+      ipIPChange: []
 
   componentWillReceiveProps: (nP)->
     state = @getInitialState nP
@@ -196,44 +207,76 @@ module.exports = React.createClass
 
   # Esc doesn't trigger on keypress, so it has to be keyup
   keyupHandler: (ev)->
-    if 37 <= ev.keyCode <= 40
-      return @ipKeySequence ev.keyCode
     if ev.keyCode == 27
-      @clearIpKeySequence()
-      return
+      @props.stateHistory.toggleVisible(false)
+    if ev.keyCode == 27 or (37 <= ev.keyCode <= 40)
+      return @ipKeySequence ev.keyCode, ev
+    #if ev.keyCode == 27
+      #@clearIpKeySequence()
+      #return
     ev.preventDefault()
     return false
 
   keydownHandler: (ev)->
-    # Prevent backspace from navigating the page
-    # Oridinarily I don't like taking over browser shortcuts, but in this case
-    # we want to prevent users from over-backspacing
-    if ev.keyCode == 8
-      ev.preventDefault()
+    if ev.keyCode == 8 or ev.keyCode == 13
       @ipKeySequence(ev.keyCode)
+      # Prevent backspace from navigating the page
+      # Oridinarily I don't like taking over browser shortcuts, but in this case
+      # we want to prevent users from over-backspacing
+      ev.preventDefault()
       return false
+
+  clearIpChange: (resetIPs = true)->
+    # Undo any ip changes
+    ipChange = @state.ipIPChange
+    ipShowCountries = @state.ipShowCountries
+    if ipChange.map(filterTruthy).length > 0 and ipShowCountries.length == 1
+      country = _.find @props.countries, {shortcut: ipShowCountries[0]}
+      return if not country?
+      @setState ipIPChange: [0,0]
+      if resetIPs
+        @handleIPClick country.id, 'usa', null, -ipChange[0]
+        @handleIPClick country.id, 'ussr', null, -ipChange[1]
+
 
   clearIpKeySequence: ->
     @setState
       ipKeySequence: ''
       ipShowCountries: []
       ipShowContinent: ''
+      ipIPChange: [0,0]
       ipSetCountry: null
 
-  ipKeySequence: (code)->
+  ipKeySequence: (code, ev)->
+    #if code == 27
+      #@clearIpKeySequence()
+      #ev.preventDefault()
+      #return false
     ipKS = @state.ipKeySequence
+    ipChange = @state.ipIPChange
     char = String.fromCharCode(code)
 
-    # Backspace should delete the last char from the ipKS, and set the "current"
+    # Backspace (8) should delete the last char from the ipKS, and set the "current"
     # char to the last char
-    if code == 8
-      # Back up two spaces when a country is selected
-      delta = -1
-      if ipKS.length == 4
-        delta = -2
-      ipKS = ipKS.slice(0,delta)
-      char = ipKS.slice(-1)
-      ipKS = ipKS.slice(0,-1)
+    # Enter (13) should 
+    
+    if code == 27 or code == 13
+      # Don't do anything if we don't have an ipKS
+      if not ipKS
+        return
+      ipsChanged = ipKS.length == 4 and ipChange.filter(filterTruthy).length > 0
+      if code == 27 and ipsChanged
+        @clearIpChange()
+      else
+        if code == 13
+          @clearIpChange(false)
+        delta = -1
+        # Back up two spaces when a country is selected
+        if ipKS.length == 4
+          delta = -2
+        ipKS = ipKS.slice(0,delta)
+        char = ipKS.slice(-1)
+        ipKS = ipKS.slice(0,-1)
 
     charLower = char.toLowerCase()
 
@@ -248,6 +291,7 @@ module.exports = React.createClass
         ipShowCountries: []
         ipShowContinent: ''
         ipSetCountry: null
+        ipIPChange: [0,0]
       return
 
     # Continent selection
@@ -258,6 +302,7 @@ module.exports = React.createClass
         ipShowCountries: @props.countryShortcuts[charLower]
         ipShowContinent: charLower
         ipSetCountry: null
+        ipIPChange: [0,0]
       return
     
     continent = ipKS.charAt 1
@@ -281,11 +326,13 @@ module.exports = React.createClass
           ipKeySequence: ipKS
           ipShowCountries: countries
           ipSetCountry: null
+          ipIPChange: [0,0]
       return
     
     # We have a country "selected" for ip placement
-    country = ipKS.slice(2)
+    country = ipKS.slice(2,4)
     if ipKS.length == 4 and country.length == 2
+      ipChange = @state.ipIPChange || [0,0]
       node = _.find @props.nodes,
         shortcut: country
         continent: continentCodeFromLetter continent
@@ -296,18 +343,26 @@ module.exports = React.createClass
         when 'a'
           side = 'usa'
           dir = 'up'
+          ipChange[0]++
         when 'A'
           side = 'usa'
           dir = 'dn'
+          ipChange[0]--
         when 'r'
           side = 'ussr'
           dir = 'up'
+          ipChange[1]++
         when 'R'
           side = 'ussr'
           dir = 'dn'
+          ipChange[1]--
+
 
       if side? and dir?
         @handleIPClick node.id, side, dir
+
+      @setState
+
       return false
 
   handleValClick: (id, dir, side)->
@@ -336,16 +391,22 @@ module.exports = React.createClass
     @setStateHistory state, meta
 
 
-  handleIPClick: (nodeId, side, dir)->
+  handleIPClick: (nodeId, side, dir, delta)->
+    return if delta? and delta == 0
+
     node = _.find @props.nodes, {id: nodeId}
     # Don't let the non-country nodes get updated 
     if node.points or node.superpower then return
 
     state = @state
 
+    if delta?
+      dir = if delta >= 0 then 'up' else 'dn'
+    else
+      delta = if dir == 'up' then 1 else -1
+
     index = superpowerToIndex side
     ip = state.ips[nodeId][index]
-    delta = if dir == 'up' then 1 else -1
     ip += delta
     if ip < 0 then return
 
@@ -407,6 +468,7 @@ module.exports = React.createClass
       BoardLink linkProps
 
     nodes = _.map @props.nodes, (countryData)=>
+      # Determine if country should be on top of the ipPlacement mask
       onTop = not ipKeySequence or
         countryData.shortcut in ipShowCountries and
         oneLetterContinentCode(countryData.continent) == ipShowContinent and
@@ -414,7 +476,6 @@ module.exports = React.createClass
       props =
         node: nodeProps
         key: "BoardNode-#{countryData.id}"
-        transform: "translate(#{countryData.x}, #{countryData.y})"
         x: countryData.x
         y: countryData.y
         width: @props.node.width
@@ -484,9 +545,14 @@ module.exports = React.createClass
       nodeComponents
 
     contCountry = contCountrySelection @props.regionInfoNodes, @props.countries, ipKeySequence
+    ipChange = @state.ipIPChange || [0,0]
+    ipChangeUSA = if ipKeySequence.length >= 4 then R.span className: 'Board-ipHeader-usa', signedNumOrDash(ipChange[0]) else null
+    ipChangeUSSR = if ipKeySequence.length >= 4 then R.span className: 'Board-ipHeader-ussr', signedNumOrDash(ipChange[1]) else null
     ipContCountry = [
+      ipChangeUSA
       R.h3 className: "Board-ipHeader-Continent #{contCountry.continent?.continent}Dark", contCountry.continent?.shortname
-      R.h3 className: "Board-ipHeader-Country #{contCountry.country?.continent}Dark", contCountry.country?.shortname
+      R.h3 className: "Board-ipHeader-Country #{contCountry.continent?.continent}Dark", contCountry.country
+      ipChangeUSSR
     ]
 
 
@@ -500,8 +566,10 @@ module.exports = React.createClass
         R.div className: 'copy', [
           R.h3 {}, "Placing Influence"
           R.span {}, [
-            "Click here or press "
-            R.span className: 'shortcut', "ESC"
+            "Click or press "
+            R.span className: 'shortcut', "esc"
+            " or "
+            R.span className: 'shortcut', "enter"
             " to exit"
           ]
         ]
