@@ -2698,6 +2698,9 @@ img.fluid {
 .nodediv-on-top {
   z-index: 440; }
 
+.nodediv-selected {
+  box-shadow: 0 0 0 1px #ccad00, 0 0 18px 5px #ffdc00; }
+
 .nodediv-title {
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   height: 17px;

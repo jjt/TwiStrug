@@ -487,6 +487,7 @@ module.exports = React.createClass
         countryData.shortcut in ipShowCountries and
         oneLetterContinentCode(countryData.continent) == ipShowContinent and
         ipKeySequence.length >= 4
+      ipSelected = onTop and ipShowCountries.length == 1
       props =
         node: nodeProps
         key: "BoardNode-#{countryData.id}"
@@ -500,6 +501,7 @@ module.exports = React.createClass
         handleIPClick: @handleIPClick
         # Determine if the country should be on top of the ip shortcut layer
         onTop: onTop
+        ipSelected: ipSelected
           
 
       _.assign props, countryData

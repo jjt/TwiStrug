@@ -111,7 +111,7 @@ module.exports =
       nodes = _.union(countries, regionInfoNodes)
       nodes = _.zipObject _.pluck(nodes, 'id'), nodes
 
-      countryShortcuts = _.mapValues _.groupBy(nodes, 'continent'), (cNodes, continent)->
+      countryShortcuts = _.mapValues _.groupBy(countries, 'continent'), (cNodes, continent)->
         _.pluck cNodes, 'shortcut'
       delete countryShortcuts.usa
       delete countryShortcuts.ussr
