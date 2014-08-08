@@ -44,7 +44,7 @@ module.exports = React.createClass
         'nodediv-usa-control': controlUSA
         'nodediv-ussr-control': controlUSSR
         'nodediv-region-info': @props.regionInfo
-        'nodediv-on-top': @props.onTop
+        'nodediv-on-top': @props.onTop and not (@props.regionInfo or @props.superpower)
 
 
     titleTextAttrs =

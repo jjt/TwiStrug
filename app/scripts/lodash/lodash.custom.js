@@ -1,7 +1,7 @@
 /**
  * @license
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
- * Build: `lodash include="assign,cloneDeep,contains,each,find,findIndex,flatten,groupBy,isArray,keys,map,mapValues,merge,pick,pluck,random,reduce,sortBy,throttle,union,values,zipObject," exports="global" -o app/scripts/lodash/lodash.custom.js`
+ * Build: `lodash include="assign,chain,cloneDeep,contains,each,find,findIndex,flatten,groupBy,isArray,keys,map,mapValues,merge,pick,pluck,random,reduce,sortBy,throttle,union,values,zipObject," exports="global" -o app/scripts/lodash/lodash.custom.js`
  * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
  * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -514,9 +514,27 @@
    * _.isArray(squares.value());
    * // => true
    */
-  function lodash() {
-    // no operation performed
+  function lodash(value) {
+    // don't wrap if already wrapped, even if wrapped by a different `lodash` constructor
+    return (value && typeof value == 'object' && !isArray(value) && hasOwnProperty.call(value, '__wrapped__'))
+     ? value
+     : new lodashWrapper(value);
   }
+
+  /**
+   * A fast path for creating `lodash` wrapper objects.
+   *
+   * @private
+   * @param {*} value The value to wrap in a `lodash` instance.
+   * @param {boolean} chainAll A flag to enable chaining for all methods
+   * @returns {Object} Returns a `lodash` instance.
+   */
+  function lodashWrapper(value, chainAll) {
+    this.__chain__ = !!chainAll;
+    this.__wrapped__ = value;
+  }
+  // ensure `new lodashWrapper` is an instance of `lodash`
+  lodashWrapper.prototype = lodash.prototype;
 
   /**
    * An object used to flag environments features.
@@ -1889,6 +1907,31 @@
   var forOwn = createIterator(eachIteratorOptions, forOwnIteratorOptions);
 
   /**
+   * Creates a sorted array of property names of all enumerable properties,
+   * own and inherited, of `object` that have function values.
+   *
+   * @static
+   * @memberOf _
+   * @alias methods
+   * @category Objects
+   * @param {Object} object The object to inspect.
+   * @returns {Array} Returns an array of property names that have function values.
+   * @example
+   *
+   * _.functions(_);
+   * // => ['all', 'any', 'bind', 'bindAll', 'clone', 'compact', 'compose', ...]
+   */
+  function functions(object) {
+    var result = [];
+    forIn(object, function(value, key) {
+      if (isFunction(value)) {
+        result.push(key);
+      }
+    });
+    return result.sort();
+  }
+
+  /**
    * Checks if `value` is a function.
    *
    * @static
@@ -3183,6 +3226,78 @@
   }
 
   /**
+   * Adds function properties of a source object to the destination object.
+   * If `object` is a function methods will be added to its prototype as well.
+   *
+   * @static
+   * @memberOf _
+   * @category Utilities
+   * @param {Function|Object} [object=lodash] object The destination object.
+   * @param {Object} source The object of functions to add.
+   * @param {Object} [options] The options object.
+   * @param {boolean} [options.chain=true] Specify whether the functions added are chainable.
+   * @example
+   *
+   * function capitalize(string) {
+   *   return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+   * }
+   *
+   * _.mixin({ 'capitalize': capitalize });
+   * _.capitalize('fred');
+   * // => 'Fred'
+   *
+   * _('fred').capitalize().value();
+   * // => 'Fred'
+   *
+   * _.mixin({ 'capitalize': capitalize }, { 'chain': false });
+   * _('fred').capitalize();
+   * // => 'Fred'
+   */
+  function mixin(object, source, options) {
+    var chain = true,
+        methodNames = source && functions(source);
+
+    if (!source || (!options && !methodNames.length)) {
+      if (options == null) {
+        options = source;
+      }
+      ctor = lodashWrapper;
+      source = object;
+      object = lodash;
+      methodNames = functions(source);
+    }
+    if (options === false) {
+      chain = false;
+    } else if (isObject(options) && 'chain' in options) {
+      chain = options.chain;
+    }
+    var ctor = object,
+        isFunc = isFunction(ctor);
+
+    forEach(methodNames, function(methodName) {
+      var func = object[methodName] = source[methodName];
+      if (isFunc) {
+        ctor.prototype[methodName] = function() {
+          var chainAll = this.__chain__,
+              value = this.__wrapped__,
+              args = [value];
+
+          push.apply(args, arguments);
+          var result = func.apply(object, args);
+          if (chain || chainAll) {
+            if (value === result && isObject(result)) {
+              return this;
+            }
+            result = new ctor(result);
+            result.__chain__ = chainAll;
+          }
+          return result;
+        };
+      }
+    });
+  }
+
+  /**
    * A no-operation function.
    *
    * @static
@@ -3305,14 +3420,111 @@
 
   /*--------------------------------------------------------------------------*/
 
+  /**
+   * Creates a `lodash` object that wraps the given value with explicit
+   * method chaining enabled.
+   *
+   * @static
+   * @memberOf _
+   * @category Chaining
+   * @param {*} value The value to wrap.
+   * @returns {Object} Returns the wrapper object.
+   * @example
+   *
+   * var characters = [
+   *   { 'name': 'barney',  'age': 36 },
+   *   { 'name': 'fred',    'age': 40 },
+   *   { 'name': 'pebbles', 'age': 1 }
+   * ];
+   *
+   * var youngest = _.chain(characters)
+   *     .sortBy('age')
+   *     .map(function(chr) { return chr.name + ' is ' + chr.age; })
+   *     .first()
+   *     .value();
+   * // => 'pebbles is 1'
+   */
+  function chain(value) {
+    value = new lodashWrapper(value);
+    value.__chain__ = true;
+    return value;
+  }
+
+  /**
+   * Enables explicit method chaining on the wrapper object.
+   *
+   * @name chain
+   * @memberOf _
+   * @category Chaining
+   * @returns {*} Returns the wrapper object.
+   * @example
+   *
+   * var characters = [
+   *   { 'name': 'barney', 'age': 36 },
+   *   { 'name': 'fred',   'age': 40 }
+   * ];
+   *
+   * // without explicit chaining
+   * _(characters).first();
+   * // => { 'name': 'barney', 'age': 36 }
+   *
+   * // with explicit chaining
+   * _(characters).chain()
+   *   .first()
+   *   .pick('age')
+   *   .value();
+   * // => { 'age': 36 }
+   */
+  function wrapperChain() {
+    this.__chain__ = true;
+    return this;
+  }
+
+  /**
+   * Produces the `toString` result of the wrapped value.
+   *
+   * @name toString
+   * @memberOf _
+   * @category Chaining
+   * @returns {string} Returns the string result.
+   * @example
+   *
+   * _([1, 2, 3]).toString();
+   * // => '1,2,3'
+   */
+  function wrapperToString() {
+    return String(this.__wrapped__);
+  }
+
+  /**
+   * Extracts the wrapped value.
+   *
+   * @name valueOf
+   * @memberOf _
+   * @alias value
+   * @category Chaining
+   * @returns {*} Returns the wrapped value.
+   * @example
+   *
+   * _([1, 2, 3]).valueOf();
+   * // => [1, 2, 3]
+   */
+  function wrapperValueOf() {
+    return this.__wrapped__;
+  }
+
+  /*--------------------------------------------------------------------------*/
+
   lodash.assign = assign;
   lodash.bind = bind;
+  lodash.chain = chain;
   lodash.createCallback = createCallback;
   lodash.debounce = debounce;
   lodash.flatten = flatten;
   lodash.forEach = forEach;
   lodash.forIn = forIn;
   lodash.forOwn = forOwn;
+  lodash.functions = functions;
   lodash.groupBy = groupBy;
   lodash.keys = keys;
   lodash.map = map;
@@ -3331,7 +3543,11 @@
   lodash.collect = map;
   lodash.each = forEach;
   lodash.extend = assign;
+  lodash.methods = functions;
   lodash.object = zipObject;
+
+  // add functions to `lodash.prototype`
+  mixin(lodash);
 
   /*--------------------------------------------------------------------------*/
 
@@ -3347,6 +3563,7 @@
   lodash.isObject = isObject;
   lodash.isPlainObject = isPlainObject;
   lodash.isString = isString;
+  lodash.mixin = mixin;
   lodash.noop = noop;
   lodash.now = now;
   lodash.random = random;
@@ -3359,6 +3576,32 @@
   lodash.include = contains;
   lodash.inject = reduce;
 
+  mixin(function() {
+    var source = {}
+    forOwn(lodash, function(func, methodName) {
+      if (!lodash.prototype[methodName]) {
+        source[methodName] = func;
+      }
+    });
+    return source;
+  }(), false);
+
+  /*--------------------------------------------------------------------------*/
+
+  forOwn(lodash, function(func, methodName) {
+    var callbackable = methodName !== 'sample';
+    if (!lodash.prototype[methodName]) {
+      lodash.prototype[methodName]= function(n, guard) {
+        var chainAll = this.__chain__,
+            result = func(this.__wrapped__, n, guard);
+
+        return !chainAll && (n == null || (guard && !(callbackable && typeof n == 'function')))
+          ? result
+          : new lodashWrapper(result, chainAll);
+      };
+    }
+  });
+
   /*--------------------------------------------------------------------------*/
 
   /**
@@ -3369,6 +3612,64 @@
    * @type string
    */
   lodash.VERSION = '2.4.1';
+
+  // add "Chaining" functions to the wrapper
+  lodash.prototype.chain = wrapperChain;
+  lodash.prototype.toString = wrapperToString;
+  lodash.prototype.value = wrapperValueOf;
+  lodash.prototype.valueOf = wrapperValueOf;
+
+  // add `Array` functions that return unwrapped values
+  baseEach(['join', 'pop', 'shift'], function(methodName) {
+    var func = arrayRef[methodName];
+    lodash.prototype[methodName] = function() {
+      var chainAll = this.__chain__,
+          result = func.apply(this.__wrapped__, arguments);
+
+      return chainAll
+        ? new lodashWrapper(result, chainAll)
+        : result;
+    };
+  });
+
+  // add `Array` functions that return the existing wrapped value
+  baseEach(['push', 'reverse', 'sort', 'unshift'], function(methodName) {
+    var func = arrayRef[methodName];
+    lodash.prototype[methodName] = function() {
+      func.apply(this.__wrapped__, arguments);
+      return this;
+    };
+  });
+
+  // add `Array` functions that return new wrapped values
+  baseEach(['concat', 'slice', 'splice'], function(methodName) {
+    var func = arrayRef[methodName];
+    lodash.prototype[methodName] = function() {
+      return new lodashWrapper(func.apply(this.__wrapped__, arguments), this.__chain__);
+    };
+  });
+
+  // avoid array-like object bugs with `Array#shift` and `Array#splice`
+  // in IE < 9, Firefox < 10, Narwhal, and RingoJS
+  if (!support.spliceObjects) {
+    baseEach(['pop', 'shift', 'splice'], function(methodName) {
+      var func = arrayRef[methodName],
+          isSplice = methodName == 'splice';
+
+      lodash.prototype[methodName] = function() {
+        var chainAll = this.__chain__,
+            value = this.__wrapped__,
+            result = func.apply(value, arguments);
+
+        if (value.length === 0) {
+          delete value[0];
+        }
+        return (chainAll || isSplice)
+          ? new lodashWrapper(result, chainAll)
+          : result;
+      };
+    });
+  }
 
   /*--------------------------------------------------------------------------*/
 

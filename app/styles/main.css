@@ -2614,42 +2614,59 @@ img.fluid {
   z-index: 410; }
 
 .Board-shortcutHeader {
-  cursor: pointer;
   height: 70px;
-  background: #f3f3f1;
+  background: #eaeae6;
   display: block;
-  width: 500px;
-  padding: 0 20px;
+  width: 600px;
+  padding: 0;
   position: fixed;
   border: 1px solid #868679;
   border-top: 0;
   top: -80px;
   left: 50%;
-  margin-left: -250px;
+  margin-left: -300px;
   z-index: 700;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   transition: top 0.1s ease-out; }
   .Board-shortcutHeader.in {
     top: 0px; }
   .Board-shortcutHeader .copy {
-    width: 50%;
-    text-align: center;
-    float: left; }
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 230px;
+    display: inline-block;
+    text-align: center; }
     .Board-shortcutHeader .copy h3 {
-      margin: 10px 0 2px; }
+      margin: 7px 0 2px; }
+    .Board-shortcutHeader .copy .label a {
+      display: inline-block;
+      padding: 0.6rem; }
+      .Board-shortcutHeader .copy .label a.disabled {
+        color: #737368;
+        cursor: default; }
   .Board-shortcutHeader .chars {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
     text-align: center;
-    width: 50%;
-    float: left;
-    position: relative; }
+    width: 360px;
+    display: inline-block;
+    position: relative;
+    vertical-align: top; }
   .Board-shortcutHeader .shortcut {
     color: #DC322F;
     font-weight: bold; }
+
+.Board-ipHeader-ContCount {
+  display: inline-block;
+  text-align: center; }
 
 .Board-ipHeader-Continent {
   margin: 9px 0 0;
   font-weight: bold;
   line-height: 1;
-  opacity: 0.6; }
+  opacity: 0.6;
+  width: auto; }
 
 .Board-ipHeader-Country {
   margin: 0;
@@ -2657,19 +2674,17 @@ img.fluid {
 
 .Board-ipHeader-usa, .Board-ipHeader-ussr {
   font-size: 30px;
-  font-weight: bold;
-  line-height: 46px;
-  position: absolute;
-  width: 60px;
+  font-weight: normal;
+  line-height: 70px;
+  display: inline-block;
+  vertical-align: top;
   text-align: center;
-  top: 10px; }
+  width: 80px; }
 
 .Board-ipHeader-usa {
-  left: 0;
   color: #268BD2; }
 
 .Board-ipHeader-ussr {
-  right: 0;
   color: #DC322F; }
 
 .nodediv {

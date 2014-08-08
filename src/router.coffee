@@ -73,14 +73,35 @@ module.exports =
 
       {countryPositions, countries, links, regionInfoNodes} = mapData
 
+      #countries = countries.map (node)->
+        #node.x = countryPositions[node.name].x
+        #node.y = countryPositions[node.name].y
+        #if not node.shortcut?
+          #node.shortcut = node.shortname.slice(0,2).toLowerCase()
+        #node.fixed = true
+        #node
+
+      # Add shortcuts
       countries = countries.map (node)->
-        node.x = countryPositions[node.name].x
-        node.y = countryPositions[node.name].y
-        if not node.shortcut?
-          node.shortcut = node.shortname.slice(0,2).toLowerCase()
-        node.fixed = true
+          node.x = countryPositions[node.name].x
+          node.y = countryPositions[node.name].y
+          if not node.shortcut?
+            node.shortcut = node.shortname.slice(0,2).toLowerCase()
+          node
+
+      countries = countries.map (node, index, countries)->
+        node.shortcutUnique = node.shortcut
+        isUnique = undefined == _.find countries, (c)->
+          if c.continent == node.continent
+            if c.shortcut.charAt(0) == node.shortcut.charAt(0) and c.id != node.id
+              return true
+            else
+              return false
+        if isUnique
+          node.shortcutUnique = node.shortcut.charAt 0
         node
 
+        
       
       regionInfoNodes = regionInfoNodes.map (node)->
         node.regionInfo = true

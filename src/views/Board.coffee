@@ -311,14 +311,14 @@ module.exports = React.createClass
     # ipKS should be 'i[continent]' or 'i[continent][countryChar]'
     if 2 <= ipKS.length <= 3
       ipKS += charLower
-      country = ipKS.slice(2)
+      countryCode = ipKS.slice(2)
 
       countries = @props.countryShortcuts[continent].filter (sc = '')->
-        sc.charAt(0) == country.charAt(0)
+        sc.charAt(0) == countryCode.charAt(0)
 
-      if country.length == 2
+      if countryCode.length == 2
         countries = countries.filter (sc = '')->
-          sc.charAt(1) == country.charAt(1)
+          sc.charAt(1) == countryCode.charAt(1)
 
       # Make sure we have at least one country
       if countries.length != 0
@@ -327,15 +327,26 @@ module.exports = React.createClass
           ipShowCountries: countries
           ipSetCountry: null
           ipIPChange: [0,0]
-      return
     
-    # We have a country "selected" for ip placement
+    # See if we have a country "selected" for ip placement
     countryCode = ipKS.slice(2,4)
-    if ipKS.length == 4 and countryCode.length == 2
-      ipChange = @state.ipIPChange || [0,0]
+    if countryCode.length == 1
+      country = _.find @props.nodes,
+        shortcutUnique: countryCode
+        continent: continentCodeFromLetter continent
+      # If we have a country, add the full country code to ipKS
+      if country?
+        ipKS += country.shortcut.charAt 1
+        @setState
+          ipKeySequence: ipKS
+    if countryCode.length == 2
       country = _.find @props.nodes,
         shortcut: countryCode
         continent: continentCodeFromLetter continent
+
+
+    if country?
+      ipChange = @state.ipIPChange || [0,0]
       countryIPs = @state.ips[parseInt(country.id,10)]
       if not country?
         return
@@ -527,7 +538,7 @@ module.exports = React.createClass
           top: o.y
       R.div attrs, o.char
 
-    nodesByContinent = _.groupBy @props.nodes, 'continent'
+    nodesByContinent = _.groupBy @props.countries, 'continent'
 
     countryShortcuts = _.map nodesByContinent, (nodes, continent)=>
       contKey = oneLetterContinentCode continent
@@ -543,7 +554,7 @@ module.exports = React.createClass
           style:
             left: node.x
             top: node.y
-        R.div attrs, upperFirst(node.shortcut)
+        R.div attrs, upperFirst(node.shortcutUnique)
 
       nodeComponents
 
@@ -551,13 +562,15 @@ module.exports = React.createClass
     ipChange = @state.ipIPChange || [0,0]
     ipChangeUSA = if ipKeySequence.length >= 4 then R.span className: 'Board-ipHeader-usa', signedNumOrDash(ipChange[0]) else null
     ipChangeUSSR = if ipKeySequence.length >= 4 then R.span className: 'Board-ipHeader-ussr', signedNumOrDash(ipChange[1]) else null
+    ipCountry = contCountry.country || if contCountry.continent then 'Select a country'
     ipContCountry = [
       ipChangeUSA
-      R.h3 className: "Board-ipHeader-Continent #{contCountry.continent?.continent}Dark", contCountry.continent?.shortname
-      R.h3 className: "Board-ipHeader-Country #{contCountry.continent?.continent}Dark", contCountry.country
+      R.span className: "Board-ipHeader-ContCount", [
+        R.h3 className: "Board-ipHeader-Continent #{contCountry.continent?.continent}Dark", contCountry.continent?.shortname or 'Select a continent'
+        R.h3 className: "Board-ipHeader-Country #{contCountry.continent?.continent}Dark", ipCountry
+      ]
       ipChangeUSSR
     ]
-
 
 
     R.div className: 'Board', [
@@ -565,15 +578,20 @@ module.exports = React.createClass
         links
       ]
       nodes
-      R.div onClick: @clearIpKeySequence ,className: "Board-shortcutHeader #{if ipKeySequence then 'in' else ''}", [
+      R.div className: "Board-shortcutHeader #{if ipKeySequence then 'in' else ''}", [
         R.div className: 'copy', [
           R.h3 {}, "Placing Influence"
-          R.span {}, [
-            "Click or press "
-            R.span className: 'shortcut', "esc"
-            " or "
-            R.span className: 'shortcut', "enter"
-            " to exit"
+          R.span className: 'label', [
+            R.a onClick: @clearIpKeySequence, [
+              "Cancel ("
+              R.span className: 'shortcut', "esc"
+              ")"
+            ]
+            R.a className: (if ipChange[0] == 0 and ipChange[1] == 0 then 'disabled'), onClick: @ipKeySequence.bind(null, 13), [
+              "Confirm ("
+              R.span className: 'shortcut', "enter"
+              ")"
+            ]
           ]
         ]
         R.div className:'chars', ipContCountry

@@ -430,38 +430,51 @@ $saLight:  lighten($sa,25%);
 
 .Board-shortcutHeader {
   @extend %noSelect;
-  cursor:pointer;
   height:70px;
-  background:theon(12);
+  background:theon(11);
   display:block;
-  width:500px;
-  padding:0 20px;
+  width:600px;
+  padding:0;
   position:fixed;
   border: 1px solid theon(6);
   border-top:0;
   //box-shadow:0 0 9px rgba(theon(1),0.5);
   top:-80px;
   left:50%;
-  margin-left:-250px;
+  margin-left:-300px;
   z-index:700;
+  box-sizing: border-box;
   @include transition(top 0.1s ease-out);
   &.in {
     // RElative to the board, not the page
     top:0px;
   }
   .copy {
-    width:50%;
-    text-align:center;
-    float:left;
+    box-sizing: border-box;
+    width:230px;
+    display:inline-block;
+    text-align: center;
     h3 {
-      margin:10px 0 2px; 
+      margin:7px 0 2px; 
+    }
+    .label {
+      a {
+        display:inline-block;
+        padding:0.6rem;
+        &.disabled {
+          color:theon(5);
+          cursor: default;
+        }
+      }
     }
   } 
   .chars {
+    box-sizing: border-box;
     text-align:center; 
-    width:50%;
-    float:left;
+    width:360px;
+    display:inline-block;
     position:relative;
+    vertical-align: top;
   }
   .shortcut {
     color:$solarized-red;
@@ -469,11 +482,17 @@ $saLight:  lighten($sa,25%);
   }
 }
 
+.Board-ipHeader-ContCount {
+  display:inline-block;
+  text-align:center;
+}
+
 .Board-ipHeader-Continent {
   margin:9px 0 0;
   font-weight:bold;
   line-height:1;
   opacity:0.6;
+  width:auto;
 }
 
 .Board-ipHeader-Country {
@@ -484,14 +503,14 @@ $saLight:  lighten($sa,25%);
 .Board-ipHeader-usa,
 .Board-ipHeader-ussr {
   font-size:30px;
-  font-weight:bold;
-  line-height:46px;
-  position:absolute;
-  width:60px;
+  font-weight:normal;
+  line-height:70px;
+  display:inline-block;
+  vertical-align:top;
   text-align:center;
-  top:10px;
+  width:80px;
 }
 
 
-.Board-ipHeader-usa { left:0; color:$solarized-blue; }
-.Board-ipHeader-ussr { right:0; color:$solarized-red; }
+.Board-ipHeader-usa { color:$solarized-blue; }
+.Board-ipHeader-ussr { color:$solarized-red; }
