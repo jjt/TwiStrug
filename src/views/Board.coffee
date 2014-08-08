@@ -89,7 +89,6 @@ module.exports = React.createClass
       ipShowCountries: []
       ipKeySequence: ''
       ipShowContinent: ''
-      ipSetCountry: null
       ipIPChange: []
 
   componentWillReceiveProps: (nP)->
@@ -245,7 +244,6 @@ module.exports = React.createClass
       ipShowCountries: []
       ipShowContinent: ''
       ipIPChange: [0,0]
-      ipSetCountry: null
 
   ipKeySequence: (code, ev)->
     #if code == 27
@@ -290,7 +288,6 @@ module.exports = React.createClass
         ipKeySequence: 'i'
         ipShowCountries: []
         ipShowContinent: ''
-        ipSetCountry: null
         ipIPChange: [0,0]
       return
 
@@ -301,7 +298,6 @@ module.exports = React.createClass
         ipKeySequence: ipKS
         ipShowCountries: @props.countryShortcuts[charLower]
         ipShowContinent: charLower
-        ipSetCountry: null
         ipIPChange: [0,0]
       return
     
@@ -309,9 +305,9 @@ module.exports = React.createClass
 
     # Country selection
     # ipKS should be 'i[continent]' or 'i[continent][countryChar]'
-    if 2 <= ipKS.length <= 3
+    if false and 2 <= ipKS.length <= 3
       ipKS += charLower
-      countryCode = ipKS.slice(2)
+      countryCode = ipKS.slice(2, 4)
 
       countries = @props.countryShortcuts[continent].filter (sc = '')->
         sc.charAt(0) == countryCode.charAt(0)
@@ -325,27 +321,43 @@ module.exports = React.createClass
         @setState
           ipKeySequence: ipKS
           ipShowCountries: countries
-          ipSetCountry: null
           ipIPChange: [0,0]
     
     # See if we have a country "selected" for ip placement
-    countryCode = ipKS.slice(2,4)
-    if countryCode.length == 1
-      country = _.find @props.nodes,
-        shortcutUnique: countryCode
-        continent: continentCodeFromLetter continent
-      # If we have a country, add the full country code to ipKS
-      if country?
-        ipKS += country.shortcut.charAt 1
+    if 2 <= ipKS.length <= 3
+      ipKS += charLower
+      countryCode = ipKS.slice(2,4)
+
+      countryShortcuts = @props.countryShortcuts[continent].filter (sc = '')->
+        sc.charAt(0) == countryCode.charAt(0)
+      
+      if countryCode.length == 1
+        country = _.find @props.nodes,
+          shortcutUnique: countryCode
+          continent: continentCodeFromLetter continent
+        # If we have a country, add the full country code to ipKS
+        if country?
+          ipKS += country.shortcut.charAt 1
+          @setState
+            ipKeySequence: ipKS
+      if countryCode.length == 2
+        countryShortcuts = countryShortcuts.filter (sc = '')->
+          sc.charAt(1) == countryCode.charAt(1)
+
+      # Make sure we have at least one country
+      if countryShortcuts.length != 0
         @setState
           ipKeySequence: ipKS
+          ipShowCountries: countryShortcuts
+          ipIPChange: [0,0]
+        return
+
+
+    countryCode = ipKS.slice(2,4)
     if countryCode.length == 2
       country = _.find @props.nodes,
         shortcut: countryCode
         continent: continentCodeFromLetter continent
-
-
-    if country?
       ipChange = @state.ipIPChange || [0,0]
       countryIPs = @state.ips[parseInt(country.id,10)]
       if not country?
@@ -371,11 +383,12 @@ module.exports = React.createClass
           if countryIPs[1] > 0
             ipChange[1]--
 
-
       if side? and dir?
         @handleIPClick country.id, side, dir
-
+      
       @setState
+        ipShowCountries: [countryCode]
+        ipIPChange: ipChange
 
       return false
 
