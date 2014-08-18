@@ -4,6 +4,7 @@ libs = require '../libs'
 
 CardList = require '../views/CardList'
 
+# Wargameroom card ids differ from TwiStrug (TS deluxe edition)
 idsFromWGR = (ids=[])->
   ids.map (id)->
     switch id
@@ -21,10 +22,11 @@ idsFromWGR = (ids=[])->
       else id
 
 module.exports = React.createClass
-
   displayName: 'CardsView'
+
   defaultState: (props)->
     filter = props?.state?.filter
+
     fullText: if filter then true else false
     cardImg: false
     cardFilterInput: if filter then filter.join(' ') else ''
@@ -34,6 +36,7 @@ module.exports = React.createClass
     filterIsWGR: false
 
   componentWillReceiveProps: (nextProps) ->
+    console.log 'cWRP', nextProps
     if nextProps.state?
       @setState nextProps.state
     else
@@ -165,6 +168,7 @@ module.exports = React.createClass
     libs.qs.set 'view', view
 
   render: ->
+    console.log 'render', @state, @props
     sortLink = (sort, display) =>
       className = cx active: @state.sort == sort
       ref = "#{sort}Sort"

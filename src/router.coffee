@@ -1,7 +1,8 @@
-libs = require './libs'
 vent = require './vent'
 mapData = require '../app/data/map-data.json'
 oneLetterContinentCode = require './libs/oneLetterContinentCode'
+setPageTitle = require './libs/setPageTitle'
+qs = require './libs/qs'
 
 setRouteOriginal = Router::setRoute
 Router::setRoute = ->
@@ -14,15 +15,15 @@ module.exports =
 
   # Takes a view name and associated data
   setView: (name, pageTitle, menuActive='', data={}) ->
-    if pageTitle? then libs.setPageTitle pageTitle
+    if pageTitle? then setPageTitle pageTitle
     @setState
       view: {name, data}
       menuActive: menuActive
       slideIn: @state.view?.name != name
 
   componentDidMount: ->
-    stateRoute = (name, pageTitle, menuActive, args)->
-      state = libs.qs.toObj args
+    stateRoute = (name, pageTitle, menuActive, args)=>
+      state = qs.toObj args
       # Convert filter ids from str -> number
       if state?.filter?
         if not _.isArray state.filter
@@ -60,8 +61,21 @@ module.exports =
     router.on '/about', @setView.bind this, 'about', 'About', 'about'
 
 
-    router.on /cards\??(.*)/, stateRoute.bind this, 'cards', 'Cards', 'cards'
+    router.on /cards\??(.*)/, ()=>
+      # If we're on a small screen, redir the user to view=title
+      pageQS = qs.toObj()
+      if window.innerWidth < 768 and not pageQS?.view?
+        qs.set('view','title')
+        return
+        
+      stateRoute 'cards', 'Cards', 'cards'
 
+    router.on /game\/?(\w*)/, (gameId)=>
+      console.log 'GAME ROUTE'
+      @setView 'game', 'Game', 'game', {gameId}
+
+    router.on /(access_token.*)/, (qs)=>
+      console.log qs
 
     router.on /board\/?(\w*)\/?(.*)/, (gameId, incomingState)=>
       #if not gameId? or gameId == ''
