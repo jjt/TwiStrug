@@ -171,7 +171,7 @@ gulp.task('build', function() {
 // Connect
 gulp.task('connect', $.connect.server({
     root: ['app'],
-    port: 9000,
+    port: 3000,
     livereload: true
 }));
 

@@ -22,6 +22,7 @@ module.exports = React.createClass
           ]
 
         R.ul className: "nav navbar-nav", [
+          #li 'game', '#/game', 'Game'
           li 'cards', '#/cards', 'Cards'
           li 'board', '#/board', 'Board'
           li 'about', '#/about', 'About'

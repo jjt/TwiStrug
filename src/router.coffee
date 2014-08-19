@@ -1,5 +1,6 @@
 vent = require './vent'
 mapData = require '../app/data/map-data.json'
+mapDatav2 = require '../app/data/map-data-v2.json'
 oneLetterContinentCode = require './libs/oneLetterContinentCode'
 setPageTitle = require './libs/setPageTitle'
 qs = require './libs/qs'
@@ -9,19 +10,21 @@ Router::setRoute = ->
   @currentRoute = @getRoute()
   setRouteOriginal.apply this, arguments
 
+
 module.exports =
   getDefaultProps: ->
     router: new Router
 
   # Takes a view name and associated data
-  setView: (name, pageTitle, menuActive='', data={}) ->
-    if pageTitle? then setPageTitle pageTitle
+  setView: (name, title, menuActive='', data={}) ->
+    if title? then setPageTitle title
     @setState
-      view: {name, data}
+      view: {name, data, title}
       menuActive: menuActive
       slideIn: @state.view?.name != name
 
   componentDidMount: ->
+
     stateRoute = (name, pageTitle, menuActive, args)=>
       state = qs.toObj args
       # Convert filter ids from str -> number
@@ -70,77 +73,45 @@ module.exports =
         
       stateRoute 'cards', 'Cards', 'cards'
 
-    router.on /game\/?(\w*)/, (gameId)=>
-      console.log 'GAME ROUTE'
-      @setView 'game', 'Game', 'game', {gameId}
 
-    router.on /(access_token.*)/, (qs)=>
-      console.log qs
+    router.on /game\/?(\w*)\/?(.*)/, (gameId, incomingState)=>
+
+      if not gameId? or gameId == ''
+        gameId = Math.random().toString(36).slice(2,10)
+        window.history.replaceState null, "Game #{gameId}", "#/game/#{gameId}"
+
+      {countryShortcuts, countries, links, regionInfoNodes} = mapDatav2
+
+      # Countries and region info nodes combined
+      nodes = _.union countries, regionInfoNodes
+
+      props = {
+        gameId, countries, regionInfoNodes, links, nodes
+        incomingState, countryShortcuts}
+
+      @setView 'game', 'Game', 'game', props
+      console.log 'GAME ROUTE'
+
 
     router.on /board\/?(\w*)\/?(.*)/, (gameId, incomingState)=>
-      #if not gameId? or gameId == ''
-        #return router.setRoute "board/#{Math.random().toString(36).slice(2)}"
-
       if not gameId? or gameId == ''
         gameId = Math.random().toString(36).slice(2,10)
         window.history.replaceState null, "Board #{gameId}", "#/board/#{gameId}"
 
-      {countryPositions, countries, links, regionInfoNodes} = mapData
+      {countryShortcuts, countries, links, regionInfoNodes} = mapDatav2
 
-      #countries = countries.map (node)->
-        #node.x = countryPositions[node.name].x
-        #node.y = countryPositions[node.name].y
-        #if not node.shortcut?
-          #node.shortcut = node.shortname.slice(0,2).toLowerCase()
-        #node.fixed = true
-        #node
-
-      # Add shortcuts
-      countries = countries.map (node)->
-          node.x = countryPositions[node.name].x
-          node.y = countryPositions[node.name].y
-          if not node.shortcut?
-            node.shortcut = node.shortname.slice(0,2).toLowerCase()
-          node
-
-      countries = countries.map (node, index, countries)->
-        node.shortcutUnique = node.shortcut
-        isUnique = undefined == _.find countries, (c)->
-          if c.continent == node.continent
-            if c.shortcut.charAt(0) == node.shortcut.charAt(0) and c.id != node.id
-              return true
-            else
-              return false
-        if isUnique
-          node.shortcutUnique = node.shortcut.charAt 0
-        node
-
-        
-      
-      regionInfoNodes = regionInfoNodes.map (node)->
-        node.regionInfo = true
-        node.fixed = true
-        node
-
-      nodes = _.union(countries, regionInfoNodes)
-      nodes = _.zipObject _.pluck(nodes, 'id'), nodes
-
-      countryShortcuts = _.mapValues _.groupBy(countries, 'continent'), (cNodes, continent)->
-        _.pluck cNodes, 'shortcut'
-      delete countryShortcuts.usa
-      delete countryShortcuts.ussr
-
-      shortKeys = _.map _.keys(countryShortcuts), (cS)-> oneLetterContinentCode cS
-      countryShortcuts = _.zipObject shortKeys, _.values(countryShortcuts)
-
-      key = gameId
-
+      # Countries and region info nodes combined
+      nodes = _.union countries, regionInfoNodes
 
       boardProps = {
-        gameId, mapData, countries, regionInfoNodes, links, nodes,
-        key, incomingState, countryShortcuts}
+        gameId, countries, regionInfoNodes, links, nodes
+        incomingState, countryShortcuts}
 
       @setView 'board', 'Board', 'board', boardProps
+
+
+    router.on /(access_token.*)/, (qs)=>
+      console.log qs
 
 
     router.init('/')

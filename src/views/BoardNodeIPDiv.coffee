@@ -4,6 +4,13 @@ cx = React.addons.classSet
 module.exports = React.createClass
   displayName: 'BoardNodeIPDiv'
 
+  componentDidUpdate: ->
+    $el = $(@refs.nodediv.getDOMNode())
+    $el.addClass 'nodediv-flash'
+    fn = -> $el.removeClass('nodediv-flash')
+    setTimeout fn, 100
+
+
   handleIPClick: (dir, ev)->
     @props.handleIPClick @props.side, dir
 
@@ -17,6 +24,7 @@ module.exports = React.createClass
 
     gAttrs =
       className: "nodediv-ip-#{@props.side} nodediv-ip #{ipZero}"
+      ref: 'nodediv'
 
     textAttrs =
       x: @props.node.width/4
@@ -36,4 +44,3 @@ module.exports = React.createClass
         className: "nodediv-ip-click-dn"
         onClick: @handleIPClick.bind this, 'dn'
     ]
-

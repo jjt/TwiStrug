@@ -100,8 +100,6 @@ module.exports = React.createClass
   componentWillMount: ->
     @stateHistory = new BoardStateHistory id: @props.gameId
 
-  componentWillReceiveProps: (nP)->
-
   getDefaultProps: ->
     width: 1140
     height: 730
@@ -112,10 +110,6 @@ module.exports = React.createClass
       titleHeight: 16
       titleFontSize: 12
 
-  getInitialState: ->
-    debugObj: {}
-
-
   render: ->
     R.div className: 'BoardView', [
       BoardStateHistoryView
@@ -124,13 +118,6 @@ module.exports = React.createClass
       R.div className: 'container', [
         Board _.assign stateHistory: @stateHistory, @props
         BoardInfo id: @props.gameId
-        R.textarea
-          className: 'map-position-debug'
-          ref:'debug'
-          value: JSON.stringify(@state.coords, null, ' ')
-          style:
-            width:'100%'
-            height:'60rem'
       ]
     ]
 

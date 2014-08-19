@@ -7,5 +7,4 @@ class MicroEventClass
   emit:(e, r...)-> l.apply @, r for l in t if (t = @_init()[e])?; 0
   @mixin=(t)-> t::[p] = @::[p] for p of @::; 0
 
-
 module.exports = MicroEventClass

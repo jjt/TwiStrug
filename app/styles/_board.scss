@@ -1,3 +1,5 @@
+$shortcutYellow: #ffdc00;
+
 $weu: lighten($westernEurope, 18%);
 $eeu: lighten($easternEurope, 7%);
 $me: lighten($middleEast, 10%);
@@ -48,6 +50,7 @@ $saLight:  lighten($sa,25%);
 .asLight { color: $asLight; }
 .afLight { color: $afLight; }
 .caLight { color: $caLight; }
+
 
 
 .map-position-debug {
@@ -308,8 +311,7 @@ $saLight:  lighten($sa,25%);
   }
 
   .link {
-    fill: theon(2);
-    stroke: rgba(theon(3), 0.4);
+    stroke: rgba(theon(1), 0.20);
     stroke-width:6px;
   }
 

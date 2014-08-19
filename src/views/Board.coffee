@@ -1,5 +1,6 @@
 R = React.DOM
 cx = React.addons.classSet
+vent = require '../vent'
 
 superStats = require '../libs/superStats'
 rangedGameVal = require '../libs/rangedGameVal'
@@ -94,18 +95,16 @@ module.exports = React.createClass
   componentWillReceiveProps: (nP)->
     state = @getInitialState nP
     @setState state
-    #if @props.stateHistory.states.length < 1
-      #@props.stateHistory.add state,
 
   componentWillMount: ->
     {stateHistory, gameId} = @props
       
-    # When state changes, update the url
+    # When state changes, emit event for the router to pick up
     stateHistory.on 'change', =>
       state = @props.stateHistory.getCurrent()
       if state? and not state.meta.newGame
         stateEnc = stateHistory.encodeCurrent()
-        window.history.replaceState null, "Board #{gameId}", "#/board/#{gameId}/#{stateEnc}"
+        vent.emit 'boardStateChange', gameId, stateEnc
 
     stateHistory.on 'goTo', (state)=>
       @setState state.state
@@ -332,7 +331,7 @@ module.exports = React.createClass
         sc.charAt(0) == countryCode.charAt(0)
       
       if countryCode.length == 1
-        country = _.find @props.nodes,
+        country = _.find @props.countries,
           shortcutUnique: countryCode
           continent: continentCodeFromLetter continent
         # If we have a country, add the full country code to ipKS
@@ -355,7 +354,7 @@ module.exports = React.createClass
 
     countryCode = ipKS.slice(2,4)
     if countryCode.length == 2
-      country = _.find @props.nodes,
+      country = _.find @props.countries,
         shortcut: countryCode
         continent: continentCodeFromLetter continent
       ipChange = @state.ipIPChange || [0,0]
@@ -421,7 +420,7 @@ module.exports = React.createClass
   handleIPClick: (nodeId, side, dir, delta)->
     return if delta? and delta == 0
 
-    node = _.find @props.nodes, {id: nodeId}
+    node = _.find @props.countries, {id: nodeId}
     # Don't let the non-country nodes get updated 
     if node.points or node.superpower then return
 

@@ -1,6 +1,8 @@
 R = React.DOM
 cx = React.addons.classSet
 
+
+
 BoardNodeIP = require './BoardNodeIP'
  
 module.exports = React.createClass
@@ -28,7 +30,6 @@ module.exports = React.createClass
     @props.handleIPClick @props.id, side, dir
 
   render: ->
-    #console.log @props.shortcut, @props.continent
     controlUSA = (@props.usa - @props.ussr) >= @props.stab
     controlUSSR = (@props.ussr - @props.usa) >= @props.stab
 

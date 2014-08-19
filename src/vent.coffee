@@ -1,4 +1,5 @@
 MicroEventClass = require './libs/MicroEventClass'
 class Vent extends MicroEventClass
-
-module.exports = new Vent()
+vent = new Vent()
+window.vent = vent
+module.exports = vent

@@ -14,7 +14,7 @@
 }
 
 .nodediv-selected {
-  box-shadow: 0 0 0 1px darken(#ffdc00, 10%), 0 0 18px 5px #ffdc00;
+  box-shadow: 0 0 0 1px darken(#ffdc00, 10%), 0 0 9px 3px darken(#ffdc00, 10%);
 }
 
 .nodediv-title {
@@ -133,6 +133,10 @@
   &.ipZero {
     background:none; 
   }
+  &.nodediv-flash {
+    @include transition(all 0s ease-out);
+    background:$shortcutYellow !important;
+  }
 }
 
 .nodediv-ip-usa {
@@ -150,12 +154,22 @@
   .nodediv-ip-usa {
     color:lighten($solarized-blue, 42%);
     background:$solarized-blue;
+    &.nodediv-flash {
+      @include transition(all 0s ease-out);
+      background:mix($shortcutYellow, $solarized-blue, 70%) !important;
+      color:white !important;
+    }
   }
 }
 .nodediv-ussr-control {
   .nodediv-ip-ussr {
     color:lighten($solarized-red, 42%);
     background:$solarized-red;
+    &.nodediv-flash {
+      @include transition(all 0s ease-out);
+      background:mix($shortcutYellow, $solarized-red, 70%) !important;
+      color:white !important;
+    }
   }
 }
 

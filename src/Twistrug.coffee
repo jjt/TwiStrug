@@ -3,8 +3,9 @@ RCTG = React.addons.CSSTransitionGroup
 update = React.addons.update
 cx = React.addons.classSet
 $ = Zepto
+vent = require './vent'
 
-cardsData = require('../app/data/cards.json')
+cardsData = require('../lib/cards.json')
 
 
 # Add function to Zepto
@@ -18,7 +19,6 @@ $.getScript = (src, func) ->
   document.getElementsByTagName("head")[0].appendChild script
 
 
-libs = require './libs'
 pages = require './pages'
 views = require './views'
 
@@ -34,6 +34,11 @@ TwiStrug = React.createClass
 
   componentWillMount: ()->
     $('#placeholder').hide()
+
+  componentDidMount: ->
+    vent.on 'boardStateChange', (gameId, stateEnc)=>
+      window.history.replaceState null, "#{@state.view.name} #{gameId}",
+        "#/#{@state.view.name}/#{gameId}/#{stateEnc}"
 
   componentWillUpdate: ->
     $slideIn = $(@refs.slideIn.getDOMNode())
@@ -68,11 +73,12 @@ TwiStrug = React.createClass
         when 'countries' then pages.Countries()
         #when 'board' then return BoardPicView()
         when 'board' then pages.Board @state.view.data
+        when 'game' then pages.Game @state.view.data
         when 'about' then pages.About()
         when 'whoops' then pages.Whoops()
 
     mainViewClass = cx
-      'container': @state.view.name != 'board' # Board needs to have its own container
+      'container': @state.view.name not in ['board', 'game']
       'slideIn': @state.slideIn
 
     R.div {}, [
