@@ -38,7 +38,7 @@ continentShortcutData = [
   { char: 'A', x:840, y:150 }
   { char: 'M', x:840, y:380 }
 ]
-  
+
 
 # Takes an ipKeySequence and returns the applicable continent and country
 contCountrySelection = (regions, countries, ipKeySeq = '')->
@@ -98,7 +98,7 @@ module.exports = React.createClass
 
   componentWillMount: ->
     {stateHistory, gameId} = @props
-      
+
     # When state changes, emit event for the router to pick up
     stateHistory.on 'change', =>
       state = @props.stateHistory.getCurrent()
@@ -255,8 +255,8 @@ module.exports = React.createClass
 
     # Backspace (8) should delete the last char from the ipKS, and set the "current"
     # char to the last char
-    # Enter (13) should 
-    
+    # Enter (13) should
+
     if code == 27 or code == 13
       # Don't do anything if we don't have an ipKS
       if not ipKS
@@ -299,7 +299,7 @@ module.exports = React.createClass
         ipShowContinent: charLower
         ipIPChange: [0,0]
       return
-    
+
     continent = ipKS.charAt 1
 
     # Country selection
@@ -321,7 +321,7 @@ module.exports = React.createClass
           ipKeySequence: ipKS
           ipShowCountries: countries
           ipIPChange: [0,0]
-    
+
     # See if we have a country "selected" for ip placement
     if 2 <= ipKS.length <= 3
       ipKS += charLower
@@ -329,7 +329,7 @@ module.exports = React.createClass
 
       countryShortcuts = @props.countryShortcuts[continent].filter (sc = '')->
         sc.charAt(0) == countryCode.charAt(0)
-      
+
       if countryCode.length == 1
         country = _.find @props.countries,
           shortcutUnique: countryCode
@@ -384,7 +384,7 @@ module.exports = React.createClass
 
       if side? and dir?
         @handleIPClick country.id, side, dir
-      
+
       @setState
         ipShowCountries: [countryCode]
         ipIPChange: ipChange
@@ -421,7 +421,7 @@ module.exports = React.createClass
     return if delta? and delta == 0
 
     node = _.find @props.countries, {id: nodeId}
-    # Don't let the non-country nodes get updated 
+    # Don't let the non-country nodes get updated
     if node.points or node.superpower then return
 
     state = @state
@@ -514,7 +514,7 @@ module.exports = React.createClass
         # Determine if the country should be on top of the ip shortcut layer
         onTop: onTop
         ipSelected: ipSelected
-          
+
 
       _.assign props, countryData
 
@@ -527,7 +527,7 @@ module.exports = React.createClass
         props.stats = getRegionStatus
           usa: superpowerStats.regions.usa[props.id]
           ussr: superpowerStats.regions.ussr[props.id]
-      
+
       countryId = parseInt countryData.id, 10
       if countryId of @state.ips
         props.usa = @state.ips[countryId][0]

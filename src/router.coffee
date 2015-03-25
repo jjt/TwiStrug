@@ -1,5 +1,4 @@
 vent = require './vent'
-mapData = require '../app/data/map-data.json'
 mapDatav2 = require '../app/data/map-data-v2.json'
 oneLetterContinentCode = require './libs/oneLetterContinentCode'
 setPageTitle = require './libs/setPageTitle'
@@ -70,7 +69,7 @@ module.exports =
       if window.innerWidth < 768 and not pageQS?.view?
         qs.set('view','title')
         return
-        
+
       stateRoute 'cards', 'Cards', 'cards'
 
 

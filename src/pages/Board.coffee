@@ -43,7 +43,7 @@ BoardInfo = React.createClass
         { key:'z', desc: 'Undo (Action History)' }
         { key:'y', desc: 'Redo (Action History)' }
       ]
-      
+
   render: ->
     R.div {}, [
       R.div className: 'row',
@@ -92,9 +92,9 @@ BoardInfo = React.createClass
 
 
 module.exports = React.createClass
- 
+
   displayName: 'BoardView'
-  
+
   stateHistory: null
 
   componentWillMount: ->

@@ -72,17 +72,20 @@ gulp.task('html', ['styles', 'scripts'], function () {
     var jsFilter = $.filter('**/*.js');
     var cssFilter = $.filter('**/*.css');
 
+    var assets = $.useref.assets();
+
     return gulp.src('app/*.html')
-        .pipe($.useref.assets())
+        .pipe(assets)
         .pipe(jsFilter)
         .pipe($.uglify())
-        .pipe($.rev())
+        //.pipe($.rev())
         .pipe(jsFilter.restore())
         .pipe(cssFilter)
         .pipe($.csso())
-        .pipe($.rev())
+        //.pipe($.rev())
         .pipe(cssFilter.restore())
-        .pipe($.useref.restore())
+        .pipe($.rev())
+        .pipe(assets.restore())
         .pipe($.useref())
         .pipe($.revReplace())
         .pipe(gulp.dest('dist'))
@@ -92,11 +95,11 @@ gulp.task('html', ['styles', 'scripts'], function () {
 // Images
 gulp.task('images', function () {
     return gulp.src('app/images/**/*')
-        .pipe($.cache($.imagemin({
+        .pipe($.imagemin({
             optimizationLevel: 3,
             progressive: true,
             interlaced: true
-        })))
+        }))
         .pipe(gulp.dest('dist/images'))
         .pipe($.size());
 });

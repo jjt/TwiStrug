@@ -86,7 +86,7 @@ TwiStrug = React.createClass
       R.div key:'mainview', ref: 'slideIn', className: mainViewClass, mainView
       views.Footer key:'footer'
     ]
-    
+
 
 # Add keys to cards
 addReactKey = (el)->
