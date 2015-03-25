@@ -30,3 +30,9 @@ It's definitely beta, and don't be surprised if it doesn't work on lower version
 ![TwiStrug Card Explorer](http://twistrug.jjt.io/images/home-cards.jpg)
 
 Explore the cards and learn some strategies from the excellent [Twilight Strategy](http://twilightstrategy.com). I love *theory*'s site, but got overwhelmed that I had to look up 6 other cards for every card strategy page. So I made this to help myself learn.
+
+### Dev/Deploy
+
+`gulp watch` - Compilation, dev server, livereload
+`gulp build` - Builds site to `dist/`
+`env $(cat .s3_creds| xargs) s3_website push` - Put S3 info in `.s3_creds`, then put in local env and push with [s3_website](https://github.com/laurilehmijoki/s3_website).

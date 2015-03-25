@@ -2,11 +2,13 @@ s3_id: <%= ENV['S3_ID'] %>
 s3_secret: <%= ENV['S3_SECRET'] %>
 s3_bucket: <%= ENV['S3_BUCKET'] %>
 
+site: dist
+
 # Below are examples of all the available configurations.
 # See README for more detailed info on each of them.
 
 max_age:
-  "data/cardStrategyLinked/*": 31556940 
+  "data/cardStrategyLinked/*": 31556940
   "scripts/*": 31556940
   "styles/*": 31556940
   "images/*": 86400
@@ -35,7 +37,7 @@ cloudfront_distribution_config:
   aliases:
     quantity: 1
     items:
-      CNAME: twistrug.jjt.io 
+      CNAME: twistrug.jjt.io
 
 # cloudfront_invalidate_root: true
 
