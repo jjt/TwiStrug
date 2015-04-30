@@ -60,7 +60,7 @@ module.exports = React.createClass
         if el.id in @state.filter
           return el
     @props.cards
-        
+
 
   filterAndSortCards: ->
     cards = @getFilteredCards()
@@ -88,7 +88,7 @@ module.exports = React.createClass
       sort = 'owner'
     if @state.sort
       return _.groupBy(cards, sort)
-         
+
 
   handleFullText: ->
     @setState
@@ -102,6 +102,9 @@ module.exports = React.createClass
     value = @refs.cardFilter.getDOMNode().value
     # If WGR then we have to translate some ids
     isWGR = value.search(/#.*:/) != -1
+
+    # Strip out the KAL-007 and U-2 incident card text
+    value = value.replace /U-2|KAL-007/gi, ""
 
     # WGR adds "Ops 3: ...", so don't pick those up
     # But still pick up the scoring cards
