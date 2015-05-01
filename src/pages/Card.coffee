@@ -46,12 +46,7 @@ module.exports  = React.createClass
     card = @props.card
     imageUrl = "/images/cards/#{libs.zeroPad(card.id)}.jpg"
     R.div className: 'cardView', [
-      R.div className: 'page-header clearfix', ref: 'header',
-        R.h2 className: libs.cardClassName(card), [
-          R.span className:'card-ops', if card.ops < 1 then "S" else card.ops
-          "#{card.title} "
-          R.span className:'card-id', "##{card.id}"
-        ]
+      R.div className: 'page-header clearfix', ref: 'header', [
         R.div className: 'card-nav', [
           R.a {href:"#/card/#{@props.prevCard.id}", className:'card-nav-prev'}, [
             "#{@props.prevCard.title}"
@@ -70,6 +65,12 @@ module.exports  = React.createClass
             ]
           ]
         ]
+        R.h2 className: libs.cardClassName(card), [
+          R.span className:'card-ops', if card.ops < 1 then "S" else card.ops
+          "#{card.title} "
+          R.span className:'card-id', "##{card.id}"
+        ]
+      ]
       R.p {className: 'pull-left card-body'}, card.text
       R.img key: imageUrl, src: imageUrl, className: 'imgRight', ref:'cardImg'
       R.div {className: 'card-strategy', id: 'card-strategy'}, [
