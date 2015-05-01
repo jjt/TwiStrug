@@ -72,7 +72,7 @@
 }
 
 .cardList-groupHeading {
-  //margin:-1rem 0 1rem 0; 
+  //margin:-1rem 0 1rem 0;
   margin-bottom:2rem;
 }
 
@@ -88,9 +88,9 @@
 .cardsView--fullText {
   .cardList-groupHeading {
     margin-bottom:2rem;
-  }  
+  }
 }
-  
+
 
 
 .card-ops {
@@ -147,7 +147,7 @@
 }
 
 .cardList .card {
-  padding-right:1.6rem; 
+  padding-right:1.6rem;
   position:relative;
   margin-bottom:1.4rem;
   overflow:hidden;
@@ -162,7 +162,7 @@
 
 .cardList.cardListFull {
   .card {
-    height:auto; 
+    height:auto;
   }
   .card-text {
     display:block;
@@ -186,11 +186,11 @@
 }
 
 .card.owner-us .card-text {
-  color:darken($solarized-blue, 6%); 
+  color:darken($solarized-blue, 6%);
 }
 
 .card.owner-ussr .card-text {
-  color:darken($solarized-red, 8%); 
+  color:darken($solarized-red, 8%);
 }
 
 .card.middleEastScoring .card-text {
@@ -297,7 +297,6 @@
 }
 
 .card-nav-prev, .card-nav-next {
-  padding: 0 0.6em;
   line-height:1em;
   text-align: left;
   font-size:14px;
@@ -382,7 +381,9 @@
     width:auto;
   }
 
-  .card-nav-prev, .card-nav-next {
+  .card-nav-prev,
+  .card-nav-next {
+    padding: 0 0.6em;
     font-size:18px;
     width:auto;
     display:inline-block;
