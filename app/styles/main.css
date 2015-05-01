@@ -1753,7 +1753,7 @@ address {
 .imgRight {
   display: block;
   border: 1px solid #ccc;
-  margin: 2rem auto;
+  margin: 2rem auto 3rem;
   max-width: 100%; }
 
 @media screen and (min-width: 768px) {
@@ -2082,6 +2082,8 @@ img.fluid {
   padding: 0.2em 0 1em;
   color: #62625b;
   font-family: Georgia, "Times New Roman", serif; }
+.cardView .page-header {
+  margin-bottom: 0; }
 
 .cards-filter-by-id input {
   width: 100%; }
