@@ -33,6 +33,6 @@ Explore the cards and learn some strategies from the excellent [Twilight Strateg
 
 ### Dev/Deploy
 
-`gulp watch` - Compilation, dev server, livereload  
-`gulp build` - Builds site to `dist/`  
-`env $(cat .s3_creds| xargs) s3_website push` - Put S3 info in `.s3_creds`, then put in local env and push with [s3_website](https://github.com/laurilehmijoki/s3_website).
+```
+> npm run [watch | build | open | deploy]
+```
