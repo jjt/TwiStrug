@@ -1,6 +1,12 @@
 {
   "name": "yo-gen",
   "version": "0.0.0",
+  "scripts": {
+    "watch": "gulp watch",
+    "build": "gulp build",
+    "open": "parallelshell \"cd dist; python -m SimpleHTTPServer 8000\" \"open http://localhost:8000\"",
+    "deploy": "env $(cat .s3_creds | xargs) s3_website push"
+  },
   "dependencies": {
     "gulp-size": "^0.1.3",
     "gulp-load-plugins": "^0.3.0",
@@ -43,6 +49,7 @@
     "lodash-node": "^2.4.1",
     "map-stream": "^0.1.0",
     "open": "^0.0.4",
+    "parallelshell": "^1.1.1",
     "require-all": "0.0.8",
     "require-directory": "^1.2.0",
     "rimraf": "^2.2.6",
