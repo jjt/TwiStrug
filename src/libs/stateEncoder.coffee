@@ -18,7 +18,7 @@ module.exports =
       game.milops[0], game.milops[1], game.space[0], game.space[1]
     ]
 
-    # First 2 ips are the superpowers - pretty useless, should change in future
+    # Order can be found in countries.json
     board.concat _.flatten ips.slice(2)
       .map numToChar.encode
       .join ''
